@@ -1,0 +1,9 @@
+{
+  "type": "thaumcraft:harvester_loot",
+  "conditions": [
+    {
+      "condition": "thaumcraft:infusion_enchantment",
+      "enchantment": "thaumcraft:harvester"
+    }
+  ]
+}

@@ -1,0 +1,32 @@
+{
+	"textures": {
+		"0": "thaumcraft:block/vis_crystals_master",
+		"particle": "thaumcraft:block/vis_crystals_master"
+	},
+	"elements": [
+		{
+			"from": [6, 0, 6],
+			"to": [9, 8, 9],
+			"faces": {
+				"north": {"uv": [5, 0, 8, 8], "texture": "#0"},
+				"east": {"uv": [5, 0, 8, 8], "texture": "#0"},
+				"south": {"uv": [5, 0, 8, 8], "texture": "#0"},
+				"west": {"uv": [5, 0, 8, 8], "texture": "#0"},
+				"up": {"uv": [13, 0, 16, 3], "texture": "#0"},
+				"down": {"uv": [0, 0, 3, 3], "texture": "#missing"}
+			}
+		},
+		{
+			"from": [10, 0, 2],
+			"to": [13, 2, 5],
+			"faces": {
+				"north": {"uv": [10, 14, 13, 16], "texture": "#0"},
+				"east": {"uv": [10, 12, 13, 14], "texture": "#0"},
+				"south": {"uv": [13, 12, 16, 14], "texture": "#0"},
+				"west": {"uv": [13, 14, 16, 16], "texture": "#0"},
+				"up": {"uv": [13, 0, 16, 3], "texture": "#0"},
+				"down": {"uv": [0, 0, 3, 3], "texture": "#missing"}
+			}
+		}
+	]
+}

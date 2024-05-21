@@ -1,0 +1,34 @@
+{
+  "structure": {
+    "bounding_box": [3, 3, 3],
+    "pattern": [
+      [
+        "NON",
+        "OOO",
+        "NON"
+      ],
+      [
+        "NIN",
+        "OLO",
+        "NON"
+      ],
+      [
+        "NON",
+        "OAO",
+        "NON"
+      ]
+    ],
+    "materials": {
+      "O": { "block": "minecraft:obsidian" },
+      "N": { "block": "minecraft:nether_brick" },
+      "I": { "block": "minecraft:iron_bars" },
+      "A": { "tag": "internal:any" },
+      "L": { "block": "minecraft:lava" }
+    }
+  },
+
+  "controller": {
+    "block_entity": "chaumtraft:infernal_furnace",
+    "position": [1, 1, 1]
+  }
+}

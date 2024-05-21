@@ -1,0 +1,9 @@
+{
+  "type": "thaumcraft:homing_item",
+  "conditions": [
+    {
+      "condition": "thaumcraft:infusion_enchantment",
+      "enchantment": "thaumcraft:collector"
+    }
+  ]
+}

@@ -1,0 +1,7 @@
+{
+  "replace": false,
+  "entries": [
+    "thaumcraft:enchantment_collector",
+    "thaumcraft:enchantment_harvester"
+  ]
+}

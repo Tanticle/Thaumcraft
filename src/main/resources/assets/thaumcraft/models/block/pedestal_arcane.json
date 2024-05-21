@@ -1,0 +1,43 @@
+{
+	"textures": {
+		"0": "thaumcraft:block/pedestal_arcane_side",
+		"1": "thaumcraft:block/pedestal_arcane_top",
+		"particle": "thaumcraft:block/pedestal_arcane_top"
+	},
+	"elements": [
+		{
+			"from": [0, 0, 0],
+			"to": [16, 4, 16],
+			"faces": {
+				"north": {"uv": [0, 12, 16, 16], "texture": "#0"},
+				"east": {"uv": [0, 12, 16, 16], "texture": "#0"},
+				"south": {"uv": [0, 12, 16, 16], "texture": "#0"},
+				"west": {"uv": [0, 12, 16, 16], "texture": "#0"},
+				"up": {"uv": [16, 16, 0, 0], "texture": "#1"},
+				"down": {"uv": [16, 0, 0, 16], "texture": "#1", "cullface": "down"}
+			}
+		},
+		{
+			"from": [4, 4, 4],
+			"to": [12, 12, 12],
+			"faces": {
+				"north": {"uv": [4, 4, 12, 12], "texture": "#0"},
+				"east": {"uv": [4, 4, 12, 12], "texture": "#0"},
+				"south": {"uv": [4, 4, 12, 12], "texture": "#0"},
+				"west": {"uv": [4, 4, 12, 12], "texture": "#0"}
+			}
+		},
+		{
+			"from": [2, 12, 2],
+			"to": [14, 16, 14],
+			"faces": {
+				"north": {"uv": [2, 0, 14, 4], "texture": "#0"},
+				"east": {"uv": [2, 0, 14, 4], "texture": "#0"},
+				"south": {"uv": [2, 0, 14, 4], "texture": "#0"},
+				"west": {"uv": [2, 0, 14, 4], "texture": "#0"},
+				"up": {"uv": [14, 14, 2, 2], "texture": "#1"},
+				"down": {"uv": [14, 2, 2, 14], "texture": "#1"}
+			}
+		}
+	]
+}

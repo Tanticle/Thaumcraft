@@ -1,0 +1,43 @@
+{
+	"textures": {
+		"0": "thaumcraft:block/pedestal_eldritch_side",
+		"2": "thaumcraft:block/pedestal_eldritch_top",
+		"particle": "thaumcraft:block/pedestal_eldritch_top"
+	},
+	"elements": [
+		{
+			"from": [0, 0, 0],
+			"to": [16, 4, 16],
+			"faces": {
+				"north": {"uv": [0, 12, 16, 16], "texture": "#0"},
+				"east": {"uv": [0, 12, 16, 16], "texture": "#0"},
+				"south": {"uv": [0, 12, 16, 16], "texture": "#0"},
+				"west": {"uv": [0, 12, 16, 16], "texture": "#0"},
+				"up": {"uv": [0, 0, 16, 16], "texture": "#2"},
+				"down": {"uv": [0, 0, 16, 16], "texture": "#2", "cullface": "down"}
+			}
+		},
+		{
+			"from": [2, 4, 2],
+			"to": [14, 8, 14],
+			"faces": {
+				"north": {"uv": [2, 8, 14, 12], "texture": "#0"},
+				"east": {"uv": [2, 8, 14, 12], "texture": "#0"},
+				"south": {"uv": [2, 8, 14, 12], "texture": "#0"},
+				"west": {"uv": [2, 8, 14, 12], "texture": "#0"},
+				"up": {"uv": [2, 2, 14, 14], "texture": "#2"}
+			}
+		},
+		{
+			"from": [4, 8, 4],
+			"to": [12, 12, 12],
+			"faces": {
+				"north": {"uv": [4, 4, 12, 8], "texture": "#0"},
+				"east": {"uv": [4, 4, 12, 8], "texture": "#0"},
+				"south": {"uv": [4, 4, 12, 8], "texture": "#0"},
+				"west": {"uv": [4, 4, 12, 8], "texture": "#0"},
+				"up": {"uv": [4, 4, 12, 12], "texture": "#2"}
+			}
+		}
+	]
+}
