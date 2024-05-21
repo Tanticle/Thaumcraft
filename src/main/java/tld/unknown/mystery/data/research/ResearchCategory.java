@@ -5,7 +5,7 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import lombok.Builder;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
-import tld.unknown.mystery.data.ThaumcraftData;
+import tld.unknown.mystery.data.DataRegistries;
 import tld.unknown.mystery.util.DataResource;
 import tld.unknown.mystery.util.codec.Codecs;
 import tld.unknown.mystery.util.IconTexture;
@@ -22,6 +22,6 @@ public record ResearchCategory(IconTexture icon, List<DataResource<ResearchEntry
 
     public static final Codec<ResearchCategory> CODEC = RecordCodecBuilder.create(i -> i.group(
             Codecs.ICON_TEXTURE.fieldOf("icon").forGetter(ResearchCategory::icon),
-            Codecs.dataResourceCodec(ThaumcraftData.RESEARCH_ENTRIES).listOf().optionalFieldOf("requirements", Collections.emptyList()).forGetter(ResearchCategory::requirements)
+            Codecs.dataResourceCodec(DataRegistries.RESEARCH_ENTRIES).listOf().optionalFieldOf("requirements", Collections.emptyList()).forGetter(ResearchCategory::requirements)
     ).apply(i, ResearchCategory::new));
 }

@@ -17,10 +17,10 @@ import net.neoforged.neoforge.fluids.capability.IFluidHandler;
 import net.neoforged.neoforge.fluids.capability.templates.FluidTank;
 import org.jetbrains.annotations.NotNull;
 import tld.unknown.mystery.Thaumcraft;
-import tld.unknown.mystery.api.ChaumtraftIDs;
+import tld.unknown.mystery.api.ThaumcraftData;
 import tld.unknown.mystery.api.capabilities.IResearchCapability;
 import tld.unknown.mystery.attachments.ResearchAttachment;
-import tld.unknown.mystery.data.ThaumcraftData;
+import tld.unknown.mystery.data.DataRegistries;
 import tld.unknown.mystery.data.aspects.AspectList;
 import tld.unknown.mystery.data.recipes.AlchemyRecipe;
 import tld.unknown.mystery.registries.ConfigBlockEntities;
@@ -61,7 +61,7 @@ public class CrucibleBlockEntity extends SimpleBlockEntity implements IFluidHand
     public void onServerTick() {
         int prevHeat = this.heat;
         if(!FluidHelper.isTankEmpty(this) ) {
-            if(level.getBlockState(this.getBlockPos().below()).getTags().anyMatch(tag -> tag == ChaumtraftIDs.Tags.CRUCIBLE_HEATER)) {
+            if(level.getBlockState(this.getBlockPos().below()).getTags().anyMatch(tag -> tag == ThaumcraftData.Tags.CRUCIBLE_HEATER)) {
                 this.heat += this.heat < HEAT_MAX ? 1 : 0;
                 if(prevHeat < HEAT_THRESHOLD && this.heat >= HEAT_THRESHOLD) {
                     this.sync();
@@ -120,7 +120,7 @@ public class CrucibleBlockEntity extends SimpleBlockEntity implements IFluidHand
                 stack.shrink(1);
                 crafted = true;
             } else {
-                AspectList list = ThaumcraftData.ASPECT_REGISTRY.getAspects(stack);
+                AspectList list = DataRegistries.ASPECT_REGISTRY.getAspects(stack);
                 if(!list.isEmpty()) {
                     if(aspects.size() + list.size() > MAX_ESSENTIA) {
                         aspects.merge(list.drain(MAX_ESSENTIA - aspects.size()));

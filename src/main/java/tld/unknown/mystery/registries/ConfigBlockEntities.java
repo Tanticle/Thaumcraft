@@ -14,7 +14,7 @@ import tld.unknown.mystery.blocks.entities.*;
 import java.util.Arrays;
 import java.util.function.Supplier;
 
-import static tld.unknown.mystery.api.ChaumtraftIDs.BlockEntities;
+import static tld.unknown.mystery.api.ThaumcraftData.BlockEntities;
 
 public final class ConfigBlockEntities {
 

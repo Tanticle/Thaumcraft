@@ -2,7 +2,7 @@ package tld.unknown.mystery.data.generator.providers;
 
 import net.minecraft.data.PackOutput;
 import tld.unknown.mystery.Thaumcraft;
-import tld.unknown.mystery.api.ChaumtraftIDs;
+import tld.unknown.mystery.api.ThaumcraftData;
 import tld.unknown.mystery.data.research.DisplayProperties;
 import tld.unknown.mystery.data.research.ResearchEntry;
 import tld.unknown.mystery.data.research.ResearchStage;
@@ -16,7 +16,7 @@ public class ResearchEntryProvider extends CodecDataProvider<ResearchEntry> {
 
     @Override
     protected void createEntries() {
-        register(Thaumcraft.id(ChaumtraftIDs.Research.CATEGORY_DEBUG + "/origin"), ResearchEntry.builder(
+        register(Thaumcraft.id(ThaumcraftData.Research.CATEGORY_DEBUG + "/origin"), ResearchEntry.builder(
                 DisplayProperties.builder(0, 0).build(),
                 ResearchStage.builder()
                         .setRecipeUnlocks(Thaumcraft.id("test_recipe"))

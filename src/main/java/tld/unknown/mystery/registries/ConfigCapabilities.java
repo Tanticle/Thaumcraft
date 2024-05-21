@@ -4,7 +4,6 @@ import net.minecraft.core.Direction;
 import net.minecraft.world.entity.EntityType;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
-import net.neoforged.fml.common.Mod;
 import net.neoforged.neoforge.capabilities.BlockCapability;
 import net.neoforged.neoforge.capabilities.EntityCapability;
 import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
@@ -12,7 +11,7 @@ import tld.unknown.mystery.Thaumcraft;
 import tld.unknown.mystery.api.capabilities.IEssentiaCapability;
 import tld.unknown.mystery.api.capabilities.IResearchCapability;
 
-import static tld.unknown.mystery.api.ChaumtraftIDs.Capabilities;
+import static tld.unknown.mystery.api.ThaumcraftData.Capabilities;
 
 @EventBusSubscriber(modid = Thaumcraft.MOD_ID, bus = EventBusSubscriber.Bus.MOD)
 public class ConfigCapabilities {

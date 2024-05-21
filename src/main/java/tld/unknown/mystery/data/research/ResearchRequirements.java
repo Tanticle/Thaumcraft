@@ -4,7 +4,7 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
-import tld.unknown.mystery.data.ThaumcraftData;
+import tld.unknown.mystery.data.DataRegistries;
 import tld.unknown.mystery.util.DataResource;
 import tld.unknown.mystery.util.codec.Codecs;
 
@@ -28,7 +28,7 @@ public record ResearchRequirements(
             Codecs.ITEM_STACK.listOf().optionalFieldOf("items", EMPTY.itemRequirements).forGetter(ResearchRequirements::itemRequirements),
             ResourceLocation.CODEC.listOf().optionalFieldOf("crafting", EMPTY.craftingRequirements).forGetter(ResearchRequirements::craftingRequirements),
             ResearchKnowledge.CODEC.listOf().optionalFieldOf("knowledge", EMPTY.knowledgeRequirements).forGetter(ResearchRequirements::knowledgeRequirements),
-            Codecs.dataResourceCodec(ThaumcraftData.RESEARCH_ENTRIES).listOf().optionalFieldOf("research", EMPTY.researchRequirements).forGetter(ResearchRequirements::researchRequirements)
+            Codecs.dataResourceCodec(DataRegistries.RESEARCH_ENTRIES).listOf().optionalFieldOf("research", EMPTY.researchRequirements).forGetter(ResearchRequirements::researchRequirements)
     ).apply(i, ResearchRequirements::new));
 
     private static final class Builder {

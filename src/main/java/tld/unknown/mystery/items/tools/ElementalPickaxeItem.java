@@ -5,7 +5,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.PickaxeItem;
 import net.minecraft.world.item.Rarity;
-import tld.unknown.mystery.api.ChaumtraftIDs;
+import tld.unknown.mystery.api.ThaumcraftData;
 import tld.unknown.mystery.api.ThaumcraftMaterials;
 import tld.unknown.mystery.registries.ConfigDataAttachments;
 import tld.unknown.mystery.util.simple.SimpleCreativeTab;
@@ -29,8 +29,8 @@ public class ElementalPickaxeItem extends PickaxeItem implements SimpleCreativeT
     public ItemStack getCreativeTabEntry() {
         ItemStack stack = new ItemStack(this);
         stack.getData(ConfigDataAttachments.ITEM_ENCHANTMENT.get())
-                .addEnchantment(ChaumtraftIDs.Enchantments.SOUNDING, 2)
-                .addEnchantment(ChaumtraftIDs.Enchantments.REFINING, 1);
+                .addEnchantment(ThaumcraftData.Enchantments.SOUNDING, 2)
+                .addEnchantment(ThaumcraftData.Enchantments.REFINING, 1);
         return stack;
     }
 }

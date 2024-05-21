@@ -2,7 +2,7 @@ package tld.unknown.mystery.data.research;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import tld.unknown.mystery.data.ThaumcraftData;
+import tld.unknown.mystery.data.DataRegistries;
 import tld.unknown.mystery.util.DataResource;
 import tld.unknown.mystery.util.codec.Codecs;
 import tld.unknown.mystery.util.codec.EnumCodec;
@@ -22,7 +22,7 @@ public record ResearchKnowledge(
 
     public static final Codec<ResearchKnowledge> CODEC = RecordCodecBuilder.create(i -> i.group(
             new EnumCodec<>(ResearchKnowledge.Type.class).fieldOf("type").forGetter(ResearchKnowledge::type),
-            Codecs.dataResourceCodec(ThaumcraftData.RESEARCH_CATEGORY).fieldOf("category").forGetter(ResearchKnowledge::category),
+            Codecs.dataResourceCodec(DataRegistries.RESEARCH_CATEGORY).fieldOf("category").forGetter(ResearchKnowledge::category),
             Codec.INT.fieldOf("amount").forGetter(ResearchKnowledge::amount)
     ).apply(i, ResearchKnowledge::new));
 

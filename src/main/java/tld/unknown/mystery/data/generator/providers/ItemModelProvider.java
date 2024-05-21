@@ -5,9 +5,9 @@ import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import tld.unknown.mystery.Thaumcraft;
 import tld.unknown.mystery.util.better.BetterItemModelProvider;
 
-import static tld.unknown.mystery.api.ChaumtraftIDs.Items;
-import static tld.unknown.mystery.api.ChaumtraftIDs.Blocks;
-import static tld.unknown.mystery.api.ChaumtraftIDs.ItemProperties;
+import static tld.unknown.mystery.api.ThaumcraftData.Items;
+import static tld.unknown.mystery.api.ThaumcraftData.Blocks;
+import static tld.unknown.mystery.api.ThaumcraftData.ItemProperties;
 
 public class ItemModelProvider extends BetterItemModelProvider {
 

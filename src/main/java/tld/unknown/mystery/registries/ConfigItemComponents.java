@@ -5,8 +5,6 @@ import io.netty.buffer.ByteBuf;
 import net.minecraft.core.Holder;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.ResourceLocation;
 import net.neoforged.bus.api.IEventBus;
@@ -14,7 +12,7 @@ import net.neoforged.neoforge.registries.DeferredRegister;
 import tld.unknown.mystery.Thaumcraft;
 import tld.unknown.mystery.items.components.AspectHolderComponent;
 import tld.unknown.mystery.items.components.InfusionEnchantmentComponent;
-import static tld.unknown.mystery.api.ChaumtraftIDs.ItemComponents;
+import static tld.unknown.mystery.api.ThaumcraftData.ItemComponents;
 
 public class ConfigItemComponents {
 

@@ -10,7 +10,7 @@ import tld.unknown.mystery.Thaumcraft;
 
 import java.util.concurrent.CompletableFuture;
 
-import static tld.unknown.mystery.api.ChaumtraftIDs.Tags;
+import static tld.unknown.mystery.api.ThaumcraftData.Tags;
 
 public class TagsProvider extends BlockTagsProvider {
 

@@ -18,7 +18,7 @@ import tld.unknown.mystery.util.codec.data.CodecDataManager;
 import java.util.Map;
 
 @EventBusSubscriber(modid = Thaumcraft.MOD_ID, bus = EventBusSubscriber.Bus.MOD)
-public final class ThaumcraftData {
+public final class DataRegistries {
 
     public static final AspectRegistryManager ASPECT_REGISTRY = new AspectRegistryManager();
     public static final CodecDataManager<Aspect> ASPECTS = new CodecDataManager<>(Aspect.CODEC,
@@ -45,7 +45,7 @@ public final class ThaumcraftData {
 
     @SubscribeEvent
     public static void registerListeners(RegisterConfigurationTasksEvent e) {
-        ReflectionUtils.getAllStaticsOfType(ThaumcraftData.class, CodecDataManager.class).forEach(c -> {
+        ReflectionUtils.getAllStaticsOfType(DataRegistries.class, CodecDataManager.class).forEach(c -> {
             e.register(c);
             c.setSyncListener(e.getListener());
         });

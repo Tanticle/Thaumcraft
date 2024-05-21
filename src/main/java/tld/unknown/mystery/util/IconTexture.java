@@ -6,7 +6,7 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
-import tld.unknown.mystery.api.ChaumtraftIDs;
+import tld.unknown.mystery.api.ThaumcraftData;
 
 @Getter
 public class IconTexture {
@@ -22,14 +22,14 @@ public class IconTexture {
             else if(Minecraft.getInstance().getResourceManager().getResource(location).isPresent())
                 this.location = location;
             else
-                this.location = ChaumtraftIDs.Textures.UNKNOWN;
+                this.location = ThaumcraftData.Textures.UNKNOWN;
             this.isItem = false;
         } else {
             if(BuiltInRegistries.ITEM.containsKey(location)) {
                 this.location = location;
                 this.isItem = true;
             } else {
-                this.location = ChaumtraftIDs.Textures.UNKNOWN;
+                this.location = ThaumcraftData.Textures.UNKNOWN;
                 this.isItem = false;
             }
         }

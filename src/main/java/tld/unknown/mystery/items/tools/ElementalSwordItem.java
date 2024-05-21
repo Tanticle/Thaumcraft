@@ -1,7 +1,6 @@
 package tld.unknown.mystery.items.tools;
 
 import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -10,7 +9,7 @@ import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.SwordItem;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
-import tld.unknown.mystery.api.ChaumtraftIDs;
+import tld.unknown.mystery.api.ThaumcraftData;
 import tld.unknown.mystery.api.ThaumcraftMaterials;
 import tld.unknown.mystery.registries.ConfigDataAttachments;
 import tld.unknown.mystery.registries.ConfigSounds;
@@ -73,7 +72,7 @@ public class ElementalSwordItem extends SwordItem implements SimpleCreativeTab.S
     @Override
     public ItemStack getCreativeTabEntry() {
         ItemStack stack = new ItemStack(this);
-        stack.getData(ConfigDataAttachments.ITEM_ENCHANTMENT.get()).addEnchantment(ChaumtraftIDs.Enchantments.ARCING, 2);
+        stack.getData(ConfigDataAttachments.ITEM_ENCHANTMENT.get()).addEnchantment(ThaumcraftData.Enchantments.ARCING, 2);
         return stack;
     }
 }

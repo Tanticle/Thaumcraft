@@ -8,7 +8,7 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 import tld.unknown.mystery.Thaumcraft;
 import tld.unknown.mystery.api.aspects.Aspect;
-import tld.unknown.mystery.api.ChaumtraftIDs;
+import tld.unknown.mystery.api.ThaumcraftData;
 import tld.unknown.mystery.data.recipes.ArcaneCraftingRecipe;
 import tld.unknown.mystery.util.codec.data.CodecDataProvider;
 import tld.unknown.mystery.util.codec.recipes.CodecRecipeSerializer;
@@ -32,12 +32,12 @@ public class ArcaneCraftingRecipeProvider extends CodecDataProvider<ArcaneCrafti
                         Map.of('#', Ingredient.of(new ItemStack(Items.STICK)), '+', Ingredient.of(new ItemStack(Items.GOLD_INGOT))))
                 .setCrystalCost(Map.of(Aspect.Primal.AIR, 1))
                 .setVisCost(20)
-                .setRequiredResearch(ChaumtraftIDs.Research.UNLOCK_DEBUG));
+                .setRequiredResearch(ThaumcraftData.Research.UNLOCK_DEBUG));
     }
 
     @Override
     protected void processJson(JsonElement element) {
-        element.getAsJsonObject().addProperty("type", ChaumtraftIDs.Recipes.TYPE_ARCANE_CRAFTING.toString());
+        element.getAsJsonObject().addProperty("type", ThaumcraftData.Recipes.TYPE_ARCANE_CRAFTING.toString());
     }
 
     private void recipe(ResourceLocation id, RecipeBuilder builder) {

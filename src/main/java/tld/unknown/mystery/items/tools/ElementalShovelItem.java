@@ -18,7 +18,7 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 import org.apache.commons.compress.utils.Lists;
-import tld.unknown.mystery.api.ChaumtraftIDs;
+import tld.unknown.mystery.api.ThaumcraftData;
 import tld.unknown.mystery.api.IArchitect;
 import tld.unknown.mystery.api.ThaumcraftMaterials;
 import tld.unknown.mystery.registries.ConfigDataAttachments;
@@ -217,7 +217,7 @@ public class ElementalShovelItem extends ShovelItem implements IArchitect, Simpl
     @Override
     public ItemStack getCreativeTabEntry() {
         ItemStack stack = new ItemStack(this);
-        stack.getData(ConfigDataAttachments.ITEM_ENCHANTMENT.get()).addEnchantment(ChaumtraftIDs.Enchantments.DESTRUCTIVE, 1);
+        stack.getData(ConfigDataAttachments.ITEM_ENCHANTMENT.get()).addEnchantment(ThaumcraftData.Enchantments.DESTRUCTIVE, 1);
         return stack;
     }
 }

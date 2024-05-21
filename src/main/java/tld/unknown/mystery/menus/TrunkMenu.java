@@ -7,7 +7,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.ChestMenu;
 import net.minecraft.world.inventory.MenuType;
 import tld.unknown.mystery.entities.TrunkEntity;
-import tld.unknown.mystery.registries.ChaumtraftMenus;
+import tld.unknown.mystery.registries.ConfigMenus;
 
 public class TrunkMenu extends ChestMenu {
 
@@ -25,12 +25,12 @@ public class TrunkMenu extends ChestMenu {
 
     public static TrunkMenu create(int id, Inventory playerInv, boolean isBig) {
         int size = isBig ? 4 : 3;
-        MenuType<TrunkMenu> menuType = isBig ? ChaumtraftMenus.TRUNK_MENU_BIG.get() : ChaumtraftMenus.TRUNK_MENU_SMALL.get();
+        MenuType<TrunkMenu> menuType = isBig ? ConfigMenus.TRUNK_MENU_BIG.get() : ConfigMenus.TRUNK_MENU_SMALL.get();
         return new TrunkMenu(menuType, id, playerInv,  new SimpleContainer(size * 9), size);
     }
 
     public static TrunkMenu create(int id, Inventory playerInv, TrunkEntity entity) {
-        MenuType<TrunkMenu> menuType = entity.isSizeUpgraded() ? ChaumtraftMenus.TRUNK_MENU_BIG.get() : ChaumtraftMenus.TRUNK_MENU_SMALL.get();
+        MenuType<TrunkMenu> menuType = entity.isSizeUpgraded() ? ConfigMenus.TRUNK_MENU_BIG.get() : ConfigMenus.TRUNK_MENU_SMALL.get();
         return new TrunkMenu(menuType, id, playerInv, entity);
     }
 

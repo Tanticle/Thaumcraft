@@ -1,7 +1,6 @@
 package tld.unknown.mystery.client.rendering.ber;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
 import net.minecraft.client.GraphicsStatus;
 import net.minecraft.client.Minecraft;
@@ -11,8 +10,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.world.phys.Vec3;
 import org.joml.Quaternionf;
 import tld.unknown.mystery.blocks.entities.RunicMatrixBlockEntity;
-import tld.unknown.mystery.client.rendering.ChaumtraftModelLayers;
-import tld.unknown.mystery.client.rendering.RenderTypes;
+import tld.unknown.mystery.registries.client.ConfigModelLayers;
 import tld.unknown.mystery.client.rendering.ber.models.RunicMatrixModel;
 import tld.unknown.mystery.util.simple.SimpleBER;
 
@@ -24,7 +22,7 @@ public class RunicMatrixBER extends SimpleBER<RunicMatrixBlockEntity> {
 
     public RunicMatrixBER(BlockEntityRendererProvider.Context context) {
         super(context);
-        this.model = new RunicMatrixModel(context.bakeLayer(ChaumtraftModelLayers.RUNIC_MATRIX));
+        this.model = new RunicMatrixModel(context.bakeLayer(ConfigModelLayers.RUNIC_MATRIX));
     }
 
     private void drawHalo(BlockPos blockPos, float pPartialTick, PoseStack pPoseStack, MultiBufferSource pBufferSource, int pPackedLight, int pPackedOverlay, int count) {

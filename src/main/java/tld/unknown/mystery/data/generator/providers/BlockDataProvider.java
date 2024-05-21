@@ -11,7 +11,7 @@ import net.neoforged.neoforge.client.model.generators.*;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import net.neoforged.neoforge.registries.DeferredBlock;
 import tld.unknown.mystery.Thaumcraft;
-import tld.unknown.mystery.api.ChaumtraftIDs;
+import tld.unknown.mystery.api.ThaumcraftData;
 import tld.unknown.mystery.blocks.CreativeAspectSourceBlock;
 import tld.unknown.mystery.blocks.CrystalBlock;
 import tld.unknown.mystery.blocks.JarBlock;
@@ -66,9 +66,9 @@ public class BlockDataProvider extends BlockStateProvider {
         ResourceLocation top = TextureMapping.getBlockTexture(ConfigBlocks.CREATIVE_ASPECT_SOURCE.block(), "_top");
         getVariantBuilder(ConfigBlocks.CREATIVE_ASPECT_SOURCE.block()).forAllStates(s -> {
             if(s.getValue(CreativeAspectSourceBlock.HAS_ASPECT)) {
-                return ConfiguredModel.builder().modelFile(models().cubeTop(ChaumtraftIDs.Blocks.CREATIVE_ASPECT_SOURCE + "_filled", filled, top)).build();
+                return ConfiguredModel.builder().modelFile(models().cubeTop(ThaumcraftData.Blocks.CREATIVE_ASPECT_SOURCE + "_filled", filled, top)).build();
             } else {
-                return ConfiguredModel.builder().modelFile(models().cubeTop(ChaumtraftIDs.Blocks.CREATIVE_ASPECT_SOURCE + "_empty", top, top)).build();
+                return ConfiguredModel.builder().modelFile(models().cubeTop(ThaumcraftData.Blocks.CREATIVE_ASPECT_SOURCE + "_empty", top, top)).build();
             }
         });
     }

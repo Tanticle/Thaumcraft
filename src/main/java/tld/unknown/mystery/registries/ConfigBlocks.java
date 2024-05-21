@@ -25,7 +25,7 @@ import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
-import static tld.unknown.mystery.api.ChaumtraftIDs.Blocks;
+import static tld.unknown.mystery.api.ThaumcraftData.Blocks;
 
 public final class ConfigBlocks {
 

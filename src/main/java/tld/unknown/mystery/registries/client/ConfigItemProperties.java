@@ -9,24 +9,22 @@ import net.minecraft.world.item.Item;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
-import tld.unknown.mystery.api.ChaumtraftIDs;
+import tld.unknown.mystery.api.ThaumcraftData;
 import tld.unknown.mystery.registries.ConfigItems;
 import tld.unknown.mystery.util.ReflectionUtils;
 import tld.unknown.mystery.util.simple.SimpleMetaItem;
 
-import java.util.function.Supplier;
-
 @OnlyIn(Dist.CLIENT)
-public final class ChaumtraftItemProperties {
+public final class ConfigItemProperties {
 
     /* -------------------------------------------------------------------------------------------------------------- */
 
-    public static final PropertyObject ASPECT_HOLDER_PRESENT = register(ChaumtraftIDs.ItemProperties.ASPECT_HOLDER_PRESENT, ConfigItems.PHIAL, SimpleMetaItem.HAS_META_GETTER);
+    public static final PropertyObject ASPECT_HOLDER_PRESENT = register(ThaumcraftData.ItemProperties.ASPECT_HOLDER_PRESENT, ConfigItems.PHIAL, SimpleMetaItem.HAS_META_GETTER);
 
     /* -------------------------------------------------------------------------------------------------------------- */
 
     public static void init(FMLClientSetupEvent e) {
-        e.enqueueWork(() -> ReflectionUtils.getAllStaticsOfType(ChaumtraftItemProperties.class, PropertyObject.class).forEach(o -> ItemProperties.register(o.getItem().value(), o.getId(), o.getFunction())));
+        e.enqueueWork(() -> ReflectionUtils.getAllStaticsOfType(ConfigItemProperties.class, PropertyObject.class).forEach(o -> ItemProperties.register(o.getItem().value(), o.getId(), o.getFunction())));
     }
 
     private static PropertyObject register(ResourceLocation id, Holder<? extends Item> item, ItemPropertyFunction function) {

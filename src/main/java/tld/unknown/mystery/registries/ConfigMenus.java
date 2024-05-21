@@ -15,7 +15,7 @@ import tld.unknown.mystery.menus.TrunkMenu;
 
 import java.util.function.Supplier;
 
-public final class ChaumtraftMenus {
+public final class ConfigMenus {
 
     private static final DeferredRegister<MenuType<?>> REGISTRY = DeferredRegister.create(BuiltInRegistries.MENU, Thaumcraft.MOD_ID);
 

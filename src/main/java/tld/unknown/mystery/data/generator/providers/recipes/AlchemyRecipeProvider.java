@@ -7,12 +7,12 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 import tld.unknown.mystery.Thaumcraft;
-import tld.unknown.mystery.api.ChaumtraftIDs;
+import tld.unknown.mystery.api.ThaumcraftData;
 import tld.unknown.mystery.data.aspects.AspectList;
 import tld.unknown.mystery.data.recipes.AlchemyRecipe;
 import tld.unknown.mystery.util.codec.data.CodecDataProvider;
 
-import static tld.unknown.mystery.api.ChaumtraftIDs.Recipes;
+import static tld.unknown.mystery.api.ThaumcraftData.Recipes;
 
 public class AlchemyRecipeProvider extends CodecDataProvider<AlchemyRecipe> {
 
@@ -24,12 +24,12 @@ public class AlchemyRecipeProvider extends CodecDataProvider<AlchemyRecipe> {
     protected void createEntries() {
         recipe(Recipes.ALCHEMY_DOUBLE_SLIME,
                 Ingredient.of(new ItemStack(Items.SLIME_BALL)),
-                new AspectList().add(ChaumtraftIDs.Aspects.WATER, 5).add(ChaumtraftIDs.Aspects.LIFE, 5).add(ChaumtraftIDs.Aspects.ALCHEMY, 1),
+                new AspectList().add(ThaumcraftData.Aspects.WATER, 5).add(ThaumcraftData.Aspects.LIFE, 5).add(ThaumcraftData.Aspects.ALCHEMY, 1),
                 new ItemStack(Items.SLIME_BALL, 2));
 
         recipe(Thaumcraft.id("debug"),
                 Ingredient.of(new ItemStack(Items.STICK)),
-                new AspectList().add(ChaumtraftIDs.Aspects.WATER, 5).add(ChaumtraftIDs.Aspects.EARTH, 5),
+                new AspectList().add(ThaumcraftData.Aspects.WATER, 5).add(ThaumcraftData.Aspects.EARTH, 5),
                 new ItemStack(Items.DIAMOND));
     }
 

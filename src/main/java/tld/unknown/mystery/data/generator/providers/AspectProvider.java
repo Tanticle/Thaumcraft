@@ -8,7 +8,7 @@ import tld.unknown.mystery.util.codec.data.CodecDataProvider;
 
 import java.util.Arrays;
 
-import static tld.unknown.mystery.api.ChaumtraftIDs.Aspects;
+import static tld.unknown.mystery.api.ThaumcraftData.Aspects;
 
 public class AspectProvider extends CodecDataProvider<Aspect> {
 

@@ -3,8 +3,8 @@ package tld.unknown.mystery.data.generator.providers;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
 import tld.unknown.mystery.Thaumcraft;
-import tld.unknown.mystery.api.ChaumtraftIDs;
-import tld.unknown.mystery.data.ThaumcraftData;
+import tld.unknown.mystery.api.ThaumcraftData;
+import tld.unknown.mystery.data.DataRegistries;
 import tld.unknown.mystery.data.research.ResearchCategory;
 import tld.unknown.mystery.data.research.ResearchEntry;
 import tld.unknown.mystery.util.DataResource;
@@ -22,13 +22,13 @@ public class ResearchCategoryProvider extends CodecDataProvider<ResearchCategory
 
     @Override
     protected void createEntries() {
-        registerCategory(ChaumtraftIDs.Research.CATEGORY_DEBUG, "debug", ChaumtraftIDs.Research.UNLOCK_DEBUG);
-        registerCategory(ChaumtraftIDs.Research.CATEGORY_FUNDAMENTALS, "fundamentals");
-        registerCategory(ChaumtraftIDs.Research.CATEGORY_ARTIFICE, "artifice", ChaumtraftIDs.Research.UNLOCK_ARTIFICE);
+        registerCategory(ThaumcraftData.Research.CATEGORY_DEBUG, "debug", ThaumcraftData.Research.UNLOCK_DEBUG);
+        registerCategory(ThaumcraftData.Research.CATEGORY_FUNDAMENTALS, "fundamentals");
+        registerCategory(ThaumcraftData.Research.CATEGORY_ARTIFICE, "artifice", ThaumcraftData.Research.UNLOCK_ARTIFICE);
     }
 
     private void registerCategory(String id, String texture, ResourceLocation... requirements) {
-        List<DataResource<ResearchEntry>> list = Arrays.stream(requirements).map(rl -> DataResource.of(ThaumcraftData.RESEARCH_ENTRIES, rl)).toList();
+        List<DataResource<ResearchEntry>> list = Arrays.stream(requirements).map(rl -> DataResource.of(DataRegistries.RESEARCH_ENTRIES, rl)).toList();
         register(Thaumcraft.id(id), ResearchCategory.builder()
                 .icon(new IconTexture(Thaumcraft.id("textures/ui/research/categories/" + texture + ".png")))
                 .requirements(list)

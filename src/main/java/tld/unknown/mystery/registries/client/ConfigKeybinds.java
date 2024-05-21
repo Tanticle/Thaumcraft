@@ -1,4 +1,4 @@
-package tld.unknown.mystery.client;
+package tld.unknown.mystery.registries.client;
 
 import com.mojang.blaze3d.platform.InputConstants;
 import net.minecraft.client.KeyMapping;
@@ -12,7 +12,7 @@ import tld.unknown.mystery.Thaumcraft;
 import tld.unknown.mystery.client.screens.ResearchDebugScreen;
 
 @EventBusSubscriber(modid = Thaumcraft.MOD_ID, bus = EventBusSubscriber.Bus.MOD)
-public final class ChaumtraftKeybinds {
+public final class ConfigKeybinds {
 
     private static final KeyMapping RESEARCH_DEBUG_SCREEN = new KeyMapping("key.chaumtraft.debug.research",
             KeyConflictContext.IN_GAME, InputConstants.Type.KEYSYM, InputConstants.KEY_O,

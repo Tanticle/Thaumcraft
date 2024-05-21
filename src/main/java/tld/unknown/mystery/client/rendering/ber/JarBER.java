@@ -9,11 +9,11 @@ import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
 import org.joml.Vector3f;
 import tld.unknown.mystery.Thaumcraft;
-import tld.unknown.mystery.api.ChaumtraftIDs;
+import tld.unknown.mystery.api.ThaumcraftData;
 import tld.unknown.mystery.api.aspects.Aspect;
 import tld.unknown.mystery.blocks.entities.JarBlockEntity;
 import tld.unknown.mystery.client.rendering.RenderHelper;
-import tld.unknown.mystery.data.ThaumcraftData;
+import tld.unknown.mystery.data.DataRegistries;
 import tld.unknown.mystery.util.MathUtils;
 import tld.unknown.mystery.util.simple.SimpleBER;
 
@@ -32,7 +32,7 @@ public class JarBER extends SimpleBER<JarBlockEntity> {
     public void render(JarBlockEntity pBlockEntity, float pPartialTick, PoseStack pPoseStack, MultiBufferSource pBufferSource, int pPackedLight, int pPackedOverlay) {
         if(RenderHelper.debugIsLookingAtBlock(pBlockEntity.getBlockPos())) {
             ResourceLocation type = pBlockEntity.getEssentiaType(Direction.UP);
-            type = type != null ? type : (pBlockEntity.getLabel() != null ? pBlockEntity.getLabel() : ChaumtraftIDs.Aspects.ANY);
+            type = type != null ? type : (pBlockEntity.getLabel() != null ? pBlockEntity.getLabel() : ThaumcraftData.Aspects.ANY);
             renderNametag(pPoseStack, pBufferSource, 1, Aspect.getName(type, false, false), pPackedLight);
             renderNametag(pPoseStack, pBufferSource, .75F, pBlockEntity.getEssentia(Direction.UP) + " / 250 [" + String.format("%.0f", pBlockEntity.getFillPercent() * 100) + "%]", pPackedLight);
         }
@@ -46,7 +46,7 @@ public class JarBER extends SimpleBER<JarBlockEntity> {
                     .setUVs(Direction.Axis.X, 4, 0, 12, 10 * pBlockEntity.getFillPercent())
                     .setUVs(Direction.Axis.Z, 4, 0, 12, 10 * pBlockEntity.getFillPercent())
                     .setUVs(Direction.Axis.Y, 4, 4, 12, 12)
-                    .draw(consumer, pPoseStack.last().pose(), ThaumcraftData.ASPECTS.getOptional(pBlockEntity.getEssentiaType(Direction.UP)).orElse(Aspect.UNKNOWN).getColor().getValue(), true, pPackedLight, true, pPackedOverlay);
+                    .draw(consumer, pPoseStack.last().pose(), DataRegistries.ASPECTS.getOptional(pBlockEntity.getEssentiaType(Direction.UP)).orElse(Aspect.UNKNOWN).getColor().getValue(), true, pPackedLight, true, pPackedOverlay);
             pPoseStack.popPose();
         }
 

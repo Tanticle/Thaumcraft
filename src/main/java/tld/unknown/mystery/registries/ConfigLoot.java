@@ -17,7 +17,7 @@ import tld.unknown.mystery.loot.conditions.InfusionEnchantmentCondition;
 
 import java.util.function.Supplier;
 
-import static tld.unknown.mystery.api.ChaumtraftIDs.Loot;
+import static tld.unknown.mystery.api.ThaumcraftData.Loot;
 
 public final class ConfigLoot {
 

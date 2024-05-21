@@ -5,13 +5,11 @@ import lombok.Getter;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
-import org.apache.commons.lang3.EnumUtils;
-import tld.unknown.mystery.Thaumcraft;
 import tld.unknown.mystery.util.codec.EnumCodec;
 
 import java.util.Arrays;
 
-import static tld.unknown.mystery.api.ChaumtraftIDs.Enchantments;
+import static tld.unknown.mystery.api.ThaumcraftData.Enchantments;
 
 @Getter
 @AllArgsConstructor

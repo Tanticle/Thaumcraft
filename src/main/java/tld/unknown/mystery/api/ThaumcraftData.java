@@ -1,16 +1,12 @@
 package tld.unknown.mystery.api;
 
-import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.level.block.Block;
 import tld.unknown.mystery.Thaumcraft;
-import tld.unknown.mystery.api.aspects.Aspect;
-import tld.unknown.mystery.items.tools.ScribingToolsItem;
-import tld.unknown.mystery.util.codec.data.CodecDataManager;
 
-public final class ChaumtraftIDs {
+public final class ThaumcraftData {
 
     /**
      * Various identifiers referring to textures which are often reused.

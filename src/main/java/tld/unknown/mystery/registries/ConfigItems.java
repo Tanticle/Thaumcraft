@@ -16,7 +16,7 @@ import tld.unknown.mystery.util.simple.SimpleCreativeTab;
 import java.util.function.Supplier;
 import java.util.function.UnaryOperator;
 
-import static tld.unknown.mystery.api.ChaumtraftIDs.Items;
+import static tld.unknown.mystery.api.ThaumcraftData.Items;
 
 public final class ConfigItems {
 

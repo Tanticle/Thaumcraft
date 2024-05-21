@@ -7,7 +7,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.state.BlockState;
-import tld.unknown.mystery.api.ChaumtraftIDs;
+import tld.unknown.mystery.api.ThaumcraftData;
 import tld.unknown.mystery.api.aspects.AspectContainer;
 import tld.unknown.mystery.api.capabilities.IEssentiaCapability;
 import tld.unknown.mystery.blocks.JarBlock;
@@ -30,7 +30,7 @@ public class JarBlockEntity extends SimpleBlockEntity implements AspectContainer
     public JarBlockEntity(BlockPos pPos, BlockState pBlockState) {
         super(ConfigBlockEntities.JAR.entityType(), pPos, pBlockState);
         this.currentAspect = null;
-        this.label = ChaumtraftIDs.Aspects.TAINT;
+        this.label = ThaumcraftData.Aspects.TAINT;
         this.labelDirection = Direction.NORTH;
         this.amount = 0;
     }
@@ -97,7 +97,7 @@ public class JarBlockEntity extends SimpleBlockEntity implements AspectContainer
             int currentAmount = this.amount;
             if(currentAmount <= amount) {
                 this.amount = 0;
-                this.currentAspect = ChaumtraftIDs.Aspects.ANY;
+                this.currentAspect = ThaumcraftData.Aspects.ANY;
                 return currentAmount;
             }
             this.amount -= amount;

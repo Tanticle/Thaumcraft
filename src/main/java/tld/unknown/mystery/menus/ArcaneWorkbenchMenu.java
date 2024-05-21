@@ -12,13 +12,12 @@ import net.minecraft.world.inventory.*;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.level.Level;
-import tld.unknown.mystery.api.ChaumtraftIDs;
+import tld.unknown.mystery.api.ThaumcraftData;
 import tld.unknown.mystery.api.aspects.AspectContainerItem;
 import tld.unknown.mystery.api.capabilities.IResearchCapability;
 import tld.unknown.mystery.data.recipes.ArcaneCraftingRecipe;
-import tld.unknown.mystery.items.AbstractAspectItem;
 import tld.unknown.mystery.registries.ConfigCapabilities;
-import tld.unknown.mystery.registries.ChaumtraftMenus;
+import tld.unknown.mystery.registries.ConfigMenus;
 import tld.unknown.mystery.util.BitPacker;
 import tld.unknown.mystery.util.CraftingUtils;
 import tld.unknown.mystery.util.PredicateSlot;
@@ -56,7 +55,7 @@ public class ArcaneWorkbenchMenu extends AbstractContainerMenu {
     }
 
     public ArcaneWorkbenchMenu(int pContainerId, Inventory playerInv, SimpleContainer craftingSlots, Player player, ContainerLevelAccess access) {
-        super(ChaumtraftMenus.ARCANE_WORKBENCH.get(), pContainerId);
+        super(ConfigMenus.ARCANE_WORKBENCH.get(), pContainerId);
         this.player = player;
         this.access = access;
         this.craftingSlots = craftingSlots;
@@ -166,11 +165,11 @@ public class ArcaneWorkbenchMenu extends AbstractContainerMenu {
     }
 
     private void populateCrystalSlots() {
-        addSlot(new PredicateSlot(this.craftingSlots, SLOT_CHAOS, 57, 81, i -> AspectContainerItem.hasAspect(i, ChaumtraftIDs.Aspects.CHAOS)));
-        addSlot(new PredicateSlot(this.craftingSlots, SLOT_WATER, 105, 1, i -> AspectContainerItem.hasAspect(i, ChaumtraftIDs.Aspects.WATER)));
-        addSlot(new PredicateSlot(this.craftingSlots, SLOT_ORDER, 105, 59, i -> AspectContainerItem.hasAspect(i, ChaumtraftIDs.Aspects.ORDER)));
-        addSlot(new PredicateSlot(this.craftingSlots, SLOT_AIR, 57, -21, i -> AspectContainerItem.hasAspect(i, ChaumtraftIDs.Aspects.AIR)));
-        addSlot(new PredicateSlot(this.craftingSlots, SLOT_FIRE, 10, 1, i -> AspectContainerItem.hasAspect(i, ChaumtraftIDs.Aspects.FIRE)));
-        addSlot(new PredicateSlot(this.craftingSlots, SLOT_EARTH, 10, 59, i -> AspectContainerItem.hasAspect(i, ChaumtraftIDs.Aspects.EARTH)));
+        addSlot(new PredicateSlot(this.craftingSlots, SLOT_CHAOS, 57, 81, i -> AspectContainerItem.hasAspect(i, ThaumcraftData.Aspects.CHAOS)));
+        addSlot(new PredicateSlot(this.craftingSlots, SLOT_WATER, 105, 1, i -> AspectContainerItem.hasAspect(i, ThaumcraftData.Aspects.WATER)));
+        addSlot(new PredicateSlot(this.craftingSlots, SLOT_ORDER, 105, 59, i -> AspectContainerItem.hasAspect(i, ThaumcraftData.Aspects.ORDER)));
+        addSlot(new PredicateSlot(this.craftingSlots, SLOT_AIR, 57, -21, i -> AspectContainerItem.hasAspect(i, ThaumcraftData.Aspects.AIR)));
+        addSlot(new PredicateSlot(this.craftingSlots, SLOT_FIRE, 10, 1, i -> AspectContainerItem.hasAspect(i, ThaumcraftData.Aspects.FIRE)));
+        addSlot(new PredicateSlot(this.craftingSlots, SLOT_EARTH, 10, 59, i -> AspectContainerItem.hasAspect(i, ThaumcraftData.Aspects.EARTH)));
     }
 }

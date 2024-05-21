@@ -3,7 +3,7 @@ package tld.unknown.mystery.data.research;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.world.phys.Vec2;
-import tld.unknown.mystery.api.ChaumtraftIDs;
+import tld.unknown.mystery.api.ThaumcraftData;
 import tld.unknown.mystery.util.codec.Codecs;
 import tld.unknown.mystery.util.codec.EnumCodec;
 import tld.unknown.mystery.util.IconTexture;
@@ -21,7 +21,7 @@ public record DisplayProperties(
         boolean reverse) {
 
     private static final DisplayProperties DEFAULT = new DisplayProperties(
-            Collections.singletonList(new IconTexture(ChaumtraftIDs.Textures.UNKNOWN)),
+            Collections.singletonList(new IconTexture(ThaumcraftData.Textures.UNKNOWN)),
             new Vec2(0, 0), EntryShape.REGULAR, false, false,false);
 
     public static Builder builder(int x, int y) {

@@ -2,7 +2,7 @@ package tld.unknown.mystery.api;
 
 import net.minecraft.client.Minecraft;
 
-public final class ChaumtraftUtils {
+public final class ThaumcraftUtils {
 
     public static boolean shouldShowAspects() {
         Minecraft mc = Minecraft.getInstance();

@@ -4,7 +4,7 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
-import tld.unknown.mystery.data.ThaumcraftData;
+import tld.unknown.mystery.data.DataRegistries;
 import tld.unknown.mystery.util.DataResource;
 import tld.unknown.mystery.util.codec.Codecs;
 
@@ -37,8 +37,8 @@ public record ResearchEntry(
     public static final Codec<ResearchEntry> CODEC = RecordCodecBuilder.create(i -> i.group(
             DisplayProperties.CODEC.fieldOf("display").forGetter(ResearchEntry::displayProperties),
             ResearchStage.CODEC.listOf().fieldOf("stages").forGetter(ResearchEntry::stages),
-            Codecs.dataResourceCodec(ThaumcraftData.RESEARCH_ENTRIES).listOf().optionalFieldOf("parents",DEFAULT.parents).forGetter(ResearchEntry::parents),
-            Codecs.dataResourceCodec(ThaumcraftData.RESEARCH_ENTRIES).listOf().optionalFieldOf("siblings", DEFAULT.siblings).forGetter(ResearchEntry::siblings),
+            Codecs.dataResourceCodec(DataRegistries.RESEARCH_ENTRIES).listOf().optionalFieldOf("parents",DEFAULT.parents).forGetter(ResearchEntry::parents),
+            Codecs.dataResourceCodec(DataRegistries.RESEARCH_ENTRIES).listOf().optionalFieldOf("siblings", DEFAULT.siblings).forGetter(ResearchEntry::siblings),
             ResearchRewards.CODEC.optionalFieldOf("rewards", DEFAULT.rewards).forGetter(ResearchEntry::rewards),
             ResearchStage.CODEC.listOf().optionalFieldOf("addenda", DEFAULT.addenda).forGetter(ResearchEntry::addenda)
     ).apply(i, ResearchEntry::new));

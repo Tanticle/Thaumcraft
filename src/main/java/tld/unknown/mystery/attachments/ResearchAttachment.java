@@ -2,7 +2,7 @@ package tld.unknown.mystery.attachments;
 
 import com.mojang.serialization.Codec;
 import tld.unknown.mystery.api.capabilities.IResearchCapability;
-import tld.unknown.mystery.data.ThaumcraftData;
+import tld.unknown.mystery.data.DataRegistries;
 import tld.unknown.mystery.data.research.ResearchEntry;
 import tld.unknown.mystery.util.DataResource;
 import tld.unknown.mystery.util.codec.Codecs;
@@ -111,5 +111,5 @@ public class ResearchAttachment implements IResearchCapability {
         return true;
     }
 
-    public static final Codec<ResearchAttachment> CODEC = Codec.unboundedMap(Codecs.dataResourceCodec(ThaumcraftData.RESEARCH_ENTRIES), ResearchState.CODEC).xmap(ResearchAttachment::new, cap -> cap.stateMap);
+    public static final Codec<ResearchAttachment> CODEC = Codec.unboundedMap(Codecs.dataResourceCodec(DataRegistries.RESEARCH_ENTRIES), ResearchState.CODEC).xmap(ResearchAttachment::new, cap -> cap.stateMap);
 }

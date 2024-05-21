@@ -11,7 +11,7 @@ import org.joml.Matrix4f;
 import org.joml.Quaternionf;
 import tld.unknown.mystery.api.aspects.Aspect;
 import tld.unknown.mystery.blocks.entities.CreativeAspectSourceBlockEntity;
-import tld.unknown.mystery.data.ThaumcraftData;
+import tld.unknown.mystery.data.DataRegistries;
 import tld.unknown.mystery.util.simple.SimpleBER;
 
 public class CreativeAspectSourceBER extends SimpleBER<CreativeAspectSourceBlockEntity> {
@@ -40,7 +40,7 @@ public class CreativeAspectSourceBER extends SimpleBER<CreativeAspectSourceBlock
                 }
                 pPoseStack.scale(.5F, .5F, .5F);
                 Matrix4f mat = pPoseStack.last().pose();
-                Aspect aspect = ThaumcraftData.ASPECTS.getOptional(pBlockEntity.getAspect()).orElse(Aspect.UNKNOWN);
+                Aspect aspect = DataRegistries.ASPECTS.getOptional(pBlockEntity.getAspect()).orElse(Aspect.UNKNOWN);
                 VertexConsumer consumer = pBufferSource.getBuffer(RenderType.text(Aspect.getTexture(pBlockEntity.getAspect(), false)));
                 int color = (255 << 24) | (aspect.getColor().getValue() & 0x00FFFFFF);
                 int light = LevelRenderer.getLightColor(pBlockEntity.getLevel(), pBlockEntity.getBlockPos().relative(dir));

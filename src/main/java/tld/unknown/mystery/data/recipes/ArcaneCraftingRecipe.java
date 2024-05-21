@@ -6,7 +6,6 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import lombok.Getter;
 import net.minecraft.core.NonNullList;
 import net.minecraft.network.RegistryFriendlyByteBuf;
-import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.Container;
@@ -15,7 +14,7 @@ import net.minecraft.world.item.ItemStack;
 import tld.unknown.mystery.Thaumcraft;
 import tld.unknown.mystery.api.aspects.Aspect;
 import tld.unknown.mystery.api.capabilities.IResearchCapability;
-import tld.unknown.mystery.data.ThaumcraftData;
+import tld.unknown.mystery.data.DataRegistries;
 import tld.unknown.mystery.registries.ConfigRecipeTypes;
 import tld.unknown.mystery.util.DataResource;
 import tld.unknown.mystery.util.codec.Codecs;
@@ -56,7 +55,7 @@ public class ArcaneCraftingRecipe extends CodecRecipe<ArcaneCraftingRecipe> {
     }
 
     public boolean playerKnowsResearch(IResearchCapability cap) {
-        return this.requiredResearch.equals(RESEARCH_NONE) || cap.getResearchCompletion(DataResource.of(ThaumcraftData.RESEARCH_ENTRIES, this.requiredResearch)) == IResearchCapability.ResearchCompletion.COMPLETE;
+        return this.requiredResearch.equals(RESEARCH_NONE) || cap.getResearchCompletion(DataResource.of(DataRegistries.RESEARCH_ENTRIES, this.requiredResearch)) == IResearchCapability.ResearchCompletion.COMPLETE;
     }
 
     public static final MapCodec<ArcaneCraftingRecipe> CODEC = RecordCodecBuilder.mapCodec(i -> i.group(

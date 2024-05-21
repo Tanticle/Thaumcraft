@@ -9,7 +9,7 @@ import net.minecraft.world.item.crafting.RecipeType;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import tld.unknown.mystery.Thaumcraft;
-import tld.unknown.mystery.api.ChaumtraftIDs;
+import tld.unknown.mystery.api.ThaumcraftData;
 import tld.unknown.mystery.data.recipes.AlchemyRecipe;
 import tld.unknown.mystery.data.recipes.ArcaneCraftingRecipe;
 import tld.unknown.mystery.util.codec.recipes.CodecRecipeSerializer;
@@ -23,8 +23,8 @@ public final class ConfigRecipeTypes {
 
     /* -------------------------------------------------------------------------------------------------------------- */
 
-    public static final RecipeObject<AlchemyRecipe> ALCHEMY = register(ChaumtraftIDs.Recipes.TYPE_ALCHEMY, () -> new CodecRecipeSerializer<>(AlchemyRecipe.CODEC, AlchemyRecipe.STREAM_CODEC));
-    public static final RecipeObject<ArcaneCraftingRecipe> ARCANE_CRAFTING = register(ChaumtraftIDs.Recipes.TYPE_ARCANE_CRAFTING, () -> new CodecRecipeSerializer<>(ArcaneCraftingRecipe.CODEC, ArcaneCraftingRecipe.STREAM_CODEC));
+    public static final RecipeObject<AlchemyRecipe> ALCHEMY = register(ThaumcraftData.Recipes.TYPE_ALCHEMY, () -> new CodecRecipeSerializer<>(AlchemyRecipe.CODEC, AlchemyRecipe.STREAM_CODEC));
+    public static final RecipeObject<ArcaneCraftingRecipe> ARCANE_CRAFTING = register(ThaumcraftData.Recipes.TYPE_ARCANE_CRAFTING, () -> new CodecRecipeSerializer<>(ArcaneCraftingRecipe.CODEC, ArcaneCraftingRecipe.STREAM_CODEC));
 
     /* -------------------------------------------------------------------------------------------------------------- */
 

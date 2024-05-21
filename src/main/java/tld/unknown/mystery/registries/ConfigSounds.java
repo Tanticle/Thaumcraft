@@ -6,7 +6,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import tld.unknown.mystery.Thaumcraft;
-import static tld.unknown.mystery.api.ChaumtraftIDs.Sounds;
+import static tld.unknown.mystery.api.ThaumcraftData.Sounds;
 
 public class ConfigSounds {
 

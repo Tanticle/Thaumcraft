@@ -9,14 +9,12 @@ import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.Style;
 import net.minecraft.network.chat.TextColor;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.ItemStack;
 import org.apache.commons.compress.utils.Lists;
-import tld.unknown.mystery.api.ChaumtraftIDs;
-import tld.unknown.mystery.data.ThaumcraftData;
+import tld.unknown.mystery.api.ThaumcraftData;
+import tld.unknown.mystery.data.DataRegistries;
 import tld.unknown.mystery.data.aspects.PrimalAspects;
 import tld.unknown.mystery.util.codec.EnumCodec;
 
-import java.util.Arrays;
 import java.util.List;
 
 @Data
@@ -32,7 +30,7 @@ public class Aspect {
             return Component.translatable("aspect.thaumcraft.untyped");
         }
         MutableComponent c = Component.translatable("aspect." + id.getNamespace() + "." + id.getPath());
-        Aspect a = ThaumcraftData.ASPECTS.getOptional(id).orElse(Aspect.UNKNOWN);
+        Aspect a = DataRegistries.ASPECTS.getOptional(id).orElse(Aspect.UNKNOWN);
         if(pureColor) {
             return c.setStyle(Style.EMPTY.withColor(a.getColor()));
         } else if(primalColor && a instanceof PrimalAspects pa) {
@@ -54,12 +52,12 @@ public class Aspect {
 
     @AllArgsConstructor
     public enum Primal implements EnumCodec.Values {
-        CHAOS(ChaumtraftIDs.Aspects.CHAOS),
-        ORDER(ChaumtraftIDs.Aspects.ORDER),
-        WATER(ChaumtraftIDs.Aspects.WATER),
-        AIR(ChaumtraftIDs.Aspects.AIR),
-        FIRE(ChaumtraftIDs.Aspects.FIRE),
-        EARTH(ChaumtraftIDs.Aspects.EARTH);
+        CHAOS(ThaumcraftData.Aspects.CHAOS),
+        ORDER(ThaumcraftData.Aspects.ORDER),
+        WATER(ThaumcraftData.Aspects.WATER),
+        AIR(ThaumcraftData.Aspects.AIR),
+        FIRE(ThaumcraftData.Aspects.FIRE),
+        EARTH(ThaumcraftData.Aspects.EARTH);
 
         private final ResourceLocation id;
 

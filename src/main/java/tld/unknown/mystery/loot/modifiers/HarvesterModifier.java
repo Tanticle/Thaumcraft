@@ -12,8 +12,8 @@ import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
 import net.neoforged.neoforge.common.loot.IGlobalLootModifier;
 import net.neoforged.neoforge.common.loot.LootModifier;
 import tld.unknown.mystery.Thaumcraft;
-import tld.unknown.mystery.api.ChaumtraftIDs;
-import tld.unknown.mystery.data.ThaumcraftData;
+import tld.unknown.mystery.api.ThaumcraftData;
+import tld.unknown.mystery.data.DataRegistries;
 import tld.unknown.mystery.data.aspects.AspectList;
 import tld.unknown.mystery.registries.ConfigDataAttachments;
 import tld.unknown.mystery.registries.ConfigItems;
@@ -31,9 +31,9 @@ public class HarvesterModifier extends LootModifier {
             return generatedLoot;
         int level = ((Player)context.getParam(LootContextParams.KILLER_ENTITY)).getMainHandItem()
                 .getData(ConfigDataAttachments.ITEM_ENCHANTMENT)
-                .getEnchantmentLevel(ChaumtraftIDs.Enchantments.HARVESTER);
+                .getEnchantmentLevel(ThaumcraftData.Enchantments.HARVESTER);
         Entity victim = context.getParamOrNull(LootContextParams.THIS_ENTITY);
-        AspectList list = ThaumcraftData.ASPECT_REGISTRY.getAspects(victim.getType());
+        AspectList list = DataRegistries.ASPECT_REGISTRY.getAspects(victim.getType());
         if(context.getLevel().getRandom().nextInt(5) > level || list.isEmpty())
             return generatedLoot;
         for (int i = 0; i < list.getAspects().size(); i += 1 + context.getRandom().nextInt(2))

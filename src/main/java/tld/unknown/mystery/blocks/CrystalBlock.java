@@ -19,7 +19,7 @@ import net.minecraft.world.level.block.state.properties.IntegerProperty;
 import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import tld.unknown.mystery.api.ChaumtraftIDs;
+import tld.unknown.mystery.api.ThaumcraftData;
 import tld.unknown.mystery.util.simple.SimpleBlockMaterials;
 
 import java.util.Arrays;
@@ -68,13 +68,13 @@ public class CrystalBlock extends DirectionalBlock {
 
     @AllArgsConstructor
     public enum CrystalAspect implements StringRepresentable {
-        ORDER(ChaumtraftIDs.Aspects.ORDER, MapColor.COLOR_LIGHT_GRAY),
-        DESTRUCTION(ChaumtraftIDs.Aspects.CHAOS, MapColor.COLOR_GRAY),
-        EARTH(ChaumtraftIDs.Aspects.EARTH, MapColor.COLOR_GREEN),
-        WATER(ChaumtraftIDs.Aspects.WATER, MapColor.COLOR_CYAN),
-        AIR(ChaumtraftIDs.Aspects.AIR, MapColor.COLOR_YELLOW),
-        FIRE(ChaumtraftIDs.Aspects.FIRE, MapColor.COLOR_RED),
-        TAINT(ChaumtraftIDs.Aspects.TAINT, MapColor.COLOR_PURPLE);
+        ORDER(ThaumcraftData.Aspects.ORDER, MapColor.COLOR_LIGHT_GRAY),
+        DESTRUCTION(ThaumcraftData.Aspects.CHAOS, MapColor.COLOR_GRAY),
+        EARTH(ThaumcraftData.Aspects.EARTH, MapColor.COLOR_GREEN),
+        WATER(ThaumcraftData.Aspects.WATER, MapColor.COLOR_CYAN),
+        AIR(ThaumcraftData.Aspects.AIR, MapColor.COLOR_YELLOW),
+        FIRE(ThaumcraftData.Aspects.FIRE, MapColor.COLOR_RED),
+        TAINT(ThaumcraftData.Aspects.TAINT, MapColor.COLOR_PURPLE);
 
         @Getter
         private final ResourceLocation id;

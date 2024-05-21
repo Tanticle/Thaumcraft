@@ -9,7 +9,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.Nullable;
 import tld.unknown.mystery.api.aspects.Aspect;
 import tld.unknown.mystery.api.aspects.AspectContainerItem;
-import tld.unknown.mystery.api.ChaumtraftIDs;
+import tld.unknown.mystery.api.ThaumcraftData;
 import tld.unknown.mystery.blocks.CrystalBlock;
 import tld.unknown.mystery.data.aspects.AspectList;
 import tld.unknown.mystery.registries.ConfigBlocks;
@@ -67,7 +67,7 @@ public class CrystalBlockItem extends SimpleMetaBlockItem<CrystalBlock.CrystalAs
 
     @Override
     public AspectList getAspects(ItemStack stack) {
-        AspectList list = new AspectList().add(ChaumtraftIDs.Aspects.CRYSTAL, 10);
+        AspectList list = new AspectList().add(ThaumcraftData.Aspects.CRYSTAL, 10);
         CrystalBlock.CrystalAspect aspect = getContent(stack);
         return hasContent(stack) ? list.add(aspect.getId(), 15) : list;
     }

@@ -6,7 +6,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.DiggerItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import tld.unknown.mystery.api.ChaumtraftIDs;
+import tld.unknown.mystery.api.ThaumcraftData;
 import tld.unknown.mystery.api.ThaumcraftMaterials;
 import tld.unknown.mystery.api.WarpingGear;
 import tld.unknown.mystery.registries.ConfigDataAttachments;
@@ -20,7 +20,7 @@ public class PrimalCrusherItem extends DiggerItem implements WarpingGear, Simple
             .durability(TIER.getUses());
     
     public PrimalCrusherItem() {
-        super(3.5f, -2.8f, TIER, ChaumtraftIDs.Tags.MINEABLE_WITH_CRUSHER, ITEM_PROPERTIES);
+        super(3.5f, -2.8f, TIER, ThaumcraftData.Tags.MINEABLE_WITH_CRUSHER, ITEM_PROPERTIES);
     }
 
     //TODO: Maybe - if not in tags, take default break time from block state
@@ -39,8 +39,8 @@ public class PrimalCrusherItem extends DiggerItem implements WarpingGear, Simple
     public ItemStack getCreativeTabEntry() {
         ItemStack stack = new ItemStack(this);
         stack.getData(ConfigDataAttachments.ITEM_ENCHANTMENT.get())
-                .addEnchantment(ChaumtraftIDs.Enchantments.REFINING, 1)
-                .addEnchantment(ChaumtraftIDs.Enchantments.DESTRUCTIVE, 1);
+                .addEnchantment(ThaumcraftData.Enchantments.REFINING, 1)
+                .addEnchantment(ThaumcraftData.Enchantments.DESTRUCTIVE, 1);
         return stack;
     }
 }

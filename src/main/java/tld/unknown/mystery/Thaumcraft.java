@@ -11,10 +11,10 @@ import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.fml.loading.FMLLoader;
 import net.neoforged.neoforge.common.NeoForge;
 import org.slf4j.Logger;
-import tld.unknown.mystery.client.ChaumtraftKeybinds;
+import tld.unknown.mystery.registries.client.ConfigKeybinds;
 import tld.unknown.mystery.registries.*;
-import tld.unknown.mystery.registries.client.ChaumtraftItemProperties;
-import tld.unknown.mystery.registries.ChaumtraftMenus;
+import tld.unknown.mystery.registries.client.ConfigItemProperties;
+import tld.unknown.mystery.registries.ConfigMenus;
 
 @Mod(Thaumcraft.MOD_ID)
 public final class Thaumcraft {
@@ -34,7 +34,7 @@ public final class Thaumcraft {
         ConfigBlockEntities.init(modEventBus);
         ConfigEntities.init(modEventBus);
         ConfigRecipeTypes.init(modEventBus);
-        ChaumtraftMenus.init(modEventBus);
+        ConfigMenus.init(modEventBus);
         ConfigCreativeTabs.init(modEventBus);
 
         ConfigLoot.init(modEventBus);
@@ -66,8 +66,8 @@ public final class Thaumcraft {
 
         @SubscribeEvent
         public static void onClientSetup(FMLClientSetupEvent event) {
-            NeoForge.EVENT_BUS.addListener(ChaumtraftKeybinds::clientTick);
-            ChaumtraftItemProperties.init(event);
+            NeoForge.EVENT_BUS.addListener(ConfigKeybinds::clientTick);
+            ConfigItemProperties.init(event);
         }
     }
 }

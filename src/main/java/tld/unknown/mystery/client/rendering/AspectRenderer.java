@@ -9,7 +9,7 @@ import net.minecraft.network.chat.TextColor;
 import net.minecraft.resources.ResourceLocation;
 import org.joml.Matrix4f;
 import tld.unknown.mystery.api.aspects.Aspect;
-import tld.unknown.mystery.data.ThaumcraftData;
+import tld.unknown.mystery.data.DataRegistries;
 
 public final class AspectRenderer {
 
@@ -17,7 +17,7 @@ public final class AspectRenderer {
         PoseStack stack = graphics.pose();
         stack.pushPose();
         Matrix4f pMatrix = stack.last().pose();
-        Aspect aspect = ThaumcraftData.ASPECTS.getOptional(aspectId).orElse(Aspect.UNKNOWN);
+        Aspect aspect = DataRegistries.ASPECTS.getOptional(aspectId).orElse(Aspect.UNKNOWN);
         if(sdf) {
             RenderSystem.setShader(() -> RenderTypes.bindSdf(Aspect.getTexture(aspectId, true)));
         } else {

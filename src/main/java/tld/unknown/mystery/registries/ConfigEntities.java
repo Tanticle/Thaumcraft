@@ -9,11 +9,9 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
-import net.neoforged.fml.common.Mod;
 import net.neoforged.neoforge.event.entity.EntityAttributeCreationEvent;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import tld.unknown.mystery.Thaumcraft;
-import tld.unknown.mystery.api.ChaumtraftIDs;
 import tld.unknown.mystery.entities.MovingItemEntity;
 import tld.unknown.mystery.entities.TrunkEntity;
 import tld.unknown.mystery.util.ReflectionUtils;
@@ -21,7 +19,7 @@ import tld.unknown.mystery.util.ReflectionUtils;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
-import static tld.unknown.mystery.api.ChaumtraftIDs.Entities;
+import static tld.unknown.mystery.api.ThaumcraftData.Entities;
 
 @EventBusSubscriber(modid = Thaumcraft.MOD_ID, bus = EventBusSubscriber.Bus.MOD)
 public final class ConfigEntities {

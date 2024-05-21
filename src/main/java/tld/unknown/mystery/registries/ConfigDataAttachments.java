@@ -10,7 +10,7 @@ import tld.unknown.mystery.Thaumcraft;
 import tld.unknown.mystery.attachments.AuraAttachment;
 import tld.unknown.mystery.attachments.InfusionAttachment;
 import tld.unknown.mystery.attachments.ResearchAttachment;
-import static tld.unknown.mystery.api.ChaumtraftIDs.Capabilities;
+import static tld.unknown.mystery.api.ThaumcraftData.Capabilities;
 
 import java.util.HashMap;
 import java.util.function.Supplier;

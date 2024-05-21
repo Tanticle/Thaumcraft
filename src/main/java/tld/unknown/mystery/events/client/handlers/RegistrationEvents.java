@@ -3,7 +3,6 @@ package tld.unknown.mystery.events.client.handlers;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
-import net.neoforged.fml.common.Mod;
 import net.neoforged.neoforge.client.event.EntityRenderersEvent;
 import net.neoforged.neoforge.client.event.RegisterClientTooltipComponentFactoriesEvent;
 import net.neoforged.neoforge.client.event.RegisterColorHandlersEvent;
@@ -15,7 +14,7 @@ import tld.unknown.mystery.client.rendering.ber.*;
 import tld.unknown.mystery.client.rendering.entity.TrunkEntityRenderer;
 import tld.unknown.mystery.client.rendering.ui.AspectTooltip;
 import tld.unknown.mystery.client.screens.ArcaneWorkbenchScreen;
-import tld.unknown.mystery.data.ThaumcraftData;
+import tld.unknown.mystery.data.DataRegistries;
 import tld.unknown.mystery.items.AbstractAspectItem;
 import tld.unknown.mystery.items.blocks.CrystalBlockItem;
 import tld.unknown.mystery.registries.*;
@@ -25,7 +24,7 @@ public class RegistrationEvents {
 
     @SubscribeEvent
     public static void onMenuScreenRegister(RegisterMenuScreensEvent e) {
-        e.register(ChaumtraftMenus.ARCANE_WORKBENCH.get(), ArcaneWorkbenchScreen::new);
+        e.register(ConfigMenus.ARCANE_WORKBENCH.get(), ArcaneWorkbenchScreen::new);
     }
 
     @SubscribeEvent
@@ -46,20 +45,20 @@ public class RegistrationEvents {
 
     @SubscribeEvent
     public static void onBlockColorTintingRegister(RegisterColorHandlersEvent.Block e) {
-        e.register((bs, level, pos, tintIndex) -> ThaumcraftData.ASPECTS.getOptional(bs.getValue(CrystalBlock.ASPECT).getId()).orElse(Aspect.UNKNOWN).getColor().getValue(), ConfigBlocks.CRYSTAL_COLONY.block());
+        e.register((bs, level, pos, tintIndex) -> DataRegistries.ASPECTS.getOptional(bs.getValue(CrystalBlock.ASPECT).getId()).orElse(Aspect.UNKNOWN).getColor().getValue(), ConfigBlocks.CRYSTAL_COLONY.block());
     }
 
     @SubscribeEvent
     public static void onItemColorTintingRegister(RegisterColorHandlersEvent.Item e) {
-        e.register((stack, tintIndex) -> tintIndex == 1 ? ThaumcraftData.ASPECTS.getOptional(((AbstractAspectItem)stack.getItem()).getMetaContent(stack).aspect()).orElse(Aspect.UNKNOWN).getColor().getValue() : -1, ConfigItems.PHIAL.value());
-        e.register((stack, tintIndex) -> ThaumcraftData.ASPECTS.getOptional(((AbstractAspectItem)stack.getItem()).getMetaContent(stack).aspect()).orElse(Aspect.UNKNOWN).getColor().getValue(), ConfigItems.VIS_CRYSTAL.value());
+        e.register((stack, tintIndex) -> tintIndex == 1 ? DataRegistries.ASPECTS.getOptional(((AbstractAspectItem)stack.getItem()).getMetaContent(stack).aspect()).orElse(Aspect.UNKNOWN).getColor().getValue() : -1, ConfigItems.PHIAL.value());
+        e.register((stack, tintIndex) -> DataRegistries.ASPECTS.getOptional(((AbstractAspectItem)stack.getItem()).getMetaContent(stack).aspect()).orElse(Aspect.UNKNOWN).getColor().getValue(), ConfigItems.VIS_CRYSTAL.value());
 
         e.register((stack, tintIndex) -> {
             CrystalBlock.CrystalAspect aspect = ((CrystalBlockItem)stack.getItem()).getMetaContent(stack);
             if(aspect == null) {
                 return 0xFFFFFFFF;
             }
-            return ThaumcraftData.ASPECTS.getOptional(aspect.getId()).orElse(Aspect.UNKNOWN).getColor().getValue();
+            return DataRegistries.ASPECTS.getOptional(aspect.getId()).orElse(Aspect.UNKNOWN).getColor().getValue();
         }, ConfigBlocks.CRYSTAL_COLONY.item());
     }
 }
