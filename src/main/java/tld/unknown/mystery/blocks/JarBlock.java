@@ -5,7 +5,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResult;
+import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.BlockGetter;
@@ -18,11 +18,10 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import tld.unknown.mystery.blocks.entities.JarBlockEntity;
-import tld.unknown.mystery.items.AbstractAspectItem;
+import tld.unknown.mystery.items.components.AspectHolderComponent;
 import tld.unknown.mystery.registries.ConfigBlockEntities;
 import tld.unknown.mystery.registries.ConfigCapabilities;
 import tld.unknown.mystery.registries.ConfigItems;
-import tld.unknown.mystery.util.CapabilityUtils;
 import tld.unknown.mystery.util.simple.SimpleBlockMaterials;
 import tld.unknown.mystery.util.simple.SimpleEntityBlock;
 
@@ -55,26 +54,24 @@ public class JarBlock extends SimpleEntityBlock<JarBlockEntity> {
     }
 
     @Override
-    public InteractionResult use(BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, InteractionHand pHand, BlockHitResult pHit) {
-        if(pHand != InteractionHand.MAIN_HAND) {
-            return InteractionResult.FAIL;
-        }
+    protected ItemInteractionResult useItemOn(ItemStack pStack, BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, InteractionHand pHand, BlockHitResult pHitResult) {
+        if(pHand != InteractionHand.MAIN_HAND)
+            return ItemInteractionResult.FAIL;
         JarBlockEntity jar = getEntity(pLevel, pPos);
         ItemStack handItem = pPlayer.getMainHandItem();
         if(handItem != ItemStack.EMPTY) {
             if(handItem.getItem().equals(ConfigItems.JAR_BRACE.value()) && !pState.getValue(BRACED)) {
                 if(!pLevel.isClientSide()) {
-                    if(!pPlayer.isCreative()) {
+                    if(!pPlayer.isCreative())
                         handItem.shrink(1);
-                    }
                     pLevel.setBlock(pPos, pState.setValue(BRACED, true), 1 | 2);
                     //TODO: Play Sound
-                    return InteractionResult.sidedSuccess(false);
+                    return ItemInteractionResult.sidedSuccess(false);
                 } else {
-                    return InteractionResult.sidedSuccess(true);
+                    return ItemInteractionResult.sidedSuccess(true);
                 }
             } else if(handItem.getItem().equals(ConfigItems.PHIAL.value())) {
-                if(AbstractAspectItem.hasContent(handItem)) {
+                if(ConfigItems.PHIAL.value().hasMetaContent(handItem)) {
                     ResourceLocation aspect = ConfigItems.PHIAL.value().getAspects(handItem).aspects().get(0);
                     if(jar.canFit(aspect, 10, Direction.UP)) {
                         if(!pLevel.isClientSide()) {
@@ -85,12 +82,12 @@ public class JarBlock extends SimpleEntityBlock<JarBlockEntity> {
                                 handItem.shrink(1);
                                 pPlayer.addItem(new ItemStack(ConfigItems.PHIAL.value()));
                             }
-                            return InteractionResult.sidedSuccess(false);
+                            return ItemInteractionResult.sidedSuccess(false);
                         } else {
-                            return InteractionResult.sidedSuccess(true);
+                            return ItemInteractionResult.sidedSuccess(true);
                         }
                     } else {
-                        return InteractionResult.FAIL;
+                        return ItemInteractionResult.FAIL;
                     }
                 } else {
                     if(jar.contains(null, 10, Direction.UP)) {
@@ -101,22 +98,19 @@ public class JarBlock extends SimpleEntityBlock<JarBlockEntity> {
                             jar.sync();
                             if(!pPlayer.isCreative()) {
                                 handItem.shrink(1);
-                                pPlayer.addItem(ConfigItems.PHIAL.value().create(aspect));
+                                pPlayer.addItem(ConfigItems.PHIAL.value().create(new AspectHolderComponent(aspect)));
                             }
-                            return InteractionResult.sidedSuccess(false);
+                            return ItemInteractionResult.sidedSuccess(false);
                         } else {
-                            return InteractionResult.sidedSuccess(true);
+                            return ItemInteractionResult.sidedSuccess(true);
                         }
                     } else {
-                        return InteractionResult.FAIL;
+                        return ItemInteractionResult.FAIL;
                     }
                 }
             }
-        } else {
-            //TODO: Empty contents
-            return InteractionResult.FAIL;
         }
-        return super.use(pState, pLevel, pPos, pPlayer, pHand, pHit);
+        return useItemOn(pStack, pState, pLevel, pPos, pPlayer, pHand, pHitResult);
     }
 
     @Override

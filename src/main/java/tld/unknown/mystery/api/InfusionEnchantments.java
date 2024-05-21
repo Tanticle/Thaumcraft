@@ -31,6 +31,10 @@ public enum InfusionEnchantments implements EnumCodec.Values {
         return Arrays.stream(values()).filter(e -> e.id.equals(id)).map(e -> e.maxLevel).findFirst().orElse(0);
     }
 
+    public static InfusionEnchantments getFromId(ResourceLocation rl) {
+        return Arrays.stream(values()).filter(e -> e.id.equals(rl)).findFirst().orElse(null);
+    }
+
     public MutableComponent getTranslationKey() {
         return Component.translatable(String.format("enchantment.%s.%s", this.id.getNamespace(), this.id.getPath()));
     }

@@ -9,19 +9,26 @@ import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.SwordItem;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
+import tld.unknown.mystery.api.InfusionEnchantments;
 import tld.unknown.mystery.api.ThaumcraftData;
 import tld.unknown.mystery.api.ThaumcraftMaterials;
+import tld.unknown.mystery.items.components.InfusionEnchantmentComponent;
 import tld.unknown.mystery.registries.ConfigDataAttachments;
+import tld.unknown.mystery.registries.ConfigItemComponents;
 import tld.unknown.mystery.registries.ConfigSounds;
 import tld.unknown.mystery.util.simple.SimpleCreativeTab;
 
-public class ElementalSwordItem extends SwordItem implements SimpleCreativeTab.SpecialRegistrar {
+import java.util.Map;
+
+public class ElementalSwordItem extends SwordItem {
 
     private static final int MAX_USE_DURATION = 72000;
-    private static final Properties ITEM_PROPERTIES = new Properties().rarity(Rarity.RARE);
+    private static final Properties ITEM_PROPERTIES = new Properties().rarity(Rarity.RARE).component(
+            ConfigItemComponents.INFUSION_ENCHANTMENT.value(), new InfusionEnchantmentComponent(Map.of(
+                    InfusionEnchantments.ARCING, (byte)2)));
 
     public ElementalSwordItem() {
-        super(ThaumcraftMaterials.Tools.ELEMENTAL, 3, -2.4F, ITEM_PROPERTIES);
+        super(ThaumcraftMaterials.Tools.ELEMENTAL, ITEM_PROPERTIES);
     }
 
     @Override
@@ -67,12 +74,5 @@ public class ElementalSwordItem extends SwordItem implements SimpleCreativeTab.S
             pLivingEntity.playSound(ConfigSounds.WIND.value(), 0.5f, 0.9f + pLevel.getRandom().nextFloat() * 0.2f);
         if (ticks % 20 == 0)
             pStack.setDamageValue(pStack.getDamageValue() - 1);
-    }
-
-    @Override
-    public ItemStack getCreativeTabEntry() {
-        ItemStack stack = new ItemStack(this);
-        stack.getData(ConfigDataAttachments.ITEM_ENCHANTMENT.get()).addEnchantment(ThaumcraftData.Enchantments.ARCING, 2);
-        return stack;
     }
 }

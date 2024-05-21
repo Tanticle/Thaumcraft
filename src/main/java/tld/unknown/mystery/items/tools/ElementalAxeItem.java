@@ -19,7 +19,7 @@ import tld.unknown.mystery.util.simple.SimpleCreativeTab;
 import java.util.List;
 import java.util.Map;
 
-public class ElementalAxeItem extends AxeItem implements SimpleCreativeTab.SpecialRegistrar {
+public class ElementalAxeItem extends AxeItem {
 
     private static final int MAX_USE_DURATION = 72000;
     private static final Properties ITEM_PROPERTIES = new Properties().rarity(Rarity.RARE).component(
@@ -69,10 +69,5 @@ public class ElementalAxeItem extends AxeItem implements SimpleCreativeTab.Speci
                 }
             }
         });
-    }
-
-    @Override
-    public ItemStack getCreativeTabEntry() {
-        return new ItemStack(this);
     }
 }

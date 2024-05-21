@@ -1,3 +1,3 @@
-# Chaumtraft
+# Legally Distinct Thaumcraft (LDTC)
 
 :)

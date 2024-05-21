@@ -1,6 +1,7 @@
 package tld.unknown.mystery.loot.modifiers;
 
 import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import net.minecraft.world.entity.player.Player;
@@ -13,6 +14,7 @@ import net.neoforged.neoforge.common.CommonHooks;
 import net.neoforged.neoforge.common.loot.IGlobalLootModifier;
 import net.neoforged.neoforge.common.loot.LootModifier;
 
+import java.util.Map;
 import java.util.UUID;
 
 public class HomingItemModifier extends LootModifier {
@@ -27,7 +29,7 @@ public class HomingItemModifier extends LootModifier {
         BlockState state = context.getParamOrNull(LootContextParams.BLOCK_STATE);
         if(state != null) {
             Player e = (Player)context.getParam(LootContextParams.THIS_ENTITY);
-            if(!CommonHooks.isCorrectToolForDrops(state, e))
+            if(!CommonHooks(state, e))
                 return generatedLoot;
             uuid = e.getUUID();
         } else
@@ -37,9 +39,9 @@ public class HomingItemModifier extends LootModifier {
     }
 
     @Override
-    public Codec<? extends IGlobalLootModifier> codec() {
+    public MapCodec<? extends IGlobalLootModifier> codec() {
         return CODEC;
     }
 
-    public static final Codec<HomingItemModifier> CODEC = RecordCodecBuilder.create(i -> LootModifier.codecStart(i).apply(i, HomingItemModifier::new));
+    public static final MapCodec<HomingItemModifier> CODEC = RecordCodecBuilder.mapCodec(i -> LootModifier.codecStart(i).apply(i, HomingItemModifier::new));
 }
