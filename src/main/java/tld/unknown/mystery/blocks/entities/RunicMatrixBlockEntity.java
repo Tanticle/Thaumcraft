@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
@@ -36,12 +37,12 @@ public class RunicMatrixBlockEntity extends SimpleBlockEntity implements Tickabl
     }
 
     @Override
-    protected void readNbt(CompoundTag nbt) {
+    protected void readNbt(CompoundTag nbt, HolderLookup.Provider pRegistries) {
         this.matrixState = MatrixState.fromString(nbt.getString("state"));
     }
 
     @Override
-    protected void writeNbt(CompoundTag nbt) {
+    protected void writeNbt(CompoundTag nbt, HolderLookup.Provider pRegistries) {
         nbt.putString("state", matrixState.getSerializedName());
     }
 

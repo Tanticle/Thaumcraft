@@ -1,13 +1,15 @@
 package tld.unknown.mystery.client.screens;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import tld.unknown.mystery.api.ThaumcraftData;
 import tld.unknown.mystery.client.screens.widgets.DataIndexWidget;
-import tld.unknown.mystery.data.DataRegistries;
 import tld.unknown.mystery.data.research.ResearchCategory;
 import tld.unknown.mystery.data.research.ResearchEntry;
+import tld.unknown.mystery.registries.ConfigDataRegistries;
 
 public class ResearchDebugScreen extends Screen {
 
@@ -24,8 +26,8 @@ public class ResearchDebugScreen extends Screen {
 
     @Override
     protected void init() {
-        this.categories = addWidget(new DataIndexWidget<>(DataRegistries.RESEARCH_CATEGORY, width / 2 - (int)(LIST_WIDTH * 1.5F) - 100, 75, LIST_WIDTH, height - 125, 20));
-        this.entries = addWidget(new DataIndexWidget<>(DataRegistries.RESEARCH_ENTRIES, width / 2 - (int)(LIST_WIDTH * 0.5F) - 100, 75, LIST_WIDTH, height - 125, 20));
+        this.categories = addWidget(new DataIndexWidget<>(ThaumcraftData.Registries.RESEARCH_CATEGORY, width / 2 - (int)(LIST_WIDTH * 1.5F) - 100, 75, LIST_WIDTH, height - 125, 20));
+        this.entries = addWidget(new DataIndexWidget<>(ThaumcraftData.Registries.RESEARCH_ENTRY, width / 2 - (int)(LIST_WIDTH * 0.5F) - 100, 75, LIST_WIDTH, height - 125, 20));
 
         this.categories.update(id -> true, (id, c) -> ResearchCategory.getName(id), (id, c) -> c.icon());
     }
@@ -35,7 +37,7 @@ public class ResearchDebugScreen extends Screen {
         if(category != categories.getCurrent()) {
             category = categories.getCurrent();
             if(category != null) {
-                ResourceLocation loc = DataRegistries.RESEARCH_CATEGORY.getIdentifier(category);
+                ResourceLocation loc = ConfigDataRegistries.RESEARCH_CATEGORIES.getKey(Minecraft.getInstance().getConnection().registryAccess(), category);
                 entries.update(id -> id.getPath().startsWith(loc.getPath()), (id, c) -> ResearchEntry.getName(id), (id, c) -> c.displayProperties().icons().get(0));
             }
         }

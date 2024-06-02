@@ -2,24 +2,24 @@ package tld.unknown.mystery.api.capabilities;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import net.minecraft.core.Holder;
 import tld.unknown.mystery.attachments.ResearchAttachment;
 import tld.unknown.mystery.data.research.ResearchEntry;
 import tld.unknown.mystery.util.BitPacker;
-import tld.unknown.mystery.util.DataResource;
 import tld.unknown.mystery.util.codec.Codecs;
 import tld.unknown.mystery.util.codec.EnumCodec;
 
 public interface IResearchCapability {
 
-    ResearchState getResearchState(DataResource<ResearchEntry> entry);
-    ResearchCompletion getResearchCompletion(DataResource<ResearchEntry> entry);
-    boolean forgetResearch(DataResource<ResearchEntry> entry);
-    ResearchCompletion progressResearch(DataResource<ResearchEntry> entry);
-    ResearchCompletion setResearchProgress(DataResource<ResearchEntry> entry, byte stage);
-    boolean completeResearch(DataResource<ResearchEntry> entry, boolean addenda);
+    ResearchState getResearchState(Holder<ResearchEntry> entry);
+    ResearchCompletion getResearchCompletion(Holder<ResearchEntry> entry);
+    boolean forgetResearch(Holder<ResearchEntry> entry);
+    ResearchCompletion progressResearch(Holder<ResearchEntry> entry);
+    ResearchCompletion setResearchProgress(Holder<ResearchEntry> entry, byte stage);
+    boolean completeResearch(Holder<ResearchEntry> entry, boolean addenda);
 
-    boolean knowsResearchAddendum(DataResource<ResearchEntry> entry, int addendumIndex);
-    boolean setResearchAddendum(DataResource<ResearchEntry> entry, int addendumIndex, boolean value);
+    boolean knowsResearchAddendum(Holder<ResearchEntry> entry, int addendumIndex);
+    boolean setResearchAddendum(Holder<ResearchEntry> entry, int addendumIndex, boolean value);
 
     enum ResearchCompletion implements EnumCodec.Values {
         UNKNOWN,

@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.state.BlockState;
@@ -24,14 +25,14 @@ public class CreativeAspectSourceBlockEntity extends SimpleBlockEntity implement
     }
 
     @Override
-    protected void readNbt(CompoundTag nbt) {
+    protected void readNbt(CompoundTag nbt, HolderLookup.Provider pRegistries) {
         if(nbt.contains("aspect")) {
             this.aspect = ResourceLocation.tryParse(nbt.getString("aspect"));
         }
     }
 
     @Override
-    protected void writeNbt(CompoundTag nbt) {
+    protected void writeNbt(CompoundTag nbt, HolderLookup.Provider pRegistries) {
         if(aspect != null) {
             nbt.putString("aspect", aspect.toString());
         }

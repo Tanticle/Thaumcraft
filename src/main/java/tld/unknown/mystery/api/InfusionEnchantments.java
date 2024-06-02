@@ -5,6 +5,9 @@ import lombok.Getter;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.ItemStack;
+import tld.unknown.mystery.items.components.InfusionEnchantmentComponent;
+import tld.unknown.mystery.registries.ConfigItemComponents;
 import tld.unknown.mystery.util.codec.EnumCodec;
 
 import java.util.Arrays;
@@ -29,6 +32,11 @@ public enum InfusionEnchantments implements EnumCodec.Values {
 
     public static int getMaxLevel(ResourceLocation id) {
         return Arrays.stream(values()).filter(e -> e.id.equals(id)).map(e -> e.maxLevel).findFirst().orElse(0);
+    }
+
+    public static boolean hasEnchantment(ItemStack stack, InfusionEnchantments enchantment) {
+        InfusionEnchantmentComponent component = stack.get(ConfigItemComponents.INFUSION_ENCHANTMENT.value());
+        return component != null && component.enchantments().containsKey(enchantment);
     }
 
     public static InfusionEnchantments getFromId(ResourceLocation rl) {

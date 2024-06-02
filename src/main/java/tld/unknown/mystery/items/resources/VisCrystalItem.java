@@ -12,6 +12,6 @@ public class VisCrystalItem extends AbstractAspectItem {
 
     @Override
     public AspectList getAspects(ItemStack stack) {
-        return hasMetaContent(stack) ? new AspectList().add(getMetaContent(stack).aspect(), 1) : new AspectList();
+        return hasData(stack) ? new AspectList().add(getHolder(stack), 1) : new AspectList();
     }
 }

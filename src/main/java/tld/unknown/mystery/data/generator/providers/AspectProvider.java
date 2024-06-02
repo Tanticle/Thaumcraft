@@ -1,9 +1,9 @@
 package tld.unknown.mystery.data.generator.providers;
 
 import net.minecraft.data.PackOutput;
-import net.minecraft.network.chat.TextColor;
 import net.minecraft.resources.ResourceLocation;
 import tld.unknown.mystery.api.aspects.Aspect;
+import tld.unknown.mystery.util.Colour;
 import tld.unknown.mystery.util.codec.data.CodecDataProvider;
 
 import java.util.Arrays;
@@ -57,6 +57,6 @@ public class AspectProvider extends CodecDataProvider<Aspect> {
     }
 
     private void registerAspect(ResourceLocation id, String color, ResourceLocation... origin) {
-        register(id, new Aspect(TextColor.parseColor(color).result().get(), Arrays.asList(origin)));
+        register(id, new Aspect(Colour.fromHex(color), Arrays.asList(origin)));
     }
 }

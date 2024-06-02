@@ -3,6 +3,9 @@ package tld.unknown.mystery.data.research;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import lombok.Builder;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.ResourceLocation;
 
 import java.util.Arrays;
@@ -26,6 +29,12 @@ public record ResearchStage(
             ResourceLocation.CODEC.listOf().optionalFieldOf("recipes", EMPTY.recipeUnlocks).forGetter(ResearchStage::recipeUnlocks),
             Codec.INT.optionalFieldOf("warp", EMPTY.warpPenalty).forGetter(ResearchStage::warpPenalty)
     ).apply(i, ResearchStage::new));
+
+    public static final StreamCodec<RegistryFriendlyByteBuf, ResearchStage> STREAM_CODEC = StreamCodec.composite(
+            ResearchRequirements.STREAM_CODEC, ResearchStage::requirements,
+            ResourceLocation.STREAM_CODEC.apply(ByteBufCodecs.list()), ResearchStage::recipeUnlocks,
+            ByteBufCodecs.INT, ResearchStage::warpPenalty,
+            ResearchStage::new);
 
     public static final class Builder {
 

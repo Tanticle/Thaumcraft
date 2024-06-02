@@ -1,18 +1,13 @@
 package tld.unknown.mystery.util;
 
-import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
-import net.minecraft.world.level.Level;
-
-import java.util.Optional;
 
 public final class ItemUtils {
 
     public static boolean isSimple(ItemStack is) {
-        return !is.hasTag() && !is.isDamaged() && is.getCount() == 1;
+        return !is.isDamaged() && is.getCount() == 1;
     }
 
     public static boolean consumeItem(Player player, Item item) {

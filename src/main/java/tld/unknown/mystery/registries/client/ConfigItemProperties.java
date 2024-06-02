@@ -12,14 +12,14 @@ import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import tld.unknown.mystery.api.ThaumcraftData;
 import tld.unknown.mystery.registries.ConfigItems;
 import tld.unknown.mystery.util.ReflectionUtils;
-import tld.unknown.mystery.util.simple.SimpleMetaItem;
+import tld.unknown.mystery.util.simple.DataDependentItem;
 
 @OnlyIn(Dist.CLIENT)
 public final class ConfigItemProperties {
 
     /* -------------------------------------------------------------------------------------------------------------- */
 
-    public static final PropertyObject ASPECT_HOLDER_PRESENT = register(ThaumcraftData.ItemProperties.ASPECT_HOLDER_PRESENT, ConfigItems.PHIAL, SimpleMetaItem.HAS_META_GETTER);
+    public static final PropertyObject ASPECT_HOLDER_PRESENT = register(ThaumcraftData.ItemProperties.ASPECT_HOLDER_PRESENT, ConfigItems.PHIAL, DataDependentItem.HAS_META_GETTER);
 
     /* -------------------------------------------------------------------------------------------------------------- */
 

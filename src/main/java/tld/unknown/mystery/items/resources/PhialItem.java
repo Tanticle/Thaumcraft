@@ -12,6 +12,6 @@ public class PhialItem extends AbstractAspectItem {
 
     @Override
     public AspectList getAspects(ItemStack stack) {
-        return hasMetaContent(stack) ? new AspectList().add(getMetaContent(stack).aspect(), 10) : new AspectList();
+        return hasData(stack) ? new AspectList().add(getHolder(stack), 10) : new AspectList();
     }
 }

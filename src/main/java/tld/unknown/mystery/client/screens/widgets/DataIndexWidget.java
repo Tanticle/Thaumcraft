@@ -2,6 +2,7 @@ package tld.unknown.mystery.client.screens.widgets;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import lombok.Getter;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.Renderable;
@@ -10,11 +11,12 @@ import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.client.gui.narration.NarratableEntry;
 import net.minecraft.client.gui.narration.NarrationElementOutput;
 import net.minecraft.client.renderer.GameRenderer;
+import net.minecraft.core.Registry;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import org.apache.commons.compress.utils.Lists;
 import tld.unknown.mystery.util.IconTexture;
-import tld.unknown.mystery.util.codec.data.CodecDataManager;
 
 import java.util.List;
 import java.util.function.BiFunction;
@@ -22,7 +24,7 @@ import java.util.function.Predicate;
 
 public class DataIndexWidget<T> extends AbstractContainerEventHandler implements Renderable, NarratableEntry {
 
-    private final CodecDataManager<T> manager;
+    private final ResourceKey<Registry<T>> registryKey;
     private final List<Entry<T>> entries;
 
     private int x, y, width, height, entryHeight;
@@ -30,8 +32,8 @@ public class DataIndexWidget<T> extends AbstractContainerEventHandler implements
 
     @Getter private T current;
 
-    public DataIndexWidget(CodecDataManager<T> manager, int x, int y, int width, int height, int entryHeight) {
-        this.manager = manager;
+    public DataIndexWidget(ResourceKey<Registry<T>> registryKey, int x, int y, int width, int height, int entryHeight) {
+        this.registryKey = registryKey;
         this.entries = Lists.newArrayList();
         this.x = x;
         this.y = y;
@@ -42,9 +44,10 @@ public class DataIndexWidget<T> extends AbstractContainerEventHandler implements
 
     public void update(Predicate<ResourceLocation> predicate, BiFunction<ResourceLocation, T, Component> getName, BiFunction<ResourceLocation, T, IconTexture> getIcon) {
         entries.clear();
-        manager.getKeys().forEach(k -> {
+        ;
+        Minecraft.getInstance().getConnection().registryAccess().registryOrThrow(registryKey).keySet().forEach(k -> {
             if(predicate.test(k))
-                entries.add(new Entry<>(this, k, manager, getName, getIcon));
+                entries.add(new Entry<>(this, k, registryKey, getName, getIcon));
         });
     }
 
@@ -97,8 +100,8 @@ public class DataIndexWidget<T> extends AbstractContainerEventHandler implements
         private final T entry;
         private final Button button;
 
-        public Entry(DataIndexWidget<T> widget, ResourceLocation id, CodecDataManager<T> manager, BiFunction<ResourceLocation, T, Component> getName, BiFunction<ResourceLocation, T, IconTexture> getIcon) {
-            this.entry = manager.get(id);
+        public Entry(DataIndexWidget<T> widget, ResourceLocation id, ResourceKey<Registry<T>> registryKey, BiFunction<ResourceLocation, T, Component> getName, BiFunction<ResourceLocation, T, IconTexture> getIcon) {
+            this.entry = Minecraft.getInstance().getConnection().registryAccess().registryOrThrow(registryKey).get(id);
             this.button = new IconButtonWidget(0, 0, 0, 0, getIcon.apply(id, entry),getName.apply(id, entry), b -> widget.current = entry);
         }
 

@@ -3,7 +3,6 @@ package tld.unknown.mystery.util.codec.recipes;
 import lombok.Getter;
 import lombok.Setter;
 import net.minecraft.core.HolderLookup;
-import net.minecraft.core.RegistryAccess;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.Container;
 import net.minecraft.world.item.ItemStack;

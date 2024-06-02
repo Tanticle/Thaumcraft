@@ -1,6 +1,5 @@
 package tld.unknown.mystery.loot.conditions;
 
-import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import lombok.AllArgsConstructor;
@@ -12,14 +11,7 @@ import net.minecraft.world.level.storage.loot.LootContext;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
 import net.minecraft.world.level.storage.loot.predicates.LootItemConditionType;
-import org.apache.commons.lang3.EnumUtils;
 import tld.unknown.mystery.api.InfusionEnchantments;
-import tld.unknown.mystery.api.ThaumcraftData;
-import tld.unknown.mystery.items.components.InfusionEnchantmentComponent;
-import tld.unknown.mystery.registries.ConfigDataAttachments;
-import tld.unknown.mystery.registries.ConfigItemComponents;
-
-import java.util.Map;
 
 @AllArgsConstructor
 public class InfusionEnchantmentCondition implements LootItemCondition {
@@ -50,7 +42,6 @@ public class InfusionEnchantmentCondition implements LootItemCondition {
             else
                 return false;
         }
-        InfusionEnchantmentComponent comp = tool.get(ConfigItemComponents.INFUSION_ENCHANTMENT.value());
-        return comp != null && comp.enchantments().containsKey(InfusionEnchantments.getFromId(enchantmentId));
+        return InfusionEnchantments.hasEnchantment(tool, InfusionEnchantments.getFromId(enchantmentId));
     }
 }

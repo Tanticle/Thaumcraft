@@ -2,6 +2,7 @@ package tld.unknown.mystery.items.tools;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
@@ -12,7 +13,6 @@ import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.SwordItem;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
-import org.jetbrains.annotations.Nullable;
 import tld.unknown.mystery.api.ThaumcraftMaterials;
 import tld.unknown.mystery.api.WarpingGear;
 import tld.unknown.mystery.registries.ConfigItems;
@@ -23,7 +23,7 @@ public class CrimsonBladeItem extends SwordItem implements WarpingGear {
 
     private static final String COMPONENT_GREATER_SAP = "enchantment.thaumcraft.special.sapgreat";
 
-    private static final ThaumcraftMaterials.Tools CRIMSON_VOID = new ThaumcraftMaterials.Tools(4, 200, 20, 8.0F, 3.5F, ConfigItems.INGOT_VOID);
+    private static final ThaumcraftMaterials.Tools CRIMSON_VOID = new ThaumcraftMaterials.Tools(BlockTags.INCORRECT_FOR_NETHERITE_TOOL, 200, 20, 8.0F, 3.5F, ConfigItems.INGOT_VOID);
     private static final Properties ITEM_PROPERTIES = new Properties()
             .durability(CRIMSON_VOID.getUses())
             .rarity(Rarity.EPIC);

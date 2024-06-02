@@ -1,15 +1,19 @@
 package tld.unknown.mystery.items.components;
 
 import com.mojang.serialization.Codec;
-import io.netty.buffer.ByteBuf;
+import net.minecraft.core.Holder;
+import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.RegistryFileCodec;
+import tld.unknown.mystery.api.ThaumcraftData;
+import tld.unknown.mystery.api.aspects.Aspect;
 
 import java.util.Objects;
 
-public record AspectHolderComponent(ResourceLocation aspect) {
-    public static final Codec<AspectHolderComponent> CODEC = ResourceLocation.CODEC.xmap(AspectHolderComponent::new, AspectHolderComponent::aspect);
-    public static final StreamCodec<ByteBuf, AspectHolderComponent> STREAM_CODEC = ResourceLocation.STREAM_CODEC.map(AspectHolderComponent::new, AspectHolderComponent::aspect);
+public record AspectHolderComponent(Holder<Aspect> aspect) {
+
+    public static final Codec<AspectHolderComponent> CODEC = RegistryFileCodec.create(ThaumcraftData.Registries.ASPECT, Aspect.CODEC.codec()).xmap(AspectHolderComponent::new, AspectHolderComponent::aspect);
+    public static final StreamCodec<RegistryFriendlyByteBuf, AspectHolderComponent> STREAM_CODEC = Aspect.REGISTRY_STREAM_CODEC.map(AspectHolderComponent::new, AspectHolderComponent::aspect);
 
     @Override
     public boolean equals(Object o) {

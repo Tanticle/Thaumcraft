@@ -4,6 +4,7 @@ import com.google.common.collect.Sets;
 import lombok.Getter;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.state.BlockState;
@@ -11,7 +12,6 @@ import tld.unknown.mystery.api.capabilities.IEssentiaCapability;
 import tld.unknown.mystery.registries.ConfigBlockEntities;
 import tld.unknown.mystery.registries.ConfigCapabilities;
 import tld.unknown.mystery.util.BitPacker;
-import tld.unknown.mystery.util.MathUtils;
 import tld.unknown.mystery.util.simple.SimpleBlockEntity;
 import tld.unknown.mystery.util.simple.TickableBlockEntity;
 
@@ -37,12 +37,12 @@ public class TubeBlockEntity extends SimpleBlockEntity implements IEssentiaCapab
     }
 
     @Override
-    protected void readNbt(CompoundTag nbt) {
+    protected void readNbt(CompoundTag nbt, HolderLookup.Provider pRegistries) {
         this.disabledDirections = BitPacker.readFlags(nbt.getByte("directions"), Direction.class, BitPacker.Length.BYTE);
     }
 
     @Override
-    protected void writeNbt(CompoundTag nbt) {
+    protected void writeNbt(CompoundTag nbt, HolderLookup.Provider pRegistries) {
         nbt.putByte("directions", (byte)BitPacker.encodeFlags(disabledDirections, BitPacker.Length.BYTE));
     }
 

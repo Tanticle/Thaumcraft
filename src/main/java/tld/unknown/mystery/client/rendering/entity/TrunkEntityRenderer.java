@@ -6,9 +6,9 @@ import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.LivingEntityRenderer;
 import net.minecraft.resources.ResourceLocation;
 import tld.unknown.mystery.Thaumcraft;
-import tld.unknown.mystery.registries.client.ConfigModelLayers;
 import tld.unknown.mystery.client.rendering.entity.models.TrunkModel;
 import tld.unknown.mystery.entities.TrunkEntity;
+import tld.unknown.mystery.registries.client.ConfigModelLayers;
 
 public class TrunkEntityRenderer extends LivingEntityRenderer<TrunkEntity, TrunkModel> {
 

@@ -8,9 +8,9 @@ import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import tld.unknown.mystery.Thaumcraft;
 import tld.unknown.mystery.api.ThaumcraftMaterials;
-import tld.unknown.mystery.items.tools.*;
-import tld.unknown.mystery.items.resources.VisCrystalItem;
 import tld.unknown.mystery.items.resources.PhialItem;
+import tld.unknown.mystery.items.resources.VisCrystalItem;
+import tld.unknown.mystery.items.tools.*;
 import tld.unknown.mystery.util.simple.SimpleCreativeTab;
 
 import java.util.function.Supplier;

@@ -6,7 +6,6 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.ResultContainer;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
-import net.neoforged.neoforge.common.NeoForgeEventHandler;
 import tld.unknown.mystery.Thaumcraft;
 import tld.unknown.mystery.api.aspects.Aspect;
 import tld.unknown.mystery.data.recipes.ArcaneCraftingRecipe;
@@ -78,7 +77,7 @@ public class ArcaneCraftingResultSlot extends Slot {
             if(!slotRemains.isEmpty()) {
                 if(currentSlot.isEmpty()) {
                     this.craftSlots.setItem(i, slotRemains);
-                } else if(ItemStack.isSameItemSameTags(currentSlot, slotRemains)) {
+                } else if(ItemStack.isSameItemSameComponents(currentSlot, slotRemains)) {
                     slotRemains.grow(currentSlot.getCount());
                     this.craftSlots.setItem(i, slotRemains);
                 } else if(!this.player.getInventory().add(slotRemains)) {

@@ -11,7 +11,8 @@ import org.joml.Matrix4f;
 import org.joml.Quaternionf;
 import tld.unknown.mystery.api.aspects.Aspect;
 import tld.unknown.mystery.blocks.entities.CreativeAspectSourceBlockEntity;
-import tld.unknown.mystery.data.DataRegistries;
+import tld.unknown.mystery.client.rendering.AspectRenderer;
+import tld.unknown.mystery.registries.ConfigDataRegistries;
 import tld.unknown.mystery.util.simple.SimpleBER;
 
 public class CreativeAspectSourceBER extends SimpleBER<CreativeAspectSourceBlockEntity> {
@@ -40,9 +41,9 @@ public class CreativeAspectSourceBER extends SimpleBER<CreativeAspectSourceBlock
                 }
                 pPoseStack.scale(.5F, .5F, .5F);
                 Matrix4f mat = pPoseStack.last().pose();
-                Aspect aspect = DataRegistries.ASPECTS.getOptional(pBlockEntity.getAspect()).orElse(Aspect.UNKNOWN);
-                VertexConsumer consumer = pBufferSource.getBuffer(RenderType.text(Aspect.getTexture(pBlockEntity.getAspect(), false)));
-                int color = (255 << 24) | (aspect.getColor().getValue() & 0x00FFFFFF);
+                Aspect aspect = ConfigDataRegistries.ASPECTS.get(pBlockEntity.getLevel().registryAccess(), pBlockEntity.getAspect());
+                VertexConsumer consumer = pBufferSource.getBuffer(RenderType.text(AspectRenderer.getTexture(pBlockEntity.getAspect(), false)));
+                int color = (255 << 24) | (aspect.colour().rgba32(true) & 0x00FFFFFF);
                 int light = LevelRenderer.getLightColor(pBlockEntity.getLevel(), pBlockEntity.getBlockPos().relative(dir));
                 consumer.vertex(mat, (float)0.5, (float)-0.5, (float) 0).color(color).uv(0, 1).uv2(light).endVertex();
                 consumer.vertex(mat, (float)-0.5, (float)-0.5, (float) 0).color(color).uv(1, 1).uv2(light).endVertex();

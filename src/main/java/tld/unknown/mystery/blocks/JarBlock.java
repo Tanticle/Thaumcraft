@@ -21,6 +21,7 @@ import tld.unknown.mystery.blocks.entities.JarBlockEntity;
 import tld.unknown.mystery.items.components.AspectHolderComponent;
 import tld.unknown.mystery.registries.ConfigBlockEntities;
 import tld.unknown.mystery.registries.ConfigCapabilities;
+import tld.unknown.mystery.registries.ConfigDataRegistries;
 import tld.unknown.mystery.registries.ConfigItems;
 import tld.unknown.mystery.util.simple.SimpleBlockMaterials;
 import tld.unknown.mystery.util.simple.SimpleEntityBlock;
@@ -71,8 +72,8 @@ public class JarBlock extends SimpleEntityBlock<JarBlockEntity> {
                     return ItemInteractionResult.sidedSuccess(true);
                 }
             } else if(handItem.getItem().equals(ConfigItems.PHIAL.value())) {
-                if(ConfigItems.PHIAL.value().hasMetaContent(handItem)) {
-                    ResourceLocation aspect = ConfigItems.PHIAL.value().getAspects(handItem).aspects().get(0);
+                if(ConfigItems.PHIAL.value().hasData(handItem)) {
+                    ResourceLocation aspect = ConfigItems.PHIAL.value().getAspects(handItem).aspectsPresent().get(0);
                     if(jar.canFit(aspect, 10, Direction.UP)) {
                         if(!pLevel.isClientSide()) {
                             //TODO: Sound
@@ -98,7 +99,7 @@ public class JarBlock extends SimpleEntityBlock<JarBlockEntity> {
                             jar.sync();
                             if(!pPlayer.isCreative()) {
                                 handItem.shrink(1);
-                                pPlayer.addItem(ConfigItems.PHIAL.value().create(new AspectHolderComponent(aspect)));
+                                pPlayer.addItem(ConfigItems.PHIAL.value().create(ConfigDataRegistries.ASPECTS.getHolder(pLevel.registryAccess(), aspect)));
                             }
                             return ItemInteractionResult.sidedSuccess(false);
                         } else {

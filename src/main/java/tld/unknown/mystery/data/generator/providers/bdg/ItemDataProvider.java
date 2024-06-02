@@ -1,6 +1,5 @@
 package tld.unknown.mystery.data.generator.providers.bdg;
 
-import net.minecraft.core.HolderLookup;
 import net.minecraft.data.CachedOutput;
 import net.minecraft.data.DataProvider;
 

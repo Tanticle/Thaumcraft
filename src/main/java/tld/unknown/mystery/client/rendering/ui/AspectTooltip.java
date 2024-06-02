@@ -1,11 +1,9 @@
 package tld.unknown.mystery.client.rendering.ui;
 
-import lombok.AllArgsConstructor;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.tooltip.ClientTooltipComponent;
 import net.minecraft.world.inventory.tooltip.TooltipComponent;
-import tld.unknown.mystery.Thaumcraft;
 import tld.unknown.mystery.client.rendering.AspectRenderer;
 import tld.unknown.mystery.data.aspects.AspectList;
 

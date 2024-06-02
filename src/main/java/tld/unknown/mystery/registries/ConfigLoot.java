@@ -1,6 +1,5 @@
 package tld.unknown.mystery.registries;
 
-import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.core.Holder;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -12,11 +11,10 @@ import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import net.neoforged.neoforge.registries.NeoForgeRegistries;
 import tld.unknown.mystery.Thaumcraft;
+import tld.unknown.mystery.loot.conditions.InfusionEnchantmentCondition;
 import tld.unknown.mystery.loot.modifiers.HarvesterModifier;
 import tld.unknown.mystery.loot.modifiers.HomingItemModifier;
-import tld.unknown.mystery.loot.conditions.InfusionEnchantmentCondition;
 
-import java.util.Map;
 import java.util.function.Supplier;
 
 import static tld.unknown.mystery.api.ThaumcraftData.Loot;

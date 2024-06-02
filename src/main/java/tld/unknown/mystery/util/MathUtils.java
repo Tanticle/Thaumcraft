@@ -2,9 +2,6 @@ package tld.unknown.mystery.util;
 
 import org.joml.Vector3f;
 
-import java.util.HashSet;
-import java.util.Set;
-
 public final class MathUtils {
 
     public static float px(float amount) {

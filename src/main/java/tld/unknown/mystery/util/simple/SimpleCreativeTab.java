@@ -2,18 +2,16 @@ package tld.unknown.mystery.util.simple;
 
 import net.minecraft.core.Holder;
 import net.minecraft.core.NonNullList;
+import net.minecraft.core.RegistryAccess;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.*;
-import org.checkerframework.checker.nullness.qual.NonNull;
-import tld.unknown.mystery.Thaumcraft;
+import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
-import java.util.Set;
 import java.util.function.Supplier;
-import java.util.stream.Collectors;
 
 public final class SimpleCreativeTab {
 
@@ -43,16 +41,16 @@ public final class SimpleCreativeTab {
         this.items.add(item);
     }
 
-    public CreativeModeTab build() {
+    public CreativeModeTab build(RegistryAccess access) {
         builder.displayItems((display, out) -> {
             items.forEach(h -> {
                 Item i = h.value();
                 if(i instanceof MultipleRegistrar m) {
                     NonNullList<ItemStack> stacks = NonNullList.create();
-                    m.getCreativeTabEntries(stacks);
+                    m.getCreativeTabEntries(access, stacks);
                     out.acceptAll(stacks);
                 } else if(i instanceof SpecialRegistrar s){
-                    out.accept(s.getCreativeTabEntry());
+                    out.accept(s.getCreativeTabEntry(access));
                 } else {
                     out.accept(new ItemStack(i));
                 }
@@ -62,10 +60,10 @@ public final class SimpleCreativeTab {
     }
 
     public interface MultipleRegistrar {
-        void getCreativeTabEntries(NonNullList<ItemStack> items);
+        void getCreativeTabEntries(RegistryAccess access, NonNullList<ItemStack> items);
     }
 
     public interface SpecialRegistrar {
-        ItemStack getCreativeTabEntry();
+        ItemStack getCreativeTabEntry(RegistryAccess access);
     }
 }

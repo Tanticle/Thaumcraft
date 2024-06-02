@@ -4,6 +4,7 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import lombok.Getter;
+import net.minecraft.core.Holder;
 import net.minecraft.core.NonNullList;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
@@ -14,9 +15,8 @@ import net.minecraft.world.item.ItemStack;
 import tld.unknown.mystery.Thaumcraft;
 import tld.unknown.mystery.api.aspects.Aspect;
 import tld.unknown.mystery.api.capabilities.IResearchCapability;
-import tld.unknown.mystery.data.DataRegistries;
+import tld.unknown.mystery.data.research.ResearchEntry;
 import tld.unknown.mystery.registries.ConfigRecipeTypes;
-import tld.unknown.mystery.util.DataResource;
 import tld.unknown.mystery.util.codec.Codecs;
 import tld.unknown.mystery.util.codec.EnumCodec;
 import tld.unknown.mystery.util.codec.recipes.CodecRecipe;
@@ -29,14 +29,14 @@ public class ArcaneCraftingRecipe extends CodecRecipe<ArcaneCraftingRecipe> {
 
     private static final ResourceLocation RESEARCH_NONE = Thaumcraft.id("none");
 
-    private final ResourceLocation requiredResearch;
+    private final Holder<ResearchEntry> requiredResearch;
     private final CodecRecipeSerializer.CraftingGrid grid;
     private final Map<Aspect.Primal, Integer> crystals;
     private final int visAmount;
     private final ItemStack result;
 
 
-    public ArcaneCraftingRecipe(ResourceLocation requiredResearch, CodecRecipeSerializer.CraftingGrid grid, Map<Aspect.Primal, Integer> crystals, int visAmount, ItemStack result) {
+    public ArcaneCraftingRecipe(Holder<ResearchEntry> requiredResearch, CodecRecipeSerializer.CraftingGrid grid, Map<Aspect.Primal, Integer> crystals, int visAmount, ItemStack result) {
         super(ConfigRecipeTypes.ARCANE_CRAFTING, result);
         this.requiredResearch = requiredResearch;
         this.grid = grid;
@@ -55,15 +55,15 @@ public class ArcaneCraftingRecipe extends CodecRecipe<ArcaneCraftingRecipe> {
     }
 
     public boolean playerKnowsResearch(IResearchCapability cap) {
-        return this.requiredResearch.equals(RESEARCH_NONE) || cap.getResearchCompletion(DataResource.of(DataRegistries.RESEARCH_ENTRIES, this.requiredResearch)) == IResearchCapability.ResearchCompletion.COMPLETE;
+        return this.requiredResearch.equals(RESEARCH_NONE) || cap.getResearchCompletion(requiredResearch) == IResearchCapability.ResearchCompletion.COMPLETE;
     }
 
     public static final MapCodec<ArcaneCraftingRecipe> CODEC = RecordCodecBuilder.mapCodec(i -> i.group(
-            ResourceLocation.CODEC.fieldOf("requiredResearch").forGetter(ArcaneCraftingRecipe::getRequiredResearch),
+            ResearchEntry.REGISTRY_CODEC.fieldOf("requiredResearch").forGetter(ArcaneCraftingRecipe::getRequiredResearch),
             CodecRecipeSerializer.CraftingGrid.dimensionedCodec(3, 3).fieldOf("grid").forGetter(ArcaneCraftingRecipe::getGrid),
             Codec.unboundedMap(new EnumCodec<>(Aspect.Primal.class), Codec.INT).fieldOf("crystals").forGetter(ArcaneCraftingRecipe::getCrystals),
             Codec.INT.fieldOf("visCost").forGetter(ArcaneCraftingRecipe::getVisAmount),
-            Codecs.ITEM_STACK.fieldOf("result").forGetter(ArcaneCraftingRecipe::getResult)
+            ItemStack.CODEC.fieldOf("result").forGetter(ArcaneCraftingRecipe::getResult)
     ).apply(i, ArcaneCraftingRecipe::new));
 
     public static final StreamCodec<RegistryFriendlyByteBuf, ArcaneCraftingRecipe> STREAM_CODEC = ;

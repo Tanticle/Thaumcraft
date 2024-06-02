@@ -7,6 +7,7 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -23,7 +24,7 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import tld.unknown.mystery.blocks.entities.PedestalBlockEntity;
 import tld.unknown.mystery.registries.ConfigBlockEntities;
 import tld.unknown.mystery.util.simple.SimpleBlockMaterials;
-import tld.unknown.mystery.util.simple.SimpleEntityBlock    ;
+import tld.unknown.mystery.util.simple.SimpleEntityBlock;
 
 //TODO: Infusion Stabilization
 public class PedestalBlock extends SimpleEntityBlock<PedestalBlockEntity> {
@@ -66,31 +67,42 @@ public class PedestalBlock extends SimpleEntityBlock<PedestalBlockEntity> {
     }
 
     @Override
-    public InteractionResult use(BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, InteractionHand pHand, BlockHitResult pHit) {
+    protected ItemInteractionResult useItemOn(ItemStack pStack, BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, InteractionHand pHand, BlockHitResult pHitResult) {
         if (pPlayer.isCrouching() || pHand != InteractionHand.MAIN_HAND)
-            return InteractionResult.PASS;
+            return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
         if (!(pLevel.getBlockEntity(pPos) instanceof PedestalBlockEntity be))
-            return InteractionResult.FAIL;
+            return ItemInteractionResult.FAIL;
+
         ItemStack pedestalStack = be.getItemStack();
         ItemStack heldStack = pPlayer.getItemInHand(pHand);
 
-        boolean flag = false;
-
-        if (!pedestalStack.isEmpty()) {
-            if (!pLevel.isClientSide) {
-                if (!pPlayer.getInventory().add(pedestalStack))
-                    pLevel.addFreshEntity(new ItemEntity(pLevel, pPos.getX() + 0.5, pPos.getY() + 1, pPos.getZ() + 0.5, pedestalStack));
-                flag = true;
-            }
-        }
-
-        if(!heldStack.isEmpty()) flag = true;
-
-        if(flag && !pLevel.isClientSide) {
-            be.setItemStack(heldStack.isEmpty() ? ItemStack.EMPTY : heldStack.split(1));
+        if (!pLevel.isClientSide()) {
+            if (!pedestalStack.isEmpty() && !pPlayer.getInventory().add(pedestalStack))
+                pLevel.addFreshEntity(new ItemEntity(pLevel, pPos.getX() + 0.5, pPos.getY() + 1, pPos.getZ() + 0.5, pedestalStack));
+            be.setItemStack(heldStack.split(1));
             be.sync();
             pLevel.playSound(null, pPos, SoundEvents.ITEM_PICKUP, SoundSource.BLOCKS);
         }
+
+        return ItemInteractionResult.sidedSuccess(pLevel.isClientSide());
+    }
+
+    @Override
+    protected InteractionResult useWithoutItem(BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, BlockHitResult pHitResult) {
+        if (!(pLevel.getBlockEntity(pPos) instanceof PedestalBlockEntity be))
+            return InteractionResult.FAIL;
+        if (pPlayer.isCrouching() || be.getItemStack() == ItemStack.EMPTY)
+            return InteractionResult.PASS;
+
+        if(!pLevel.isClientSide()) {
+            ItemStack pedestalStack = be.getItemStack();
+            if (!pPlayer.getInventory().add(pedestalStack))
+                pLevel.addFreshEntity(new ItemEntity(pLevel, pPos.getX() + 0.5, pPos.getY() + 1, pPos.getZ() + 0.5, pedestalStack));
+            be.setItemStack(ItemStack.EMPTY);
+            be.sync();
+            pLevel.playSound(null, pPos, SoundEvents.ITEM_PICKUP, SoundSource.BLOCKS);
+        }
+
         return InteractionResult.sidedSuccess(pLevel.isClientSide());
     }
 

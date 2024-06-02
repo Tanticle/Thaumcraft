@@ -1,5 +1,7 @@
 package tld.unknown.mystery.events.client.handlers;
 
+import net.minecraft.client.Minecraft;
+import net.minecraft.core.RegistryAccess;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
@@ -8,13 +10,11 @@ import net.neoforged.neoforge.client.event.RegisterClientTooltipComponentFactori
 import net.neoforged.neoforge.client.event.RegisterColorHandlersEvent;
 import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
 import tld.unknown.mystery.Thaumcraft;
-import tld.unknown.mystery.api.aspects.Aspect;
 import tld.unknown.mystery.blocks.CrystalBlock;
 import tld.unknown.mystery.client.rendering.ber.*;
 import tld.unknown.mystery.client.rendering.entity.TrunkEntityRenderer;
 import tld.unknown.mystery.client.rendering.ui.AspectTooltip;
 import tld.unknown.mystery.client.screens.ArcaneWorkbenchScreen;
-import tld.unknown.mystery.data.DataRegistries;
 import tld.unknown.mystery.items.AbstractAspectItem;
 import tld.unknown.mystery.items.blocks.CrystalBlockItem;
 import tld.unknown.mystery.registries.*;
@@ -45,20 +45,24 @@ public class RegistrationEvents {
 
     @SubscribeEvent
     public static void onBlockColorTintingRegister(RegisterColorHandlersEvent.Block e) {
-        e.register((bs, level, pos, tintIndex) -> DataRegistries.ASPECTS.getOptional(bs.getValue(CrystalBlock.ASPECT).getId()).orElse(Aspect.UNKNOWN).getColor().getValue(), ConfigBlocks.CRYSTAL_COLONY.block());
+        e.register((bs, level, pos, tintIndex) -> ConfigDataRegistries.ASPECTS.get(access(), bs.getValue(CrystalBlock.ASPECT).getId()).colour().rgba32(true), ConfigBlocks.CRYSTAL_COLONY.block());
     }
 
     @SubscribeEvent
     public static void onItemColorTintingRegister(RegisterColorHandlersEvent.Item e) {
-        e.register((stack, tintIndex) -> tintIndex == 1 ? DataRegistries.ASPECTS.getOptional(((AbstractAspectItem)stack.getItem()).getMetaContent(stack).aspect()).orElse(Aspect.UNKNOWN).getColor().getValue() : -1, ConfigItems.PHIAL.value());
-        e.register((stack, tintIndex) -> DataRegistries.ASPECTS.getOptional(((AbstractAspectItem)stack.getItem()).getMetaContent(stack).aspect()).orElse(Aspect.UNKNOWN).getColor().getValue(), ConfigItems.VIS_CRYSTAL.value());
+        e.register((stack, tintIndex) -> tintIndex == 1 ? ((AbstractAspectItem)stack.getItem()).getData(stack).colour().rgba32(true) : -1, ConfigItems.PHIAL.value());
+        e.register((stack, tintIndex) -> ((AbstractAspectItem)stack.getItem()).getData(stack).colour().rgba32(true), ConfigItems.VIS_CRYSTAL.value());
 
         e.register((stack, tintIndex) -> {
-            CrystalBlock.CrystalAspect aspect = ((CrystalBlockItem)stack.getItem()).getMetaContent(stack);
+            CrystalBlock.CrystalAspect aspect = ((CrystalBlockItem)stack.getItem()).getData(stack);
             if(aspect == null) {
                 return 0xFFFFFFFF;
             }
-            return DataRegistries.ASPECTS.getOptional(aspect.getId()).orElse(Aspect.UNKNOWN).getColor().getValue();
+            return ConfigDataRegistries.ASPECTS.get(access(), aspect.getId()).colour().rgba32(true);
         }, ConfigBlocks.CRYSTAL_COLONY.item());
+    }
+
+    private static RegistryAccess access() {
+        return Minecraft.getInstance().getConnection().registryAccess();
     }
 }

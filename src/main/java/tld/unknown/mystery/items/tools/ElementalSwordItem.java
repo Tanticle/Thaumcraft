@@ -10,13 +10,10 @@ import net.minecraft.world.item.SwordItem;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import tld.unknown.mystery.api.InfusionEnchantments;
-import tld.unknown.mystery.api.ThaumcraftData;
 import tld.unknown.mystery.api.ThaumcraftMaterials;
 import tld.unknown.mystery.items.components.InfusionEnchantmentComponent;
-import tld.unknown.mystery.registries.ConfigDataAttachments;
 import tld.unknown.mystery.registries.ConfigItemComponents;
 import tld.unknown.mystery.registries.ConfigSounds;
-import tld.unknown.mystery.util.simple.SimpleCreativeTab;
 
 import java.util.Map;
 

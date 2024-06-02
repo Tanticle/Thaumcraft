@@ -3,6 +3,8 @@ package tld.unknown.mystery.util.simple;
 import lombok.Getter;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.component.DataComponentType;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.MinecraftServer;
@@ -13,6 +15,7 @@ import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.component.CustomData;
 import net.minecraft.world.item.context.DirectionalPlaceContext;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
@@ -28,13 +31,13 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import javax.annotation.Nullable;
 import java.util.List;
 
-public abstract class SimpleMetaBlockItem<T> extends SimpleMetaItem<T> {
+public abstract class SimpleMetaBlockItem<T> extends DataDependentItem<T> {
 
     @Getter
     private final Block block;
 
-    public SimpleMetaBlockItem(Block block, Properties pProperties, boolean registerEmpty) {
-        super(pProperties, registerEmpty);
+    public SimpleMetaBlockItem(Block block, Properties pProperties, DataComponentType<T> dataType, boolean registerEmpty) {
+        super(pProperties, dataType, registerEmpty);
         this.block = block;
     }
 
@@ -51,7 +54,7 @@ public abstract class SimpleMetaBlockItem<T> extends SimpleMetaItem<T> {
 
     @Nullable
     protected BlockState getPlacementState(DirectionalPlaceContext pContext) {
-        BlockState blockstate = determineBlockState(this.getBlock().getStateForPlacement(pContext), getContent(pContext.getItemInHand()));
+        BlockState blockstate = determineBlockState(this.getBlock().getStateForPlacement(pContext), getData(pContext.getItemInHand()));
         return blockstate != null && this.canPlace(pContext, blockstate) ? blockstate : null;
     }
 
@@ -69,7 +72,7 @@ public abstract class SimpleMetaBlockItem<T> extends SimpleMetaItem<T> {
     }
 
     public InteractionResult place(DirectionalPlaceContext pContext) {
-        if (!pContext.canPlace() || !SimpleMetaItem.hasContent(pContext.getItemInHand())) {
+        if (!pContext.canPlace() || !hasData(pContext.getItemInHand())) {
             return InteractionResult.FAIL;
         } else {
             DirectionalPlaceContext blockplacecontext = this.updatePlacementContext(pContext);
@@ -118,7 +121,7 @@ public abstract class SimpleMetaBlockItem<T> extends SimpleMetaItem<T> {
         if (minecraftserver == null) {
             return false;
         } else {
-            CompoundTag compoundtag = pStack.getTagElement("BlockEntityTag");
+            CustomData compoundtag = pStack.get(DataComponents.BLOCK_ENTITY_DATA);
             if (compoundtag != null) {
                 BlockEntity blockentity = pLevel.getBlockEntity(pPos);
                 if (blockentity != null) {
@@ -126,11 +129,11 @@ public abstract class SimpleMetaBlockItem<T> extends SimpleMetaItem<T> {
                         return false;
                     }
 
-                    CompoundTag compoundtag1 = blockentity.saveWithoutMetadata();
+                    CompoundTag compoundtag1 = blockentity.saveWithoutMetadata(pLevel.registryAccess());
                     CompoundTag compoundtag2 = compoundtag1.copy();
-                    compoundtag1.merge(compoundtag);
+                    compoundtag1.merge(compoundtag.copyTag());
                     if (!compoundtag1.equals(compoundtag2)) {
-                        blockentity.load(compoundtag1);
+                        blockentity.loadWithComponents(compoundtag1, pLevel.registryAccess());
                         blockentity.setChanged();
                         return true;
                     }
@@ -147,15 +150,15 @@ public abstract class SimpleMetaBlockItem<T> extends SimpleMetaItem<T> {
 
     private BlockState updateBlockStateFromTag(BlockPos pPos, Level pLevel, ItemStack pStack, BlockState pState) {
         BlockState blockstate = pState;
-        CompoundTag compoundtag = pStack.getTag();
+        CustomData compoundtag = pStack.get(DataComponents.BLOCK_ENTITY_DATA);
         if (compoundtag != null) {
-            CompoundTag compoundtag1 = compoundtag.getCompound("BlockStateTag");
+            CompoundTag stateTag = compoundtag.copyTag();
             StateDefinition<Block, BlockState> statedefinition = pState.getBlock().getStateDefinition();
 
-            for(String s : compoundtag1.getAllKeys()) {
+            for(String s : stateTag.getAllKeys()) {
                 Property<?> property = statedefinition.getProperty(s);
                 if (property != null) {
-                    String s1 = compoundtag1.get(s).getAsString();
+                    String s1 = stateTag.get(s).getAsString();
                     blockstate = updateState(blockstate, property, s1);
                 }
             }
@@ -172,8 +175,9 @@ public abstract class SimpleMetaBlockItem<T> extends SimpleMetaItem<T> {
         return this.getBlock().getDescriptionId();
     }
 
-    public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltip, TooltipFlag pFlag) {
-        super.appendHoverText(pStack, pLevel, pTooltip, pFlag);
-        this.getBlock().appendHoverText(pStack, pLevel, pTooltip, pFlag);
+    @Override
+    public void appendHoverText(ItemStack pStack, TooltipContext pContext, List<Component> pTooltipComponents, TooltipFlag pTooltipFlag) {
+        super.appendHoverText(pStack, pContext, pTooltipComponents, pTooltipFlag);
+        this.getBlock().appendHoverText(pStack, pContext, pTooltipComponents, pTooltipFlag);
     }
 }

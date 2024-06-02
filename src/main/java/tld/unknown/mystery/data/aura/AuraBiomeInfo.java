@@ -1,19 +1,29 @@
 package tld.unknown.mystery.data.aura;
 
 import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import net.minecraft.core.Holder;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.resources.RegistryFileCodec;
 import tld.unknown.mystery.api.ThaumcraftData;
 import tld.unknown.mystery.api.aspects.Aspect;
-import tld.unknown.mystery.data.DataRegistries;
-import tld.unknown.mystery.util.codec.Codecs;
-import tld.unknown.mystery.util.DataResource;
 
-public record AuraBiomeInfo(float auraLevel, DataResource<Aspect> aspectAffiliation) {
+public record AuraBiomeInfo(float auraLevel, Holder<Aspect> aspectAffiliation) {
 
-    public static final AuraBiomeInfo DEFAULT = new AuraBiomeInfo(0.5F, DataResource.of(DataRegistries.ASPECTS, ThaumcraftData.Aspects.UNKNOWN));
+    public static final AuraBiomeInfo UNKNOWN = new AuraBiomeInfo(0F, Holder.direct(Aspect.UNKNOWN));
 
-    public static final Codec<AuraBiomeInfo> CODEC = RecordCodecBuilder.create(i -> i.group(
+    public static final MapCodec<AuraBiomeInfo> CODEC = RecordCodecBuilder.mapCodec(i -> i.group(
             Codec.FLOAT.fieldOf("auraLevel").forGetter(AuraBiomeInfo::auraLevel),
-            Codecs.dataResourceCodec(DataRegistries.ASPECTS).fieldOf("aspectAffiliation").forGetter(AuraBiomeInfo::aspectAffiliation)
+            Aspect.REGISTRY_CODEC.fieldOf("aspect_affiliation").forGetter(AuraBiomeInfo::aspectAffiliation)
     ).apply(i, AuraBiomeInfo::new));
+    public static final Codec<Holder<AuraBiomeInfo>> REGISTRY_CODEC = RegistryFileCodec.create(ThaumcraftData.Registries.AURA_BIOME_INFO, CODEC.codec());
+
+    public static final StreamCodec<RegistryFriendlyByteBuf, AuraBiomeInfo> STREAM_CODEC = StreamCodec.composite(
+            ByteBufCodecs.FLOAT, AuraBiomeInfo::auraLevel,
+            Aspect.REGISTRY_STREAM_CODEC, AuraBiomeInfo::aspectAffiliation,
+            AuraBiomeInfo::new);
+    public static final StreamCodec<RegistryFriendlyByteBuf, Holder<AuraBiomeInfo>> REGISTRY_STREAM_CODEC = ByteBufCodecs.holder(ThaumcraftData.Registries.AURA_BIOME_INFO, STREAM_CODEC);
 }

@@ -1,31 +1,37 @@
 package tld.unknown.mystery.items.blocks;
 
 import net.minecraft.ChatFormatting;
+import net.minecraft.core.Holder;
+import net.minecraft.core.RegistryAccess;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.DirectionalPlaceContext;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.Nullable;
+import tld.unknown.mystery.api.ThaumcraftData;
 import tld.unknown.mystery.api.aspects.Aspect;
 import tld.unknown.mystery.api.aspects.AspectContainerItem;
-import tld.unknown.mystery.api.ThaumcraftData;
 import tld.unknown.mystery.blocks.CrystalBlock;
 import tld.unknown.mystery.data.aspects.AspectList;
+import tld.unknown.mystery.items.components.CrystalAspectComponent;
 import tld.unknown.mystery.registries.ConfigBlocks;
+import tld.unknown.mystery.registries.ConfigItemComponents;
 import tld.unknown.mystery.util.simple.SimpleMetaBlockItem;
 
+import java.util.Arrays;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 public class CrystalBlockItem extends SimpleMetaBlockItem<CrystalBlock.CrystalAspect> implements AspectContainerItem {
 
     public CrystalBlockItem() {
-        super(ConfigBlocks.CRYSTAL_COLONY.block(), new Properties().stacksTo(64), false);
+        super(ConfigBlocks.CRYSTAL_COLONY.block(), new Properties().stacksTo(64), ConfigItemComponents.CRYSTAL_ASPECT.value(), false);
     }
 
     @Override
-    public BlockState determineBlockState(BlockState defaultBlockState, CrystalBlock.CrystalAspect value) {
-        return value == null ? null : defaultBlockState.setValue(CrystalBlock.ASPECT, value);
+    public BlockState determineBlockState(BlockState defaultBlockState, CrystalAspectComponent value) {
+        return value == null ? null : defaultBlockState.setValue(CrystalBlock.ASPECT, value.value());
     }
 
     @Nullable
@@ -39,27 +45,14 @@ public class CrystalBlockItem extends SimpleMetaBlockItem<CrystalBlock.CrystalAs
     }
 
     @Override
-    protected CrystalBlock.CrystalAspect read(String value) {
-        for(CrystalBlock.CrystalAspect e : CrystalBlock.CrystalAspect.values())
-            if(e.getSerializedName().equalsIgnoreCase(value))
-                return e;
-        return null;
+    protected Set<Holder<Aspect>> getValidValues(RegistryAccess access) {
+        return Arrays.stream(CrystalBlock.CrystalAspect.values()).map(CrystalAspectComponent::new).collect(Collectors.toSet());
     }
 
     @Override
-    protected String write(CrystalBlock.CrystalAspect value) {
-        return value.getSerializedName();
-    }
-
-    @Override
-    protected Set<CrystalBlock.CrystalAspect> getValidValues() {
-        return Set.of(CrystalBlock.CrystalAspect.values());
-    }
-
-    @Override
-    protected Component getContentNameFiller(CrystalBlock.CrystalAspect content) {
-        MutableComponent name = (MutableComponent)Aspect.getName(content.getId(), false, true);
-        if(content == CrystalBlock.CrystalAspect.TAINT) {
+    protected Component getDataNameFiller(Holder<CrystalBlock.CrystalAspect> content) {
+        MutableComponent name = (MutableComponent)Aspect.getName(content.value().getId(), false, true);
+        if(content.value() == CrystalBlock.CrystalAspect.TAINT) {
             name.withStyle(ChatFormatting.DARK_PURPLE);
         }
         return name;
@@ -68,7 +61,7 @@ public class CrystalBlockItem extends SimpleMetaBlockItem<CrystalBlock.CrystalAs
     @Override
     public AspectList getAspects(ItemStack stack) {
         AspectList list = new AspectList().add(ThaumcraftData.Aspects.CRYSTAL, 10);
-        CrystalBlock.CrystalAspect aspect = getContent(stack);
-        return hasContent(stack) ? list.add(aspect.getId(), 15) : list;
+        CrystalBlock.CrystalAspect aspect = getData(stack).value();
+        return hasData(stack) ? list.add(aspect.getId(), 15) : list;
     }
 }

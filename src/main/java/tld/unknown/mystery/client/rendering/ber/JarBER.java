@@ -12,8 +12,9 @@ import tld.unknown.mystery.Thaumcraft;
 import tld.unknown.mystery.api.ThaumcraftData;
 import tld.unknown.mystery.api.aspects.Aspect;
 import tld.unknown.mystery.blocks.entities.JarBlockEntity;
+import tld.unknown.mystery.client.rendering.AspectRenderer;
 import tld.unknown.mystery.client.rendering.RenderHelper;
-import tld.unknown.mystery.data.DataRegistries;
+import tld.unknown.mystery.registries.ConfigDataRegistries;
 import tld.unknown.mystery.util.MathUtils;
 import tld.unknown.mystery.util.simple.SimpleBER;
 
@@ -46,7 +47,7 @@ public class JarBER extends SimpleBER<JarBlockEntity> {
                     .setUVs(Direction.Axis.X, 4, 0, 12, 10 * pBlockEntity.getFillPercent())
                     .setUVs(Direction.Axis.Z, 4, 0, 12, 10 * pBlockEntity.getFillPercent())
                     .setUVs(Direction.Axis.Y, 4, 4, 12, 12)
-                    .draw(consumer, pPoseStack.last().pose(), DataRegistries.ASPECTS.getOptional(pBlockEntity.getEssentiaType(Direction.UP)).orElse(Aspect.UNKNOWN).getColor().getValue(), true, pPackedLight, true, pPackedOverlay);
+                    .draw(consumer, pPoseStack.last().pose(), ConfigDataRegistries.ASPECTS.get(pBlockEntity.getLevel().registryAccess(), pBlockEntity.getEssentiaType(Direction.UP)).getColor().getValue(), true, pPackedLight, true, pPackedOverlay);
             pPoseStack.popPose();
         }
 
@@ -59,7 +60,7 @@ public class JarBER extends SimpleBER<JarBlockEntity> {
                     pBlockEntity.getLabelDirection(), consumer, pPoseStack.last().pose(),
                     new Vector3f(0, 0, 0), MathUtils.pxVector3f(8, 8, 8),
                     0xFFFFFFFF, 0, 0, 1, 1, true, pPackedLight, true, pPackedOverlay);
-            consumer = pBufferSource.getBuffer(RenderType.entityTranslucentCull(Aspect.getTexture(pBlockEntity.getLabel(), false)));
+            consumer = pBufferSource.getBuffer(RenderType.entityTranslucentCull(AspectRenderer.getTexture(pBlockEntity.getLabel(), false)));
             RenderHelper.drawFace(
                     pBlockEntity.getLabelDirection(), consumer, pPoseStack.last().pose(),
                     MathUtils.pxVector3f(1.5F, 1.5F, -.001f), MathUtils.pxVector3f(6.5F, 6.5F, 6.5F),

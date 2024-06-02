@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.state.BlockState;
@@ -36,7 +37,7 @@ public class JarBlockEntity extends SimpleBlockEntity implements AspectContainer
     }
 
     @Override
-    protected void readNbt(CompoundTag nbt) {
+    protected void readNbt(CompoundTag nbt, HolderLookup.Provider pRegistries) {
         if(nbt.contains("content")) {
             CompoundTag content = nbt.getCompound("content");
             this.currentAspect = ResourceLocation.tryParse(content.getString("aspect"));
@@ -49,7 +50,7 @@ public class JarBlockEntity extends SimpleBlockEntity implements AspectContainer
     }
 
     @Override
-    protected void writeNbt(CompoundTag nbt) {
+    protected void writeNbt(CompoundTag nbt, HolderLookup.Provider pRegistries) {
         if(amount > 0) {
             CompoundTag content = new CompoundTag();
             content.putString("aspect", this.currentAspect.toString());

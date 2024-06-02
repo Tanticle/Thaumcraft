@@ -14,7 +14,6 @@ import tld.unknown.mystery.api.ThaumcraftMaterials;
 import tld.unknown.mystery.items.components.InfusionEnchantmentComponent;
 import tld.unknown.mystery.registries.ConfigItemComponents;
 import tld.unknown.mystery.util.EntityUtils;
-import tld.unknown.mystery.util.simple.SimpleCreativeTab;
 
 import java.util.List;
 import java.util.Map;

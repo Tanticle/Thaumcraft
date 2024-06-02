@@ -6,7 +6,6 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
-import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
@@ -18,8 +17,8 @@ public abstract class SimpleBlockEntity extends BlockEntity {
         super(pType, pPos, pBlockState);
     }
 
-    protected abstract void readNbt(CompoundTag nbt);
-    protected abstract void writeNbt(CompoundTag nbt);
+    protected abstract void readNbt(CompoundTag nbt, HolderLookup.Provider pRegistries);
+    protected abstract void writeNbt(CompoundTag nbt, HolderLookup.Provider pRegistries);
 
     public void sync() {
         setChanged();
@@ -30,13 +29,13 @@ public abstract class SimpleBlockEntity extends BlockEntity {
     @Override
     protected void loadAdditional(CompoundTag pTag, HolderLookup.Provider pRegistries) {
         super.loadAdditional(pTag, pRegistries);
-        readNbt(pTag);
+        readNbt(pTag, pRegistries);
     }
 
     @Override
     protected void saveAdditional(CompoundTag pTag, HolderLookup.Provider pRegistries) {
         super.saveAdditional(pTag, pRegistries);
-        writeNbt(pTag);
+        writeNbt(pTag, pRegistries);
     }
 
     @Override

@@ -6,8 +6,9 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.TextColor;
 import net.minecraft.resources.ResourceLocation;
 import org.apache.commons.compress.utils.Lists;
-import tld.unknown.mystery.api.aspects.Aspect;
 import tld.unknown.mystery.api.ThaumcraftData;
+import tld.unknown.mystery.api.aspects.Aspect;
+import tld.unknown.mystery.util.Colour;
 
 @Getter
 public class PrimalAspects extends Aspect {
@@ -25,7 +26,7 @@ public class PrimalAspects extends Aspect {
     private final ChatFormatting formatting;
 
     private PrimalAspects(String color, ChatFormatting formatting) {
-        super(TextColor.parseColor(color).result().get(), Lists.newArrayList());
+        super(Colour.fromHex(color), Lists.newArrayList());
         this.formatting = formatting;
     }
 }

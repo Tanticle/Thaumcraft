@@ -1,30 +1,31 @@
 package tld.unknown.mystery.items;
 
+import net.minecraft.core.Holder;
+import net.minecraft.core.RegistryAccess;
 import net.minecraft.network.chat.Component;
 import tld.unknown.mystery.api.aspects.Aspect;
 import tld.unknown.mystery.api.aspects.AspectContainerItem;
-import tld.unknown.mystery.api.ThaumcraftData;
-import tld.unknown.mystery.data.DataRegistries;
-import tld.unknown.mystery.items.components.AspectHolderComponent;
+import tld.unknown.mystery.registries.ConfigDataRegistries;
 import tld.unknown.mystery.registries.ConfigItemComponents;
-import tld.unknown.mystery.util.simple.SimpleMetaItem;
+import tld.unknown.mystery.util.RegistryUtils;
+import tld.unknown.mystery.util.simple.DataDependentItem;
 
 import java.util.Set;
 import java.util.stream.Collectors;
 
-public abstract class AbstractAspectItem extends SimpleMetaItem<AspectHolderComponent> implements AspectContainerItem {
+public abstract class AbstractAspectItem extends DataDependentItem<Aspect> implements AspectContainerItem {
 
     public AbstractAspectItem(Properties pProperties, boolean includeEmpty) {
-        super(pProperties, ConfigItemComponents.ASPECT_HOLDER.value(), includeEmpty);
+        super(pProperties, ConfigItemComponents.ASPECT_HOLDER.value(), Aspect.UNKNOQN_HOLDER, includeEmpty);
     }
 
     @Override
-    protected Set<AspectHolderComponent> getValidValues() {
-        return DataRegistries.ASPECTS.getKeys().stream().filter(rl -> !rl.equals(ThaumcraftData.Aspects.UNKNOWN)).map(AspectHolderComponent::new).collect(Collectors.toSet());
+    protected Set<Holder<Aspect>> getValidValues(RegistryAccess access) {
+        return ConfigDataRegistries.ASPECTS.holderStream(access).collect(Collectors.toSet());
     }
 
     @Override
-    protected Component getContentNameFiller(AspectHolderComponent content) {
-        return Aspect.getName(content.aspect(), false, true);
+    protected Component getDataNameFiller(Holder<Aspect> content) {
+        return Aspect.getName(content, false, true);
     }
 }

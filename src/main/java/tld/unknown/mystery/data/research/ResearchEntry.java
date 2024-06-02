@@ -1,12 +1,16 @@
 package tld.unknown.mystery.data.research;
 
 import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import net.minecraft.core.Holder;
+import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.resources.RegistryFileCodec;
 import net.minecraft.resources.ResourceLocation;
-import tld.unknown.mystery.data.DataRegistries;
-import tld.unknown.mystery.util.DataResource;
-import tld.unknown.mystery.util.codec.Codecs;
+import tld.unknown.mystery.api.ThaumcraftData;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -15,12 +19,12 @@ import java.util.List;
 public record ResearchEntry(
         DisplayProperties displayProperties,
         List<ResearchStage> stages,
-        List<DataResource<ResearchEntry>> parents,
-        List<DataResource<ResearchEntry>> siblings,
+        List<ResourceLocation> parents,
+        List<ResourceLocation> siblings,
         ResearchRewards rewards,
         List<ResearchStage> addenda) {
 
-    private static final ResearchEntry DEFAULT = new ResearchEntry(DisplayProperties.builder(0, 0).build(), Collections.emptyList(), Collections.emptyList(), Collections.emptyList(), ResearchRewards.EMPTY, Collections.emptyList());
+    public static final ResearchEntry EMPTY = new ResearchEntry(DisplayProperties.builder(0, 0).build(), Collections.emptyList(), Collections.emptyList(), Collections.emptyList(), ResearchRewards.EMPTY, Collections.emptyList());
 
     public static Component getName(ResourceLocation entry) {
         return Component.translatable("research." + entry.getNamespace() + ".entry." + entry.getPath().replace('/', '.') + ".name");
@@ -31,43 +35,54 @@ public record ResearchEntry(
     }
 
     public static Builder builder(DisplayProperties properties, ResearchStage... stages) {
-        return new Builder(DEFAULT, Arrays.asList(stages), properties);
+        return new Builder(Arrays.asList(stages), properties);
     }
 
-    public static final Codec<ResearchEntry> CODEC = RecordCodecBuilder.create(i -> i.group(
+    public static final MapCodec<ResearchEntry> CODEC = RecordCodecBuilder.mapCodec(i -> i.group(
             DisplayProperties.CODEC.fieldOf("display").forGetter(ResearchEntry::displayProperties),
             ResearchStage.CODEC.listOf().fieldOf("stages").forGetter(ResearchEntry::stages),
-            Codecs.dataResourceCodec(DataRegistries.RESEARCH_ENTRIES).listOf().optionalFieldOf("parents",DEFAULT.parents).forGetter(ResearchEntry::parents),
-            Codecs.dataResourceCodec(DataRegistries.RESEARCH_ENTRIES).listOf().optionalFieldOf("siblings", DEFAULT.siblings).forGetter(ResearchEntry::siblings),
-            ResearchRewards.CODEC.optionalFieldOf("rewards", DEFAULT.rewards).forGetter(ResearchEntry::rewards),
-            ResearchStage.CODEC.listOf().optionalFieldOf("addenda", DEFAULT.addenda).forGetter(ResearchEntry::addenda)
+            ResourceLocation.CODEC.listOf().optionalFieldOf("parents", EMPTY.parents).forGetter(ResearchEntry::parents),
+            ResourceLocation.CODEC.listOf().optionalFieldOf("siblings", EMPTY.siblings).forGetter(ResearchEntry::siblings),
+            ResearchRewards.CODEC.optionalFieldOf("rewards", EMPTY.rewards).forGetter(ResearchEntry::rewards),
+            ResearchStage.CODEC.listOf().optionalFieldOf("addenda", EMPTY.addenda).forGetter(ResearchEntry::addenda)
     ).apply(i, ResearchEntry::new));
+    public static final Codec<Holder<ResearchEntry>> REGISTRY_CODEC = RegistryFileCodec.create(ThaumcraftData.Registries.RESEARCH_ENTRY, CODEC.codec());
+
+    public static final StreamCodec<RegistryFriendlyByteBuf, ResearchEntry> STREAM_CODEC = StreamCodec.composite(
+            DisplayProperties.STREAM_CODEC, ResearchEntry::displayProperties,
+            ResearchStage.STREAM_CODEC.apply(ByteBufCodecs.list()), ResearchEntry::stages,
+            ResourceLocation.STREAM_CODEC.apply(ByteBufCodecs.list()), ResearchEntry::parents,
+            ResourceLocation.STREAM_CODEC.apply(ByteBufCodecs.list()), ResearchEntry::siblings,
+            ResearchRewards.STREAM_CODEC, ResearchEntry::rewards,
+            ResearchStage.STREAM_CODEC.apply(ByteBufCodecs.list()), ResearchEntry::addenda,
+            ResearchEntry::new);
+    public static final StreamCodec<RegistryFriendlyByteBuf, Holder<ResearchEntry>> REGISTRY_STREAM_CODEC = ByteBufCodecs.holder(ThaumcraftData.Registries.RESEARCH_ENTRY, STREAM_CODEC);
 
     public static final class Builder {
 
         private final List<ResearchStage> stages;
         private final DisplayProperties properties;
 
-        private List<DataResource<ResearchEntry>> parents, siblings;
+        private List<ResourceLocation> parents, siblings;
         private ResearchRewards rewards;
         private List<ResearchStage> addenda;
 
-        private Builder(ResearchEntry defaultValue, List<ResearchStage> stages, DisplayProperties properties) {
+        private Builder(List<ResearchStage> stages, DisplayProperties properties) {
             this.stages = stages;
             this.properties = properties;
 
-            this.parents = defaultValue.parents;
-            this.siblings = defaultValue.siblings;
-            this.rewards = defaultValue.rewards;
-            this.addenda = defaultValue.addenda;
+            this.parents = Collections.emptyList();
+            this.siblings = Collections.emptyList();
+            this.rewards = ResearchRewards.EMPTY;
+            this.addenda = Collections.emptyList();
         }
 
-        public Builder setParents(DataResource<ResearchEntry>... parents) {
+        public Builder setParents(ResourceLocation... parents) {
             this.parents = Arrays.asList(parents);
             return this;
         }
 
-        public Builder setSiblings(DataResource<ResearchEntry>... siblings) {
+        public Builder setSiblings(ResourceLocation... siblings) {
             this.siblings = Arrays.asList(siblings);
             return this;
         }

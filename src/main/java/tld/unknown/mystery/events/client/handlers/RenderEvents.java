@@ -14,7 +14,6 @@ import net.neoforged.neoforge.client.event.RenderTooltipEvent;
 import tld.unknown.mystery.Thaumcraft;
 import tld.unknown.mystery.api.WarpingGear;
 import tld.unknown.mystery.client.rendering.ui.AspectTooltip;
-import tld.unknown.mystery.data.DataRegistries;
 import tld.unknown.mystery.registries.ConfigItemComponents;
 
 import java.util.ArrayList;

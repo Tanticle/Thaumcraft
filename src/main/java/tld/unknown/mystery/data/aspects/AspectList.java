@@ -2,12 +2,22 @@ package tld.unknown.mystery.data.aspects;
 
 import com.google.common.collect.Maps;
 import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
+import net.minecraft.core.Holder;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.ResourceLocation;
 import net.neoforged.neoforge.common.util.INBTSerializable;
 import org.apache.commons.compress.utils.Lists;
 import org.apache.logging.log4j.util.TriConsumer;
+import org.jetbrains.annotations.UnknownNullability;
+import tld.unknown.mystery.api.aspects.Aspect;
+import tld.unknown.mystery.util.RegistryUtils;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -22,6 +32,10 @@ public class AspectList implements INBTSerializable<CompoundTag> {
 
     public AspectList(Map<ResourceLocation, Short> aspects) {
         this.aspects = aspects;
+    }
+
+    public AspectList add(Holder<Aspect> holder, int amount) {
+        return add(RegistryUtils.getKey(holder), amount);
     }
 
     public AspectList add(ResourceLocation aspect, int amount) {
@@ -90,7 +104,7 @@ public class AspectList implements INBTSerializable<CompoundTag> {
         return true;
     }
 
-    public List<ResourceLocation> aspects() {
+    public List<ResourceLocation> aspectsPresent() {
         return Lists.newArrayList(aspects.keySet().iterator());
     }
 
@@ -161,20 +175,27 @@ public class AspectList implements INBTSerializable<CompoundTag> {
         return builder.toString();
     }
 
-    public CompoundTag serializeNBT() {
+    public Set<ResourceLocation> getAspects() {
+        return aspects.keySet();
+    }
+
+    public static final MapCodec<AspectList> CODEC = Codec.unboundedMap(ResourceLocation.CODEC, Codec.SHORT).xmap(AspectList::new, al -> al.aspects).fieldOf("aspect_list");
+    public static final StreamCodec<RegistryFriendlyByteBuf, AspectList> STREAM_CODEC = ByteBufCodecs
+            .<RegistryFriendlyByteBuf, ResourceLocation, Short, Map<ResourceLocation, Short>>map(
+                    HashMap::new,
+                    ResourceLocation.STREAM_CODEC, ByteBufCodecs.SHORT)
+            .map(AspectList::new, al -> al.aspects);
+
+    @Override
+    public @UnknownNullability CompoundTag serializeNBT(HolderLookup.Provider provider) {
         CompoundTag tag = new CompoundTag();
         indexedForEach((rl, s, i) -> tag.putShort(rl.toString(), s));
         return tag;
     }
 
-    public void deserializeNBT(CompoundTag tag) {
+    @Override
+    public void deserializeNBT(HolderLookup.Provider provider, CompoundTag tag) {
         clear();
         tag.getAllKeys().forEach(s -> add(ResourceLocation.tryParse(s), tag.getShort(s)));
     }
-
-    public Set<ResourceLocation> getAspects() {
-        return aspects.keySet();
-    }
-
-    public static final Codec<AspectList> CODEC = Codec.unboundedMap(ResourceLocation.CODEC, Codec.SHORT).xmap(AspectList::new, al -> al.aspects);
 }

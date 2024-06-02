@@ -6,12 +6,9 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.PickaxeItem;
 import net.minecraft.world.item.Rarity;
 import tld.unknown.mystery.api.InfusionEnchantments;
-import tld.unknown.mystery.api.ThaumcraftData;
 import tld.unknown.mystery.api.ThaumcraftMaterials;
 import tld.unknown.mystery.items.components.InfusionEnchantmentComponent;
-import tld.unknown.mystery.registries.ConfigDataAttachments;
 import tld.unknown.mystery.registries.ConfigItemComponents;
-import tld.unknown.mystery.util.simple.SimpleCreativeTab;
 
 import java.util.Map;
 

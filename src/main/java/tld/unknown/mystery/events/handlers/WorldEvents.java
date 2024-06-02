@@ -3,7 +3,6 @@ package tld.unknown.mystery.events.handlers;
 import net.minecraft.world.level.chunk.LevelChunk;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
-import net.neoforged.fml.common.Mod;
 import net.neoforged.neoforge.event.level.ChunkEvent;
 import tld.unknown.mystery.Thaumcraft;
 import tld.unknown.mystery.attachments.AuraAttachment;

@@ -2,11 +2,12 @@ package tld.unknown.mystery.data.research;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.core.Holder;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.world.item.ItemStack;
-import tld.unknown.mystery.data.DataRegistries;
-import tld.unknown.mystery.util.DataResource;
-import tld.unknown.mystery.util.codec.Codecs;
+import net.minecraft.world.item.crafting.Ingredient;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -14,9 +15,9 @@ import java.util.List;
 
 public record ResearchRequirements(
         List<ItemStack> itemRequirements,
-        List<ResourceLocation> craftingRequirements,
+        List<Ingredient> craftingRequirements,
         List<ResearchKnowledge> knowledgeRequirements,
-        List<DataResource<ResearchEntry>> researchRequirements) {
+        List<Holder<ResearchEntry>> researchRequirements) {
 
     public static final ResearchRequirements EMPTY = new ResearchRequirements(Collections.emptyList(), Collections.emptyList(), Collections.emptyList(), Collections.emptyList());
 
@@ -25,18 +26,25 @@ public record ResearchRequirements(
     }
 
     public static final Codec<ResearchRequirements> CODEC = RecordCodecBuilder.create(i -> i.group(
-            Codecs.ITEM_STACK.listOf().optionalFieldOf("items", EMPTY.itemRequirements).forGetter(ResearchRequirements::itemRequirements),
-            ResourceLocation.CODEC.listOf().optionalFieldOf("crafting", EMPTY.craftingRequirements).forGetter(ResearchRequirements::craftingRequirements),
-            ResearchKnowledge.CODEC.listOf().optionalFieldOf("knowledge", EMPTY.knowledgeRequirements).forGetter(ResearchRequirements::knowledgeRequirements),
-            Codecs.dataResourceCodec(DataRegistries.RESEARCH_ENTRIES).listOf().optionalFieldOf("research", EMPTY.researchRequirements).forGetter(ResearchRequirements::researchRequirements)
+            ItemStack.CODEC.listOf().optionalFieldOf("items", Collections.emptyList()).forGetter(ResearchRequirements::itemRequirements),
+            Ingredient.CODEC.listOf().optionalFieldOf("crafting", Collections.emptyList()).forGetter(ResearchRequirements::craftingRequirements),
+            ResearchKnowledge.CODEC.listOf().optionalFieldOf("knowledge", Collections.emptyList()).forGetter(ResearchRequirements::knowledgeRequirements),
+            ResearchEntry.REGISTRY_CODEC.listOf().optionalFieldOf("research", Collections.emptyList()).forGetter(ResearchRequirements::researchRequirements)
     ).apply(i, ResearchRequirements::new));
+
+    public static final StreamCodec<RegistryFriendlyByteBuf, ResearchRequirements> STREAM_CODEC = StreamCodec.composite(
+            ItemStack.LIST_STREAM_CODEC, ResearchRequirements::itemRequirements,
+            Ingredient.CONTENTS_STREAM_CODEC.apply(ByteBufCodecs.list()), ResearchRequirements::craftingRequirements,
+            ResearchKnowledge.STREAM_CODEC.apply(ByteBufCodecs.list()), ResearchRequirements::knowledgeRequirements,
+            ResearchEntry.REGISTRY_STREAM_CODEC.apply(ByteBufCodecs.list()), ResearchRequirements::researchRequirements,
+            ResearchRequirements::new);
 
     private static final class Builder {
 
         private List<ItemStack> itemRequirements;
         private List<ResearchKnowledge> knowledgeRequirements;
-        private List<ResourceLocation> craftingRequirements;
-        private List<DataResource<ResearchEntry>> researchRequirements;
+        private List<Ingredient> craftingRequirements;
+        private List<Holder<ResearchEntry>> researchRequirements;
 
         private Builder(ResearchRequirements defaultValue) {
             this.itemRequirements = defaultValue.itemRequirements;
@@ -55,12 +63,12 @@ public record ResearchRequirements(
             return this;
         }
 
-        public Builder setCraftingRequirements(ResourceLocation... craftingRecipes) {
+        public Builder setCraftingRequirements(Ingredient... craftingRecipes) {
             this.craftingRequirements = Arrays.asList(craftingRecipes);
             return this;
         }
 
-        public Builder setResearchRequirement(DataResource<ResearchEntry>... research) {
+        public Builder setResearchRequirement(Holder<ResearchEntry>... research) {
             this.researchRequirements = Arrays.asList(research);
             return this;
         }

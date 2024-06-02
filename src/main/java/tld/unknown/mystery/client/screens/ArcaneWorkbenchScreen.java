@@ -14,7 +14,6 @@ import tld.unknown.mystery.Thaumcraft;
 import tld.unknown.mystery.api.aspects.Aspect;
 import tld.unknown.mystery.menus.ArcaneWorkbenchMenu;
 import tld.unknown.mystery.util.BitPacker;
-import tld.unknown.mystery.util.MathUtils;
 
 import java.util.List;
 

@@ -2,8 +2,10 @@ package tld.unknown.mystery.data.research;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.world.item.ItemStack;
-import tld.unknown.mystery.util.codec.Codecs;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -18,9 +20,14 @@ public record ResearchRewards(List<ResearchKnowledge> knowledgeReward, List<Item
     }
 
     public static final Codec<ResearchRewards> CODEC = RecordCodecBuilder.create(i -> i.group(
-            ResearchKnowledge.CODEC.listOf().optionalFieldOf("knowledge", EMPTY.knowledgeReward).forGetter(ResearchRewards::knowledgeReward),
-            Codecs.ITEM_STACK.listOf().optionalFieldOf("items", EMPTY.itemReward).forGetter(ResearchRewards::itemReward)
+            ResearchKnowledge.CODEC.listOf().optionalFieldOf("knowledge", Collections.emptyList()).forGetter(ResearchRewards::knowledgeReward),
+            ItemStack.CODEC.listOf().optionalFieldOf("items", Collections.emptyList()).forGetter(ResearchRewards::itemReward)
     ).apply(i, ResearchRewards::new));
+
+    public static final StreamCodec<RegistryFriendlyByteBuf, ResearchRewards> STREAM_CODEC = StreamCodec.composite(
+            ResearchKnowledge.STREAM_CODEC.apply(ByteBufCodecs.list()), ResearchRewards::knowledgeReward,
+            ItemStack.STREAM_CODEC.apply(ByteBufCodecs.list()), ResearchRewards::itemReward,
+            ResearchRewards::new);
 
     private static final class Builder {
 

@@ -1,12 +1,27 @@
 package tld.unknown.mystery.api;
 
+import net.minecraft.core.Registry;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.level.block.Block;
 import tld.unknown.mystery.Thaumcraft;
+import tld.unknown.mystery.api.aspects.Aspect;
+import tld.unknown.mystery.data.aspects.AspectList;
+import tld.unknown.mystery.data.aura.AuraBiomeInfo;
+import tld.unknown.mystery.data.research.ResearchCategory;
+import tld.unknown.mystery.data.research.ResearchEntry;
 
 public final class ThaumcraftData {
+
+    public static final class Registries {
+        public static final ResourceKey<Registry<Aspect>> ASPECT = ResourceKey.createRegistryKey(Thaumcraft.id("aspects"));
+        public static final ResourceKey<Registry<AspectList>> ASPECT_REGISTRY = ResourceKey.createRegistryKey(Thaumcraft.id("aspect_registry"));
+        public static final ResourceKey<Registry<AuraBiomeInfo>> AURA_BIOME_INFO = ResourceKey.createRegistryKey(Thaumcraft.id("aura_biome_info"));
+        public static final ResourceKey<Registry<ResearchCategory>> RESEARCH_CATEGORY = ResourceKey.createRegistryKey(Thaumcraft.id("research_categories"));
+        public static final ResourceKey<Registry<ResearchEntry>> RESEARCH_ENTRY = ResourceKey.createRegistryKey(Thaumcraft.id("research_entries"));
+    }
 
     /**
      * Various identifiers referring to textures which are often reused.
@@ -29,6 +44,7 @@ public final class ThaumcraftData {
      */
     public static final class Research {
 
+        public static final ResourceLocation CATEGORY_UNKNOWN = Thaumcraft.id("unknown");
         public static final String CATEGORY_DEBUG = "debug";
         public static final String CATEGORY_FUNDAMENTALS = "fundamentals";
         public static final String CATEGORY_AUROMANCY = "auromancy";
@@ -38,6 +54,7 @@ public final class ThaumcraftData {
         public static final String CATEGORY_GOLEMANCY = "golemancy";
         public static final String CATEGORY_ELDRITCH = "eldritch";
 
+        public static final ResourceLocation UNKNOWN = Thaumcraft.id(CATEGORY_UNKNOWN.getPath() + "/unknown");
         public static final ResourceLocation UNLOCK_DEBUG = Thaumcraft.id("internal/unlock_debug");
         public static final ResourceLocation UNLOCK_ARTIFICE = Thaumcraft.id(CATEGORY_FUNDAMENTALS + "/unlock_" + CATEGORY_ALCHEMY);
     }
@@ -46,6 +63,8 @@ public final class ThaumcraftData {
 
         public static final ResourceLocation INFUSION_ENCHANTMENTS = Thaumcraft.id("infusions");
         public static final ResourceLocation ASPECT_HOLDER = Thaumcraft.id("aspect");
+        public static final ResourceLocation CRYSTAL_ASPECT = Thaumcraft.id("crystal_aspect");
+        public static final ResourceLocation COLLECTOR_MARKER = Thaumcraft.id("collector_marker");
     }
 
     /**
@@ -113,6 +132,7 @@ public final class ThaumcraftData {
 
         public static final TagKey<Block> CRUCIBLE_HEATER = BlockTags.create(Thaumcraft.id("crucible_heater"));
         public static final TagKey<Block> MINEABLE_WITH_CRUSHER = BlockTags.create(Thaumcraft.id("mineable_with_crusher"));
+        public static final TagKey<Block> NOT_MINEABLE_WITH_CRUSHER = BlockTags.create(Thaumcraft.id("mineable_with_crusher"));
     }
 
     public static final class Blocks {

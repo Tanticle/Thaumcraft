@@ -15,7 +15,7 @@ public final class ConfigCreativeTabs {
     public static final SimpleCreativeTab MAIN = new SimpleCreativeTab(ThaumcraftData.CreativeTabs.MAIN, ConfigBlocks.ARCANE_WORKBENCH::itemSupplier);
 
     public static void init(IEventBus bus) {
-        REGISTRY.register(MAIN.id().getPath(), MAIN::build);
         REGISTRY.register(bus);
+        REGISTRY.register(MAIN.id().getPath(), () -> MAIN.build(bus.));
     }
 }

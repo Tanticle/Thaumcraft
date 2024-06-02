@@ -2,11 +2,15 @@ package tld.unknown.mystery.data.research;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.world.phys.Vec2;
+import net.neoforged.neoforge.network.codec.NeoForgeStreamCodecs;
 import tld.unknown.mystery.api.ThaumcraftData;
+import tld.unknown.mystery.util.IconTexture;
 import tld.unknown.mystery.util.codec.Codecs;
 import tld.unknown.mystery.util.codec.EnumCodec;
-import tld.unknown.mystery.util.IconTexture;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -29,13 +33,22 @@ public record DisplayProperties(
     }
 
     public static final Codec<DisplayProperties> CODEC = RecordCodecBuilder.create(i -> i.group(
-            Codecs.ICON_TEXTURE.listOf().fieldOf("icons").forGetter(DisplayProperties::icons),
+            IconTexture.CODEC.listOf().fieldOf("icons").forGetter(DisplayProperties::icons),
             Codecs.VECTOR_2.fieldOf("gridLocation").forGetter(DisplayProperties::gridLocation),
             new EnumCodec<>(EntryShape.class).optionalFieldOf("entryShape", DEFAULT.shape).forGetter(DisplayProperties::shape),
             Codec.BOOL.optionalFieldOf("isHidden", DEFAULT.isHidden).forGetter(DisplayProperties::isHidden),
             Codec.BOOL.optionalFieldOf("hasWarpEffect", DEFAULT.hasWarpEffect).forGetter(DisplayProperties::hasWarpEffect),
             Codec.BOOL.optionalFieldOf("isReverse", DEFAULT.reverse).forGetter(DisplayProperties::reverse)
     ).apply(i, DisplayProperties::new));
+
+    public static final StreamCodec<FriendlyByteBuf, DisplayProperties> STREAM_CODEC = StreamCodec.composite(
+            IconTexture.STREAM_CODEC.apply(ByteBufCodecs.list()), DisplayProperties::icons,
+            Codecs.VECTOR_2_STREAM, DisplayProperties::gridLocation,
+            NeoForgeStreamCodecs.enumCodec(EntryShape.class), DisplayProperties::shape,
+            ByteBufCodecs.BOOL, DisplayProperties::isHidden,
+            ByteBufCodecs.BOOL, DisplayProperties::hasWarpEffect,
+            ByteBufCodecs.BOOL, DisplayProperties::reverse,
+            DisplayProperties::new);
 
     public enum EntryShape implements EnumCodec.Values {
         REGULAR("regular"),

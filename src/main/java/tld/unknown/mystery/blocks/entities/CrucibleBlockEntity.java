@@ -2,6 +2,7 @@ package tld.unknown.mystery.blocks.entities;
 
 import lombok.Getter;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.sounds.SoundEvents;
@@ -20,7 +21,6 @@ import tld.unknown.mystery.Thaumcraft;
 import tld.unknown.mystery.api.ThaumcraftData;
 import tld.unknown.mystery.api.capabilities.IResearchCapability;
 import tld.unknown.mystery.attachments.ResearchAttachment;
-import tld.unknown.mystery.data.DataRegistries;
 import tld.unknown.mystery.data.aspects.AspectList;
 import tld.unknown.mystery.data.recipes.AlchemyRecipe;
 import tld.unknown.mystery.registries.ConfigBlockEntities;
@@ -81,16 +81,16 @@ public class CrucibleBlockEntity extends SimpleBlockEntity implements IFluidHand
     }
 
     @Override
-    protected void readNbt(CompoundTag nbt) {
-        this.aspects.deserializeNBT(nbt.getCompound("aspects"));
-        this.waterTank.readFromNBT(nbt.getCompound("water"));
+    protected void readNbt(CompoundTag nbt, HolderLookup.Provider pRegistries) {
+        this.aspects.deserializeNBT(pRegistries, nbt.getCompound("aspects"));
+        this.waterTank.readFromNBT(pRegistries, nbt.getCompound("water"));
         this.heat = nbt.getShort("heat");
     }
 
     @Override
-    protected void writeNbt(CompoundTag nbt) {
-        nbt.put("aspects", aspects.serializeNBT());
-        nbt.put("water", waterTank.writeToNBT(new CompoundTag()));
+    protected void writeNbt(CompoundTag nbt, HolderLookup.Provider pRegistries) {
+        nbt.put("aspects", aspects.serializeNBT(pRegistries));
+        nbt.put("water", waterTank.writeToNBT(pRegistries, new CompoundTag()));
         nbt.putShort("heat", (short)heat);
     }
 

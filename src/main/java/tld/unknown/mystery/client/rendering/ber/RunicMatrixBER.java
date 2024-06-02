@@ -10,8 +10,8 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.world.phys.Vec3;
 import org.joml.Quaternionf;
 import tld.unknown.mystery.blocks.entities.RunicMatrixBlockEntity;
-import tld.unknown.mystery.registries.client.ConfigModelLayers;
 import tld.unknown.mystery.client.rendering.ber.models.RunicMatrixModel;
+import tld.unknown.mystery.registries.client.ConfigModelLayers;
 import tld.unknown.mystery.util.simple.SimpleBER;
 
 import java.util.Random;
