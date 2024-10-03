@@ -9,11 +9,9 @@ import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.fml.loading.FMLLoader;
-import net.neoforged.neoforge.common.NeoForge;
 import org.slf4j.Logger;
 import tld.unknown.mystery.registries.*;
 import tld.unknown.mystery.registries.client.ConfigItemProperties;
-import tld.unknown.mystery.registries.client.ConfigKeybinds;
 
 @Mod(Thaumcraft.MOD_ID)
 public final class Thaumcraft {

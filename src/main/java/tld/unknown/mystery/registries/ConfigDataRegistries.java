@@ -19,7 +19,6 @@ import tld.unknown.mystery.data.research.ResearchCategory;
 import tld.unknown.mystery.data.research.ResearchEntry;
 import tld.unknown.mystery.util.ReflectionUtils;
 
-import java.util.Set;
 import java.util.stream.Stream;
 
 @EventBusSubscriber(modid = Thaumcraft.MOD_ID, bus = EventBusSubscriber.Bus.MOD)
