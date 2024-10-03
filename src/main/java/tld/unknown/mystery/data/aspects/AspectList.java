@@ -1,6 +1,5 @@
 package tld.unknown.mystery.data.aspects;
 
-import com.google.common.collect.HashBiMap;
 import com.google.common.collect.Maps;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;

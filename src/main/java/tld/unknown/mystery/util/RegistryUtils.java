@@ -6,8 +6,6 @@ import net.minecraft.core.HolderLookup;
 import net.minecraft.resources.ResourceKey;
 import net.neoforged.fml.loading.FMLEnvironment;
 import net.neoforged.fml.util.thread.EffectiveSide;
-import net.neoforged.neoforge.client.ClientHooks;
-import net.neoforged.neoforge.common.CommonHooks;
 import net.neoforged.neoforge.server.ServerLifecycleHooks;
 
 public final class RegistryUtils {

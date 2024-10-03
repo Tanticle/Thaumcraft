@@ -2,14 +2,12 @@ package tld.unknown.mystery.data.generator.providers;
 
 import com.google.common.collect.Lists;
 import net.minecraft.core.RegistrySetBuilder;
-import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceKey;
 import tld.unknown.mystery.Thaumcraft;
 import tld.unknown.mystery.api.ThaumcraftData;
 import tld.unknown.mystery.data.research.ResearchCategory;
 import tld.unknown.mystery.data.research.ResearchEntry;
 import tld.unknown.mystery.util.IconTexture;
-import tld.unknown.mystery.util.codec.data.CodecDataProvider;
 import tld.unknown.mystery.util.simple.SimpleDataProvider;
 
 public class ResearchCategoryProvider extends SimpleDataProvider<ResearchCategory> {

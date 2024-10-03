@@ -1,14 +1,10 @@
 package tld.unknown.mystery.data.aspects;
 
-import com.google.common.collect.ImmutableMap;
 import lombok.AllArgsConstructor;
-import lombok.Getter;
 import net.minecraft.ChatFormatting;
 import net.minecraft.resources.ResourceKey;
-import org.apache.commons.compress.utils.Lists;
 import tld.unknown.mystery.api.ThaumcraftData;
 import tld.unknown.mystery.api.aspects.Aspect;
-import tld.unknown.mystery.util.Colour;
 
 @AllArgsConstructor
 public enum PrimalAspects {

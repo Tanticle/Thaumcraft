@@ -2,7 +2,6 @@ package tld.unknown.mystery.data.generator.providers;
 
 import net.minecraft.core.Holder;
 import net.minecraft.core.RegistrySetBuilder;
-import net.minecraft.data.worldgen.BootstrapContext;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.biome.Biomes;

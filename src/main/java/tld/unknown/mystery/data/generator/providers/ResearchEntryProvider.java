@@ -1,10 +1,8 @@
 package tld.unknown.mystery.data.generator.providers;
 
 import net.minecraft.core.RegistrySetBuilder;
-import net.minecraft.data.PackOutput;
 import tld.unknown.mystery.api.ThaumcraftData;
 import tld.unknown.mystery.data.research.ResearchEntry;
-import tld.unknown.mystery.util.codec.data.CodecDataProvider;
 import tld.unknown.mystery.util.simple.SimpleDataProvider;
 
 public class ResearchEntryProvider extends SimpleDataProvider<ResearchEntry> {

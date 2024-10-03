@@ -1,11 +1,7 @@
 package tld.unknown.mystery.data.generator.providers;
 
-import net.minecraft.core.RegistrySetBuilder;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.core.registries.Registries;
 import net.minecraft.data.PackOutput;
-import net.minecraft.data.worldgen.BootstrapContext;
-import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.PackType;
 import net.minecraft.tags.BlockTags;
@@ -20,11 +16,8 @@ import net.neoforged.neoforge.common.Tags;
 import net.neoforged.neoforge.common.data.JsonCodecProvider;
 import net.neoforged.neoforge.data.event.GatherDataEvent;
 import tld.unknown.mystery.Thaumcraft;
-import tld.unknown.mystery.api.ThaumcraftData;
 import tld.unknown.mystery.data.aspects.AspectList;
 import tld.unknown.mystery.util.UncommonTags;
-import tld.unknown.mystery.util.codec.data.CodecDataProvider;
-import tld.unknown.mystery.util.simple.SimpleDataProvider;
 
 import java.util.Arrays;
 
