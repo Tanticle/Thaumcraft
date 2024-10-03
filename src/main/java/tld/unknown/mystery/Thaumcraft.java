@@ -22,7 +22,7 @@ public final class Thaumcraft {
     private static final Logger LOGGER = LogUtils.getLogger();
 
     public static ResourceLocation id(String value) {
-        return new ResourceLocation(MOD_ID, value);
+        return ResourceLocation.tryBuild(MOD_ID, value);
     }
 
     public Thaumcraft(IEventBus modEventBus) {
@@ -65,7 +65,6 @@ public final class Thaumcraft {
 
         @SubscribeEvent
         public static void onClientSetup(FMLClientSetupEvent event) {
-            NeoForge.EVENT_BUS.addListener(ConfigKeybinds::clientTick);
             ConfigItemProperties.init(event);
         }
     }

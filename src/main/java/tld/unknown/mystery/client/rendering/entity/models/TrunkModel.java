@@ -33,14 +33,14 @@ public class TrunkModel extends EntityModel<TrunkEntity> {
 
 	@Override
 	public void setupAnim(TrunkEntity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
-		float f1 = 1.0F - entity.getLidProgress(Minecraft.getInstance().getDeltaFrameTime());
+		float f1 = 1.0F - entity.getLidProgress(Minecraft.getInstance().getTimer().getGameTimeDeltaTicks());
 		f1 = 1.0F - f1 * f1 * f1;
 		this.lid.xRot = -(f1 * ((float)Math.PI / 2F));
 	}
 
 	@Override
-	public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
-		lid.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
-		bb_main.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
+	public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int i, int i1, int i2) {
+		lid.render(poseStack, vertexConsumer, i, i1, i2);
+		bb_main.render(poseStack, vertexConsumer, i, i1, i2);
 	}
 }

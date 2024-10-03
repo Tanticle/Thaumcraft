@@ -3,6 +3,7 @@ package tld.unknown.mystery.util.simple;
 import lombok.Getter;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Holder;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.nbt.CompoundTag;
@@ -36,8 +37,8 @@ public abstract class SimpleMetaBlockItem<T> extends DataDependentItem<T> {
     @Getter
     private final Block block;
 
-    public SimpleMetaBlockItem(Block block, Properties pProperties, DataComponentType<T> dataType, boolean registerEmpty) {
-        super(pProperties, dataType, registerEmpty);
+    public SimpleMetaBlockItem(Block block, Properties pProperties, DataComponentType<Holder<T>> dataType, Holder<T> fallback, boolean registerEmpty) {
+        super(pProperties, dataType, fallback, registerEmpty);
         this.block = block;
     }
 

@@ -55,7 +55,7 @@ public final class RenderTypes {
                     .setLightmapState(RenderStateShard.NO_LIGHTMAP)
                     .setOverlayState(RenderStateShard.NO_OVERLAY)
                     .createCompositeState(false);
-            return create("mystery_sdf", DefaultVertexFormat.POSITION_COLOR_TEX, VertexFormat.Mode.QUADS, 256, true, false, state);
+            return create("mystery_sdf", DefaultVertexFormat.POSITION_TEX_COLOR, VertexFormat.Mode.QUADS, 256, true, false, state);
         }
 
         @SubscribeEvent

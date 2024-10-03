@@ -1,8 +1,13 @@
 package tld.unknown.mystery.data.generator.providers;
 
+import net.minecraft.core.RegistrySetBuilder;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.data.PackOutput;
+import net.minecraft.data.worldgen.BootstrapContext;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.packs.PackType;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
@@ -12,22 +17,29 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.neoforged.neoforge.common.Tags;
+import net.neoforged.neoforge.common.data.JsonCodecProvider;
+import net.neoforged.neoforge.data.event.GatherDataEvent;
+import tld.unknown.mystery.Thaumcraft;
+import tld.unknown.mystery.api.ThaumcraftData;
 import tld.unknown.mystery.data.aspects.AspectList;
 import tld.unknown.mystery.util.UncommonTags;
 import tld.unknown.mystery.util.codec.data.CodecDataProvider;
+import tld.unknown.mystery.util.simple.SimpleDataProvider;
 
 import java.util.Arrays;
 
 import static tld.unknown.mystery.api.ThaumcraftData.Aspects;
 
-public class AspectRegistryProvider extends CodecDataProvider<AspectList> {
+public class AspectRegistryProvider extends JsonCodecProvider<AspectList> {
 
-    public AspectRegistryProvider(PackOutput generator) {
-        super(generator, "AspectRegistry", "aspect_registry", AspectList.CODEC);
+    public AspectRegistryProvider(GatherDataEvent event) {
+        super(event.getGenerator().getPackOutput(), PackOutput.Target.DATA_PACK,
+                "thaumcraft/aspect_registry", PackType.SERVER_DATA,
+                AspectList.CODEC.codec(), event.getLookupProvider(), Thaumcraft.MOD_ID, event.getExistingFileHelper());
     }
 
     @Override
-    protected void createEntries() {
+    public void gather() {
         vanilla();
     }
 
@@ -275,7 +287,7 @@ public class AspectRegistryProvider extends CodecDataProvider<AspectList> {
         //FISHES
         itemTag(ItemTags.FISHES, new AspectList().add(Aspects.WATER, 5).add(Aspects.LIFE, 5));
         //MUSIC_DISCS
-        itemTag(ItemTags.MUSIC_DISCS, new AspectList().add(Aspects.MIND, 25).add(Aspects.DESIRE, 25).add(Aspects.SENSE, 5));
+        itemTag(ItemTags.CREEPER_DROP_MUSIC_DISCS, new AspectList().add(Aspects.MIND, 25).add(Aspects.DESIRE, 25).add(Aspects.SENSE, 5));
         //PLANKS
         itemTag(ItemTags.PLANKS, new AspectList().add(Aspects.PLANT, 5).add(Aspects.CRAFT, 1));
 
@@ -344,8 +356,8 @@ public class AspectRegistryProvider extends CodecDataProvider<AspectList> {
             if(!BuiltInRegistries.ITEM.containsValue(i))
                 continue;
             ResourceLocation itemId = BuiltInRegistries.ITEM.getKey(i);
-            ResourceLocation loc = new ResourceLocation(itemId.getNamespace(), "items/" + itemId.getPath());
-            register(loc, list);
+            ResourceLocation loc = ResourceLocation.tryBuild(itemId.getNamespace(), "items/" + itemId.getPath());
+            unconditional(loc, list);
         }
     }
 
@@ -354,14 +366,14 @@ public class AspectRegistryProvider extends CodecDataProvider<AspectList> {
             if(!BuiltInRegistries.BLOCK.containsValue(b))
                 continue;
             ResourceLocation blockID = BuiltInRegistries.BLOCK.getKey(b);
-            ResourceLocation loc = new ResourceLocation(blockID.getNamespace(), "blocks/" + blockID.getPath());
-            register(loc, list);
+            ResourceLocation loc = ResourceLocation.tryBuild(blockID.getNamespace(), "blocks/" + blockID.getPath());
+            unconditional(loc, list);
         }
     }
 
     private void entity(AspectList list, EntityType<?> type) {
         ResourceLocation id = BuiltInRegistries.ENTITY_TYPE.getKey(type);
-        register(new ResourceLocation(id.getNamespace(), "entities/" + id.getPath()), list);
+        unconditional(ResourceLocation.fromNamespaceAndPath(id.getNamespace(), "entities/" + id.getPath()), list);
     }
 
     private void both(AspectList list, Block... blocks) {
@@ -370,13 +382,13 @@ public class AspectRegistryProvider extends CodecDataProvider<AspectList> {
     }
 
     private void itemTag(TagKey<?> tag, AspectList list) {
-        ResourceLocation loc = new ResourceLocation(tag.location().getNamespace(), "items/tags/" + tag.location().getPath());
-        register(loc, list);
+        ResourceLocation loc = ResourceLocation.tryBuild(tag.location().getNamespace(), "items/tags/" + tag.location().getPath());
+        unconditional(loc, list);
     }
 
     private void blockTag(TagKey<?> tag, AspectList list) {
-        ResourceLocation loc = new ResourceLocation(tag.location().getNamespace(), "blocks/tags/" + tag.location().getPath());
-        register(loc, list);
+        ResourceLocation loc = ResourceLocation.tryBuild(tag.location().getNamespace(), "blocks/tags/" + tag.location().getPath());
+        unconditional(loc, list);
     }
 
     private void bothTag(TagKey<?> tags, AspectList list) {

@@ -9,7 +9,6 @@ import net.neoforged.neoforge.client.event.ClientTickEvent;
 import net.neoforged.neoforge.client.event.RegisterKeyMappingsEvent;
 import net.neoforged.neoforge.client.settings.KeyConflictContext;
 import tld.unknown.mystery.Thaumcraft;
-import tld.unknown.mystery.client.screens.ResearchDebugScreen;
 
 @EventBusSubscriber(modid = Thaumcraft.MOD_ID, bus = EventBusSubscriber.Bus.MOD)
 public final class ConfigKeybinds {
@@ -22,13 +21,6 @@ public final class ConfigKeybinds {
     public static void keyRegisterEvent(RegisterKeyMappingsEvent e) {
         if(Thaumcraft.isDev())
             registerDebugKeys(e);
-    }
-
-    public static void clientTick(ClientTickEvent.Pre e) {
-        Minecraft client = Minecraft.getInstance();
-        if(RESEARCH_DEBUG_SCREEN.consumeClick()) {
-            client.setScreen(new ResearchDebugScreen());
-        }
     }
 
     private static void registerDebugKeys(RegisterKeyMappingsEvent e) {

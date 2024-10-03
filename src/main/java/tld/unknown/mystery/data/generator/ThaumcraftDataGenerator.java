@@ -1,7 +1,9 @@
 package tld.unknown.mystery.data.generator;
 
+import net.minecraft.core.RegistrySetBuilder;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.DataProvider;
+import net.minecraft.data.PackOutput;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.data.event.GatherDataEvent;
@@ -16,16 +18,18 @@ public final class ThaumcraftDataGenerator {
     @SubscribeEvent
     public static void gatherData(GatherDataEvent e) {
         DataGenerator dataGen = e.getGenerator();
-        dataGen.addProvider(true, (DataProvider.Factory<DataProvider>) ResearchCategoryProvider::new);
-        dataGen.addProvider(true, (DataProvider.Factory<DataProvider>) ResearchEntryProvider::new);
-        dataGen.addProvider(true, (DataProvider.Factory<DataProvider>) AspectProvider::new);
-        dataGen.addProvider(true, (DataProvider.Factory<DataProvider>) AspectRegistryProvider::new);
+        RegistrySetBuilder builder = new RegistrySetBuilder();
+        dataGen.addProvider(true, new ResearchCategoryProvider(builder).build(e));
+        dataGen.addProvider(true, new ResearchEntryProvider(builder).build(e));
+        dataGen.addProvider(true, new AspectProvider(builder).build(e));
+        dataGen.addProvider(true, new AspectRegistryProvider(e));
+        dataGen.addProvider(true, new AuraBiomeProvider(builder).build(e));
 
         dataGen.addProvider(true, (DataProvider.Factory<DataProvider>) AlchemyRecipeProvider::new);
         dataGen.addProvider(true, (DataProvider.Factory<DataProvider>) ArcaneCraftingRecipeProvider::new);
 
-        dataGen.addProvider(true, (DataProvider.Factory<DataProvider>) out -> new BlockDataProvider(out, e.getExistingFileHelper()));
-        dataGen.addProvider(true, (DataProvider.Factory<DataProvider>) out -> new ItemModelProvider(out, e.getExistingFileHelper()));
-        dataGen.addProvider(true, (DataProvider.Factory<DataProvider>) out -> new TagsProvider(out, e.getLookupProvider(), e.getExistingFileHelper()));
+        dataGen.addProvider(true, new BlockDataProvider(dataGen.getPackOutput(), e.getExistingFileHelper()));
+        dataGen.addProvider(true, new ItemModelProvider(dataGen.getPackOutput(), e.getExistingFileHelper()));
+        dataGen.addProvider(true, new TagsProvider(dataGen.getPackOutput(), e.getLookupProvider(), e.getExistingFileHelper()));
     }
 }

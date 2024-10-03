@@ -37,7 +37,7 @@ public class ElementalAxeItem extends AxeItem {
     }
 
     @Override
-    public int getUseDuration(ItemStack pStack) {
+    public int getUseDuration(ItemStack stack, LivingEntity entity) {
         return MAX_USE_DURATION;
     }
 

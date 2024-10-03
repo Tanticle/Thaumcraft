@@ -16,6 +16,6 @@ public final class ConfigCreativeTabs {
 
     public static void init(IEventBus bus) {
         REGISTRY.register(bus);
-        REGISTRY.register(MAIN.id().getPath(), () -> MAIN.build(bus.));
+        REGISTRY.register(MAIN.id().getPath(), MAIN::build);
     }
 }

@@ -15,6 +15,8 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.chunk.ChunkAccess;
 import org.joml.Math;
+import tld.unknown.mystery.api.ThaumcraftData;
+import tld.unknown.mystery.data.aura.AuraBiomeInfo;
 import tld.unknown.mystery.registries.ConfigDataRegistries;
 
 import java.util.Optional;
@@ -54,7 +56,8 @@ public class AuraAttachment {
 
     public static float getBiomeAuraBase(RegistryAccess access, Holder<Biome> biome) {
         Optional<ResourceKey<Biome>> key = biome.unwrapKey();
-        return key.map(biomeResourceKey -> ConfigDataRegistries.AURA_BIOME_INFO.get(access, biomeResourceKey.location()).auraLevel()).orElse(0F);
+        ResourceKey<AuraBiomeInfo> auraBiome = ResourceKey.create(ThaumcraftData.Registries.AURA_BIOME_INFO, key.get().location());
+        return key.map(biomeResourceKey -> ConfigDataRegistries.AURA_BIOME_INFO.get(access, auraBiome).auraLevel()).orElse(0F);
     }
 
     public static final Codec<AuraAttachment> CODEC = RecordCodecBuilder.create(i -> i.group(

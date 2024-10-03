@@ -8,6 +8,7 @@ import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
+import net.neoforged.neoforge.network.codec.NeoForgeStreamCodecs;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -29,14 +30,14 @@ public record ResearchRequirements(
             ItemStack.CODEC.listOf().optionalFieldOf("items", Collections.emptyList()).forGetter(ResearchRequirements::itemRequirements),
             Ingredient.CODEC.listOf().optionalFieldOf("crafting", Collections.emptyList()).forGetter(ResearchRequirements::craftingRequirements),
             ResearchKnowledge.CODEC.listOf().optionalFieldOf("knowledge", Collections.emptyList()).forGetter(ResearchRequirements::knowledgeRequirements),
-            ResearchEntry.REGISTRY_CODEC.listOf().optionalFieldOf("research", Collections.emptyList()).forGetter(ResearchRequirements::researchRequirements)
+            Codec.lazyInitialized(() -> ResearchEntry.REGISTRY_CODEC).listOf().optionalFieldOf("research", Collections.emptyList()).forGetter(ResearchRequirements::researchRequirements)
     ).apply(i, ResearchRequirements::new));
 
     public static final StreamCodec<RegistryFriendlyByteBuf, ResearchRequirements> STREAM_CODEC = StreamCodec.composite(
             ItemStack.LIST_STREAM_CODEC, ResearchRequirements::itemRequirements,
             Ingredient.CONTENTS_STREAM_CODEC.apply(ByteBufCodecs.list()), ResearchRequirements::craftingRequirements,
             ResearchKnowledge.STREAM_CODEC.apply(ByteBufCodecs.list()), ResearchRequirements::knowledgeRequirements,
-            ResearchEntry.REGISTRY_STREAM_CODEC.apply(ByteBufCodecs.list()), ResearchRequirements::researchRequirements,
+            NeoForgeStreamCodecs.lazy(() ->  ResearchEntry.REGISTRY_STREAM_CODEC).apply(ByteBufCodecs.list()), ResearchRequirements::researchRequirements,
             ResearchRequirements::new);
 
     private static final class Builder {

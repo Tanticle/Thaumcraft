@@ -1,7 +1,6 @@
 package tld.unknown.mystery.registries;
 
 import lombok.RequiredArgsConstructor;
-import net.minecraft.core.Holder;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.BlockItem;
@@ -20,10 +19,8 @@ import tld.unknown.mystery.util.simple.SimpleCreativeTab;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
 import java.util.function.Function;
 import java.util.function.Supplier;
-import java.util.stream.Collectors;
 
 import static tld.unknown.mystery.api.ThaumcraftData.Blocks;
 
@@ -35,8 +32,7 @@ public final class ConfigBlocks {
 
     /* -------------------------------------------------------------------------------------------------------------- */
 
-    public static final BlockObject<CrystalBlock> CRYSTAL_COLONY = registerBlock(Blocks.CRYSTAL_COLONY, CrystalBlock::new, CrystalBlockItem::new, ConfigCreativeTabs.MAIN);
-
+    public static final Map<CrystalBlock.CrystalAspect, BlockObject<CrystalBlock>> CRYSTAL_COLONY = registerEnumBlock(Blocks.CRYSTAL_COLONY, CrystalBlock.CrystalAspect.class, CrystalBlock::new, CrystalBlockItem::new, ConfigCreativeTabs.MAIN);
     public static final BlockObject<ArcaneWorkbenchBlock> ARCANE_WORKBENCH = registerBlock(Blocks.ARCANE_WORKBENCH, ArcaneWorkbenchBlock::new, ConfigCreativeTabs.MAIN);
     public static final BlockObject<CrucibleBlock> CRUCIBLE = registerBlock(Blocks.CRUCIBLE, CrucibleBlock::new, ConfigCreativeTabs.MAIN);
     public static final BlockObject<RunicMatrixBlock> RUNIC_MATRIX = registerBlock(Blocks.RUNIC_MATRIX, RunicMatrixBlock::new, ConfigCreativeTabs.MAIN);
@@ -90,16 +86,13 @@ public final class ConfigBlocks {
         return new BlockObject<>(blockObject, itemObject);
     }
 
-    @SuppressWarnings("unchecked")
-    private static <B extends Block, K, I extends Item> MultiItemBlockObject<B, K, I> registerMultiItemBlock(ResourceLocation id, Supplier<B> block, Set<K> itemKeys, Function<K, I> factory, SimpleCreativeTab tab) {
-        Holder<B> blockObject = (Holder<B>)REGISTRY_BLOCKS.register(id.getPath(), block);
-        Map<K, Holder<I>> items = new HashMap<>();
-        itemKeys.forEach(k -> {
-            Holder<I> item = (Holder<I>)REGISTRY_ITEM.register(id.getPath() + "_" + k.toString().toLowerCase(), () -> factory.apply(k));
-            items.put(k, item);
-            tab.register(item);
-        });
-        return new MultiItemBlockObject<>(blockObject, Map.copyOf(items));
+    private static <B extends Block, E extends Enum<E>> Map<E, BlockObject<B>> registerEnumBlock(ResourceLocation id, Class<E> clazz, Function<E, B> blockSupplier, Function<E, Item> itemSupplier, SimpleCreativeTab tab) {
+        Map<E, BlockObject<B>> blockObjects = new HashMap<>();
+        for (E constant : clazz.getEnumConstants()) {
+            ResourceLocation name = ResourceLocation.tryBuild(id.getNamespace(), id.getPath() + "_" + constant.name().toLowerCase());
+            blockObjects.put(constant, registerBlock(name, () -> blockSupplier.apply(constant), () -> itemSupplier.apply(constant), tab));
+        }
+        return blockObjects;
     }
 
     @RequiredArgsConstructor
@@ -122,33 +115,6 @@ public final class ConfigBlocks {
 
         public DeferredItem<? extends Item> itemSupplier() {
             return item;
-        }
-    }
-
-    @RequiredArgsConstructor
-    public static class MultiItemBlockObject<B extends Block, K, I extends Item> {
-
-        private final Holder<B> block;
-        private final Map<K, Holder<I>> items;
-
-        public B block() {
-            return block.value();
-        }
-
-        public Holder<B> blockObject() {
-            return block;
-        }
-
-        public Item item(K key) {
-            return items.get(key).value();
-        }
-
-        public Set<I> itemSet() {
-            return items.values().stream().map(Holder::value).collect(Collectors.toSet());
-        }
-
-        public Holder<I> itemObject(K key) {
-            return items.get(key);
         }
     }
 }

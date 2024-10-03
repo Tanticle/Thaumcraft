@@ -32,11 +32,11 @@ public class InfusionEnchantmentCondition implements LootItemCondition {
     public boolean test(LootContext lootContext) {
         ItemStack tool;
         if(lootContext.hasParam(LootContextParams.BLOCK_STATE)) {
-            if(!(lootContext.getParam(LootContextParams.THIS_ENTITY) instanceof Player))
+            if(!lootContext.hasParam(LootContextParams.THIS_ENTITY) || !(lootContext.getParam(LootContextParams.THIS_ENTITY) instanceof Player))
                 return false;
             tool = lootContext.getParam(LootContextParams.TOOL);
         } else {
-            Entity e = lootContext.getParamOrNull(LootContextParams.KILLER_ENTITY);
+            Entity e = lootContext.getParamOrNull(LootContextParams.ATTACKING_ENTITY);
             if(e instanceof Player p)
                 tool = p.getMainHandItem();
             else

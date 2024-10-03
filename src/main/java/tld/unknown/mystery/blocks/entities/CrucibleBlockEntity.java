@@ -25,6 +25,7 @@ import tld.unknown.mystery.data.aspects.AspectList;
 import tld.unknown.mystery.data.recipes.AlchemyRecipe;
 import tld.unknown.mystery.registries.ConfigBlockEntities;
 import tld.unknown.mystery.registries.ConfigCapabilities;
+import tld.unknown.mystery.registries.ConfigDataRegistries;
 import tld.unknown.mystery.util.CraftingUtils;
 import tld.unknown.mystery.util.FluidHelper;
 import tld.unknown.mystery.util.simple.SimpleBlockEntity;
@@ -120,7 +121,7 @@ public class CrucibleBlockEntity extends SimpleBlockEntity implements IFluidHand
                 stack.shrink(1);
                 crafted = true;
             } else {
-                AspectList list = DataRegistries.ASPECT_REGISTRY.getAspects(stack);
+                AspectList list = ConfigDataRegistries.ASPECT_REGISTRY.getAspects(stack);
                 if(!list.isEmpty()) {
                     if(aspects.size() + list.size() > MAX_ESSENTIA) {
                         aspects.merge(list.drain(MAX_ESSENTIA - aspects.size()));

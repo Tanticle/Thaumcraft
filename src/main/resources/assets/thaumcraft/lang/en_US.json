@@ -38,8 +38,8 @@
   "item.thaumcraft.primal_crusher": "Primal Crusher",
   "item.thaumcraft.crimson_blade": "Crimson Blade",
   "item.thaumcraft.phial": "Glass Phial",
-  "item.thaumcraft.phial.filled": "Phial of %s Essentia",
-  "item.thaumcraft.vis_crystal.filled": "%s Vis Crystal",
+  "item.thaumcraft.phial.data_present": "Phial of %s Essentia",
+  "item.thaumcraft.vis_crystal.data_present": "%s Vis Crystal",
   "item.thaumcraft.ingot_brass": "Brass Ingot",
   "item.thaumcraft.ingot_thaumium": "Thaumium Ingot",
   "item.thaumcraft.ingot_void": "Void Ingot",
@@ -82,5 +82,7 @@
   "msg.thaumcraft.resonator.content": "Contains",
   "msg.thaumcraft.resonator.content.value": "%d %s Essentia",
 
-  "misc.thaumcraft.warping_tooltip": "Warping %d"
+  "misc.thaumcraft.warping_tooltip": "Warping %d",
+
+  "network.thaumcraft.aspect_registry_disconnect": "Unable to synchronize Aspect Registry! Check the log for more information."
 }

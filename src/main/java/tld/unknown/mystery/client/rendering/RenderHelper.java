@@ -85,13 +85,13 @@ public final class RenderHelper {
     }
 
     private static void fillVertex(VertexConsumer consumer, Matrix4f modelMatrix, float x, float y, float z, int colour, float u, float v, boolean applyLight, int packedLight, boolean applyOverlay, int overlay) {
-        consumer.vertex(modelMatrix, x, y, z).color((colour >> 16) & 0xFF, (colour >> 8), colour & 0xFF, 0xFF).uv(u, v);
+        consumer.addVertex(modelMatrix, x, y, z).setColor(colour).setUv(u, v);
         if(applyOverlay) {
-            consumer.overlayCoords(overlay);
+            consumer.setOverlay(overlay);
         }
         if(applyLight) {
-            consumer.uv2(packedLight);
+            consumer.setLight(packedLight);
         }
-        consumer.normal(0, 0, 1).endVertex();
+        consumer.setNormal(0, 0, 1);
     }
 }

@@ -1,7 +1,7 @@
 plugins {
     id 'idea'
     id 'java-library'
-    id 'net.neoforged.gradle.userdev' version '7.0.120'
+    id 'net.neoforged.moddev' version '2.0.30-beta'
 }
 
 group = 'tld.unknown'
@@ -18,29 +18,38 @@ repositories {
 }
 
 dependencies {
-    implementation "net.neoforged:neoforge:${project.forge_version}"
-
-    compileOnly 'org.projectlombok:lombok:1.18.24'
-    annotationProcessor 'org.projectlombok:lombok:1.18.24'
+    compileOnly 'org.projectlombok:lombok:1.18.34'
+    annotationProcessor 'org.projectlombok:lombok:1.18.34'
 }
 
-minecraft {
-    accessTransformers.file file('src/main/resources/META-INF/accesstransformer.cfg')
-}
+neoForge {
+    version = project.forge_version
 
+    //accessTransformers.from "src/main/resources/META-INF/accesstransformer.cfg"
+    //validateAccessTransformers = true
 
-runs {
-    configureEach {
-        systemProperty 'forge.logging.markers', 'REGISTRIES'
-        systemProperty 'forge.logging.console.level', 'debug'
-
-        modSource project.sourceSets.main
+    runs {
+        configureEach {
+            systemProperty 'terminal.ansi', 'true'
+            systemProperty 'forge.logging.console.level', 'debug'
+        }
+        Client {
+            client()
+        }
+        Server {
+            server()
+        }
+        Data {
+            data()
+            programArguments.addAll '--mod', project.mod_id, '--all', '--output', file('src/datagen/resources/').getAbsolutePath(), '--existing', file('src/main/resources/').getAbsolutePath()
+        }
     }
 
-    client { systemProperty 'forge.enabledGameTestNamespaces', project.mod_id }
-    server { systemProperty 'forge.enabledGameTestNamespaces', project.mod_id; programArgument '--nogui' }
-    gameTestServer { systemProperty 'forge.enabledGameTestNamespaces', project.mod_id }
-    data { programArguments.addAll '--mod', project.mod_id, '--all', '--output', file('src/datagen/resources/').getAbsolutePath(), '--existing', file('src/main/resources/').getAbsolutePath() }
+    mods {
+        thaumcraft {
+            sourceSet sourceSets.main
+        }
+    }
 }
 
 sourceSets.main.resources { srcDir 'src/datagen/resources' }
@@ -55,7 +64,7 @@ tasks.withType(ProcessResources).configureEach {
     ]
     inputs.properties replaceProperties
 
-    filesMatching(['META-INF/mods.toml']) {
+    filesMatching(['META-INF/neoforge.mods.toml']) {
         expand replaceProperties + [project: project]
     }
 }
@@ -65,7 +74,7 @@ jar {
         attributes([
                 "Specification-Title"     : project.mod_id,
                 //"Specification-Vendor": "mystery authors",
-                "Specification-Version"   : "1", // We are version 1 of ourselves
+                "Specification-Version"   : project.mod_version, // We are version 1 of ourselves
                 "Implementation-Title"    : project.mod_id,
                 "Implementation-Version"  : project.jar.archiveVersion,
                 //"Implementation-Vendor": "mystery authors",

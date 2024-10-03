@@ -6,8 +6,11 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.state.BlockState;
+import tld.unknown.mystery.api.ThaumcraftData;
+import tld.unknown.mystery.api.aspects.Aspect;
 import tld.unknown.mystery.api.capabilities.IEssentiaCapability;
 import tld.unknown.mystery.registries.ConfigBlockEntities;
 import tld.unknown.mystery.util.simple.SimpleBlockEntity;
@@ -18,7 +21,7 @@ public class CreativeAspectSourceBlockEntity extends SimpleBlockEntity implement
 
     @Getter
     @Setter
-    private ResourceLocation aspect;
+    private ResourceKey<Aspect> aspect;
 
     public CreativeAspectSourceBlockEntity(BlockPos pPos, BlockState pBlockState) {
         super(ConfigBlockEntities.CREATIVE_ASPECT_SOURCE.entityType(), pPos, pBlockState);
@@ -27,7 +30,7 @@ public class CreativeAspectSourceBlockEntity extends SimpleBlockEntity implement
     @Override
     protected void readNbt(CompoundTag nbt, HolderLookup.Provider pRegistries) {
         if(nbt.contains("aspect")) {
-            this.aspect = ResourceLocation.tryParse(nbt.getString("aspect"));
+            this.aspect = ResourceKey.create(ThaumcraftData.Registries.ASPECT, ResourceLocation.tryParse(nbt.getString("aspect")));
         }
     }
 
@@ -53,7 +56,7 @@ public class CreativeAspectSourceBlockEntity extends SimpleBlockEntity implement
     }
 
     @Override
-    public ResourceLocation getEssentiaType(Direction dir) {
+    public ResourceKey<Aspect> getEssentiaType(Direction dir) {
         return aspect;
     }
 
@@ -68,32 +71,32 @@ public class CreativeAspectSourceBlockEntity extends SimpleBlockEntity implement
     }
 
     @Override
-    public ResourceLocation getSuctionType(Direction dir) {
+    public ResourceKey<Aspect> getSuctionType(Direction dir) {
         return null;
     }
 
     @Override
-    public int drainAspect(ResourceLocation aspect, int amount, Direction dir) {
+    public int drainAspect(ResourceKey<Aspect> aspect, int amount, Direction dir) {
         return compliesToAspect(aspect, dir) ? Math.min(amount, FILLED_AMOUNT) : 0;
     }
 
     @Override
-    public int fillAspect(ResourceLocation aspect, int amount, Direction dir) {
+    public int fillAspect(ResourceKey<Aspect> aspect, int amount, Direction dir) {
         return 0;
     }
 
     @Override
-    public boolean canFit(ResourceLocation aspect, int amount, Direction dir) {
+    public boolean canFit(ResourceKey<Aspect> aspect, int amount, Direction dir) {
         return false;
     }
 
     @Override
-    public boolean contains(ResourceLocation aspect, int amount, Direction dir) {
+    public boolean contains(ResourceKey<Aspect> aspect, int amount, Direction dir) {
         return compliesToAspect(aspect, dir) && amount <= FILLED_AMOUNT;
     }
 
     @Override
-    public boolean compliesToAspect(ResourceLocation aspect, Direction dir) {
+    public boolean compliesToAspect(ResourceKey<Aspect> aspect, Direction dir) {
         return aspect.equals(this.aspect);
     }
 }

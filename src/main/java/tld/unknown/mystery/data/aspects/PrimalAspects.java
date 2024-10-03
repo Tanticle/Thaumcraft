@@ -1,32 +1,33 @@
 package tld.unknown.mystery.data.aspects;
 
 import com.google.common.collect.ImmutableMap;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import net.minecraft.ChatFormatting;
-import net.minecraft.network.chat.TextColor;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.ResourceKey;
 import org.apache.commons.compress.utils.Lists;
 import tld.unknown.mystery.api.ThaumcraftData;
 import tld.unknown.mystery.api.aspects.Aspect;
 import tld.unknown.mystery.util.Colour;
 
-@Getter
-public class PrimalAspects extends Aspect {
+@AllArgsConstructor
+public enum PrimalAspects {
 
-    public static final ImmutableMap<ResourceLocation, Aspect> DEFAULTS = new ImmutableMap.Builder<ResourceLocation, Aspect>()
-            .put(ThaumcraftData.Aspects.ORDER, new PrimalAspects("#D5D4EC", ChatFormatting.GRAY))
-            .put(ThaumcraftData.Aspects.CHAOS, new PrimalAspects("#404040", ChatFormatting.DARK_GRAY))
-            .put(ThaumcraftData.Aspects.EARTH, new PrimalAspects("#56C000", ChatFormatting.DARK_GREEN))
-            .put(ThaumcraftData.Aspects.WATER, new PrimalAspects("#3CD4FC", ChatFormatting.DARK_AQUA))
-            .put(ThaumcraftData.Aspects.AIR, new PrimalAspects("#FFFF7E", ChatFormatting.YELLOW))
-            .put(ThaumcraftData.Aspects.FIRE, new PrimalAspects("#FF5A01", ChatFormatting.RED))
-            .put(ThaumcraftData.Aspects.UNKNOWN, UNKNOWN)
-            .build();
+    EARTH(ChatFormatting.DARK_GREEN, ThaumcraftData.Aspects.EARTH),
+    WATER(ChatFormatting.DARK_AQUA, ThaumcraftData.Aspects.WATER),
+    FIRE(ChatFormatting.RED, ThaumcraftData.Aspects.FIRE),
+    AIR(ChatFormatting.YELLOW, ThaumcraftData.Aspects.AIR),
+    ORDER(ChatFormatting.GRAY, ThaumcraftData.Aspects.ORDER),
+    CHAOS(ChatFormatting.DARK_GRAY, ThaumcraftData.Aspects.CHAOS);
 
     private final ChatFormatting formatting;
+    private final ResourceKey<Aspect> resourceKey;
 
-    private PrimalAspects(String color, ChatFormatting formatting) {
-        super(Colour.fromHex(color), Lists.newArrayList());
-        this.formatting = formatting;
+    public static ChatFormatting getPrimalFormatting(ResourceKey<Aspect> aspect) {
+        for (PrimalAspects value : values()) {
+            if(value.resourceKey.equals(aspect))
+                return value.formatting;
+        }
+        return ChatFormatting.WHITE;
     }
 }

@@ -43,12 +43,12 @@ public class CreativeAspectSourceBER extends SimpleBER<CreativeAspectSourceBlock
                 Matrix4f mat = pPoseStack.last().pose();
                 Aspect aspect = ConfigDataRegistries.ASPECTS.get(pBlockEntity.getLevel().registryAccess(), pBlockEntity.getAspect());
                 VertexConsumer consumer = pBufferSource.getBuffer(RenderType.text(AspectRenderer.getTexture(pBlockEntity.getAspect(), false)));
-                int color = (255 << 24) | (aspect.colour().rgba32(true) & 0x00FFFFFF);
+                int color = (255 << 24) | (aspect.colour().argb32(true) & 0x00FFFFFF);
                 int light = LevelRenderer.getLightColor(pBlockEntity.getLevel(), pBlockEntity.getBlockPos().relative(dir));
-                consumer.vertex(mat, (float)0.5, (float)-0.5, (float) 0).color(color).uv(0, 1).uv2(light).endVertex();
-                consumer.vertex(mat, (float)-0.5, (float)-0.5, (float) 0).color(color).uv(1, 1).uv2(light).endVertex();
-                consumer.vertex(mat, (float)-0.5, (float)0.5, (float) 0).color(color).uv(1, 0).uv2(light).endVertex();
-                consumer.vertex(mat, (float)0.5, (float)0.5, (float) 0).color(color).uv(0, 0).uv2(light).endVertex();
+                consumer.addVertex(mat, (float)0.5, (float)-0.5, (float) 0).setColor(color).setUv(0, 1).setLight(light);
+                consumer.addVertex(mat, (float)-0.5, (float)-0.5, (float) 0).setColor(color).setUv(1, 1).setLight(light);
+                consumer.addVertex(mat, (float)-0.5, (float)0.5, (float) 0).setColor(color).setUv(1, 0).setLight(light);
+                consumer.addVertex(mat, (float)0.5, (float)0.5, (float) 0).setColor(color).setUv(0, 0).setLight(light);
                 pPoseStack.popPose();
             }
             pPoseStack.popPose();

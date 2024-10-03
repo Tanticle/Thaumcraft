@@ -14,6 +14,8 @@ import net.neoforged.neoforge.client.event.RenderTooltipEvent;
 import tld.unknown.mystery.Thaumcraft;
 import tld.unknown.mystery.api.WarpingGear;
 import tld.unknown.mystery.client.rendering.ui.AspectTooltip;
+import tld.unknown.mystery.data.aspects.AspectList;
+import tld.unknown.mystery.registries.ConfigDataRegistries;
 import tld.unknown.mystery.registries.ConfigItemComponents;
 
 import java.util.ArrayList;
@@ -36,8 +38,9 @@ public class RenderEvents {
             e.getTooltipElements().addAll(1, components);
         }
 
-        if(DataRegistries.ASPECT_REGISTRY.hasAspects(e.getItemStack()))
-            e.getTooltipElements().add(Either.right(new AspectTooltip.Data(DataRegistries.ASPECT_REGISTRY.getAspects(e.getItemStack()))));
+        AspectList aspects = ConfigDataRegistries.ASPECT_REGISTRY.getAspects(e.getItemStack());
+        if(!aspects.isEmpty())
+            e.getTooltipElements().add(Either.right(new AspectTooltip.Data(aspects)));
         if(e.getItemStack().getItem() instanceof WarpingGear w)
             e.getTooltipElements().add(Either.left(Component.translatable("misc.thaumcraft.warping_tooltip", w.getWarp(e.getItemStack(), Minecraft.getInstance().player)).withStyle(ChatFormatting.DARK_PURPLE)));
     }

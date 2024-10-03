@@ -55,12 +55,13 @@ public class BlockDataProvider extends BlockStateProvider {
         ModelFile CRYSTAL_1 = models().getExistingFile(Thaumcraft.id("block/vis_crystals_ground_stage1"));
         ModelFile CRYSTAL_2 = models().getExistingFile(Thaumcraft.id("block/vis_crystals_ground_stage2"));
 
-        getVariantBuilder(ConfigBlocks.CRYSTAL_COLONY.block()).forAllStates((bs) -> getCrystalModels(bs.getValue(CrystalBlock.FACING), switch(bs.getValue(CrystalBlock.SIZE)) {
-            case 1 -> CRYSTAL_1;
-            case 2 -> CRYSTAL_2;
-            default -> CRYSTAL_0;
-        }));
-
+        ConfigBlocks.CRYSTAL_COLONY.forEach((aspect, block) -> {
+            getVariantBuilder(block.block()).forAllStates((bs) -> getCrystalModels(bs.getValue(CrystalBlock.FACING), switch(bs.getValue(CrystalBlock.SIZE)) {
+                case 1 -> CRYSTAL_1;
+                case 2 -> CRYSTAL_2;
+                default -> CRYSTAL_0;
+            }));
+        });
     }
 
     private void generateAspectSource() {
@@ -101,21 +102,21 @@ public class BlockDataProvider extends BlockStateProvider {
 
     private void registerSimpleBlock(DeferredBlock<? extends Block> block) {
         simpleBlock(block.value());
-        simpleBlockItem(block.value(), itemModels().getExistingFile(new ResourceLocation(block.getId().getNamespace(), "block/" + block.getId().getPath())));
+        simpleBlockItem(block.value(), itemModels().getExistingFile(ResourceLocation.tryBuild(block.getId().getNamespace(), "block/" + block.getId().getPath())));
     }
 
     private void registerStairSlab(DeferredBlock<? extends StairBlock> stairs, DeferredBlock<? extends SlabBlock> slab, ResourceLocation texture) {
-        texture = new ResourceLocation(texture.getNamespace(), "block/" + texture.getPath());
+        texture = ResourceLocation.tryBuild(texture.getNamespace(), "block/" + texture.getPath());
         stairsBlock(stairs.get(), texture);
-        simpleBlockItem(stairs.get(), itemModels().getExistingFile(new ResourceLocation(stairs.getId().getNamespace(), "block/" + stairs.getId().getPath())));
+        simpleBlockItem(stairs.get(), itemModels().getExistingFile(ResourceLocation.tryBuild(stairs.getId().getNamespace(), "block/" + stairs.getId().getPath())));
         slabBlock(slab.get(), texture, texture);
-        simpleBlockItem(slab.get(), itemModels().getExistingFile(new ResourceLocation(slab.getId().getNamespace(), "block/" + slab.getId().getPath())));
+        simpleBlockItem(slab.get(), itemModels().getExistingFile(ResourceLocation.tryBuild(slab.getId().getNamespace(), "block/" + slab.getId().getPath())));
     }
 
     public ItemModelBuilder basicBlockItem(ResourceLocation item) {
         return itemModels().getBuilder(item.toString())
                 .parent(new ModelFile.UncheckedModelFile("item/generated"))
-                .texture("layer0", new ResourceLocation(item.getNamespace(), "block/" + item.getPath()));
+                .texture("layer0", ResourceLocation.tryBuild(item.getNamespace(), "block/" + item.getPath()));
     }
 
     private void registerDirectionalMultipart(Block block, Map<Direction, BooleanProperty> dirProperties, ResourceLocation centerPart, ResourceLocation sidePart, boolean hideCenter) {

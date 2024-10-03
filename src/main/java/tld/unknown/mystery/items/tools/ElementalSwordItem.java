@@ -29,14 +29,14 @@ public class ElementalSwordItem extends SwordItem {
     }
 
     @Override
-    public int getUseDuration(ItemStack pStack) {
+    public int getUseDuration(ItemStack stack, LivingEntity entity) {
         return MAX_USE_DURATION;
     }
 
     @Override
     public void onUseTick(Level pLevel, LivingEntity pLivingEntity, ItemStack pStack, int pRemainingUseDuration) {
         super.onUseTick(pLevel, pLivingEntity, pStack, pRemainingUseDuration);
-        int ticks = getUseDuration(pStack) - pRemainingUseDuration;
+        int ticks = getUseDuration(pStack, pLivingEntity) - pRemainingUseDuration;
         double vY = pLivingEntity.getDeltaMovement().y();
         if (vY < 0.0) {
             vY /= 1.2F;

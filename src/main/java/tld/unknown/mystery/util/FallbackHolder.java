@@ -3,7 +3,6 @@ package tld.unknown.mystery.util;
 import com.mojang.datafixers.util.Either;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderOwner;
-import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
@@ -14,13 +13,11 @@ import java.util.stream.Stream;
 
 public class FallbackHolder<T> implements Holder<T> {
 
-    private final ResourceKey<Registry<T>> registryKey;
     private final ResourceKey<T> key;
     private final T value;
 
-    public FallbackHolder(ResourceKey<Registry<T>> registryKey, ResourceLocation key, T value) {
-        this.registryKey = registryKey;
-        this.key = ResourceKey.create(registryKey, key);
+    public FallbackHolder(ResourceKey<T> key, T value) {
+        this.key = key;
         this.value = value;
     }
 

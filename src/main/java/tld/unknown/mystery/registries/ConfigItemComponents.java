@@ -1,19 +1,23 @@
 package tld.unknown.mystery.registries;
 
 import com.mojang.serialization.Codec;
+import net.minecraft.core.Direction;
 import net.minecraft.core.Holder;
+import net.minecraft.core.UUIDUtil;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.ResourceLocation;
 import net.neoforged.bus.api.IEventBus;
+import net.neoforged.neoforge.network.codec.NeoForgeStreamCodecs;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import tld.unknown.mystery.Thaumcraft;
 import tld.unknown.mystery.api.aspects.Aspect;
-import tld.unknown.mystery.items.components.CollectorMarkerComponent;
 import tld.unknown.mystery.items.components.CrystalAspectComponent;
 import tld.unknown.mystery.items.components.InfusionEnchantmentComponent;
+
+import java.util.UUID;
 
 import static tld.unknown.mystery.api.ThaumcraftData.ItemComponents;
 
@@ -32,7 +36,9 @@ public class ConfigItemComponents {
     public static final Holder<DataComponentType<CrystalAspectComponent>> CRYSTAL_ASPECT = register(ItemComponents.CRYSTAL_ASPECT,
             CrystalAspectComponent.CODEC, CrystalAspectComponent.STREAM_CODEC);
 
-    public static final Holder<DataComponentType<CollectorMarkerComponent>> COLLECTOR_MARKER = marker(ItemComponents.COLLECTOR_MARKER, CollectorMarkerComponent.STREAM_CODEC);
+    public static final Holder<DataComponentType<UUID>> COLLECTOR_MARKER = marker(ItemComponents.COLLECTOR_MARKER, UUIDUtil.STREAM_CODEC);
+
+    public static final Holder<DataComponentType<Direction.Axis>> AXIS = register(ItemComponents.AXIS, Direction.Axis.CODEC, NeoForgeStreamCodecs.enumCodec(Direction.Axis.class));
 
     /* -------------------------------------------------------------------------------------------------------------- */
 

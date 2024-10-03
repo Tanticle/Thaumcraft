@@ -6,8 +6,8 @@ import net.minecraft.core.Holder;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.util.StringRepresentable;
 import net.neoforged.neoforge.network.codec.NeoForgeStreamCodecs;
-import tld.unknown.mystery.util.codec.EnumCodec;
 
 public record ResearchKnowledge(
         Type type,
@@ -23,7 +23,7 @@ public record ResearchKnowledge(
     }
 
     public static final Codec<ResearchKnowledge> CODEC = RecordCodecBuilder.create(i -> i.group(
-            new EnumCodec<>(ResearchKnowledge.Type.class).fieldOf("type").forGetter(ResearchKnowledge::type),
+            StringRepresentable.fromValues(Type::values).fieldOf("type").forGetter(ResearchKnowledge::type),
             ResearchCategory.REGISTRY_CODEC.fieldOf("category").forGetter(ResearchKnowledge::category),
             Codec.INT.fieldOf("amount").forGetter(ResearchKnowledge::amount)
     ).apply(i, ResearchKnowledge::new));
@@ -34,7 +34,7 @@ public record ResearchKnowledge(
             ByteBufCodecs.INT, ResearchKnowledge::amount,
             ResearchKnowledge::new);
 
-    public enum Type implements EnumCodec.Values {
+    public enum Type implements StringRepresentable {
         OBSERVATION("observation"),
         THEORY("theory");
 

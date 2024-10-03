@@ -1,67 +1,27 @@
 package tld.unknown.mystery.items.blocks;
 
-import net.minecraft.ChatFormatting;
-import net.minecraft.core.Holder;
-import net.minecraft.core.RegistryAccess;
-import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.MutableComponent;
+import lombok.Getter;
+import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.context.DirectionalPlaceContext;
-import net.minecraft.world.level.block.state.BlockState;
-import org.jetbrains.annotations.Nullable;
-import tld.unknown.mystery.api.ThaumcraftData;
-import tld.unknown.mystery.api.aspects.Aspect;
 import tld.unknown.mystery.api.aspects.AspectContainerItem;
 import tld.unknown.mystery.blocks.CrystalBlock;
 import tld.unknown.mystery.data.aspects.AspectList;
-import tld.unknown.mystery.items.components.CrystalAspectComponent;
 import tld.unknown.mystery.registries.ConfigBlocks;
-import tld.unknown.mystery.registries.ConfigItemComponents;
-import tld.unknown.mystery.util.simple.SimpleMetaBlockItem;
 
-import java.util.Arrays;
-import java.util.Set;
-import java.util.stream.Collectors;
+public class CrystalBlockItem extends BlockItem implements AspectContainerItem {
 
-public class CrystalBlockItem extends SimpleMetaBlockItem<CrystalBlock.CrystalAspect> implements AspectContainerItem {
+    private static final Properties ITEM_PROPERTIES = new Properties().stacksTo(64);
 
-    public CrystalBlockItem() {
-        super(ConfigBlocks.CRYSTAL_COLONY.block(), new Properties().stacksTo(64), ConfigItemComponents.CRYSTAL_ASPECT.value(), false);
-    }
+    @Getter
+    private final CrystalBlock.CrystalAspect aspect;
 
-    @Override
-    public BlockState determineBlockState(BlockState defaultBlockState, CrystalAspectComponent value) {
-        return value == null ? null : defaultBlockState.setValue(CrystalBlock.ASPECT, value.value());
-    }
-
-    @Nullable
-    @Override
-    protected BlockState getPlacementState(DirectionalPlaceContext pContext) {
-        BlockState state =  super.getPlacementState(pContext);
-        if(state != null) {
-            state.setValue(CrystalBlock.FACING, pContext.getClickedFace());
-        }
-        return state;
-    }
-
-    @Override
-    protected Set<Holder<Aspect>> getValidValues(RegistryAccess access) {
-        return Arrays.stream(CrystalBlock.CrystalAspect.values()).map(CrystalAspectComponent::new).collect(Collectors.toSet());
-    }
-
-    @Override
-    protected Component getDataNameFiller(Holder<CrystalBlock.CrystalAspect> content) {
-        MutableComponent name = (MutableComponent)Aspect.getName(content.value().getId(), false, true);
-        if(content.value() == CrystalBlock.CrystalAspect.TAINT) {
-            name.withStyle(ChatFormatting.DARK_PURPLE);
-        }
-        return name;
+    public CrystalBlockItem(CrystalBlock.CrystalAspect aspect) {
+        super(ConfigBlocks.CRYSTAL_COLONY.get(aspect).block(), ITEM_PROPERTIES);
+        this.aspect = aspect;
     }
 
     @Override
     public AspectList getAspects(ItemStack stack) {
-        AspectList list = new AspectList().add(ThaumcraftData.Aspects.CRYSTAL, 10);
-        CrystalBlock.CrystalAspect aspect = getData(stack).value();
-        return hasData(stack) ? list.add(aspect.getId(), 15) : list;
+        return new AspectList().add(aspect.getId(), 15);
     }
 }

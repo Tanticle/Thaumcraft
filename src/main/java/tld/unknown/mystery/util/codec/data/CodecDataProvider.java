@@ -7,7 +7,7 @@ import com.mojang.serialization.MapCodec;
 import net.minecraft.data.CachedOutput;
 import net.minecraft.data.DataProvider;
 import net.minecraft.data.PackOutput;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.ResourceKey;
 import tld.unknown.mystery.Thaumcraft;
 
 import java.nio.file.Path;
@@ -20,7 +20,7 @@ public abstract class CodecDataProvider<T> implements DataProvider {
     private final String name;
     private final PackOutput.PathProvider provider;
     private final MapCodec<T> codec;
-    private final Map<ResourceLocation, T> entries = new HashMap<>();
+    private final Map<ResourceKey<T>, T> entries = new HashMap<>();
 
     public CodecDataProvider(PackOutput output, String name, String path, MapCodec<T> codec) {
         this.name = name;
@@ -34,7 +34,7 @@ public abstract class CodecDataProvider<T> implements DataProvider {
     @Override
     public CompletableFuture<Void> run(CachedOutput pOutput) {
         entries.forEach((id, obj) -> {
-            Path p = provider.json(id);
+            Path p = provider.json(id.location());
             DataResult<JsonElement> result = JsonOps.INSTANCE.withEncoder(codec.codec()).apply(obj);
             result.resultOrPartial(s -> Thaumcraft.error("Failed to save data object: " + s))
                     .ifPresent(json -> {
@@ -48,10 +48,10 @@ public abstract class CodecDataProvider<T> implements DataProvider {
 
     protected void processJson(JsonElement element) { }
 
-    protected void register(ResourceLocation path, T object) {
-        if(entries.containsKey(path))
-            throw new IllegalStateException("Tried to register duplicate data at " + path + " for data type " + name + "!");
-        entries.put(path, object);
+    protected void register(ResourceKey<T> key, T object) {
+        if(entries.containsKey(key))
+            throw new IllegalStateException("Tried to register duplicate data at " + key.location() + " for data type " + name + "!");
+        entries.put(key, object);
     }
 
     @Override

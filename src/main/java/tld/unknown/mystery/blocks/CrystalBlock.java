@@ -1,11 +1,13 @@
 package tld.unknown.mystery.blocks;
 
 import com.mojang.serialization.MapCodec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.core.RegistryAccess;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.util.StringRepresentable;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.Block;
@@ -14,35 +16,41 @@ import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
-import net.minecraft.world.level.block.state.properties.EnumProperty;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
 import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import tld.unknown.mystery.api.ThaumcraftData;
+import tld.unknown.mystery.api.aspects.Aspect;
+import tld.unknown.mystery.registries.ConfigDataRegistries;
 import tld.unknown.mystery.util.simple.SimpleBlockMaterials;
-
-import java.util.Arrays;
-import java.util.Optional;
 
 //TODO: Crystal material
 public class CrystalBlock extends DirectionalBlock {
 
-    public static final EnumProperty<CrystalAspect> ASPECT = EnumProperty.create("aspect", CrystalAspect.class);
     public static final IntegerProperty SIZE = IntegerProperty.create("size", 0, 2);
 
     private static final VoxelShape COLLISION = Block.box(2.0D, 0.0D, 2.0D, 14.0D, 12.0D, 14.0D);
-    private static final MapCodec<CrystalBlock> CODEC = simpleCodec(CrystalBlock::new);
+    private static final MapCodec<CrystalBlock> CODEC = RecordCodecBuilder.mapCodec(i -> i.group(
+            propertiesCodec(),
+            StringRepresentable.fromValues(CrystalAspect::values).fieldOf("aspect").forGetter(b -> b.aspect)
+    ).apply(i, CrystalBlock::new));
 
-    public CrystalBlock() {
-        this(SimpleBlockMaterials.GLASS);
+    private final CrystalBlock.CrystalAspect aspect;
+
+    public CrystalBlock(CrystalBlock.CrystalAspect aspect) {
+        this(SimpleBlockMaterials.GLASS.mapColor(aspect.color), aspect);
     }
 
-    public CrystalBlock(BlockBehaviour.Properties properties) {
+    public Aspect getAspect(RegistryAccess access) {
+        return ConfigDataRegistries.ASPECTS.get(access, this.aspect.getId());
+    }
+
+    public CrystalBlock(BlockBehaviour.Properties properties, CrystalAspect aspect) {
         super(properties);
+        this.aspect = aspect;
         registerDefaultState(this.getStateDefinition().any()
                 .setValue(FACING, Direction.UP)
-                .setValue(ASPECT, CrystalAspect.ORDER)
                 .setValue(SIZE, 0));
     }
 
@@ -58,7 +66,7 @@ public class CrystalBlock extends DirectionalBlock {
 
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> pBuilder) {
-        pBuilder.add(FACING, ASPECT, SIZE);
+        pBuilder.add(FACING, SIZE);
     }
 
     @Override
@@ -77,16 +85,12 @@ public class CrystalBlock extends DirectionalBlock {
         TAINT(ThaumcraftData.Aspects.TAINT, MapColor.COLOR_PURPLE);
 
         @Getter
-        private final ResourceLocation id;
+        private final ResourceKey<Aspect> id;
         private final MapColor color;
 
         @Override
         public String getSerializedName() {
-            return id.getPath();
-        }
-
-        public static Optional<CrystalAspect> getFromId(ResourceLocation id) {
-            return Arrays.stream(values()).filter(a -> a.id == id).findFirst();
+            return id.location().getPath();
         }
     }
 }

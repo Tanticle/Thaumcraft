@@ -39,6 +39,6 @@ public class AlchemyRecipeProvider extends CodecDataProvider<AlchemyRecipe> {
     }
 
     private void recipe(ResourceLocation id, Ingredient catalyst, AspectList aspects, ItemStack result) {
-        register(id, new AlchemyRecipe(catalyst, aspects, result));
+        //register(id, new AlchemyRecipe(catalyst, aspects, result));
     }
 }

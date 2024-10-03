@@ -1,0 +1,13 @@
+{
+  "required": true,
+  "package": "tld.unknown.mystery.extensions.mixins",
+  "compatibilityLevel": "JAVA_21",
+  "mixins": [
+    "RegistriesDatapackGeneratorMixin"
+  ],
+  "client": [],
+  "injectors": {
+    "defaultRequire": 1
+  },
+  "minVersion": "0.8"
+}

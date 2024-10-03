@@ -11,6 +11,9 @@ logoFile = "logo.png"
 authors = "${mod_authors}"
 description = '''${mod_description}'''
 
+[[mixins]]
+config="META-INF/thaumcraft.mixins.json"
+
 [[accesstransformers]]
 file = "META-INF/accesstransformer.cfg"
 

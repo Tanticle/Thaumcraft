@@ -4,13 +4,16 @@ import com.google.common.collect.Sets;
 import lombok.Getter;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.Holder;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.level.block.state.BlockState;
+import tld.unknown.mystery.api.aspects.Aspect;
 import tld.unknown.mystery.api.capabilities.IEssentiaCapability;
 import tld.unknown.mystery.registries.ConfigBlockEntities;
 import tld.unknown.mystery.registries.ConfigCapabilities;
+import tld.unknown.mystery.registries.ConfigDataRegistries;
 import tld.unknown.mystery.util.BitPacker;
 import tld.unknown.mystery.util.simple.SimpleBlockEntity;
 import tld.unknown.mystery.util.simple.TickableBlockEntity;
@@ -25,9 +28,9 @@ public class TubeBlockEntity extends SimpleBlockEntity implements IEssentiaCapab
     private int venting;
     private int checkTimer;
 
-    private ResourceLocation suctionType;
+    private Holder<Aspect> suctionType;
     private int suction;
-    private ResourceLocation aspect;
+    private Holder<Aspect> aspect;
     private int amount;
 
     public TubeBlockEntity(BlockPos pPos, BlockState pBlockState) {
@@ -52,8 +55,8 @@ public class TubeBlockEntity extends SimpleBlockEntity implements IEssentiaCapab
                 IEssentiaCapability cap = getLevel().getCapability(ConfigCapabilities.ESSENTIA, getBlockPos().offset(dir.getNormal()), dir.getOpposite());
                 if(cap != null) {
                     if (cap.compliesToAspect(null, dir.getOpposite())) {
-                        if (amount <= 0 || cap.compliesToAspect(null, dir.getOpposite()) || cap.compliesToAspect(aspect, dir.getOpposite())) {
-                            if (amount <= 0 || aspect == null || cap.compliesToAspect(null, dir.getOpposite()) || cap.compliesToAspect(aspect, dir.getOpposite())) {
+                        if (amount <= 0 || cap.compliesToAspect(null, dir.getOpposite()) || cap.compliesToAspect(aspect.unwrapKey().get(), dir.getOpposite())) {
+                            if (amount <= 0 || aspect == null || cap.compliesToAspect(null, dir.getOpposite()) || cap.compliesToAspect(aspect.unwrapKey().get(), dir.getOpposite())) {
                                 int suck = cap.getSuction(dir.getOpposite());
                                 if (suck > 0 && suck > this.suction + 1) {
                                     this.suction = suck - 1;
@@ -72,7 +75,7 @@ public class TubeBlockEntity extends SimpleBlockEntity implements IEssentiaCapab
                 IEssentiaCapability cap = getLevel().getCapability(ConfigCapabilities.ESSENTIA, getBlockPos().offset(dir.getNormal()), dir.getOpposite());
                 if(cap != null) {
                     int suck = cap.getSuction(dir.getOpposite());
-                    if (this.suction > 0 && (suck == this.suction || suck == this.suction - 1) && cap.compliesToAspect(this.suctionType, dir.getOpposite())) {
+                    if (this.suction > 0 && (suck == this.suction || suck == this.suction - 1) && cap.compliesToAspect(this.suctionType.unwrapKey().get(), dir.getOpposite())) {
                         // Dispatch Venting Particles
                         this.venting = 40;
                     }
@@ -95,10 +98,10 @@ public class TubeBlockEntity extends SimpleBlockEntity implements IEssentiaCapab
                                 suction >= cap.getMinimumSuction(dir.getOpposite())) {
 
                             if(suctionType == null) {
-                                suctionType = cap.getEssentiaType(dir.getOpposite());
+                                suctionType = ConfigDataRegistries.ASPECTS.getHolder(level.registryAccess(), cap.getEssentiaType(dir.getOpposite()));
                             }
 
-                            int amountFilled = fillAspect(suctionType, cap.drainAspect(suctionType, 1, dir.getOpposite()), dir.getOpposite());
+                            int amountFilled = fillAspect(suctionType.unwrapKey().get(), cap.drainAspect(suctionType.unwrapKey().get(), 1, dir.getOpposite()), dir.getOpposite());
                             if (amountFilled > 0) {
                                 //TODO: ??? Fill effect?
                                 /*if (this.world.rand.nextInt(100) == 0)
@@ -161,8 +164,8 @@ public class TubeBlockEntity extends SimpleBlockEntity implements IEssentiaCapab
     }
 
     @Override
-    public ResourceLocation getEssentiaType(Direction dir) {
-        return this.aspect;
+    public ResourceKey<Aspect> getEssentiaType(Direction dir) {
+        return this.aspect.unwrapKey().get();
     }
 
     @Override
@@ -181,32 +184,32 @@ public class TubeBlockEntity extends SimpleBlockEntity implements IEssentiaCapab
     }
 
     @Override
-    public ResourceLocation getSuctionType(Direction dir) {
-        return suctionType;
+    public ResourceKey<Aspect> getSuctionType(Direction dir) {
+        return suctionType.unwrapKey().get();
     }
 
     @Override
-    public int drainAspect(ResourceLocation aspect, int amount, Direction dir) {
+    public int drainAspect(ResourceKey<Aspect> aspect, int amount, Direction dir) {
         return 0;
     }
 
     @Override
-    public int fillAspect(ResourceLocation aspect, int amount, Direction dir) {
+    public int fillAspect(ResourceKey<Aspect> aspect, int amount, Direction dir) {
         return 0;
     }
 
     @Override
-    public boolean canFit(ResourceLocation aspect, int amount, Direction dir) {
+    public boolean canFit(ResourceKey<Aspect> aspect, int amount, Direction dir) {
         return false;
     }
 
     @Override
-    public boolean contains(ResourceLocation aspect, int amount, Direction dir) {
+    public boolean contains(ResourceKey<Aspect> aspect, int amount, Direction dir) {
         return false;
     }
 
     @Override
-    public boolean compliesToAspect(ResourceLocation aspect, Direction dir) {
+    public boolean compliesToAspect(ResourceKey<Aspect> aspect, Direction dir) {
         return false;
     }
 }

@@ -6,9 +6,11 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.state.BlockState;
 import tld.unknown.mystery.api.ThaumcraftData;
+import tld.unknown.mystery.api.aspects.Aspect;
 import tld.unknown.mystery.api.aspects.AspectContainer;
 import tld.unknown.mystery.api.capabilities.IEssentiaCapability;
 import tld.unknown.mystery.blocks.JarBlock;
@@ -21,9 +23,9 @@ public class JarBlockEntity extends SimpleBlockEntity implements AspectContainer
     private static final int MAX_ESSENTIA = 250;
 
     @Getter @Setter
-    private ResourceLocation currentAspect;
+    private ResourceKey<Aspect> currentAspect;
     @Getter
-    private ResourceLocation label;
+    private ResourceKey<Aspect> label;
     @Getter
     private Direction labelDirection;
     private int amount;
@@ -31,7 +33,7 @@ public class JarBlockEntity extends SimpleBlockEntity implements AspectContainer
     public JarBlockEntity(BlockPos pPos, BlockState pBlockState) {
         super(ConfigBlockEntities.JAR.entityType(), pPos, pBlockState);
         this.currentAspect = null;
-        this.label = ThaumcraftData.Aspects.TAINT;
+        this.label = null;
         this.labelDirection = Direction.NORTH;
         this.amount = 0;
     }
@@ -40,11 +42,11 @@ public class JarBlockEntity extends SimpleBlockEntity implements AspectContainer
     protected void readNbt(CompoundTag nbt, HolderLookup.Provider pRegistries) {
         if(nbt.contains("content")) {
             CompoundTag content = nbt.getCompound("content");
-            this.currentAspect = ResourceLocation.tryParse(content.getString("aspect"));
+            this.currentAspect = ResourceKey.create(ThaumcraftData.Registries.ASPECT, ResourceLocation.tryParse(content.getString("aspect")));
             this.amount = content.getInt("amount");
         }
         if(nbt.contains("label")) {
-            this.label = ResourceLocation.tryParse(nbt.getString("label"));
+            this.label = ResourceKey.create(ThaumcraftData.Registries.ASPECT, ResourceLocation.tryParse(nbt.getString("label")));
             this.labelDirection = Direction.byName(nbt.getString("label_dir"));
         }
     }
@@ -76,7 +78,7 @@ public class JarBlockEntity extends SimpleBlockEntity implements AspectContainer
     /* -------------------------------------------------------------------------------------------------------------- */
 
     @Override
-    public int getAspectCount(ResourceLocation aspect) {
+    public int getAspectCount(ResourceKey<Aspect> aspect) {
         return aspect.equals(currentAspect) ? amount : 0;
     }
 
@@ -86,19 +88,19 @@ public class JarBlockEntity extends SimpleBlockEntity implements AspectContainer
     }
 
     @Override
-    public int drainAspect(ResourceLocation aspect) {
+    public int drainAspect(ResourceKey<Aspect> aspect) {
         int essentia = this.amount;
         this.amount = 0;
         return essentia;
     }
 
     @Override
-    public int drainAspect(ResourceLocation aspect, int amount) {
+    public int drainAspect(ResourceKey<Aspect> aspect, int amount) {
         if(aspect.equals(currentAspect)) {
             int currentAmount = this.amount;
             if(currentAmount <= amount) {
                 this.amount = 0;
-                this.currentAspect = ThaumcraftData.Aspects.ANY;
+                this.currentAspect = null;
                 return currentAmount;
             }
             this.amount -= amount;
@@ -109,7 +111,7 @@ public class JarBlockEntity extends SimpleBlockEntity implements AspectContainer
 
     //TODO: Void Effect & Flux
     @Override
-    public int addAspect(ResourceLocation aspect, int amount) {
+    public int addAspect(ResourceKey<Aspect> aspect, int amount) {
         if(this.currentAspect == null && this.amount == 0) {
             this.currentAspect = aspect;
             this.amount = Math.min(MAX_ESSENTIA, amount);
@@ -137,7 +139,7 @@ public class JarBlockEntity extends SimpleBlockEntity implements AspectContainer
     }
 
     @Override
-    public ResourceLocation getEssentiaType(Direction dir) {
+    public ResourceKey<Aspect> getEssentiaType(Direction dir) {
         return label != null ? label : currentAspect;
     }
 
@@ -151,7 +153,7 @@ public class JarBlockEntity extends SimpleBlockEntity implements AspectContainer
     }
 
     @Override
-    public ResourceLocation getSuctionType(Direction dir) {
+    public ResourceKey<Aspect> getSuctionType(Direction dir) {
         return getEssentiaType(dir);
     }
 
@@ -168,27 +170,27 @@ public class JarBlockEntity extends SimpleBlockEntity implements AspectContainer
     }
 
     @Override
-    public int drainAspect(ResourceLocation aspect, int amount, Direction dir) {
+    public int drainAspect(ResourceKey<Aspect> aspect, int amount, Direction dir) {
         return dir == Direction.UP ? drainAspect(aspect, amount) : 0;
     }
 
     @Override
-    public int fillAspect(ResourceLocation aspect, int amount, Direction dir) {
+    public int fillAspect(ResourceKey<Aspect> aspect, int amount, Direction dir) {
         return dir == Direction.UP ? addAspect(aspect, amount) : 0;
     }
 
     @Override
-    public boolean compliesToAspect(ResourceLocation aspect, Direction dir) {
+    public boolean compliesToAspect(ResourceKey<Aspect> aspect, Direction dir) {
         return dir == Direction.UP && (label == null || aspect.equals(label)) && (currentAspect == null || aspect.equals(currentAspect));
     }
 
     @Override
-    public boolean canFit(ResourceLocation aspect, int amount, Direction dir) {
+    public boolean canFit(ResourceKey<Aspect> aspect, int amount, Direction dir) {
         return compliesToAspect(aspect, dir) && (isVoid() || amount <= MAX_ESSENTIA - this.amount);
     }
 
     @Override
-    public boolean contains(ResourceLocation aspect, int amount, Direction dir) {
+    public boolean contains(ResourceKey<Aspect> aspect, int amount, Direction dir) {
         return (aspect == null || compliesToAspect(aspect, dir)) && this.amount >= amount;
     }
 }

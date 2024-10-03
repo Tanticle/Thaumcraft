@@ -12,7 +12,6 @@ import net.neoforged.neoforge.event.level.BlockEvent;
 import tld.unknown.mystery.Thaumcraft;
 import tld.unknown.mystery.api.InfusionEnchantments;
 import tld.unknown.mystery.entities.MovingItemEntity;
-import tld.unknown.mystery.items.components.CollectorMarkerComponent;
 import tld.unknown.mystery.registries.ConfigItemComponents;
 import tld.unknown.mystery.util.BlockUtils;
 
@@ -37,16 +36,13 @@ public class EnchantmentEvents {
 
     @SubscribeEvent
     public static void onEntitySpawnEvent(EntityJoinLevelEvent e) {
-        if(e.getEntity() instanceof ItemEntity entity) {
-            CollectorMarkerComponent comp = entity.getItem().get(ConfigItemComponents.COLLECTOR_MARKER.value());
-            if(comp != null) {
-                e.setCanceled(true);
-                Entity target = ((ServerLevel)e.getLevel()).getEntity(comp.target());
-                entity.getItem().remove(ConfigItemComponents.COLLECTOR_MARKER.value());
-                MovingItemEntity movingEntity = new MovingItemEntity(entity, target);
-                entity.kill();
-                e.getLevel().addFreshEntity(movingEntity);
-            }
+        if(e.getEntity() instanceof ItemEntity entity && entity.getItem().has(ConfigItemComponents.COLLECTOR_MARKER.value())) {
+            e.setCanceled(true);
+            Entity target = ((ServerLevel)e.getLevel()).getEntity(entity.getItem().get(ConfigItemComponents.COLLECTOR_MARKER.value()));
+            entity.getItem().remove(ConfigItemComponents.COLLECTOR_MARKER.value());
+            MovingItemEntity movingEntity = new MovingItemEntity(entity, target);
+            entity.kill();
+            e.getLevel().addFreshEntity(movingEntity);
         }
     }
 }

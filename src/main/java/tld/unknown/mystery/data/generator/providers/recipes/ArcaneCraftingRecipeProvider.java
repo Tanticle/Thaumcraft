@@ -2,6 +2,7 @@ package tld.unknown.mystery.data.generator.providers.recipes;
 
 import com.google.gson.JsonElement;
 import net.minecraft.data.PackOutput;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -10,6 +11,7 @@ import tld.unknown.mystery.Thaumcraft;
 import tld.unknown.mystery.api.ThaumcraftData;
 import tld.unknown.mystery.api.aspects.Aspect;
 import tld.unknown.mystery.data.recipes.ArcaneCraftingRecipe;
+import tld.unknown.mystery.data.research.ResearchEntry;
 import tld.unknown.mystery.util.codec.data.CodecDataProvider;
 import tld.unknown.mystery.util.codec.recipes.CodecRecipeSerializer;
 
@@ -31,8 +33,7 @@ public class ArcaneCraftingRecipeProvider extends CodecDataProvider<ArcaneCrafti
                         "#+#",
                         Map.of('#', Ingredient.of(new ItemStack(Items.STICK)), '+', Ingredient.of(new ItemStack(Items.GOLD_INGOT))))
                 .setCrystalCost(Map.of(Aspect.Primal.AIR, 1))
-                .setVisCost(20)
-                .setRequiredResearch(ThaumcraftData.Research.UNLOCK_DEBUG));
+                .setVisCost(20));
     }
 
     @Override
@@ -41,13 +42,13 @@ public class ArcaneCraftingRecipeProvider extends CodecDataProvider<ArcaneCrafti
     }
 
     private void recipe(ResourceLocation id, RecipeBuilder builder) {
-        register(id, builder.build());
+        //TODO: Figure this out
     }
 
     private static final class RecipeBuilder {
 
         private ItemStack result;
-        private ResourceLocation requiredResearch = Thaumcraft.id("none");
+        private ResourceKey<ResearchEntry> requiredResearch;
         private CodecRecipeSerializer.CraftingGrid grid;
         private Map<Aspect.Primal, Integer> crystals;
         private int visCost;
@@ -56,7 +57,7 @@ public class ArcaneCraftingRecipeProvider extends CodecDataProvider<ArcaneCrafti
             this.result = result;
         }
 
-        public RecipeBuilder setRequiredResearch(ResourceLocation id) {
+        public RecipeBuilder setRequiredResearch(ResourceKey<ResearchEntry> id) {
             requiredResearch = id;
             return this;
         }

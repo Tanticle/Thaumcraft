@@ -5,10 +5,10 @@ import lombok.Getter;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.StringRepresentable;
 import net.minecraft.world.item.ItemStack;
 import tld.unknown.mystery.items.components.InfusionEnchantmentComponent;
 import tld.unknown.mystery.registries.ConfigItemComponents;
-import tld.unknown.mystery.util.codec.EnumCodec;
 
 import java.util.Arrays;
 
@@ -16,7 +16,7 @@ import static tld.unknown.mystery.api.ThaumcraftData.Enchantments;
 
 @Getter
 @AllArgsConstructor
-public enum InfusionEnchantments implements EnumCodec.Values {
+public enum InfusionEnchantments implements StringRepresentable {
 
     COLLECTOR(Enchantments.COLLECTOR, 1),
     BURROWING(Enchantments.BURROWING, 1),

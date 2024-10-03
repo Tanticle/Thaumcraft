@@ -28,7 +28,7 @@ public abstract class BlockEntityModel<T extends BlockEntity> {
         setupAnimation(blockEntity, delta);
         VertexConsumer consumer = pBuffer.getBuffer(renderType.apply(getTexture(blockEntity)));
         pPoseStack.translate(.5F, -.5F, .5F);
-        rootPart.render(pPoseStack, consumer, pPackedLight, pPackedOverlay, pRed, pGreen, pBlue, pAlpha);
+        rootPart.render(pPoseStack, consumer, pPackedLight, pPackedOverlay, 1); //TODO combine colour
         pPoseStack.popPose();
     }
 

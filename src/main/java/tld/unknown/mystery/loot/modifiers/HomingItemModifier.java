@@ -12,7 +12,6 @@ import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
 import net.neoforged.neoforge.common.loot.IGlobalLootModifier;
 import net.neoforged.neoforge.common.loot.LootModifier;
-import tld.unknown.mystery.items.components.CollectorMarkerComponent;
 import tld.unknown.mystery.registries.ConfigItemComponents;
 
 import java.util.UUID;
@@ -33,8 +32,8 @@ public class HomingItemModifier extends LootModifier {
                 return generatedLoot;
             uuid = e.getUUID();
         } else
-            uuid = context.getParam(LootContextParams.KILLER_ENTITY).getUUID();
-        generatedLoot.forEach(item -> item.set(ConfigItemComponents.COLLECTOR_MARKER.value(), new CollectorMarkerComponent(uuid)));
+            uuid = context.getParam(LootContextParams.ATTACKING_ENTITY).getUUID();
+        generatedLoot.forEach(item -> item.set(ConfigItemComponents.COLLECTOR_MARKER.value(), uuid));
         return generatedLoot;
     }
 

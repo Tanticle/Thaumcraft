@@ -6,6 +6,7 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.item.ItemEntity;
@@ -91,29 +92,39 @@ public class CrucibleBlock extends TickableEntityBlock<CrucibleBlockEntity> {
     }
 
     @Override
-    public InteractionResult use(BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, InteractionHand pHand, BlockHitResult pHit) {
-        if(!pLevel.isClientSide) {
-            CrucibleBlockEntity be = getEntity(pLevel, pPos);
-            Optional<FluidStack> stack = FluidUtil.getFluidContained(pPlayer.getItemInHand(pHand));
-            if(stack.isPresent() && stack.get().containsFluid(new FluidStack(Fluids.WATER, 1000))) {
-                if(!FluidHelper.isTankFull(be) && FluidUtil.interactWithFluidHandler(pPlayer, pHand, be)) {
-                    float randomPitch = 1.0F + (pLevel.getRandom().nextFloat() - pLevel.getRandom().nextFloat()) * .3F;
-                    pLevel.playSound(null, pPos, SoundEvents.BOTTLE_FILL, SoundSource.BLOCKS, .33F, randomPitch);
-                    be.sync();
-                }
-                return InteractionResult.SUCCESS;
-            } else if(!FluidHelper.isTankEmpty(be) && be.isCooking() && !pPlayer.isCrouching() && !pPlayer.getMainHandItem().isEmpty() && pHit.getDirection() == Direction.UP) {
-                be.processInput(pPlayer.getMainHandItem(), pPlayer, pLevel.registryAccess(), true);
-                return InteractionResult.SUCCESS;
-            } else if(pPlayer.getMainHandItem().isEmpty() && pPlayer.isCrouching()) {
-                getEntity(pLevel, pPos).emptyCrucible();
-                return InteractionResult.SUCCESS;
-            } else {
-                Thaumcraft.debug("Aspect List: " + be.getAspects());
+    protected ItemInteractionResult useItemOn(ItemStack pStack, BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, InteractionHand pHand, BlockHitResult pHitResult) {
+        if(pLevel.isClientSide)
+            return ItemInteractionResult.sidedSuccess(true);
+
+        CrucibleBlockEntity be = getEntity(pLevel, pPos);
+        Optional<FluidStack> stack = FluidUtil.getFluidContained(pStack);
+        if(stack.isPresent() && stack.get().containsFluid(new FluidStack(Fluids.WATER, 1000))) {
+            if(!FluidHelper.isTankFull(be) && FluidUtil.interactWithFluidHandler(pPlayer, pHand, be)) {
+                float randomPitch = 1.0F + (pLevel.getRandom().nextFloat() - pLevel.getRandom().nextFloat()) * .3F;
+                pLevel.playSound(null, pPos, SoundEvents.BOTTLE_FILL, SoundSource.BLOCKS, .33F, randomPitch);
+                be.sync();
             }
-        } else {
-            return InteractionResult.SUCCESS;
+            return ItemInteractionResult.sidedSuccess(false);
+        } else if(!FluidHelper.isTankEmpty(be) && be.isCooking() && !pPlayer.isCrouching() && pHitResult.getDirection() == Direction.UP) {
+            be.processInput(pPlayer.getMainHandItem(), pPlayer, pLevel.registryAccess(), true);
+            return ItemInteractionResult.sidedSuccess(false);
         }
-        return super.use(pState, pLevel, pPos, pPlayer, pHand, pHit);
+
+        return super.useItemOn(pStack, pState, pLevel, pPos, pPlayer, pHand, pHitResult);
+    }
+
+    @Override
+    protected InteractionResult useWithoutItem(BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, BlockHitResult pHitResult) {
+        if(pLevel.isClientSide)
+            return InteractionResult.sidedSuccess(true);
+
+        CrucibleBlockEntity be = getEntity(pLevel, pPos);
+        if(pPlayer.isCrouching()) {
+            getEntity(pLevel, pPos).emptyCrucible();
+            return InteractionResult.SUCCESS;
+        } else {
+            Thaumcraft.debug("Aspect List: " + be.getAspects());
+        }
+        return super.useWithoutItem(pState, pLevel, pPos, pPlayer, pHitResult);
     }
 }

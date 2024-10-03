@@ -34,29 +34,36 @@ public final class ThaumcraftData {
     public static final class Recipes {
 
         public static final ResourceLocation TYPE_ALCHEMY = Thaumcraft.id("alchemy");
-        public static final ResourceLocation TYPE_ARCANE_CRAFTING = Thaumcraft.id("arcane_crafting");
 
+        public static final ResourceLocation TYPE_ARCANE_CRAFTING = Thaumcraft.id("arcane_crafting");
         public static final ResourceLocation ALCHEMY_DOUBLE_SLIME = Thaumcraft.id("double_slime");
     }
 
-    /**
-     * Various constant Identifiers related to the Research system. Mostly internal research triggers and categories.
-     */
-    public static final class Research {
 
-        public static final ResourceLocation CATEGORY_UNKNOWN = Thaumcraft.id("unknown");
-        public static final String CATEGORY_DEBUG = "debug";
-        public static final String CATEGORY_FUNDAMENTALS = "fundamentals";
-        public static final String CATEGORY_AUROMANCY = "auromancy";
-        public static final String CATEGORY_ALCHEMY = "alchemy";
-        public static final String CATEGORY_ARTIFICE = "artifice";
-        public static final String CATEGORY_INFUSION = "infusion";
-        public static final String CATEGORY_GOLEMANCY = "golemancy";
-        public static final String CATEGORY_ELDRITCH = "eldritch";
+    public static final class ResearchCategories {
 
-        public static final ResourceLocation UNKNOWN = Thaumcraft.id(CATEGORY_UNKNOWN.getPath() + "/unknown");
-        public static final ResourceLocation UNLOCK_DEBUG = Thaumcraft.id("internal/unlock_debug");
-        public static final ResourceLocation UNLOCK_ARTIFICE = Thaumcraft.id(CATEGORY_FUNDAMENTALS + "/unlock_" + CATEGORY_ALCHEMY);
+        public static final ResourceKey<ResearchCategory> UNKNOWN = ResourceKey.create(Registries.RESEARCH_CATEGORY, Thaumcraft.id("unknown"));
+        public static final ResourceKey<ResearchCategory> FUNDAMENTALS = key("fundamentals");
+        public static final ResourceKey<ResearchCategory> AUROMANCY = key("auromancy");
+        public static final ResourceKey<ResearchCategory> ALCHEMY = key("alchemy");
+        public static final ResourceKey<ResearchCategory> ARTIFICE = key("artifice");
+        public static final ResourceKey<ResearchCategory> INFUSION = key("infusion");
+        public static final ResourceKey<ResearchCategory> GOLEMANCY = key("golemancy");
+        public static final ResourceKey<ResearchCategory> ELDRITCH = key("eldritch");
+
+        private static ResourceKey<ResearchCategory> key(String id) {
+            return ResourceKey.create(Registries.RESEARCH_CATEGORY, Thaumcraft.id(id));
+        }
+    }
+
+    public static final class ResearchEntries {
+
+        public static final ResourceKey<ResearchEntry> UNKNOWN = ResourceKey.create(Registries.RESEARCH_ENTRY, Thaumcraft.id("unknown"));
+        public static final ResourceKey<ResearchEntry> UNLOCK_ARTIFICE = key("unlock_artifice", ResearchCategories.FUNDAMENTALS);
+
+        private static ResourceKey<ResearchEntry> key(String id, ResourceKey<ResearchCategory> category) {
+            return ResourceKey.create(Registries.RESEARCH_ENTRY, Thaumcraft.id(category.location().getPath() + "/" + id));
+        }
     }
 
     public static final class ItemComponents {
@@ -65,6 +72,7 @@ public final class ThaumcraftData {
         public static final ResourceLocation ASPECT_HOLDER = Thaumcraft.id("aspect");
         public static final ResourceLocation CRYSTAL_ASPECT = Thaumcraft.id("crystal_aspect");
         public static final ResourceLocation COLLECTOR_MARKER = Thaumcraft.id("collector_marker");
+        public static final ResourceLocation AXIS = Thaumcraft.id("axis");
     }
 
     /**
@@ -202,51 +210,58 @@ public final class ThaumcraftData {
         public static final ResourceLocation WIND = Thaumcraft.id("wind");
     }
 
+    public static final class Networking {
+        public static final ResourceLocation SYNC_ASPECT_REGISTRY = Thaumcraft.id("sync_aspect_registry");
+    }
+
     /**
      * Identifiers for the "vanilla" aspects of Chaumtraft.
      */
     public static final class Aspects {
 
-        public static final ResourceLocation UNKNOWN = Thaumcraft.id("unknown");
-        public static final ResourceLocation ANY = Thaumcraft.id("any");
+        public static final ResourceKey<Aspect> UNKNOWN = key("unknown");
 
-        public static final ResourceLocation ORDER = Thaumcraft.id("ordo");
-        public static final ResourceLocation CHAOS = Thaumcraft.id("perditio");
-        public static final ResourceLocation EARTH = Thaumcraft.id("terra");
-        public static final ResourceLocation AIR = Thaumcraft.id("aer");
-        public static final ResourceLocation WATER = Thaumcraft.id("aqua");
-        public static final ResourceLocation FIRE = Thaumcraft.id("ignis");
+        public static final ResourceKey<Aspect> ORDER = key("ordo");
+        public static final ResourceKey<Aspect> CHAOS = key("perditio");
+        public static final ResourceKey<Aspect> EARTH = key("terra");
+        public static final ResourceKey<Aspect> AIR = key("aer");
+        public static final ResourceKey<Aspect> WATER = key("aqua");
+        public static final ResourceKey<Aspect> FIRE = key("ignis");
 
-        public static final ResourceLocation EMPTY = Thaumcraft.id("vacuos");
-        public static final ResourceLocation LIGHT = Thaumcraft.id("lux");
-        public static final ResourceLocation MOVEMENT = Thaumcraft.id("motus");
-        public static final ResourceLocation ICE = Thaumcraft.id("gelum");
-        public static final ResourceLocation CRYSTAL = Thaumcraft.id("vitreus");
-        public static final ResourceLocation METAL = Thaumcraft.id("metallum");
-        public static final ResourceLocation LIFE = Thaumcraft.id("victus");
-        public static final ResourceLocation DEATH = Thaumcraft.id("mortuus");
-        public static final ResourceLocation POWER = Thaumcraft.id("potentia");
-        public static final ResourceLocation CHANGE = Thaumcraft.id("permutatio");
-        public static final ResourceLocation MAGIC = Thaumcraft.id("praecantatio");
-        public static final ResourceLocation AURA = Thaumcraft.id("auram");
-        public static final ResourceLocation ALCHEMY = Thaumcraft.id("alkimia");
-        public static final ResourceLocation TAINT = Thaumcraft.id("vitium");
-        public static final ResourceLocation DARKNESS = Thaumcraft.id("tenebrae");
-        public static final ResourceLocation ALIEN = Thaumcraft.id("alienis");
-        public static final ResourceLocation FLIGHT = Thaumcraft.id("volatus");
-        public static final ResourceLocation PLANT = Thaumcraft.id("herba");
-        public static final ResourceLocation TOOL = Thaumcraft.id("instrumentum");
-        public static final ResourceLocation CRAFT = Thaumcraft.id("fabrico");
-        public static final ResourceLocation MACHINE = Thaumcraft.id("machina");
-        public static final ResourceLocation TRAP = Thaumcraft.id("vinculum");
-        public static final ResourceLocation SPIRIT = Thaumcraft.id("spiritus");
-        public static final ResourceLocation MIND = Thaumcraft.id("cognitio");
-        public static final ResourceLocation SENSE = Thaumcraft.id("sensus");
-        public static final ResourceLocation AVERSION = Thaumcraft.id("aversio");
-        public static final ResourceLocation ARMOR = Thaumcraft.id("praemunio");
-        public static final ResourceLocation DESIRE = Thaumcraft.id("desiderium");
-        public static final ResourceLocation UNDEAD = Thaumcraft.id("exanimis");
-        public static final ResourceLocation CREATURE = Thaumcraft.id("bestia");
-        public static final ResourceLocation HUMAN = Thaumcraft.id("humanus");
+        public static final ResourceKey<Aspect> EMPTY = key("vacuos");
+        public static final ResourceKey<Aspect> LIGHT = key("lux");
+        public static final ResourceKey<Aspect> MOVEMENT = key("motus");
+        public static final ResourceKey<Aspect> ICE = key("gelum");
+        public static final ResourceKey<Aspect> CRYSTAL = key("vitreus");
+        public static final ResourceKey<Aspect> METAL = key("metallum");
+        public static final ResourceKey<Aspect> LIFE = key("victus");
+        public static final ResourceKey<Aspect> DEATH = key("mortuus");
+        public static final ResourceKey<Aspect> POWER = key("potentia");
+        public static final ResourceKey<Aspect> CHANGE = key("permutatio");
+        public static final ResourceKey<Aspect> MAGIC = key("praecantatio");
+        public static final ResourceKey<Aspect> AURA = key("auram");
+        public static final ResourceKey<Aspect> ALCHEMY = key("alkimia");
+        public static final ResourceKey<Aspect> TAINT = key("vitium");
+        public static final ResourceKey<Aspect> DARKNESS = key("tenebrae");
+        public static final ResourceKey<Aspect> ALIEN = key("alienis");
+        public static final ResourceKey<Aspect> FLIGHT = key("volatus");
+        public static final ResourceKey<Aspect> PLANT = key("herba");
+        public static final ResourceKey<Aspect> TOOL = key("instrumentum");
+        public static final ResourceKey<Aspect> CRAFT = key("fabrico");
+        public static final ResourceKey<Aspect> MACHINE = key("machina");
+        public static final ResourceKey<Aspect> TRAP = key("vinculum");
+        public static final ResourceKey<Aspect> SPIRIT = key("spiritus");
+        public static final ResourceKey<Aspect> MIND = key("cognitio");
+        public static final ResourceKey<Aspect> SENSE = key("sensus");
+        public static final ResourceKey<Aspect> AVERSION = key("aversio");
+        public static final ResourceKey<Aspect> ARMOR = key("praemunio");
+        public static final ResourceKey<Aspect> DESIRE = key("desiderium");
+        public static final ResourceKey<Aspect> UNDEAD = key("exanimis");
+        public static final ResourceKey<Aspect> CREATURE = key("bestia");
+        public static final ResourceKey<Aspect> HUMAN = key("humanus");
+
+        private static ResourceKey<Aspect> key(String id) {
+            return ResourceKey.create(Registries.ASPECT, Thaumcraft.id(id));
+        }
     }
 }

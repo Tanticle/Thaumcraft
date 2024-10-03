@@ -3,7 +3,7 @@ package tld.unknown.mystery.blocks;
 import lombok.Getter;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.player.Player;
@@ -17,8 +17,8 @@ import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import tld.unknown.mystery.api.aspects.Aspect;
 import tld.unknown.mystery.blocks.entities.JarBlockEntity;
-import tld.unknown.mystery.items.components.AspectHolderComponent;
 import tld.unknown.mystery.registries.ConfigBlockEntities;
 import tld.unknown.mystery.registries.ConfigCapabilities;
 import tld.unknown.mystery.registries.ConfigDataRegistries;
@@ -73,7 +73,7 @@ public class JarBlock extends SimpleEntityBlock<JarBlockEntity> {
                 }
             } else if(handItem.getItem().equals(ConfigItems.PHIAL.value())) {
                 if(ConfigItems.PHIAL.value().hasData(handItem)) {
-                    ResourceLocation aspect = ConfigItems.PHIAL.value().getAspects(handItem).aspectsPresent().get(0);
+                    ResourceKey<Aspect> aspect = ConfigItems.PHIAL.value().getAspects(handItem).aspectsPresent().get(0);
                     if(jar.canFit(aspect, 10, Direction.UP)) {
                         if(!pLevel.isClientSide()) {
                             //TODO: Sound
@@ -94,7 +94,7 @@ public class JarBlock extends SimpleEntityBlock<JarBlockEntity> {
                     if(jar.contains(null, 10, Direction.UP)) {
                         if(!pLevel.isClientSide()) {
                             //TODO: Sound
-                            ResourceLocation aspect = jar.getEssentiaType(Direction.UP);
+                            ResourceKey<Aspect> aspect = jar.getEssentiaType(Direction.UP);
                             jar.drainAspect(aspect, 10, Direction.UP);
                             jar.sync();
                             if(!pPlayer.isCreative()) {

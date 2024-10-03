@@ -22,7 +22,7 @@ public abstract class BetterItemModelProvider extends ModelProvider<ItemModelBui
     public ItemModelBuilder basicItem(ResourceLocation item, String textureSubFolder) {
         return getBuilder(item.toString())
                 .parent(new ModelFile.UncheckedModelFile("item/generated"))
-                .texture("layer0", new ResourceLocation(item.getNamespace(), "item/" + (textureSubFolder != null ? textureSubFolder + "/" : "") + item.getPath()));
+                .texture("layer0", ResourceLocation.tryBuild(item.getNamespace(), "item/" + (textureSubFolder != null ? textureSubFolder + "/" : "") + item.getPath()));
     }
 
     public void batchItems(String texturePrefix, ResourceLocation... items) {

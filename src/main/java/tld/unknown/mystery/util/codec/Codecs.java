@@ -40,6 +40,16 @@ public final class Codecs {
         }
     };
 
+    public static StreamCodec<ByteBuf, Character> CHAR_STREAM = new StreamCodec<>() {
+        public Character decode(ByteBuf buffer) {
+            return buffer.readChar();
+        }
+
+        public void encode(ByteBuf buffer, Character value) {
+            buffer.writeChar(value);
+        }
+    };
+
     public static Codec<boolean[]> bitFieldCodec(int length, BitPacker.Length size) {
         return switch (size) {
             case BYTE -> Codec.BYTE.xmap(b -> BitPacker.readFlags(b, length, size), array -> (byte)BitPacker.encodeFlags(array, size));

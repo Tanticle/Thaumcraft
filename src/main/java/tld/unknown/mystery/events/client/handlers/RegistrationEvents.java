@@ -1,7 +1,6 @@
 package tld.unknown.mystery.events.client.handlers;
 
-import net.minecraft.client.Minecraft;
-import net.minecraft.core.RegistryAccess;
+import net.minecraft.core.Holder;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
@@ -10,14 +9,15 @@ import net.neoforged.neoforge.client.event.RegisterClientTooltipComponentFactori
 import net.neoforged.neoforge.client.event.RegisterColorHandlersEvent;
 import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
 import tld.unknown.mystery.Thaumcraft;
-import tld.unknown.mystery.blocks.CrystalBlock;
+import tld.unknown.mystery.api.aspects.Aspect;
 import tld.unknown.mystery.client.rendering.ber.*;
 import tld.unknown.mystery.client.rendering.entity.TrunkEntityRenderer;
 import tld.unknown.mystery.client.rendering.ui.AspectTooltip;
 import tld.unknown.mystery.client.screens.ArcaneWorkbenchScreen;
 import tld.unknown.mystery.items.AbstractAspectItem;
-import tld.unknown.mystery.items.blocks.CrystalBlockItem;
 import tld.unknown.mystery.registries.*;
+import tld.unknown.mystery.util.Colour;
+import tld.unknown.mystery.util.RegistryUtils;
 
 @EventBusSubscriber(modid = Thaumcraft.MOD_ID, value = Dist.CLIENT, bus = EventBusSubscriber.Bus.MOD)
 public class RegistrationEvents {
@@ -45,24 +45,21 @@ public class RegistrationEvents {
 
     @SubscribeEvent
     public static void onBlockColorTintingRegister(RegisterColorHandlersEvent.Block e) {
-        e.register((bs, level, pos, tintIndex) -> ConfigDataRegistries.ASPECTS.get(access(), bs.getValue(CrystalBlock.ASPECT).getId()).colour().rgba32(true), ConfigBlocks.CRYSTAL_COLONY.block());
+        ConfigBlocks.CRYSTAL_COLONY.forEach((aspect, block) -> e.register((bs, level, pos, tintIndex) -> ConfigDataRegistries.ASPECTS.get(RegistryUtils.access(), aspect.getId()).colour().argb32(true), block.block()));
     }
 
     @SubscribeEvent
     public static void onItemColorTintingRegister(RegisterColorHandlersEvent.Item e) {
-        e.register((stack, tintIndex) -> tintIndex == 1 ? ((AbstractAspectItem)stack.getItem()).getData(stack).colour().rgba32(true) : -1, ConfigItems.PHIAL.value());
-        e.register((stack, tintIndex) -> ((AbstractAspectItem)stack.getItem()).getData(stack).colour().rgba32(true), ConfigItems.VIS_CRYSTAL.value());
-
         e.register((stack, tintIndex) -> {
-            CrystalBlock.CrystalAspect aspect = ((CrystalBlockItem)stack.getItem()).getData(stack);
-            if(aspect == null) {
-                return 0xFFFFFFFF;
+            if(tintIndex == 1) {
+                Holder<Aspect> aspect = ((AbstractAspectItem)stack.getItem()).getHolder(stack);
+                Colour c = aspect.value().colour();;
+                return c.argb32(true);
             }
-            return ConfigDataRegistries.ASPECTS.get(access(), aspect.getId()).colour().rgba32(true);
-        }, ConfigBlocks.CRYSTAL_COLONY.item());
+            return -1;
+        }, ConfigItems.PHIAL.value());
+        e.register((stack, tintIndex) -> ((AbstractAspectItem)stack.getItem()).getData(stack).colour().argb32(true), ConfigItems.VIS_CRYSTAL.value());
+        ConfigBlocks.CRYSTAL_COLONY.forEach((aspect, block) -> e.register((stack, index) -> ConfigDataRegistries.ASPECTS.get(RegistryUtils.access(), aspect.getId()).colour().argb32(true), block.item()));
     }
 
-    private static RegistryAccess access() {
-        return Minecraft.getInstance().getConnection().registryAccess();
-    }
 }

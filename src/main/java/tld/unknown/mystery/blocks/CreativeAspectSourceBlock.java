@@ -1,9 +1,10 @@
 package tld.unknown.mystery.blocks;
 
 import net.minecraft.core.BlockPos;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
@@ -12,6 +13,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.phys.BlockHitResult;
+import tld.unknown.mystery.api.aspects.Aspect;
 import tld.unknown.mystery.api.aspects.AspectContainerItem;
 import tld.unknown.mystery.blocks.entities.CreativeAspectSourceBlockEntity;
 import tld.unknown.mystery.registries.ConfigBlockEntities;
@@ -36,35 +38,37 @@ public class CreativeAspectSourceBlock extends SimpleEntityBlock<CreativeAspectS
     }
 
     @Override
-    public InteractionResult use(BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, InteractionHand pHand, BlockHitResult pHit) {
-        if(pHand == InteractionHand.OFF_HAND) {
-            return InteractionResult.FAIL;
-        }
+    protected ItemInteractionResult useItemOn(ItemStack pStack, BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, InteractionHand pHand, BlockHitResult pHitResult) {
+        if(pHand == InteractionHand.OFF_HAND)
+            return ItemInteractionResult.FAIL;
+        if(pLevel.isClientSide())
+            return ItemInteractionResult.sidedSuccess(true);
 
-        if(!pLevel.isClientSide()) {
-            ItemStack handItem = pPlayer.getMainHandItem();
-            CreativeAspectSourceBlockEntity be = getEntity(pLevel, pPos);
-            if(handItem != ItemStack.EMPTY) {
-                if(handItem.getItem() instanceof AspectContainerItem i) {
-                    Optional<ResourceLocation> aspect = i.getAspects(handItem).getAspects().stream().findFirst();
-                    if(aspect.isPresent()) {
-                        be.setAspect(aspect.get());
-                        be.sync();
-                        pLevel.setBlock(pPos, pState.setValue(HAS_ASPECT, true), 2);
-                        return InteractionResult.sidedSuccess(false);
-                    }
-                }
-            } else {
-                if(pPlayer.isCrouching() && be.getAspect() != null) {
-                    be.setAspect(null);
-                    be.sync();
-                    pLevel.setBlock(pPos, pState.setValue(HAS_ASPECT, false), 2);
-                    return InteractionResult.sidedSuccess(false);
-                }
+        if(pStack.getItem() instanceof AspectContainerItem i) {
+            Optional<ResourceKey<Aspect>> aspect = i.getAspects(pStack).getAspects().stream().findFirst();
+            if(aspect.isPresent()) {
+                CreativeAspectSourceBlockEntity be = getEntity(pLevel, pPos);
+                be.setAspect(aspect.get());
+                be.sync();
+                pLevel.setBlock(pPos, pState.setValue(HAS_ASPECT, true), 2);
+                return ItemInteractionResult.sidedSuccess(false);
             }
-            return InteractionResult.FAIL;
-        } else {
-            return InteractionResult.sidedSuccess(true);
         }
+        return ItemInteractionResult.FAIL;
+    }
+
+    @Override
+    protected InteractionResult useWithoutItem(BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, BlockHitResult pHitResult) {
+        if(pLevel.isClientSide())
+            return InteractionResult.sidedSuccess(true);
+
+        CreativeAspectSourceBlockEntity be = getEntity(pLevel, pPos);
+        if(pPlayer.isCrouching() && be.getAspect() != null) {
+            be.setAspect(null);
+            be.sync();
+            pLevel.setBlock(pPos, pState.setValue(HAS_ASPECT, false), 2);
+            return InteractionResult.sidedSuccess(false);
+        }
+        return InteractionResult.FAIL;
     }
 }

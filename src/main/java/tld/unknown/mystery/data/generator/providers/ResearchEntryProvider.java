@@ -1,26 +1,18 @@
 package tld.unknown.mystery.data.generator.providers;
 
+import net.minecraft.core.RegistrySetBuilder;
 import net.minecraft.data.PackOutput;
-import tld.unknown.mystery.Thaumcraft;
 import tld.unknown.mystery.api.ThaumcraftData;
-import tld.unknown.mystery.data.research.DisplayProperties;
 import tld.unknown.mystery.data.research.ResearchEntry;
-import tld.unknown.mystery.data.research.ResearchStage;
 import tld.unknown.mystery.util.codec.data.CodecDataProvider;
+import tld.unknown.mystery.util.simple.SimpleDataProvider;
 
-public class ResearchEntryProvider extends CodecDataProvider<ResearchEntry> {
+public class ResearchEntryProvider extends SimpleDataProvider<ResearchEntry> {
 
-    public ResearchEntryProvider(PackOutput generator) {
-        super(generator, "ResearchEntries", "research", ResearchEntry.CODEC);
+    public ResearchEntryProvider(RegistrySetBuilder builder) {
+        super("ResearchEntries", ThaumcraftData.Registries.RESEARCH_ENTRY, builder);
     }
 
     @Override
-    protected void createEntries() {
-        register(Thaumcraft.id(ThaumcraftData.Research.CATEGORY_DEBUG + "/origin"), ResearchEntry.builder(
-                DisplayProperties.builder(0, 0).build(),
-                ResearchStage.builder()
-                        .setRecipeUnlocks(Thaumcraft.id("test_recipe"))
-                        .build()
-                ).build());
-    }
+    public void createEntries() { }
 }

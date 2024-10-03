@@ -4,15 +4,15 @@ import lombok.Getter;
 import lombok.Setter;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.Container;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Recipe;
+import net.minecraft.world.item.crafting.RecipeInput;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
 import tld.unknown.mystery.registries.ConfigRecipeTypes;
 
-public abstract class CodecRecipe<T extends CodecRecipe<T>> implements Recipe<Container> {
+public abstract class CodecRecipe<T extends CodecRecipe<T>> implements Recipe<RecipeInput> {
 
     @Getter @Setter
     private ResourceLocation id;
@@ -45,12 +45,12 @@ public abstract class CodecRecipe<T extends CodecRecipe<T>> implements Recipe<Co
     }
 
     @Override
-    public boolean matches(Container pContainer, Level pLevel) {
+    public boolean matches(RecipeInput pRecipeInput, Level pLevel) {
         return false;
     }
 
     @Override
-    public ItemStack assemble(Container pCraftingContainer, HolderLookup.Provider pRegistries) {
+    public ItemStack assemble(RecipeInput pRecipeInput, HolderLookup.Provider pRegistries) {
         return null;
     }
 }

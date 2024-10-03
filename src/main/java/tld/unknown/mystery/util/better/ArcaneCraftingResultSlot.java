@@ -6,6 +6,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.ResultContainer;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.CraftingInput;
 import tld.unknown.mystery.Thaumcraft;
 import tld.unknown.mystery.api.aspects.Aspect;
 import tld.unknown.mystery.data.recipes.ArcaneCraftingRecipe;
@@ -56,8 +57,9 @@ public class ArcaneCraftingResultSlot extends Slot {
 
     public void onTake(Player pPlayer, ItemStack pStack) {
         this.checkTakeAchievements(pStack);
-        NonNullList<ItemStack> remains = pPlayer.level().getRecipeManager().getRemainingItemsFor(ConfigRecipeTypes.ARCANE_CRAFTING.type(), this.craftSlots, pPlayer.level());
         ArcaneCraftingRecipe recipe = (ArcaneCraftingRecipe)((ResultContainer)container).getRecipeUsed().value();
+        NonNullList<ItemStack> remains = pPlayer.level().getRecipeManager().getRemainingItemsFor(ConfigRecipeTypes.ARCANE_CRAFTING.type(),CraftingInput.of(3, 3, this.craftSlots.getItems()), pPlayer.level());
+
         for(int i = 0; i < remains.size(); ++i) {
             ItemStack currentSlot = this.craftSlots.getItem(i);
             ItemStack slotRemains = remains.get(i);

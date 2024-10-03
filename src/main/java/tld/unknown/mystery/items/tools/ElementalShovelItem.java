@@ -19,20 +19,19 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 import org.apache.commons.compress.utils.Lists;
 import tld.unknown.mystery.api.IArchitect;
-import tld.unknown.mystery.api.ThaumcraftData;
+import tld.unknown.mystery.api.InfusionEnchantments;
 import tld.unknown.mystery.api.ThaumcraftMaterials;
-import tld.unknown.mystery.registries.ConfigDataAttachments;
+import tld.unknown.mystery.items.components.InfusionEnchantmentComponent;
+import tld.unknown.mystery.registries.ConfigItemComponents;
 import tld.unknown.mystery.util.EntityUtils;
 import tld.unknown.mystery.util.ItemUtils;
-import tld.unknown.mystery.util.simple.SimpleCreativeTab;
 
 import java.util.List;
+import java.util.Map;
 
-public class ElementalShovelItem extends ShovelItem implements IArchitect, SimpleCreativeTab.SpecialRegistrar {
+public class ElementalShovelItem extends ShovelItem implements IArchitect {
 
-    private static final String NBT_ORIENTATION = "Orientation";
-
-    private static final Properties ITEM_PROPERTIES = new Properties().rarity(Rarity.RARE);
+    private static final Properties ITEM_PROPERTIES = new Properties().rarity(Rarity.RARE).component(ConfigItemComponents.INFUSION_ENCHANTMENT.value(), new InfusionEnchantmentComponent(Map.of(InfusionEnchantments.DESTRUCTIVE, (byte)1)));
 
     private Direction side;
 
@@ -51,8 +50,8 @@ public class ElementalShovelItem extends ShovelItem implements IArchitect, Simpl
                     int xx = 0;
                     int yy = 0;
                     int zz = 0;
-                    byte o = getOrientation(pContext.getItemInHand());
-                    if (o == 1) {
+                    Direction.Axis o = getOrientation(pContext.getItemInHand());
+                    if (o == Direction.Axis.Y) {
                         yy = bb;
                         if (side.ordinal() <= 1) {
                             int l = Mth.floor(pContext.getPlayer().getYRot() * 4.0f / 360.0f + 0.5) & 0x3;
@@ -66,7 +65,7 @@ public class ElementalShovelItem extends ShovelItem implements IArchitect, Simpl
                         } else {
                             xx = aa;
                         }
-                    } else if (o == 2) {
+                    } else if (o == Direction.Axis.Z) {
                         if (side.ordinal() <= 1) {
                             int l = Mth.floor(pContext.getPlayer().getYRot() * 4.0f / 360.0f + 0.5) & 0x3;
                             yy = bb;
@@ -91,7 +90,8 @@ public class ElementalShovelItem extends ShovelItem implements IArchitect, Simpl
                     }
                     BlockPos p2 = pContext.getClickedPos().offset(side.getNormal()).offset(xx, yy, zz);
                     BlockState b2 = pContext.getLevel().getBlockState(p2);
-                    if (bs.getBlock().canSurvive(b2, pContext.getLevel(), p2)) {
+
+                    if (b2.canSurvive(pContext.getLevel(), p2)) {
                         if (pContext.getPlayer().isCreative() || ItemUtils.consumeItem(pContext.getPlayer(), bs.getBlock().asItem())) {
                             pContext.getLevel().playLocalSound(p2.getX(), p2.getY(), p2.getZ(), bs.getSoundType().getBreakSound(), SoundSource.BLOCKS, 0.6f, 0.9f + pContext.getLevel().getRandom().nextFloat() * 0.2f, false);
                             pContext.getLevel().setBlock(p2, bs, Block.UPDATE_ALL);
@@ -119,15 +119,12 @@ public class ElementalShovelItem extends ShovelItem implements IArchitect, Simpl
         return InteractionResult.FAIL;
     }
     
-    public static byte getOrientation(ItemStack stack) {
-        if (stack.hasTag() && stack.getTag().contains(NBT_ORIENTATION)) {
-            return stack.getTag().getByte(NBT_ORIENTATION);
-        }
-        return 0;
+    public static Direction.Axis getOrientation(ItemStack stack) {
+        return stack.has(ConfigItemComponents.AXIS.value()) ? stack.get(ConfigItemComponents.AXIS.value()) : Direction.Axis.X;
     }
     
-    public static void setOrientation(ItemStack stack, byte o) {
-        stack.getOrCreateTag().putByte(NBT_ORIENTATION, (byte)(o % 3));
+    public static void setOrientation(ItemStack stack, Direction.Axis axis) {
+        stack.set(ConfigItemComponents.AXIS.value(), axis);
     }
 
     @Override
@@ -152,8 +149,8 @@ public class ElementalShovelItem extends ShovelItem implements IArchitect, Simpl
                 int xx = 0;
                 int yy = 0;
                 int zz = 0;
-                byte o = getOrientation(stack);
-                if (o == 1) {
+                Direction.Axis o = getOrientation(stack);
+                if (o == Direction.Axis.Y) {
                     yy = bb;
                     if (side.ordinal() <= 1) {
                         int l = Mth.floor(player.getYRot() * 4.0f / 360.0f + 0.5) & 0x3;
@@ -171,7 +168,7 @@ public class ElementalShovelItem extends ShovelItem implements IArchitect, Simpl
                         xx = aa;
                     }
                 }
-                else if (o == 2) {
+                else if (o == Direction.Axis.Z) {
                     if (side.ordinal() <= 1) {
                         int l = Mth.floor(player.getYRot() * 4.0f / 360.0f + 0.5) & 0x3;
                         yy = bb;
@@ -201,7 +198,7 @@ public class ElementalShovelItem extends ShovelItem implements IArchitect, Simpl
                 }
                 BlockPos p2 = pos.offset(side.getNormal()).offset(xx, yy, zz);
                 BlockState b2 = world.getBlockState(p2);
-                if (bs.getBlock().canSurvive(b2, world, p2)) {
+                if (b2.canSurvive(world, p2)) {
                     b.add(p2);
                 }
             }
@@ -212,12 +209,5 @@ public class ElementalShovelItem extends ShovelItem implements IArchitect, Simpl
     @Override
     public boolean showAxis(ItemStack stack, Level world, Player player, Direction side, Direction.Axis axis) {
         return false;
-    }
-
-    @Override
-    public ItemStack getCreativeTabEntry() {
-        ItemStack stack = new ItemStack(this);
-        stack.getData(ConfigDataAttachments.ITEM_ENCHANTMENT.get()).addEnchantment(ThaumcraftData.Enchantments.DESTRUCTIVE, 1);
-        return stack;
     }
 }
