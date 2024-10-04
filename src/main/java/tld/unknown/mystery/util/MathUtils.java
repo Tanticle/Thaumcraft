@@ -1,5 +1,6 @@
 package tld.unknown.mystery.util;
 
+import org.joml.Vector2f;
 import org.joml.Vector3f;
 
 public final class MathUtils {
@@ -12,5 +13,7 @@ public final class MathUtils {
         return new Vector3f(px(x), px(y), px(z));
     }
 
-
+    public static Vector2f pxVector2f(float x, float y) {
+        return new Vector2f(px(x), px(y));
+    }
 }

@@ -5,6 +5,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -55,63 +56,79 @@ public class JarBlock extends SimpleEntityBlock<JarBlockEntity> {
     }
 
     @Override
+    protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hitResult) {
+        if(!level.isClientSide() || !player.isCrouching())
+            return InteractionResult.FAIL;
+        JarBlockEntity jar = getEntity(level, pos);
+        if(jar.removeLabel(hitResult.getDirection()))
+            return InteractionResult.sidedSuccess(false);
+        jar.dump();
+        return InteractionResult.sidedSuccess(false);
+    }
+
+    @Override
     protected ItemInteractionResult useItemOn(ItemStack pStack, BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, InteractionHand pHand, BlockHitResult pHitResult) {
         if(pHand != InteractionHand.MAIN_HAND)
             return ItemInteractionResult.FAIL;
         JarBlockEntity jar = getEntity(pLevel, pPos);
         ItemStack handItem = pPlayer.getMainHandItem();
-        if(handItem != ItemStack.EMPTY) {
-            if(handItem.getItem().equals(ConfigItems.JAR_BRACE.value()) && !pState.getValue(BRACED)) {
-                if(!pLevel.isClientSide()) {
-                    if(!pPlayer.isCreative())
-                        handItem.shrink(1);
-                    pLevel.setBlock(pPos, pState.setValue(BRACED, true), 1 | 2);
-                    //TODO: Play Sound
-                    return ItemInteractionResult.sidedSuccess(false);
+        if(handItem.getItem().equals(ConfigItems.JAR_BRACE.value()) && !pState.getValue(BRACED)) {
+            if(!pLevel.isClientSide()) {
+                if(!pPlayer.isCreative())
+                    handItem.shrink(1);
+                pLevel.setBlock(pPos, pState.setValue(BRACED, true), 1 | 2);
+                //TODO: Play Sound
+                return ItemInteractionResult.sidedSuccess(false);
+            } else {
+                return ItemInteractionResult.sidedSuccess(true);
+            }
+        } else if(handItem.getItem().equals(ConfigItems.PHIAL.value())) {
+            if(ConfigItems.PHIAL.value().hasData(handItem)) {
+                ResourceKey<Aspect> aspect = ConfigItems.PHIAL.value().getAspects(handItem).aspectsPresent().get(0);
+                if(jar.canFit(aspect, 10, Direction.UP)) {
+                    if(!pLevel.isClientSide()) {
+                        //TODO: Sound
+                        jar.fillAspect(aspect, 10, Direction.UP);
+                        jar.sync();
+                        if(!pPlayer.isCreative()) {
+                            handItem.shrink(1);
+                            pPlayer.addItem(new ItemStack(ConfigItems.PHIAL.value()));
+                        }
+                        return ItemInteractionResult.sidedSuccess(false);
+                    } else {
+                        return ItemInteractionResult.sidedSuccess(true);
+                    }
                 } else {
-                    return ItemInteractionResult.sidedSuccess(true);
+                    return ItemInteractionResult.FAIL;
                 }
-            } else if(handItem.getItem().equals(ConfigItems.PHIAL.value())) {
-                if(ConfigItems.PHIAL.value().hasData(handItem)) {
-                    ResourceKey<Aspect> aspect = ConfigItems.PHIAL.value().getAspects(handItem).aspectsPresent().get(0);
-                    if(jar.canFit(aspect, 10, Direction.UP)) {
-                        if(!pLevel.isClientSide()) {
-                            //TODO: Sound
-                            jar.fillAspect(aspect, 10, Direction.UP);
-                            jar.sync();
-                            if(!pPlayer.isCreative()) {
-                                handItem.shrink(1);
-                                pPlayer.addItem(new ItemStack(ConfigItems.PHIAL.value()));
-                            }
-                            return ItemInteractionResult.sidedSuccess(false);
-                        } else {
-                            return ItemInteractionResult.sidedSuccess(true);
+            } else {
+                if(jar.contains(null, 10, Direction.UP)) {
+                    if(!pLevel.isClientSide()) {
+                        //TODO: Sound
+                        ResourceKey<Aspect> aspect = jar.getEssentiaType(Direction.UP);
+                        jar.drainAspect(aspect, 10, Direction.UP);
+                        jar.sync();
+                        if(!pPlayer.isCreative()) {
+                            handItem.shrink(1);
+                            pPlayer.addItem(ConfigItems.PHIAL.value().create(ConfigDataRegistries.ASPECTS.getHolder(pLevel.registryAccess(), aspect)));
                         }
+                        return ItemInteractionResult.sidedSuccess(false);
                     } else {
-                        return ItemInteractionResult.FAIL;
+                        return ItemInteractionResult.sidedSuccess(true);
                     }
                 } else {
-                    if(jar.contains(null, 10, Direction.UP)) {
-                        if(!pLevel.isClientSide()) {
-                            //TODO: Sound
-                            ResourceKey<Aspect> aspect = jar.getEssentiaType(Direction.UP);
-                            jar.drainAspect(aspect, 10, Direction.UP);
-                            jar.sync();
-                            if(!pPlayer.isCreative()) {
-                                handItem.shrink(1);
-                                pPlayer.addItem(ConfigItems.PHIAL.value().create(ConfigDataRegistries.ASPECTS.getHolder(pLevel.registryAccess(), aspect)));
-                            }
-                            return ItemInteractionResult.sidedSuccess(false);
-                        } else {
-                            return ItemInteractionResult.sidedSuccess(true);
-                        }
-                    } else {
-                        return ItemInteractionResult.FAIL;
-                    }
+                    return ItemInteractionResult.FAIL;
                 }
             }
+        } else if(handItem.getItem().equals(ConfigItems.JAR_LABEL.value())) {
+            if(!pLevel.isClientSide() && jar.applyLabel(pHitResult.getDirection())) {
+                if(!pPlayer.isCreative())
+                    handItem.shrink(1);
+                //TODO: Sound
+                return ItemInteractionResult.sidedSuccess(false);
+            }
         }
-        return useItemOn(pStack, pState, pLevel, pPos, pPlayer, pHand, pHitResult);
+        return super.useItemOn(pStack, pState, pLevel, pPos, pPlayer, pHand, pHitResult);
     }
 
     @Override

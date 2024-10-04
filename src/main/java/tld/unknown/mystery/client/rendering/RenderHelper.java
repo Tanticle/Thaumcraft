@@ -16,6 +16,7 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.neoforged.neoforge.client.extensions.common.IClientFluidTypeExtensions;
 import net.neoforged.neoforge.fluids.FluidStack;
 import org.joml.Matrix4f;
+import org.joml.Vector2f;
 import org.joml.Vector3f;
 import tld.unknown.mystery.Thaumcraft;
 
@@ -75,6 +76,19 @@ public final class RenderHelper {
                 fillVertex(consumer, modelMatrix, min.x(), min.y(), min.z(), colour, minU, minV, applyLight, light, applyOverlay, overlay);
             }
         }
+    }
+
+    public static void drawQuad(VertexConsumer consumer, Matrix4f modelMatrix, Vector2f min, Vector2f max, int colour, float minU, float minV, float maxU, float maxV, boolean applyLight, int light, boolean applyOverlay, int overlay) {
+        fillVertex(consumer, modelMatrix, min.x(), min.y(), 0, colour, minU, maxV, applyLight, light, applyOverlay, overlay);
+        fillVertex(consumer, modelMatrix, max.x(), min.y(), 0, colour, maxU, maxV, applyLight, light, applyOverlay, overlay);
+        fillVertex(consumer, modelMatrix, max.x(), max.y(), 0, colour, maxU, minV, applyLight, light, applyOverlay, overlay);
+        fillVertex(consumer, modelMatrix, min.x(), max.y(), 0, colour, minU, minV, applyLight, light, applyOverlay, overlay);
+    }
+
+    public static void drawQuadCentered(VertexConsumer consumer, Matrix4f modelMatrix, Vector2f position, float width, float height, int colour, float minU, float minV, float maxU, float maxV, boolean applyLight, int light, boolean applyOverlay, int overlay) {
+        Vector2f min = new Vector2f(position).sub(width / 2, height / 2);
+        Vector2f max = new Vector2f(position).add(width / 2, height / 2);
+        drawQuad(consumer, modelMatrix, min, max, colour, minU, minV, maxU, maxV, applyLight, light, applyOverlay, overlay);
     }
 
     public static boolean debugIsLookingAtBlock(BlockPos pos) {

@@ -13,10 +13,10 @@ import tld.unknown.mystery.registries.ConfigCapabilities;
 
 public class ResonatorItem extends Item {
 
-    private static final String COMPONENT_SUCTION = "msg.chaumtraft.resonator.suction";
-    private static final String COMPONENT_SUCTION_VALUE = "msg.chaumtraft.resonator.suction.value";
-    private static final String COMPONENT_CONTENT = "msg.chaumtraft.resonator.content";
-    private static final String COMPONENT_CONTENT_VALUE = "msg.chaumtraft.resonator.content.value";
+    private static final String COMPONENT_SUCTION = "msg.thaumcraft.resonator.suction";
+    private static final String COMPONENT_SUCTION_VALUE = "msg.thaumcraft.resonator.suction.value";
+    private static final String COMPONENT_CONTENT = "msg.thaumcraft.resonator.content";
+    private static final String COMPONENT_CONTENT_VALUE = "msg.thaumcraft.resonator.content.value";
 
     public ResonatorItem() {
         super(new Properties().rarity(Rarity.UNCOMMON).stacksTo(1));
@@ -33,7 +33,7 @@ public class ResonatorItem extends Item {
                         .append(Component.translatable(COMPONENT_SUCTION_VALUE, cap.getSuction(pContext.getClickedFace()), Aspect.getName(pContext.getLevel().registryAccess(), cap.getSuctionType(pContext.getClickedFace()), false, false)).withStyle(ChatFormatting.RESET));
                 pContext.getPlayer().sendSystemMessage(suction);
                 if(cap.getEssentia(pContext.getClickedFace()) > 0) {
-                    Component content = Component.translatable(COMPONENT_CONTENT).withStyle(ChatFormatting.DARK_BLUE)
+                    Component content = Component.translatable(COMPONENT_CONTENT).withStyle(ChatFormatting.BLUE)
                             .append(Component.literal(" - ").withStyle(ChatFormatting.DARK_GRAY))
                             .append(Component.translatable(COMPONENT_CONTENT_VALUE, cap.getEssentia(pContext.getClickedFace()), Aspect.getName(pContext.getLevel().registryAccess(), cap.getEssentiaType(pContext.getClickedFace()), false, false)));
                     pContext.getPlayer().sendSystemMessage(content);

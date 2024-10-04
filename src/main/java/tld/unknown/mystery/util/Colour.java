@@ -23,8 +23,12 @@ public class Colour {
         return new Colour((byte)r, (byte)g, (byte)b, (byte)255);
     }
 
-    public static Colour fromARGB( int a, int r, int g, int b) {
+    public static Colour fromARGB(int a, int r, int g, int b) {
         return new Colour((byte)r, (byte)g, (byte)b, (byte)a);
+    }
+
+    public static Colour fromARGB(float a, float r, float g, float b) {
+        return new Colour((byte)(r * 255), (byte)(g * 255), (byte)(b * 255), (byte)(a * 255));
     }
 
     public static Colour fromHex(String hex) {

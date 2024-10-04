@@ -34,7 +34,7 @@ public class JarBlockEntity extends SimpleBlockEntity implements AspectContainer
         super(ConfigBlockEntities.JAR.entityType(), pPos, pBlockState);
         this.currentAspect = null;
         this.label = null;
-        this.labelDirection = Direction.NORTH;
+        this.labelDirection = null;
         this.amount = 0;
     }
 
@@ -55,12 +55,12 @@ public class JarBlockEntity extends SimpleBlockEntity implements AspectContainer
     protected void writeNbt(CompoundTag nbt, HolderLookup.Provider pRegistries) {
         if(amount > 0) {
             CompoundTag content = new CompoundTag();
-            content.putString("aspect", this.currentAspect.toString());
+            content.putString("aspect", this.currentAspect.location().toString());
             content.putInt("amount", this.amount);
             nbt.put("content", content);
         }
-        if(label != null) {
-            nbt.putString("label", this.label.toString());
+        if(labelDirection != null) {
+            nbt.putString("label", this.label.location().toString());
             nbt.putString("label_dir", this.labelDirection.getSerializedName());
         }
     }
@@ -71,6 +71,31 @@ public class JarBlockEntity extends SimpleBlockEntity implements AspectContainer
 
     public float getFillPercent() {
         return (float)this.amount / MAX_ESSENTIA;
+    }
+
+    public void dump() {
+        this.amount = 0;
+        this.currentAspect = null;
+        //TODO: Pollute Aura
+        sync();
+    }
+
+    public boolean applyLabel(Direction dir) {
+        if(this.labelDirection != null || amount <= 0)
+            return false;
+        this.labelDirection = dir;
+        this.label = this.currentAspect;
+        sync();
+        return true;
+    }
+
+    public boolean removeLabel(Direction dir) {
+        if(this.labelDirection == null || this.labelDirection != dir)
+            return false;
+        this.labelDirection = null;
+        this.label = null;
+        sync();
+        return true;
     }
 
     /* -------------------------------------------------------------------------------------------------------------- */
