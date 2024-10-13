@@ -14,7 +14,6 @@ import net.neoforged.neoforge.network.codec.NeoForgeStreamCodecs;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import tld.unknown.mystery.Thaumcraft;
 import tld.unknown.mystery.api.aspects.Aspect;
-import tld.unknown.mystery.items.components.CrystalAspectComponent;
 import tld.unknown.mystery.items.components.InfusionEnchantmentComponent;
 
 import java.util.UUID;

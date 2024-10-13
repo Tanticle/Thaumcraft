@@ -20,8 +20,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Block;
 import tld.unknown.mystery.Thaumcraft;
 import tld.unknown.mystery.api.aspects.AspectContainerItem;
-import tld.unknown.mystery.data.generator.providers.AspectProvider;
-import tld.unknown.mystery.items.AbstractAspectItem;
 import tld.unknown.mystery.networking.packets.ClientboundAspectRegistrySyncPacket;
 
 import java.util.List;
