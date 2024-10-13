@@ -4,6 +4,7 @@ import net.minecraft.core.Holder;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
+import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import tld.unknown.mystery.Thaumcraft;
 
@@ -15,15 +16,16 @@ public class ConfigSounds {
 
     /* -------------------------------------------------------------------------------------------------------------- */
 
-    public static final Holder<SoundEvent> WIND = register(Sounds.WIND);
+    public static final Holder<SoundEvent> WIND_HOWLING = register(Sounds.WIND_HOWLING);
+    public static final Holder<SoundEvent> JAR_TAPPING = register(Sounds.JAR_TAPPING);
+    public static final Holder<SoundEvent> PAPER_RUSTLING = register(Sounds.PAPER_RUSTLING);
+    public static final Holder<SoundEvent> KNOB_TWISTING = register(Sounds.KNOB_TWISTING);
 
     /* -------------------------------------------------------------------------------------------------------------- */
 
-    private static Holder<SoundEvent> register(ResourceLocation location) {
-        return REGISTRY.register(location.getPath(), () -> SoundEvent.createVariableRangeEvent(location));
-    }
+    public static void init(IEventBus bus) { REGISTRY.register(bus); }
 
-    private static Holder<SoundEvent> register(ResourceLocation location, float range) {
-        return REGISTRY.register(location.getPath(), () -> SoundEvent.createFixedRangeEvent(location, range));
+    private static Holder<SoundEvent> register(SoundEvent event) {
+        return REGISTRY.register(event.getLocation().getPath(), () -> event);
     }
 }

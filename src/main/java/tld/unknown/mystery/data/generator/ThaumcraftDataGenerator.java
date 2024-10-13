@@ -30,5 +30,7 @@ public final class ThaumcraftDataGenerator {
         dataGen.addProvider(true, new BlockDataProvider(dataGen.getPackOutput(), e.getExistingFileHelper()));
         dataGen.addProvider(true, new ItemModelProvider(dataGen.getPackOutput(), e.getExistingFileHelper()));
         dataGen.addProvider(true, new TagsProvider(dataGen.getPackOutput(), e.getLookupProvider(), e.getExistingFileHelper()));
+
+        dataGen.addProvider(true, new SoundProvider(dataGen.getPackOutput(), e.getExistingFileHelper()));
     }
 }

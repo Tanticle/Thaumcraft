@@ -33,6 +33,9 @@ public class JarBlock extends SimpleEntityBlock<JarBlockEntity> {
     public static final BooleanProperty BRACED = BooleanProperty.create("braced");
 
     private static final VoxelShape SHAPE = Block.box(3, 0, 3, 13, 12, 13);
+    private static final SoundType SOUND_JAR = new SoundType(1F, 1F,
+            ThaumcraftData.Sounds.JAR_TAPPING, ThaumcraftData.Sounds.JAR_TAPPING, ThaumcraftData.Sounds.JAR_TAPPING,
+            ThaumcraftData.Sounds.JAR_TAPPING, ThaumcraftData.Sounds.JAR_TAPPING);
 
     @Getter
     private final boolean isVoid;
@@ -51,19 +54,30 @@ public class JarBlock extends SimpleEntityBlock<JarBlockEntity> {
     }
 
     @Override
+    public SoundType getSoundType(BlockState state, LevelReader level, BlockPos pos, @Nullable Entity entity) {
+        return SOUND_JAR;
+    }
+
+    @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> pBuilder) {
         pBuilder.add(CONNECTED).add(BRACED);
     }
 
     @Override
     protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hitResult) {
-        if(!level.isClientSide() || !player.isCrouching())
+        if(!player.isCrouching())
             return InteractionResult.FAIL;
-        JarBlockEntity jar = getEntity(level, pos);
-        if(jar.removeLabel(hitResult.getDirection()))
+        if(!level.isClientSide()) {
+            JarBlockEntity jar = getEntity(level, pos);
+            if(jar.removeLabel(hitResult.getDirection())) {
+                level.playSound(null, pos, ConfigSounds.PAPER_RUSTLING.value(), SoundSource.BLOCKS, 1F, 1F);
+                return InteractionResult.sidedSuccess(false);
+            }
+            jar.dump();
+            level.playSound(null, pos, SoundEvents.BOTTLE_EMPTY, SoundSource.BLOCKS, 1F, 1F);
             return InteractionResult.sidedSuccess(false);
-        jar.dump();
-        return InteractionResult.sidedSuccess(false);
+        }
+        return InteractionResult.sidedSuccess(true);
     }
 
     @Override
@@ -104,7 +118,7 @@ public class JarBlock extends SimpleEntityBlock<JarBlockEntity> {
             } else {
                 if(jar.contains(null, 10, Direction.UP)) {
                     if(!pLevel.isClientSide()) {
-                        //TODO: Sound
+                        pLevel.playSound(null, pPos, SoundEvents.BOTTLE_EMPTY, SoundSource.BLOCKS, 1F, 1F);
                         ResourceKey<Aspect> aspect = jar.getEssentiaType(Direction.UP);
                         jar.drainAspect(aspect, 10, Direction.UP);
                         jar.sync();

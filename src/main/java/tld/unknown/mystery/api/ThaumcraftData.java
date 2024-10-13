@@ -3,6 +3,7 @@ package tld.unknown.mystery.api;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.sounds.SoundEvent;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.level.block.Block;
@@ -83,7 +84,7 @@ public final class ThaumcraftData {
         public static final ResourceLocation THAUMONOMICON = Thaumcraft.id("thaumonomicon");
         public static final ResourceLocation JAR_BRACE = Thaumcraft.id("jar_brace");
         public static final ResourceLocation JAR_LABEL = Thaumcraft.id("jar_label");
-
+        public static final ResourceLocation JAR_LABEL_MARKED = Thaumcraft.id("jar_label_marked");
 
         public static final ResourceLocation PHIAL = Thaumcraft.id("phial");
         public static final ResourceLocation VIS_CRYSTAL = Thaumcraft.id("vis_crystal");
@@ -207,7 +208,18 @@ public final class ThaumcraftData {
 
     public static final class Sounds {
 
-        public static final ResourceLocation WIND = Thaumcraft.id("wind");
+        public static final SoundEvent JAR_TAPPING = variable("jar_tapping");
+        public static final SoundEvent PAPER_RUSTLING = variable("paper_rustling");
+        public static final SoundEvent WIND_HOWLING = variable("wind_howling");
+        public static final SoundEvent KNOB_TWISTING = variable("knob_twisting");
+
+        private static SoundEvent fixed(String id, float range) {
+            return SoundEvent.createFixedRangeEvent(Thaumcraft.id(id), range);
+        }
+
+        private static SoundEvent variable(String id) {
+            return SoundEvent.createVariableRangeEvent(Thaumcraft.id(id));
+        }
     }
 
     public static final class Networking {

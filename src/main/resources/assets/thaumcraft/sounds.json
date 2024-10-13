@@ -1,9 +1,0 @@
-{
-  "wind": {
-    "category": "ambient",
-    "sounds": [
-      "thaumcraft:ambient/wind1",
-      "thaumcraft:ambient/wind2"
-    ]
-  }
-}
