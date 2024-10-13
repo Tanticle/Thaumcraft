@@ -4,26 +4,32 @@ import lombok.Getter;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.ItemInteractionResult;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import org.jetbrains.annotations.Nullable;
+import tld.unknown.mystery.api.ThaumcraftData;
 import tld.unknown.mystery.api.aspects.Aspect;
 import tld.unknown.mystery.blocks.entities.JarBlockEntity;
-import tld.unknown.mystery.registries.ConfigBlockEntities;
-import tld.unknown.mystery.registries.ConfigCapabilities;
-import tld.unknown.mystery.registries.ConfigDataRegistries;
-import tld.unknown.mystery.registries.ConfigItems;
+import tld.unknown.mystery.items.resources.JarLabelItem;
+import tld.unknown.mystery.registries.*;
 import tld.unknown.mystery.util.simple.SimpleBlockMaterials;
 import tld.unknown.mystery.util.simple.SimpleEntityBlock;
 
@@ -91,7 +97,7 @@ public class JarBlock extends SimpleEntityBlock<JarBlockEntity> {
                 if(!pPlayer.isCreative())
                     handItem.shrink(1);
                 pLevel.setBlock(pPos, pState.setValue(BRACED, true), 1 | 2);
-                //TODO: Play Sound
+                pLevel.playSound(null, pPos, ConfigSounds.KNOB_TWISTING.value(), SoundSource.BLOCKS, 1F, 1F);
                 return ItemInteractionResult.sidedSuccess(false);
             } else {
                 return ItemInteractionResult.sidedSuccess(true);
@@ -101,7 +107,7 @@ public class JarBlock extends SimpleEntityBlock<JarBlockEntity> {
                 ResourceKey<Aspect> aspect = ConfigItems.PHIAL.value().getAspects(handItem).aspectsPresent().get(0);
                 if(jar.canFit(aspect, 10, Direction.UP)) {
                     if(!pLevel.isClientSide()) {
-                        //TODO: Sound
+                        pLevel.playSound(null, pPos, SoundEvents.BOTTLE_FILL, SoundSource.BLOCKS, 1F, 1F);
                         jar.fillAspect(aspect, 10, Direction.UP);
                         jar.sync();
                         if(!pPlayer.isCreative()) {
@@ -135,10 +141,15 @@ public class JarBlock extends SimpleEntityBlock<JarBlockEntity> {
                 }
             }
         } else if(handItem.getItem().equals(ConfigItems.JAR_LABEL.value())) {
-            if(!pLevel.isClientSide() && jar.applyLabel(pHitResult.getDirection())) {
+            if(!pLevel.isClientSide()) {
+                ResourceKey<Aspect> type = null;
+                if(((JarLabelItem)handItem.getItem()).hasData(handItem))
+                    type = ((JarLabelItem)handItem.getItem()).getHolder(handItem).getKey();
+                if(!jar.applyLabel(pHitResult.getDirection(), type))
+                    return super.useItemOn(pStack, pState, pLevel, pPos, pPlayer, pHand, pHitResult);
                 if(!pPlayer.isCreative())
                     handItem.shrink(1);
-                //TODO: Sound
+                pLevel.playSound(null, pPos, ConfigSounds.JAR_TAPPING.value(), SoundSource.BLOCKS, 1F, 1F);
                 return ItemInteractionResult.sidedSuccess(false);
             }
         }

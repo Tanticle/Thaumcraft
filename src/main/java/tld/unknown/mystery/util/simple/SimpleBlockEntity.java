@@ -42,6 +42,8 @@ public abstract class SimpleBlockEntity extends BlockEntity {
     public CompoundTag getUpdateTag(HolderLookup.Provider pRegistries) {
         CompoundTag tag = new CompoundTag();
         saveAdditional(tag, pRegistries);
+        if(tag.isEmpty())
+            tag.putBoolean("empty", true);
         return tag;
     }
 

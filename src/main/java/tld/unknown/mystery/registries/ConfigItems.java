@@ -8,6 +8,7 @@ import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import tld.unknown.mystery.Thaumcraft;
 import tld.unknown.mystery.api.ThaumcraftMaterials;
+import tld.unknown.mystery.items.resources.JarLabelItem;
 import tld.unknown.mystery.items.resources.PhialItem;
 import tld.unknown.mystery.items.resources.VisCrystalItem;
 import tld.unknown.mystery.items.tools.*;
@@ -25,7 +26,7 @@ public final class ConfigItems {
     /* -------------------------------------------------------------------------------------------------------------- */
 
     public static final Holder<Item> JAR_BRACE = register(Items.JAR_BRACE, ConfigCreativeTabs.MAIN);
-    public static final Holder<Item> JAR_LABEL = register(Items.JAR_LABEL, ConfigCreativeTabs.MAIN);
+    public static final Holder<Item> JAR_LABEL = register(Items.JAR_LABEL, JarLabelItem::new, ConfigCreativeTabs.MAIN);
 
     // Tools
     public static final Holder<ResonatorItem> ESSENTIA_RESONATOR = register(Items.ESSENTIA_RESONATOR, ResonatorItem::new, ConfigCreativeTabs.MAIN);

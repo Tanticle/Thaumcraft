@@ -3,6 +3,7 @@ package tld.unknown.mystery.events.client.handlers;
 import com.mojang.datafixers.util.Either;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
+import net.minecraft.core.Holder;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.FormattedText;
 import net.minecraft.network.chat.MutableComponent;
@@ -13,10 +14,14 @@ import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.client.event.RenderTooltipEvent;
 import tld.unknown.mystery.Thaumcraft;
 import tld.unknown.mystery.api.WarpingGear;
+import tld.unknown.mystery.api.aspects.Aspect;
+import tld.unknown.mystery.api.aspects.AspectContainerItem;
 import tld.unknown.mystery.client.rendering.ui.AspectTooltip;
 import tld.unknown.mystery.data.aspects.AspectList;
+import tld.unknown.mystery.items.AbstractAspectItem;
 import tld.unknown.mystery.registries.ConfigDataRegistries;
 import tld.unknown.mystery.registries.ConfigItemComponents;
+import tld.unknown.mystery.util.RegistryUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,7 +46,17 @@ public class RenderEvents {
         AspectList aspects = ConfigDataRegistries.ASPECT_REGISTRY.getAspects(e.getItemStack());
         if(!aspects.isEmpty())
             e.getTooltipElements().add(Either.right(new AspectTooltip.Data(aspects)));
+
         if(e.getItemStack().getItem() instanceof WarpingGear w)
-            e.getTooltipElements().add(Either.left(Component.translatable("misc.thaumcraft.warping_tooltip", w.getWarp(e.getItemStack(), Minecraft.getInstance().player)).withStyle(ChatFormatting.DARK_PURPLE)));
+            e.getTooltipElements().add(Either.left(Component.translatable("misc.thaumcraft.tooltip.warping", w.getWarp(e.getItemStack(), Minecraft.getInstance().player)).withStyle(ChatFormatting.DARK_PURPLE)));
+        if(e.getItemStack().getItem() instanceof AbstractAspectItem l && l.hasData(e.getItemStack())) {
+            Holder<Aspect> aspect = l.getHolder(e.getItemStack());
+            Component name = Aspect.getName(RegistryUtils.access(), aspect.getKey(), false, false);
+            short amount = 0;
+            if(l instanceof AspectContainerItem a)
+                amount = a.getAspects(e.getItemStack()).getAspect(aspect.getKey());
+            MutableComponent component = amount > 0 ? Component.translatable("misc.thaumcraft.tooltip.aspect_complex", amount, name) : Component.translatable("misc.thaumcraft.tooltip.aspect_simple", name);
+            e.getTooltipElements().add(1, Either.left(component.withStyle(ChatFormatting.DARK_GRAY)));
+        }
     }
 }

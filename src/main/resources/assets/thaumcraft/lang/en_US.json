@@ -16,6 +16,7 @@
 
   "item.thaumcraft.jar_brace": "Brass Lid Brace",
   "item.thaumcraft.jar_label": "Blank Label",
+  "item.thaumcraft.jar_label.data_present": "Marked Label",
   "item.thaumcraft.thaumonomicon": "Thaumonomicon",
   "item.thaumcraft.resonator": "Essentia Resonator",
   "item.thaumcraft.scribing_tools": "Scribing Tools",
@@ -82,7 +83,9 @@
   "msg.thaumcraft.resonator.content": "Contains",
   "msg.thaumcraft.resonator.content.value": "%d %s Essentia",
 
-  "misc.thaumcraft.warping_tooltip": "Warping %d",
+  "misc.thaumcraft.tooltip.warping": "Warping %d",
+  "misc.thaumcraft.tooltip.aspect_simple": "%s",
+  "misc.thaumcraft.tooltip.aspect_complex": "%dx %s",
 
   "network.thaumcraft.aspect_registry_disconnect": "Unable to synchronize Aspect Registry! Check the log for more information."
 }

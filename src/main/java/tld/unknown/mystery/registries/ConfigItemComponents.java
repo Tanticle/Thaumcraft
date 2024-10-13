@@ -33,8 +33,6 @@ public class ConfigItemComponents {
     public static final Holder<DataComponentType<Holder<Aspect>>> ASPECT_HOLDER = register(ItemComponents.ASPECT_HOLDER,
             Aspect.REGISTRY_CODEC, Aspect.REGISTRY_STREAM_CODEC);
 
-    public static final Holder<DataComponentType<CrystalAspectComponent>> CRYSTAL_ASPECT = register(ItemComponents.CRYSTAL_ASPECT,
-            CrystalAspectComponent.CODEC, CrystalAspectComponent.STREAM_CODEC);
 
     public static final Holder<DataComponentType<UUID>> COLLECTOR_MARKER = marker(ItemComponents.COLLECTOR_MARKER, UUIDUtil.STREAM_CODEC);
 

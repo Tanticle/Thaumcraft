@@ -13,7 +13,7 @@ import tld.unknown.mystery.util.simple.DataDependentItem;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-public abstract class AbstractAspectItem extends DataDependentItem<Aspect> implements AspectContainerItem {
+public abstract class AbstractAspectItem extends DataDependentItem<Aspect> {
 
     public AbstractAspectItem(Properties pProperties, boolean includeEmpty) {
         super(pProperties, ConfigItemComponents.ASPECT_HOLDER.value(), Aspect.UNKNOWN_HOLDER, includeEmpty);

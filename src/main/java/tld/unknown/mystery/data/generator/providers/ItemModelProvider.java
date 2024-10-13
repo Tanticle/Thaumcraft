@@ -17,7 +17,6 @@ public class ItemModelProvider extends BetterItemModelProvider {
     protected void registerModels() {
         basicItem(Blocks.TUBE);
         basicItem(Items.JAR_BRACE);
-        basicItem(Items.JAR_LABEL);
         basicItem(Items.VIS_CRYSTAL);
         basicItem(Blocks.CRYSTAL_COLONY);
 
@@ -30,6 +29,13 @@ public class ItemModelProvider extends BetterItemModelProvider {
                 .model(withExistingParent(Items.PHIAL.getPath() + "_filled", "item/generated")
                         .texture("layer0", "item/phial")
                         .texture("layer1", "item/phial_overlay"))
+                .end();
+        basicItem(Items.JAR_LABEL)
+                .override()
+                .predicate(ItemProperties.ASPECT_HOLDER_PRESENT, 1F)
+                .model(withExistingParent(Items.JAR_LABEL.getPath() + "_filled", "item/generated")
+                        .texture("layer0", "item/jar_label")
+                        .texture("layer1", "item/jar_label_overlay"))
                 .end();
 
         // Tools

@@ -68,7 +68,7 @@ public class ElementalSwordItem extends SwordItem {
                 pLevel.addParticle(ParticleTypes.SMOKE, pLivingEntity.getX(), pLivingEntity.getBoundingBox().minY + 0.1F, pLivingEntity.getZ(), mx, 0.0F, mz);
             }
         } else if (ticks % 20 == 0)
-            pLivingEntity.playSound(ConfigSounds.WIND.value(), 0.5f, 0.9f + pLevel.getRandom().nextFloat() * 0.2f);
+            pLivingEntity.playSound(ConfigSounds.WIND_HOWLING.value(), 0.5f, 0.9f + pLevel.getRandom().nextFloat() * 0.2f);
         if (ticks % 20 == 0)
             pStack.setDamageValue(pStack.getDamageValue() - 1);
     }

@@ -106,6 +106,10 @@ public class AspectList implements INBTSerializable<CompoundTag> {
         return true;
     }
 
+    public short getAspect(ResourceKey<Aspect> key) {
+        return aspects.getOrDefault(key, (short)0);
+    }
+
     public List<ResourceKey<Aspect>> aspectsPresent() {
         return Lists.newArrayList(aspects.keySet().iterator());
     }

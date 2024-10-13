@@ -1,10 +1,11 @@
 package tld.unknown.mystery.items.resources;
 
 import net.minecraft.world.item.ItemStack;
+import tld.unknown.mystery.api.aspects.AspectContainerItem;
 import tld.unknown.mystery.data.aspects.AspectList;
 import tld.unknown.mystery.items.AbstractAspectItem;
 
-public class VisCrystalItem extends AbstractAspectItem {
+public class VisCrystalItem extends AbstractAspectItem implements AspectContainerItem {
 
     public VisCrystalItem() {
         super(new Properties().stacksTo(64), false);

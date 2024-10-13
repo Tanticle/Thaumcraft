@@ -19,6 +19,8 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Block;
 import tld.unknown.mystery.Thaumcraft;
+import tld.unknown.mystery.api.aspects.AspectContainerItem;
+import tld.unknown.mystery.data.generator.providers.AspectProvider;
 import tld.unknown.mystery.items.AbstractAspectItem;
 import tld.unknown.mystery.networking.packets.ClientboundAspectRegistrySyncPacket;
 
@@ -58,7 +60,7 @@ public class AspectRegistry extends SimpleJsonResourceReloadListener {
                 BuiltInRegistries.ITEM.wrapAsHolder(item).tags().filter(itemTags::containsKey).forEach(key -> values.merge(itemTags.get(key)));
                 list.merge(values);
             }
-            if(stack.getItem() instanceof AbstractAspectItem i) {
+            if(stack.getItem() instanceof AspectContainerItem i) {
                 list.merge(i.getAspects(stack));
             }
             itemCache.put(item, list);

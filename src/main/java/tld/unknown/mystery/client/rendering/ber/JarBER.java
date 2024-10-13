@@ -39,51 +39,65 @@ public class JarBER extends SimpleBER<JarBlockEntity> {
 
     @Override
     public void render(JarBlockEntity pBlockEntity, float pPartialTick, PoseStack pPoseStack, MultiBufferSource pBufferSource, int pPackedLight, int pPackedOverlay) {
-        if(RenderHelper.debugIsLookingAtBlock(pBlockEntity.getBlockPos())) {
-            ResourceKey<Aspect> type = pBlockEntity.getEssentiaType(Direction.UP);
-            type = type != null ? type : pBlockEntity.getLabel();
-            renderNametag(pPoseStack, pBufferSource, 1, Aspect.getName(pBlockEntity.getLevel().registryAccess(), type, false, false), pPackedLight);
-            renderNametag(pPoseStack, pBufferSource, .75F, pBlockEntity.getEssentia(Direction.UP) + " / 250 [" + String.format("%.0f", pBlockEntity.getFillPercent() * 100) + "%]", pPackedLight);
-        }
+        if(RenderHelper.debugIsLookingAtBlock(pBlockEntity.getBlockPos()))
+            renderDebug(pPoseStack, pBlockEntity, pBufferSource, pPackedLight);
 
-        if(pBlockEntity.getEssentia(Direction.UP) > 0) {
-            pPoseStack.pushPose();
-            pPoseStack.translate(MathUtils.px(4), MathUtils.px(1), MathUtils.px(4));
+        if(pBlockEntity.getEssentia(Direction.UP) > 0)
+            renderEssentia(pPoseStack, pBlockEntity, pBufferSource, pPackedLight, pPackedOverlay);
 
-            VertexConsumer consumer = pBufferSource.getBuffer(Sheets.solidBlockSheet());
-            float fluidHeight = FLUID_HEIGHT * pBlockEntity.getFillPercent();
+        if(pBlockEntity.getLabel() != null && pBlockEntity.getLabelDirection() != null)
+            renderLabel(pPoseStack, pBlockEntity, pBufferSource, pPackedLight, pPackedOverlay);
+    }
 
-            RenderHelper.CUBOID_RENDERER.prepare(FLUID_WIDTH, fluidHeight, FLUID_WIDTH, 16, 16,
-                            Minecraft.getInstance().getTextureAtlas(TextureAtlas.LOCATION_BLOCKS).apply(FILLED_TEXTURE))
-                    .setUVs(Direction.Axis.X, 4, 0, 12, 10 * pBlockEntity.getFillPercent())
-                    .setUVs(Direction.Axis.Z, 4, 0, 12, 10 * pBlockEntity.getFillPercent())
-                    .setUVs(Direction.Axis.Y, 4, 4, 12, 12)
-                    .draw(consumer, pPoseStack.last().pose(), ConfigDataRegistries.ASPECTS.get(pBlockEntity.getLevel().registryAccess(), pBlockEntity.getEssentiaType(Direction.UP)).colour().argb32(true), true, pPackedLight, true, pPackedOverlay);
-            pPoseStack.popPose();
-        }
+    private void renderDebug(PoseStack pPoseStack, JarBlockEntity pBlockEntity, MultiBufferSource pBufferSource, int pPackedLight) {
+        ResourceKey<Aspect> type = pBlockEntity.getEssentiaType(Direction.UP);
+        type = type != null ? type : pBlockEntity.getLabel();
+        renderNametag(pPoseStack, pBufferSource, 1, Aspect.getName(pBlockEntity.getLevel().registryAccess(), type, false, false), pPackedLight);
+        renderNametag(pPoseStack, pBufferSource, .75F, pBlockEntity.getEssentia(Direction.UP) + " / 250 [" + String.format("%.0f", pBlockEntity.getFillPercent() * 100) + "%]", pPackedLight);
+    }
 
-        if(pBlockEntity.getLabel() != null && pBlockEntity.getLabelDirection() != null) {
-            pPoseStack.pushPose();
-            pPoseStack.translate(MathUtils.px(8), MathUtils.px(0), MathUtils.px(8));
-            pPoseStack.mulPose(getRotation(pBlockEntity));
-            pPoseStack.translate(MathUtils.px(0), MathUtils.px(6F), MathUtils.px(5.1F));
-            float randomRotation = (pBlockEntity.getLabel().location().hashCode() + pBlockEntity.getBlockPos().getX() + pBlockEntity.getLabelDirection().ordinal()) % 4 - 2;
-            pPoseStack.mulPose(Axis.ZP.rotationDegrees(randomRotation));
-            VertexConsumer consumer = pBufferSource.getBuffer(RenderType.entityTranslucent(TextureAtlas.LOCATION_BLOCKS));
-            TextureAtlasSprite sprite = Minecraft.getInstance().getTextureAtlas(TextureAtlas.LOCATION_BLOCKS).apply(LABEL);
-            RenderHelper.drawQuadCentered(
-                    consumer, pPoseStack.last().pose(),
-                    new Vector2f(0, 0), MathUtils.px(7), MathUtils.px(7),
-                    0xFFFFFFFF, sprite.getU(0), sprite.getV(0), sprite.getU(1), sprite.getV(1), true, pPackedLight, true, pPackedOverlay);
-            pPoseStack.scale(0.67F, 0.67F, 1);
-            pPoseStack.translate(0, 0, MathUtils.px(0.01F));
-            consumer = pBufferSource.getBuffer(RenderType.entityTranslucentCull(AspectRenderer.getTexture(pBlockEntity.getLabel(), false)));
-            RenderHelper.drawQuadCentered(
-                    consumer, pPoseStack.last().pose(),
-                    new Vector2f(0, 0), MathUtils.px(7), MathUtils.px(7),
-                    LABEL_COLOUR.argb32(true), 0, 0, 1, 1, true, pPackedLight, true, pPackedOverlay);
-            pPoseStack.popPose();
-        }
+    private void renderEssentia(PoseStack pPoseStack, JarBlockEntity pBlockEntity, MultiBufferSource pBufferSource, int pPackedLight, int pPackedOverlay) {
+        pPoseStack.pushPose();
+        pPoseStack.translate(MathUtils.px(4), MathUtils.px(1), MathUtils.px(4));
+
+        VertexConsumer consumer = pBufferSource.getBuffer(Sheets.solidBlockSheet());
+        float fluidHeight = FLUID_HEIGHT * pBlockEntity.getFillPercent();
+
+        RenderHelper.CUBOID_RENDERER.prepare(FLUID_WIDTH, fluidHeight, FLUID_WIDTH, 16, 16,
+                        Minecraft.getInstance().getTextureAtlas(TextureAtlas.LOCATION_BLOCKS).apply(FILLED_TEXTURE))
+                .setUVs(Direction.Axis.X, 4, 0, 12, 10 * pBlockEntity.getFillPercent())
+                .setUVs(Direction.Axis.Z, 4, 0, 12, 10 * pBlockEntity.getFillPercent())
+                .setUVs(Direction.Axis.Y, 4, 4, 12, 12)
+                .draw(consumer, pPoseStack.last().pose(), ConfigDataRegistries.ASPECTS.get(pBlockEntity.getLevel().registryAccess(), pBlockEntity.getEssentiaType(Direction.UP)).colour().argb32(true), true, pPackedLight, true, pPackedOverlay);
+        pPoseStack.popPose();
+    }
+
+    private void renderLabel(PoseStack pPoseStack, JarBlockEntity pBlockEntity, MultiBufferSource pBufferSource, int pPackedLight, int pPackedOverlay) {
+        pPoseStack.pushPose();
+
+        pPoseStack.translate(MathUtils.px(8), MathUtils.px(0), MathUtils.px(8));
+        pPoseStack.mulPose(getRotation(pBlockEntity));
+        pPoseStack.translate(MathUtils.px(0), MathUtils.px(6F), MathUtils.px(5.1F));
+        float randomRotation = (pBlockEntity.getLabel().location().hashCode() + pBlockEntity.getBlockPos().getX() + pBlockEntity.getLabelDirection().ordinal()) % 4 - 2;
+        pPoseStack.mulPose(Axis.ZP.rotationDegrees(randomRotation));
+
+        VertexConsumer consumer = pBufferSource.getBuffer(RenderType.entityCutoutNoCull(TextureAtlas.LOCATION_BLOCKS));
+        TextureAtlasSprite sprite = Minecraft.getInstance().getTextureAtlas(TextureAtlas.LOCATION_BLOCKS).apply(LABEL);
+        RenderHelper.drawQuadCentered(
+                consumer, pPoseStack.last().pose(),
+                new Vector2f(0, 0), MathUtils.px(7), MathUtils.px(7),
+                0xFFFFFFFF, sprite.getU(0), sprite.getV(0), sprite.getU(1), sprite.getV(1), true, pPackedLight, true, pPackedOverlay);
+
+        pPoseStack.scale(0.67F, 0.67F, 1);
+        pPoseStack.translate(0, 0, MathUtils.px(0.01F));
+
+        consumer = pBufferSource.getBuffer(RenderType.entityTranslucentCull(AspectRenderer.getTexture(pBlockEntity.getLabel(), false)));
+        RenderHelper.drawQuadCentered(
+                consumer, pPoseStack.last().pose(),
+                new Vector2f(0, 0), MathUtils.px(7), MathUtils.px(7),
+                LABEL_COLOUR.argb32(true), 0, 0, 1, 1, true, pPackedLight, true, pPackedOverlay);
+
+        pPoseStack.popPose();
     }
 
     private Quaternionf getRotation(JarBlockEntity pBlockEntity) {

@@ -58,6 +58,14 @@ public class RegistrationEvents {
             }
             return -1;
         }, ConfigItems.PHIAL.value());
+        e.register((stack, tintIndex) -> {
+            if(tintIndex == 1) {
+                Holder<Aspect> aspect = ((AbstractAspectItem)stack.getItem()).getHolder(stack);
+                Colour c = aspect.value().colour();;
+                return c.argb32(true);
+            }
+            return -1;
+        }, ConfigItems.JAR_LABEL.value());
         e.register((stack, tintIndex) -> ((AbstractAspectItem)stack.getItem()).getData(stack).colour().argb32(true), ConfigItems.VIS_CRYSTAL.value());
         ConfigBlocks.CRYSTAL_COLONY.forEach((aspect, block) -> e.register((stack, index) -> ConfigDataRegistries.ASPECTS.get(RegistryUtils.access(), aspect.getId()).colour().argb32(true), block.item()));
     }

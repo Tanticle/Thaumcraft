@@ -44,16 +44,26 @@ public class JarBlockEntity extends SimpleBlockEntity implements AspectContainer
             CompoundTag content = nbt.getCompound("content");
             this.currentAspect = ResourceKey.create(ThaumcraftData.Registries.ASPECT, ResourceLocation.tryParse(content.getString("aspect")));
             this.amount = content.getInt("amount");
+        } else {
+            dump();
         }
+
         if(nbt.contains("label")) {
             this.label = ResourceKey.create(ThaumcraftData.Registries.ASPECT, ResourceLocation.tryParse(nbt.getString("label")));
             this.labelDirection = Direction.byName(nbt.getString("label_dir"));
+        } else {
+            removeLabel(this.labelDirection);
+        }
+        
+        if(nbt.contains("empty")) {
+            dump();
+            removeLabel(this.labelDirection);
         }
     }
 
     @Override
     protected void writeNbt(CompoundTag nbt, HolderLookup.Provider pRegistries) {
-        if(amount > 0) {
+        if(currentAspect != null) {
             CompoundTag content = new CompoundTag();
             content.putString("aspect", this.currentAspect.location().toString());
             content.putInt("amount", this.amount);
@@ -70,23 +80,35 @@ public class JarBlockEntity extends SimpleBlockEntity implements AspectContainer
     }
 
     public float getFillPercent() {
-        return (float)this.amount / MAX_ESSENTIA;
+        return this.amount > 0 ? (float)this.amount / MAX_ESSENTIA : 0;
     }
 
     public void dump() {
+        if(this.currentAspect == null)
+            return;
         this.amount = 0;
         this.currentAspect = null;
-        //TODO: Pollute Aura
-        sync();
+        if(this.level != null && !this.level.isClientSide()) {
+            //TODO: Pollute Aura
+            sync();
+        }
     }
 
-    public boolean applyLabel(Direction dir) {
-        if(this.labelDirection != null || amount <= 0)
+    public boolean applyLabel(Direction dir, ResourceKey<Aspect> filterType) {
+        if(this.labelDirection != null)
             return false;
-        this.labelDirection = dir;
-        this.label = this.currentAspect;
-        sync();
-        return true;
+        if(filterType == null && this.currentAspect != null) {
+            this.labelDirection = dir;
+            this.label = this.currentAspect;
+            sync();
+            return true;
+        } else if(filterType != null && (this.currentAspect == null || this.currentAspect == filterType)) {
+            this.labelDirection = dir;
+            this.label = filterType;
+            sync();
+            return true;
+        }
+        return false;
     }
 
     public boolean removeLabel(Direction dir) {
@@ -94,7 +116,10 @@ public class JarBlockEntity extends SimpleBlockEntity implements AspectContainer
             return false;
         this.labelDirection = null;
         this.label = null;
-        sync();
+        if(this.level != null && !this.level.isClientSide()) {
+            //TODO: Spawn Item Entity
+            sync();
+        }
         return true;
     }
 

@@ -19,7 +19,8 @@ public final class ConfigItemProperties {
 
     /* -------------------------------------------------------------------------------------------------------------- */
 
-    public static final PropertyObject ASPECT_HOLDER_PRESENT = register(ThaumcraftData.ItemProperties.ASPECT_HOLDER_PRESENT, ConfigItems.PHIAL, DataDependentItem.HAS_META_GETTER);
+    public static final PropertyObject ASPECT_HOLDER_PHIAL = register(ThaumcraftData.ItemProperties.ASPECT_HOLDER_PRESENT, ConfigItems.PHIAL, DataDependentItem.HAS_META_GETTER);
+    public static final PropertyObject ASPECT_HOLDER_LABEL = register(ThaumcraftData.ItemProperties.ASPECT_HOLDER_PRESENT, ConfigItems.JAR_LABEL, DataDependentItem.HAS_META_GETTER);
 
     /* -------------------------------------------------------------------------------------------------------------- */
 
