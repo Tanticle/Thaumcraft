@@ -1,14 +1,14 @@
-package tld.unknown.mystery.blocks;
+package tld.unknown.mystery.blocks.alchemy;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
@@ -26,8 +26,8 @@ public class CreativeAspectSourceBlock extends SimpleEntityBlock<CreativeAspectS
 
     public static final BooleanProperty HAS_ASPECT = BooleanProperty.create("filled");
 
-    public CreativeAspectSourceBlock() {
-        super(SimpleBlockMaterials.METAL, ConfigBlockEntities.CREATIVE_ASPECT_SOURCE.entityTypeObject());
+    public CreativeAspectSourceBlock(BlockBehaviour.Properties props) {
+        super(SimpleBlockMaterials.metal(props), ConfigBlockEntities.CREATIVE_ASPECT_SOURCE.entityTypeObject());
         registerDefaultState(this.getStateDefinition().any()
                 .setValue(HAS_ASPECT, false));
     }
@@ -38,11 +38,11 @@ public class CreativeAspectSourceBlock extends SimpleEntityBlock<CreativeAspectS
     }
 
     @Override
-    protected ItemInteractionResult useItemOn(ItemStack pStack, BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, InteractionHand pHand, BlockHitResult pHitResult) {
+    protected InteractionResult useItemOn(ItemStack pStack, BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, InteractionHand pHand, BlockHitResult pHitResult) {
         if(pHand == InteractionHand.OFF_HAND)
-            return ItemInteractionResult.FAIL;
+            return InteractionResult.FAIL;
         if(pLevel.isClientSide())
-            return ItemInteractionResult.sidedSuccess(true);
+            return InteractionResult.SUCCESS;
 
         if(pStack.getItem() instanceof AspectContainerItem i) {
             Optional<ResourceKey<Aspect>> aspect = i.getAspects(pStack).getAspects().stream().findFirst();
@@ -51,23 +51,23 @@ public class CreativeAspectSourceBlock extends SimpleEntityBlock<CreativeAspectS
                 be.setAspect(aspect.get());
                 be.sync();
                 pLevel.setBlock(pPos, pState.setValue(HAS_ASPECT, true), 2);
-                return ItemInteractionResult.sidedSuccess(false);
+                return InteractionResult.SUCCESS;
             }
         }
-        return ItemInteractionResult.FAIL;
+        return InteractionResult.FAIL;
     }
 
     @Override
     protected InteractionResult useWithoutItem(BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, BlockHitResult pHitResult) {
         if(pLevel.isClientSide())
-            return InteractionResult.sidedSuccess(true);
+            return InteractionResult.SUCCESS;
 
         CreativeAspectSourceBlockEntity be = getEntity(pLevel, pPos);
         if(pPlayer.isCrouching() && be.getAspect() != null) {
             be.setAspect(null);
             be.sync();
             pLevel.setBlock(pPos, pState.setValue(HAS_ASPECT, false), 2);
-            return InteractionResult.sidedSuccess(false);
+            return InteractionResult.SUCCESS;
         }
         return InteractionResult.FAIL;
     }

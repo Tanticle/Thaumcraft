@@ -44,8 +44,7 @@ public class DataIndexWidget<T> extends AbstractContainerEventHandler implements
 
     public void update(Predicate<ResourceLocation> predicate, BiFunction<ResourceLocation, T, Component> getName, BiFunction<ResourceLocation, T, IconTexture> getIcon) {
         entries.clear();
-        ;
-        Minecraft.getInstance().getConnection().registryAccess().registryOrThrow(registryKey).keySet().forEach(k -> {
+        Minecraft.getInstance().getConnection().registryAccess().lookupOrThrow(registryKey).keySet().forEach(k -> {
             if(predicate.test(k))
                 entries.add(new Entry<>(this, k, registryKey, getName, getIcon));
         });
@@ -53,7 +52,6 @@ public class DataIndexWidget<T> extends AbstractContainerEventHandler implements
 
     @Override
     public void render(GuiGraphics graphics, int pMouseX, int pMouseY, float pPartialTick) {
-        RenderSystem.setShader(GameRenderer::getPositionTexColorShader);
         renderList(graphics, pMouseX, pMouseY, pPartialTick);
     }
 
@@ -101,7 +99,7 @@ public class DataIndexWidget<T> extends AbstractContainerEventHandler implements
         private final Button button;
 
         public Entry(DataIndexWidget<T> widget, ResourceLocation id, ResourceKey<Registry<T>> registryKey, BiFunction<ResourceLocation, T, Component> getName, BiFunction<ResourceLocation, T, IconTexture> getIcon) {
-            this.entry = Minecraft.getInstance().getConnection().registryAccess().registryOrThrow(registryKey).get(id);
+            this.entry = Minecraft.getInstance().getConnection().registryAccess().lookupOrThrow(registryKey).getValue(id);
             this.button = new IconButtonWidget(0, 0, 0, 0, getIcon.apply(id, entry),getName.apply(id, entry), b -> widget.current = entry);
         }
 

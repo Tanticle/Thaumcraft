@@ -38,8 +38,8 @@ public class CrystalBlock extends DirectionalBlock {
 
     private final CrystalBlock.CrystalAspect aspect;
 
-    public CrystalBlock(CrystalBlock.CrystalAspect aspect) {
-        this(SimpleBlockMaterials.GLASS.mapColor(aspect.color), aspect);
+    public CrystalBlock(CrystalBlock.CrystalAspect aspect, BlockBehaviour.Properties props) {
+        this(SimpleBlockMaterials.glass(props).mapColor(aspect.color), aspect);
     }
 
     public Aspect getAspect(RegistryAccess access) {

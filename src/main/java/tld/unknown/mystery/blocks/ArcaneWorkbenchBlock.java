@@ -11,6 +11,7 @@ import net.minecraft.world.inventory.ContainerLevelAccess;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.RenderShape;
+import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.BooleanOp;
@@ -31,8 +32,8 @@ public class ArcaneWorkbenchBlock extends SimpleEntityBlock<ArcaneWorkbenchBlock
             Shapes.join(
                     Shapes.box(6, 2, 6, 8, 11, 8),
                     Shapes.box(0, 11, 0, 16, 16, 16), BooleanOp.AND), BooleanOp.OR);
-    public ArcaneWorkbenchBlock() {
-        super(SimpleBlockMaterials.WOOD, ConfigBlockEntities.ARCANE_WORKBENCH.entityTypeObject());
+    public ArcaneWorkbenchBlock(BlockBehaviour.Properties props) {
+        super(SimpleBlockMaterials.wood(props), ConfigBlockEntities.ARCANE_WORKBENCH.entityTypeObject());
     }
     public InteractionResult use(BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, InteractionHand pHand, BlockHitResult pHit) {
         if (pLevel.isClientSide) {

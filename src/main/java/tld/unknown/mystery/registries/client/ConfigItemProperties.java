@@ -1,48 +1,36 @@
 package tld.unknown.mystery.registries.client;
 
-import lombok.Getter;
-import net.minecraft.client.renderer.item.ItemProperties;
-import net.minecraft.client.renderer.item.ItemPropertyFunction;
-import net.minecraft.core.Holder;
+import com.mojang.datafixers.util.Pair;
+import com.mojang.serialization.MapCodec;
+import net.minecraft.client.renderer.item.properties.conditional.ConditionalItemModelProperty;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.Item;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
-import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.neoforge.client.event.RegisterConditionalItemModelPropertyEvent;
+import tld.unknown.mystery.Thaumcraft;
 import tld.unknown.mystery.api.ThaumcraftData;
-import tld.unknown.mystery.registries.ConfigItems;
+import tld.unknown.mystery.items.ItemModelProperties;
 import tld.unknown.mystery.util.ReflectionUtils;
-import tld.unknown.mystery.util.simple.DataDependentItem;
 
 @OnlyIn(Dist.CLIENT)
+@EventBusSubscriber(modid = Thaumcraft.MOD_ID, bus = EventBusSubscriber.Bus.MOD)
 public final class ConfigItemProperties {
 
     /* -------------------------------------------------------------------------------------------------------------- */
 
-    public static final PropertyObject ASPECT_HOLDER_PHIAL = register(ThaumcraftData.ItemProperties.ASPECT_HOLDER_PRESENT, ConfigItems.PHIAL, DataDependentItem.HAS_META_GETTER);
-    public static final PropertyObject ASPECT_HOLDER_LABEL = register(ThaumcraftData.ItemProperties.ASPECT_HOLDER_PRESENT, ConfigItems.JAR_LABEL, DataDependentItem.HAS_META_GETTER);
+    public static final Pair<ResourceLocation, MapCodec<? extends ItemModelProperties.HasData>> HAS_ASPECT = Pair.of(ThaumcraftData.ItemProperties.HAS_ASPECT, ItemModelProperties.HasData.CODEC);
 
     /* -------------------------------------------------------------------------------------------------------------- */
 
-    public static void init(FMLClientSetupEvent e) {
-        e.enqueueWork(() -> ReflectionUtils.getAllStaticsOfType(ConfigItemProperties.class, PropertyObject.class).forEach(o -> ItemProperties.register(o.getItem().value(), o.getId(), o.getFunction())));
+    @SubscribeEvent
+    public static void onConditionalPropertyRegisterEvent(RegisterConditionalItemModelPropertyEvent event) {
+        /*ReflectionUtils.getAllStaticsOfType(ConfigItemProperties.class, Pair.class).forEach(p -> {
+            if(p.getSecond() instanceof ConditionalItemModelProperty property)
+                event.register((ResourceLocation)p.getFirst(), property.type());
+        });*/
+        event.register(HAS_ASPECT.getFirst(), HAS_ASPECT.getSecond());
     }
 
-    private static PropertyObject register(ResourceLocation id, Holder<? extends Item> item, ItemPropertyFunction function) {
-        return new PropertyObject(id, item, function);
-    }
-
-    @Getter
-    public static class PropertyObject {
-
-        private final ResourceLocation id;
-        private final Holder<? extends Item> item;
-        private final ItemPropertyFunction function;
-
-        private PropertyObject(ResourceLocation id, Holder<? extends Item> item, ItemPropertyFunction function) {
-            this.id = id;
-            this.item = item;
-            this.function = function;
-        }
-    }
 }

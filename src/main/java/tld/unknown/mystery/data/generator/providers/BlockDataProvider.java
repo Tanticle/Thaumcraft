@@ -1,156 +1,202 @@
 package tld.unknown.mystery.data.generator.providers;
 
 import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.Lists;
+import net.minecraft.client.data.models.BlockModelGenerators;
+import net.minecraft.client.data.models.ItemModelGenerators;
+import net.minecraft.client.data.models.ModelProvider;
+import net.minecraft.client.data.models.blockstates.*;
+import net.minecraft.client.data.models.model.*;
 import net.minecraft.core.Direction;
+import net.minecraft.core.Holder;
 import net.minecraft.data.PackOutput;
-import net.minecraft.data.models.model.TextureMapping;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.SlabBlock;
-import net.minecraft.world.level.block.StairBlock;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
-import net.neoforged.neoforge.client.model.generators.*;
-import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import net.neoforged.neoforge.registries.DeferredBlock;
 import tld.unknown.mystery.Thaumcraft;
-import tld.unknown.mystery.api.ThaumcraftData;
-import tld.unknown.mystery.blocks.CreativeAspectSourceBlock;
+import tld.unknown.mystery.blocks.alchemy.CreativeAspectSourceBlock;
 import tld.unknown.mystery.blocks.CrystalBlock;
-import tld.unknown.mystery.blocks.JarBlock;
-import tld.unknown.mystery.blocks.TubeBlock;
+import tld.unknown.mystery.blocks.alchemy.JarBlock;
+import tld.unknown.mystery.blocks.alchemy.TubeBlock;
 import tld.unknown.mystery.registries.ConfigBlocks;
+import tld.unknown.mystery.util.RegistryUtils;
 
 import java.util.EnumMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.stream.Stream;
 
-public class BlockDataProvider extends BlockStateProvider {
+@SuppressWarnings("unchecked")
+public class BlockDataProvider extends ModelProvider {
 
-    public BlockDataProvider(PackOutput gen, ExistingFileHelper exFileHelper) {
-        super(gen, Thaumcraft.MOD_ID, exFileHelper);
+    private BlockModelGenerators blocks;
+    private ItemModelGenerators items;
+
+    public BlockDataProvider(PackOutput gen) {
+        super(gen, Thaumcraft.MOD_ID);
     }
 
     @Override
-    protected void registerStatesAndModels() {
-        simpleBlock(ConfigBlocks.CRUCIBLE.block(), models().getExistingFile(Thaumcraft.id("block/crucible")));
-        simpleBlockItem(ConfigBlocks.CRUCIBLE.block(), models().getExistingFile(Thaumcraft.id("block/crucible")));
-        simpleBlock(ConfigBlocks.ARCANE_WORKBENCH.block(), models().getExistingFile(Thaumcraft.id("block/arcane_workbench")));
-        simpleBlockItem(ConfigBlocks.ARCANE_WORKBENCH.block(), models().getExistingFile(Thaumcraft.id("block/arcane_workbench")));
+    protected void registerModels(BlockModelGenerators blockModels, ItemModelGenerators itemModels) {
+        this.blocks = blockModels;
+        this.items = itemModels;
 
-        simpleBlock(ConfigBlocks.ARCANE_PEDESTAL.block(), models().getExistingFile(Thaumcraft.id("block/pedestal_arcane")));
-        simpleBlockItem(ConfigBlocks.ARCANE_PEDESTAL.block(), models().getExistingFile(Thaumcraft.id("block/pedestal_arcane")));
-        simpleBlock(ConfigBlocks.ANCIENT_PEDESTAL.block(), models().getExistingFile(Thaumcraft.id("block/pedestal_ancient")));
-        simpleBlockItem(ConfigBlocks.ANCIENT_PEDESTAL.block(), models().getExistingFile(Thaumcraft.id("block/pedestal_ancient")));
-        simpleBlock(ConfigBlocks.ELDRITCH_PEDESTAL.block(), models().getExistingFile(Thaumcraft.id("block/pedestal_eldritch")));
-        simpleBlockItem(ConfigBlocks.ELDRITCH_PEDESTAL.block(), models().getExistingFile(Thaumcraft.id("block/pedestal_eldritch")));
+        simpleExistingBlock(ConfigBlocks.CRUCIBLE);
+        simpleExistingBlock(ConfigBlocks.ARCANE_WORKBENCH);
+        batchSimpleExistingBlock(ConfigBlocks.ARCANE_PEDESTAL, ConfigBlocks.ANCIENT_PEDESTAL, ConfigBlocks.ELDRITCH_PEDESTAL);
 
-        registerDirectionalMultipart(ConfigBlocks.TUBE.block(), TubeBlock.BY_DIRECTION, Thaumcraft.id("block/tube_generic_center"), Thaumcraft.id("block/tube_generic_side"), true);
+        registerDirectionalMultipart(ConfigBlocks.TUBE, TubeBlock.BY_DIRECTION, Thaumcraft.id("block/tube_generic_center"), Thaumcraft.id("block/tube_generic_side"), true);
 
-        generateAspectSource();
-        simpleBlockItem(ConfigBlocks.CREATIVE_ASPECT_SOURCE.block(), models().getExistingFile(Thaumcraft.id("block/creative_aspect_source_empty")));
+        registerJars();
+        registerAspectSource();
 
-        generateJar(ConfigBlocks.WARDED_JAR.block());
-        generateJar(ConfigBlocks.VOID_JAR.block());
+        registerCrystalColonies();
 
-        ModelFile CRYSTAL_0 = models().getExistingFile(Thaumcraft.id("block/vis_crystals_ground_stage0"));
-        ModelFile CRYSTAL_1 = models().getExistingFile(Thaumcraft.id("block/vis_crystals_ground_stage1"));
-        ModelFile CRYSTAL_2 = models().getExistingFile(Thaumcraft.id("block/vis_crystals_ground_stage2"));
-
-        ConfigBlocks.CRYSTAL_COLONY.forEach((aspect, block) -> {
-            getVariantBuilder(block.block()).forAllStates((bs) -> getCrystalModels(bs.getValue(CrystalBlock.FACING), switch(bs.getValue(CrystalBlock.SIZE)) {
-                case 1 -> CRYSTAL_1;
-                case 2 -> CRYSTAL_2;
-                default -> CRYSTAL_0;
-            }));
-        });
+        registerEmptyBlock(ConfigBlocks.RUNIC_MATRIX, RegistryUtils.getBlockItemModelLocation(ConfigBlocks.RUNIC_MATRIX.blockSupplier()));
+        registerFakeBlock(ConfigBlocks.LAMPLIGHT);
     }
 
-    private void generateAspectSource() {
-        ResourceLocation filled = TextureMapping.getBlockTexture(ConfigBlocks.CREATIVE_ASPECT_SOURCE.block());
-        ResourceLocation top = TextureMapping.getBlockTexture(ConfigBlocks.CREATIVE_ASPECT_SOURCE.block(), "_top");
-        getVariantBuilder(ConfigBlocks.CREATIVE_ASPECT_SOURCE.block()).forAllStates(s -> {
-            if(s.getValue(CreativeAspectSourceBlock.HAS_ASPECT)) {
-                return ConfiguredModel.builder().modelFile(models().cubeTop(ThaumcraftData.Blocks.CREATIVE_ASPECT_SOURCE + "_filled", filled, top)).build();
-            } else {
-                return ConfiguredModel.builder().modelFile(models().cubeTop(ThaumcraftData.Blocks.CREATIVE_ASPECT_SOURCE + "_empty", top, top)).build();
-            }
-        });
+    @Override
+    protected Stream<? extends Holder<Item>> getKnownItems() {
+        return super.getKnownItems().filter(holder -> holder.value() instanceof BlockItem);
     }
 
-    private void generateJar(JarBlock block) {
-        MultiPartBlockStateBuilder builder = getMultipartBuilder(block);
-        ResourceLocation base = block.isVoid() ? Thaumcraft.id("block/void_jar_body") : Thaumcraft.id("block/warded_jar_body");
-        ResourceLocation brace = Thaumcraft.id("block/jar_brace");
-        ResourceLocation tube = Thaumcraft.id("block/jar_tube");
-
-        builder.part().modelFile(models().getExistingFile(base)).addModel().end();
-        builder.part().modelFile(models().getExistingFile(brace)).addModel().condition(JarBlock.BRACED, true).end();
-        builder.part().modelFile(models().getExistingFile(tube)).addModel().condition(JarBlock.CONNECTED, true).end();
-
-        simpleBlockItem(block, models().getExistingFile(base));
-    }
-
-    private ConfiguredModel[] getCrystalModels(Direction dir, ModelFile model) {
-        ConfiguredModel.Builder<?> builder = ConfiguredModel.builder().modelFile(model);
-        Direction.Axis axis = dir.getAxis();
-        switch(axis) {
-            case X -> builder.rotationX(90).rotationY(dir.getAxisDirection() == Direction.AxisDirection.POSITIVE ? 90 : -90);
-            case Y -> builder.rotationX(dir.getAxisDirection() == Direction.AxisDirection.POSITIVE ? 180 : 0);
-            case Z -> builder.rotationX(dir.getAxisDirection() == Direction.AxisDirection.POSITIVE ? -90 : 90);
-        }
-        return builder.build();
-    }
-
-    private void registerSimpleBlock(DeferredBlock<? extends Block> block) {
-        simpleBlock(block.value());
-        simpleBlockItem(block.value(), itemModels().getExistingFile(ResourceLocation.tryBuild(block.getId().getNamespace(), "block/" + block.getId().getPath())));
-    }
-
-    private void registerStairSlab(DeferredBlock<? extends StairBlock> stairs, DeferredBlock<? extends SlabBlock> slab, ResourceLocation texture) {
-        texture = ResourceLocation.tryBuild(texture.getNamespace(), "block/" + texture.getPath());
-        stairsBlock(stairs.get(), texture);
-        simpleBlockItem(stairs.get(), itemModels().getExistingFile(ResourceLocation.tryBuild(stairs.getId().getNamespace(), "block/" + stairs.getId().getPath())));
-        slabBlock(slab.get(), texture, texture);
-        simpleBlockItem(slab.get(), itemModels().getExistingFile(ResourceLocation.tryBuild(slab.getId().getNamespace(), "block/" + slab.getId().getPath())));
-    }
-
-    public ItemModelBuilder basicBlockItem(ResourceLocation item) {
-        return itemModels().getBuilder(item.toString())
-                .parent(new ModelFile.UncheckedModelFile("item/generated"))
-                .texture("layer0", ResourceLocation.tryBuild(item.getNamespace(), "block/" + item.getPath()));
-    }
-
-    private void registerDirectionalMultipart(Block block, Map<Direction, BooleanProperty> dirProperties, ResourceLocation centerPart, ResourceLocation sidePart, boolean hideCenter) {
-        MultiPartBlockStateBuilder multipartBuilder = getMultipartBuilder(block);
+    private void registerDirectionalMultipart(ConfigBlocks.BlockObject<? extends Block> block, Map<Direction, BooleanProperty> dirProperties, ResourceLocation centerPart, ResourceLocation sidePart, boolean hideCenter) {
+        MultiPartGenerator generator = MultiPartGenerator.multiPart(block.block());
+        Variant center = Variant.variant().with(VariantProperties.MODEL, centerPart);
+        List<Condition> dirConditions = Lists.newArrayList();
 
         for(Direction dir : Direction.values()) {
+            Condition dirCondition = Condition.condition().term(dirProperties.get(dir), true);
+            dirConditions.add(dirCondition);
             MultiPartRotation rot = MultiPartRotation.BY_DIRECTION.get(dir);
-            multipartBuilder.part()
-                    .modelFile(models().getExistingFile(sidePart))
-                    .rotationX(rot.xRotation()).rotationY(rot.yRotation())
-                    .addModel()
-                    .condition(dirProperties.get(dir), true)
-                    .end();
+            generator.with(dirCondition, Variant.variant()
+                    .with(VariantProperties.MODEL, sidePart)
+                    .with(VariantProperties.X_ROT, rot.xRotation)
+                    .with(VariantProperties.Y_ROT, rot.yRotation));
         }
 
-        MultiPartBlockStateBuilder.PartBuilder builder = multipartBuilder.part()
-                .modelFile(models().getExistingFile(centerPart))
-                .addModel();
-        if(hideCenter) {
-            builder.useOr();
-            for(Direction dir : Direction.values()) {
-                builder.condition(dirProperties.get(dir), false);
-            }
-        }
-        builder.end();
+        if(hideCenter)
+            generator.with(Condition.and(dirConditions.toArray(new Condition[0])), center);
+        else
+            generator.with(center);
+
+        blocks.blockStateOutput.accept(generator);
+        blockTextureItem(block, RegistryUtils.getBlockItemModelLocation(block.blockSupplier()));
     }
 
-    private record MultiPartRotation(int xRotation, int yRotation) {
+    private void registerJars() {
+        Set.of(ConfigBlocks.WARDED_JAR, ConfigBlocks.VOID_JAR).forEach(block -> {
+            blocks.blockStateOutput.accept(MultiPartGenerator.multiPart(block.block())
+                    .with(Variant.variant().with(VariantProperties.MODEL,
+                            ModelLocationUtils.getModelLocation(block.block(), "_body")))
+                    .with(Condition.condition().term(JarBlock.BRACED, true),
+                            Variant.variant().with(VariantProperties.MODEL, Thaumcraft.id("block/jar_brace")))
+                    .with(Condition.condition().term(JarBlock.CONNECTED, true),
+                            Variant.variant().with(VariantProperties.MODEL, Thaumcraft.id("block/jar_tube"))));
+
+            blockParentItem(block, ModelLocationUtils.getModelLocation(block.block()).withSuffix("_body"));
+        });
+    }
+
+    protected void registerCrystalColonies() {
+        ResourceLocation itemTexture = Thaumcraft.id("item/block/crystal_colony");
+        ResourceLocation itemModel = ModelTemplates.FLAT_ITEM.create(itemTexture, TextureMapping.layer0(itemTexture), items.modelOutput);
+        ConfigBlocks.CRYSTAL_COLONY.forEach((aspect, blockObject) -> {
+            Block block = blockObject.block();
+
+            MultiVariantGenerator generator = MultiVariantGenerator.multiVariant(block);
+            generator.with(PropertyDispatch.properties(CrystalBlock.FACING, CrystalBlock.SIZE).generate((dir, size) -> {
+                ResourceLocation model = Thaumcraft.id("block/crystal_colony_" + size);
+                VariantProperties.Rotation xRot = switch(dir.getAxis()) {
+                    case X -> VariantProperties.Rotation.R90;
+                    case Y -> dir.getAxisDirection() == Direction.AxisDirection.POSITIVE
+                            ? VariantProperties.Rotation.R180
+                            : VariantProperties.Rotation.R0;
+                    case Z -> dir.getAxisDirection() == Direction.AxisDirection.POSITIVE
+                            ? VariantProperties.Rotation.R270
+                            : VariantProperties.Rotation.R90;
+                };
+                Variant variant = Variant.variant().with(VariantProperties.MODEL, model).with(VariantProperties.X_ROT, xRot);
+                if(dir.getAxis() == Direction.Axis.X) {
+                    variant.with(VariantProperties.Y_ROT,
+                            dir.getAxisDirection() == Direction.AxisDirection.POSITIVE
+                                    ? VariantProperties.Rotation.R90
+                                    : VariantProperties.Rotation.R270);
+                }
+                return variant;
+            }));
+            blocks.blockStateOutput.accept(generator);
+            items.itemModelOutput.accept(blockObject.item(), ItemModelUtils.plainModel(itemModel));
+        });
+    }
+
+    protected void registerAspectSource() {
+        Block block = ConfigBlocks.CREATIVE_ASPECT_SOURCE.block();
+        ResourceLocation texture = TextureMapping.getBlockTexture(block);
+        MultiVariantGenerator generator = MultiVariantGenerator.multiVariant(block);
+
+        generator.with(PropertyDispatch.property(CreativeAspectSourceBlock.HAS_ASPECT).generate(b -> {
+            TextureMapping mapping = new TextureMapping()
+                    .put(TextureSlot.PARTICLE, texture.withSuffix(b ? "_filled" : "_empty"))
+                    .put(TextureSlot.SIDE, texture.withSuffix(b ? "_filled" : "_empty"))
+                    .put(TextureSlot.UP, texture.withSuffix("_empty"))
+                    .put(TextureSlot.DOWN, texture.withSuffix(b ? "_filled" : "_empty"));
+            return Variant.variant().with(VariantProperties.MODEL, ModelTemplates.CUBE.create(ModelLocationUtils.getModelLocation(block, b ? "_filled" : "_empty"), mapping, blocks.modelOutput));
+        }));
+
+        blocks.blockStateOutput.accept(generator);
+        blockParentItem(ConfigBlocks.CREATIVE_ASPECT_SOURCE, ModelLocationUtils.getModelLocation(block, "_empty"));
+    }
+
+    private void simpleExistingBlock(ConfigBlocks.BlockObject<? extends Block> block) {
+        ResourceLocation model = ModelLocationUtils.getModelLocation(block.block());
+        blocks.blockStateOutput.accept(MultiVariantGenerator.multiVariant(block.block(), Variant.variant().with(VariantProperties.MODEL, model)));
+        blockParentItem(block, model);
+    }
+
+    private void registerFakeBlock(DeferredBlock<?> block) {
+        ResourceLocation model = Thaumcraft.id("block/empty");
+        blocks.blockStateOutput.accept(MultiVariantGenerator.multiVariant(block.value(), Variant.variant().with(VariantProperties.MODEL, model)));
+    }
+
+    private void registerEmptyBlock(ConfigBlocks.BlockObject<? extends Block> block, ResourceLocation itemModel) {
+        ResourceLocation model = Thaumcraft.id("block/empty");
+        blocks.blockStateOutput.accept(MultiVariantGenerator.multiVariant(block.block(), Variant.variant().with(VariantProperties.MODEL, model)));
+        if(itemModel != null)
+            blockTextureItem(block, itemModel);
+    }
+
+    private void blockParentItem(ConfigBlocks.BlockObject<? extends Block> block, ResourceLocation blockModel) {
+        items.itemModelOutput.accept(block.item(), ItemModelUtils.plainModel(blockModel));
+    }
+
+    private void blockTextureItem(ConfigBlocks.BlockObject<? extends Block> block, ResourceLocation itemModel) {
+        ResourceLocation model = ModelTemplates.FLAT_ITEM.create(itemModel, TextureMapping.layer0(itemModel), items.modelOutput);
+        items.itemModelOutput.accept(block.item(), ItemModelUtils.plainModel(model));
+    }
+
+    private void batchSimpleExistingBlock(ConfigBlocks.BlockObject<? extends Block>... blocks) {
+        for (ConfigBlocks.BlockObject<? extends Block> block : blocks)
+            simpleExistingBlock(block);
+    }
+
+    private record MultiPartRotation(VariantProperties.Rotation xRotation, VariantProperties.Rotation yRotation) {
         public static final Map<Direction, MultiPartRotation> BY_DIRECTION = new EnumMap<>(ImmutableMap.of(
-                Direction.NORTH, new MultiPartRotation(-90, 0),
-                Direction.EAST, new MultiPartRotation(-90, 90),
-                Direction.SOUTH, new MultiPartRotation(90, 0),
-                Direction.WEST, new MultiPartRotation(90, 90),
-                Direction.UP, new MultiPartRotation(180, 0),
-                Direction.DOWN, new MultiPartRotation(0, 0)));
+                Direction.NORTH, new MultiPartRotation(VariantProperties.Rotation.R270, VariantProperties.Rotation.R0),
+                Direction.EAST, new MultiPartRotation(VariantProperties.Rotation.R270, VariantProperties.Rotation.R90),
+                Direction.SOUTH, new MultiPartRotation(VariantProperties.Rotation.R90, VariantProperties.Rotation.R0),
+                Direction.WEST, new MultiPartRotation(VariantProperties.Rotation.R90, VariantProperties.Rotation.R90),
+                Direction.UP, new MultiPartRotation(VariantProperties.Rotation.R180, VariantProperties.Rotation.R0),
+                Direction.DOWN, new MultiPartRotation(VariantProperties.Rotation.R0, VariantProperties.Rotation.R0)));
+    }
+
+    @Override
+    public String getName() {
+        return "Block Data";
     }
 }

@@ -34,8 +34,7 @@ public class PedestalBER extends SimpleBER<PedestalBlockEntity> {
             pPoseStack.mulPose(Axis.YP.rotationDegrees(Mth.rotLerp(pPartialTick, (gameTime + pPartialTick - 1) % 360, gameTime % 360)));
 
 
-            BakedModel bakedmodel = this.itemRenderer.getModel(itemstack, pBlockEntity.getLevel(), null, pBlockEntity.getLevel().getRandom().nextInt());
-            this.itemRenderer.render(itemstack, ItemDisplayContext.GROUND, false, pPoseStack, pBufferSource, pPackedLight, OverlayTexture.NO_OVERLAY, bakedmodel);
+            this.itemRenderer.renderStatic(itemstack, ItemDisplayContext.GROUND, pPackedLight, OverlayTexture.NO_OVERLAY, pPoseStack, pBufferSource, pBlockEntity.getLevel(), 0);
 
             pPoseStack.popPose();
 

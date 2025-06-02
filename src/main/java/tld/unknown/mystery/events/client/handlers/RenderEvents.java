@@ -1,8 +1,13 @@
 package tld.unknown.mystery.events.client.handlers;
 
+import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.vertex.ByteBufferBuilder;
 import com.mojang.datafixers.util.Either;
+import com.mojang.math.Axis;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.core.Direction;
 import net.minecraft.core.Holder;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.FormattedText;
@@ -11,11 +16,15 @@ import net.minecraft.world.inventory.tooltip.TooltipComponent;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.neoforge.client.event.RenderLevelStageEvent;
 import net.neoforged.neoforge.client.event.RenderTooltipEvent;
+import org.joml.Matrix4f;
+import org.joml.Matrix4fStack;
 import tld.unknown.mystery.Thaumcraft;
 import tld.unknown.mystery.api.WarpingGear;
 import tld.unknown.mystery.api.aspects.Aspect;
 import tld.unknown.mystery.api.aspects.AspectContainerItem;
+import tld.unknown.mystery.client.ThaumcraftClient;
 import tld.unknown.mystery.client.rendering.ui.AspectTooltip;
 import tld.unknown.mystery.data.aspects.AspectList;
 import tld.unknown.mystery.items.AbstractAspectItem;
@@ -57,6 +66,21 @@ public class RenderEvents {
                 amount = a.getAspects(e.getItemStack()).getAspect(aspect.getKey());
             MutableComponent component = amount > 0 ? Component.translatable("misc.thaumcraft.tooltip.aspect_complex", amount, name) : Component.translatable("misc.thaumcraft.tooltip.aspect_simple", name);
             e.getTooltipElements().add(1, Either.left(component.withStyle(ChatFormatting.DARK_GRAY)));
+        }
+    }
+
+    @SubscribeEvent
+    public static void onLevelRender(RenderLevelStageEvent e) {
+        if(e.getStage() == RenderLevelStageEvent.Stage.AFTER_LEVEL) {
+            Matrix4fStack matrix4fstack = RenderSystem.getModelViewStack();
+            matrix4fstack.pushMatrix();
+            matrix4fstack.mul(e.getModelViewMatrix());
+            //RenderSystem.applyModelViewMatrix();
+            e.getPoseStack().pushPose();
+            ThaumcraftClient.TUBE_DEBUG_RENDERER.render(e.getPoseStack(), Minecraft.getInstance().renderBuffers().bufferSource(), e.getCamera().getPosition().x, e.getCamera().getPosition().y, e.getCamera().getPosition().z);
+            e.getPoseStack().popPose();
+            matrix4fstack.popMatrix();
+            //RenderSystem.applyModelViewMatrix();
         }
     }
 }

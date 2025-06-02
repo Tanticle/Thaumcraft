@@ -6,7 +6,8 @@ import lombok.Getter;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.*;
+import net.minecraft.world.level.Level;
 import tld.unknown.mystery.api.capabilities.IResearchCapability;
 import tld.unknown.mystery.data.aspects.AspectList;
 import tld.unknown.mystery.registries.ConfigRecipeTypes;
@@ -24,6 +25,21 @@ public class AlchemyRecipe extends CodecRecipe<AlchemyRecipe> {
         this.aspects = aspects;
     }
 
+    @Override
+    public boolean matches(RecipeInput pRecipeInput, Level pLevel) {
+        return super.matches(pRecipeInput, pLevel);
+    }
+
+    @Override
+    public PlacementInfo placementInfo() {
+        return PlacementInfo.NOT_PLACEABLE;
+    }
+
+    @Override
+    public RecipeBookCategory recipeBookCategory() {
+        return null;
+    }
+
     public boolean isValid(AspectList list, ItemStack item, IResearchCapability cap) {
         return list.contains(aspects) && this.catalyst.test(item);
     }
@@ -31,12 +47,12 @@ public class AlchemyRecipe extends CodecRecipe<AlchemyRecipe> {
     public static final MapCodec<AlchemyRecipe> CODEC = RecordCodecBuilder.mapCodec(i -> i.group(
             Ingredient.CODEC.fieldOf("catalyst").forGetter(AlchemyRecipe::getCatalyst),
             AspectList.CODEC.fieldOf("aspects").forGetter(AlchemyRecipe::getAspects),
-            ItemStack.CODEC.fieldOf("result").forGetter(recipe -> recipe.getResultItem(null))
+            ItemStack.CODEC.fieldOf("result").forGetter(CodecRecipe::result)
     ).apply(i, AlchemyRecipe::new));
 
     public static final StreamCodec<RegistryFriendlyByteBuf, AlchemyRecipe> STREAM_CODEC = StreamCodec.composite(
             Ingredient.CONTENTS_STREAM_CODEC, AlchemyRecipe::getCatalyst,
             AspectList.STREAM_CODEC, AlchemyRecipe::getAspects,
-            ItemStack.STREAM_CODEC, r -> r.getResultItem(null),
+            ItemStack.STREAM_CODEC, AlchemyRecipe::result,
             AlchemyRecipe::new);
 }

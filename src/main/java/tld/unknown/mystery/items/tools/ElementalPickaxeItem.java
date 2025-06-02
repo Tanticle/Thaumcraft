@@ -14,13 +14,12 @@ import java.util.Map;
 
 public class ElementalPickaxeItem extends PickaxeItem {
 
-    private static final Properties ITEM_PROPERTIES = new Properties().rarity(Rarity.RARE).component(
-            ConfigItemComponents.INFUSION_ENCHANTMENT.value(), new InfusionEnchantmentComponent(Map.of(
-                    InfusionEnchantments.SOUNDING, (byte)2,
-                    InfusionEnchantments.REFINING, (byte)1)));
-
-    public ElementalPickaxeItem() {
-        super(ThaumcraftMaterials.Tools.ELEMENTAL, ITEM_PROPERTIES);
+    public ElementalPickaxeItem(Properties props) {
+        super(ThaumcraftMaterials.Tools.ELEMENTAL, ThaumcraftMaterials.Tools.ELEMENTAL.attackDamageBonus(), ThaumcraftMaterials.Tools.ELEMENTAL.speed(),
+                props.rarity(Rarity.RARE).component(
+                        ConfigItemComponents.INFUSION_ENCHANTMENT.value(), new InfusionEnchantmentComponent(Map.of(
+                                InfusionEnchantments.SOUNDING, (byte)2,
+                                InfusionEnchantments.REFINING, (byte)1))));
     }
 
     @Override

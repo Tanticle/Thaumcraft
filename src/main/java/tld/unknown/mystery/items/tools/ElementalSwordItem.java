@@ -20,12 +20,12 @@ import java.util.Map;
 public class ElementalSwordItem extends SwordItem {
 
     private static final int MAX_USE_DURATION = 72000;
-    private static final Properties ITEM_PROPERTIES = new Properties().rarity(Rarity.RARE).component(
-            ConfigItemComponents.INFUSION_ENCHANTMENT.value(), new InfusionEnchantmentComponent(Map.of(
-                    InfusionEnchantments.ARCING, (byte)2)));
 
-    public ElementalSwordItem() {
-        super(ThaumcraftMaterials.Tools.ELEMENTAL, ITEM_PROPERTIES);
+    public ElementalSwordItem(Properties props) {
+        super(ThaumcraftMaterials.Tools.ELEMENTAL, ThaumcraftMaterials.Tools.ELEMENTAL.attackDamageBonus(), ThaumcraftMaterials.Tools.ELEMENTAL.speed(),
+                props.rarity(Rarity.RARE).component(
+                        ConfigItemComponents.INFUSION_ENCHANTMENT.value(), new InfusionEnchantmentComponent(Map.of(
+                                InfusionEnchantments.ARCING, (byte)2))));
     }
 
     @Override

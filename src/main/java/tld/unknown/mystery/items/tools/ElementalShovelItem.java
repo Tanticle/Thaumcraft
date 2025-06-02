@@ -20,6 +20,7 @@ import net.minecraft.world.phys.BlockHitResult;
 import org.apache.commons.compress.utils.Lists;
 import tld.unknown.mystery.api.IArchitect;
 import tld.unknown.mystery.api.InfusionEnchantments;
+import tld.unknown.mystery.api.ThaumcraftData;
 import tld.unknown.mystery.api.ThaumcraftMaterials;
 import tld.unknown.mystery.items.components.InfusionEnchantmentComponent;
 import tld.unknown.mystery.registries.ConfigItemComponents;
@@ -31,12 +32,14 @@ import java.util.Map;
 
 public class ElementalShovelItem extends ShovelItem implements IArchitect {
 
-    private static final Properties ITEM_PROPERTIES = new Properties().rarity(Rarity.RARE).component(ConfigItemComponents.INFUSION_ENCHANTMENT.value(), new InfusionEnchantmentComponent(Map.of(InfusionEnchantments.DESTRUCTIVE, (byte)1)));
-
     private Direction side;
 
-    public ElementalShovelItem() {
-        super(ThaumcraftMaterials.Tools.ELEMENTAL, ITEM_PROPERTIES);
+    public ElementalShovelItem(Properties properties) {
+        super(ThaumcraftMaterials.Tools.ELEMENTAL,
+                ThaumcraftMaterials.Tools.ELEMENTAL.attackDamageBonus(), ThaumcraftMaterials.Tools.ELEMENTAL.speed(),
+                properties.rarity(Rarity.RARE).component(
+                        ConfigItemComponents.INFUSION_ENCHANTMENT.value(), new InfusionEnchantmentComponent(Map.of(
+                                InfusionEnchantments.DESTRUCTIVE, (byte)1))));
         this.side = Direction.DOWN;
     }
 
@@ -88,7 +91,7 @@ public class ElementalShovelItem extends ShovelItem implements IArchitect {
                         zz = aa;
                         yy = bb;
                     }
-                    BlockPos p2 = pContext.getClickedPos().offset(side.getNormal()).offset(xx, yy, zz);
+                    BlockPos p2 = pContext.getClickedPos().offset(side.getUnitVec3i()).offset(xx, yy, zz);
                     BlockState b2 = pContext.getLevel().getBlockState(p2);
 
                     if (b2.canSurvive(pContext.getLevel(), p2)) {
@@ -196,7 +199,7 @@ public class ElementalShovelItem extends ShovelItem implements IArchitect {
                     zz = aa;
                     yy = bb;
                 }
-                BlockPos p2 = pos.offset(side.getNormal()).offset(xx, yy, zz);
+                BlockPos p2 = pos.offset(side.getUnitVec3i()).offset(xx, yy, zz);
                 BlockState b2 = world.getBlockState(p2);
                 if (b2.canSurvive(world, p2)) {
                     b.add(p2);

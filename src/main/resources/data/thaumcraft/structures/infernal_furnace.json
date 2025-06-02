@@ -28,7 +28,17 @@
   },
 
   "controller": {
-    "block_entity": "chaumtraft:infernal_furnace",
+    "block_entity": "thaumcraft:infernal_furnace",
     "position": [1, 1, 1]
-  }
+  },
+  "capabilities": [
+    {
+      "position": [0, 1, 1],
+      "capability": "thaumcraft:takes_bellows"
+    },
+    {
+      "position": [2, 1, 1],
+      "capability": "thaumcraft:takes_bellows"
+    }
+  ]
 }

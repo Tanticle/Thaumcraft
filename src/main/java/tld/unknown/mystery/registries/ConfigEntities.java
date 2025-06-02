@@ -2,7 +2,7 @@ package tld.unknown.mystery.registries;
 
 import lombok.RequiredArgsConstructor;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -13,7 +13,6 @@ import net.neoforged.neoforge.event.entity.EntityAttributeCreationEvent;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import tld.unknown.mystery.Thaumcraft;
 import tld.unknown.mystery.entities.MovingItemEntity;
-import tld.unknown.mystery.entities.TrunkEntity;
 import tld.unknown.mystery.util.ReflectionUtils;
 
 import java.util.function.Consumer;
@@ -28,9 +27,9 @@ public final class ConfigEntities {
 
     /* -------------------------------------------------------------------------------------------------------------- */
 
-    public static final LivingEntityObject<TrunkEntity> LIVING_TRUNK = registerLiving(Entities.TRAVELING_TRUNK, TrunkEntity::new, MobCategory.MISC, .875F, .875F,
+    /*public static final LivingEntityObject<TrunkEntity> LIVING_TRUNK = registerLiving(Entities.TRAVELING_TRUNK, TrunkEntity::new, MobCategory.MISC, .875F, .875F,
             s -> { },
-            mobAttributes(a -> a.add(Attributes.MAX_HEALTH, 50)));
+            mobAttributes(a -> a.add(Attributes.MAX_HEALTH, 50)));*/
 
     public static final EntityObject<MovingItemEntity> MOVING_ITEM = register(Entities.MOVING_ITEM, MovingItemEntity::new, MobCategory.MISC, .25F, .25F,
             builder -> { });
@@ -39,22 +38,22 @@ public final class ConfigEntities {
 
     public static void init(IEventBus bus) { REGISTRY.register(bus); }
 
-    private static <T extends Entity> EntityObject<T> register(ResourceLocation id, EntityType.EntityFactory<T> factory, MobCategory category, float width, float height, Consumer<EntityType.Builder<T>> builder) {
+    private static <T extends Entity> EntityObject<T> register(ResourceKey<EntityType<?>> id, EntityType.EntityFactory<T> factory, MobCategory category, float width, float height, Consumer<EntityType.Builder<T>> builder) {
         Supplier<EntityType<T>> supplier = () -> {
             EntityType.Builder<T> b = EntityType.Builder.of(factory, category).sized(width, height);
             builder.accept(b);
-            return b.build(id.getPath());
+            return b.build(id);
         };
-        return new EntityObject<>(REGISTRY.register(id.getPath(), supplier));
+        return new EntityObject<>(REGISTRY.register(id.location().getPath(), supplier));
     }
 
-    private static <T extends LivingEntity> LivingEntityObject<T> registerLiving(ResourceLocation id, EntityType.EntityFactory<T> factory, MobCategory category, float width, float height, Consumer<EntityType.Builder<T>> builder, Supplier<AttributeSupplier> attributes) {
+    private static <T extends LivingEntity> LivingEntityObject<T> registerLiving(ResourceKey<EntityType<?>> id, EntityType.EntityFactory<T> factory, MobCategory category, float width, float height, Consumer<EntityType.Builder<T>> builder, Supplier<AttributeSupplier> attributes) {
         Supplier<EntityType<T>> supplier = () -> {
             EntityType.Builder<T> b = EntityType.Builder.of(factory, category).sized(width, height);
             builder.accept(b);
-            return b.build(id.getPath());
+            return b.build(id);
         };
-        return new LivingEntityObject<>(REGISTRY.register(id.getPath(), supplier), attributes);
+        return new LivingEntityObject<>(REGISTRY.register(id.location().getPath(), supplier), attributes);
     }
 
     private static Supplier<AttributeSupplier> livingAttributes(Consumer<AttributeSupplier.Builder> additionalAttributes) {

@@ -1,53 +1,106 @@
 package tld.unknown.mystery.data.generator.providers;
 
+import net.minecraft.client.color.item.Constant;
+import net.minecraft.client.data.models.BlockModelGenerators;
+import net.minecraft.client.data.models.ItemModelGenerators;
+import net.minecraft.client.data.models.ModelProvider;
+import net.minecraft.client.data.models.model.*;
+import net.minecraft.client.renderer.block.model.ItemModelGenerator;
+import net.minecraft.client.renderer.item.BlockModelWrapper;
+import net.minecraft.client.renderer.item.ConditionalItemModel;
+import net.minecraft.core.Holder;
 import net.minecraft.data.PackOutput;
-import net.neoforged.neoforge.common.data.ExistingFileHelper;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.level.block.Block;
 import tld.unknown.mystery.Thaumcraft;
-import tld.unknown.mystery.util.better.BetterItemModelProvider;
+import tld.unknown.mystery.client.tints.AspectItemTintSource;
+import tld.unknown.mystery.items.ItemModelProperties;
+import tld.unknown.mystery.registries.ConfigBlocks;
+import tld.unknown.mystery.registries.ConfigItems;
+import tld.unknown.mystery.util.RegistryUtils;
 
-import static tld.unknown.mystery.api.ThaumcraftData.*;
+import java.util.stream.Stream;
 
-public class ItemModelProvider extends BetterItemModelProvider {
 
-    public ItemModelProvider(PackOutput output, ExistingFileHelper existingFileHelper) {
-        super(output, Thaumcraft.MOD_ID, existingFileHelper);
+public class ItemModelProvider extends ModelProvider {
+
+    private ItemModelGenerators items;
+
+    public ItemModelProvider(PackOutput output) {
+        super(output, Thaumcraft.MOD_ID);
     }
 
     @Override
-    protected void registerModels() {
-        basicItem(Blocks.TUBE);
-        basicItem(Items.JAR_BRACE);
-        basicItem(Items.VIS_CRYSTAL);
-        basicItem(Blocks.CRYSTAL_COLONY);
+    protected void registerModels(BlockModelGenerators blockModels, ItemModelGenerators itemModels) {
+        items = itemModels;
+
+        tintableAspect2LayerItem(ConfigItems.JAR_LABEL, "alchemy");
+        simpleItem(ConfigItems.JAR_BRACE, "alchemy");
 
         // Resources
-        batchItems(null, Items.INGOT_BRASS, Items.INGOT_THAUMIUM, Items.INGOT_VOID);
+        batchItems("resources", ConfigItems.INGOT_BRASS, ConfigItems.INGOT_THAUMIUM, ConfigItems.INGOT_VOID);
 
-        basicItem(Items.PHIAL)
-                .override()
-                .predicate(ItemProperties.ASPECT_HOLDER_PRESENT, 1F)
-                .model(withExistingParent(Items.PHIAL.getPath() + "_filled", "item/generated")
-                        .texture("layer0", "item/phial")
-                        .texture("layer1", "item/phial_overlay"))
-                .end();
-        basicItem(Items.JAR_LABEL)
-                .override()
-                .predicate(ItemProperties.ASPECT_HOLDER_PRESENT, 1F)
-                .model(withExistingParent(Items.JAR_LABEL.getPath() + "_filled", "item/generated")
-                        .texture("layer0", "item/jar_label")
-                        .texture("layer1", "item/jar_label_overlay"))
-                .end();
+        tintableAspectItem(ConfigItems.VIS_CRYSTAL, "resources");
+        tintableAspect2LayerItem(ConfigItems.PHIAL, "resources");
 
         // Tools
         batchItems("tools",
-                Items.ELEMENTAL_AXE, Items.ELEMENTAL_HOE, Items.ELEMENTAL_PICKAXE, Items.ELEMENTAL_SHOVEL, Items.ELEMENTAL_SWORD,
-                Items.THAUMIUM_AXE, Items.THAUMIUM_HOE, Items.THAUMIUM_PICKAXE, Items.THAUMIUM_SHOVEL, Items.THAUMIUM_SWORD,
-                Items.VOID_AXE, Items.VOID_HOE, Items.VOID_PICKAXE, Items.VOID_SHOVEL, Items.VOID_SWORD,
-                Items.CRIMSON_BLADE, Items.PRIMAL_CRUSHER);
+                ConfigItems.ELEMENTAL_AXE, ConfigItems.ELEMENTAL_HOE, ConfigItems.ELEMENTAL_PICKAXE, ConfigItems.ELEMENTAL_SHOVEL, ConfigItems.ELEMENTAL_SWORD,
+                ConfigItems.THAUMIUM_AXE, ConfigItems.THAUMIUM_HOE, ConfigItems.THAUMIUM_PICKAXE, ConfigItems.THAUMIUM_SHOVEL, ConfigItems.THAUMIUM_SWORD,
+                ConfigItems.VOID_AXE, ConfigItems.VOID_HOE, ConfigItems.VOID_PICKAXE, ConfigItems.VOID_SHOVEL, ConfigItems.VOID_SWORD,
+                ConfigItems.CRIMSON_BLADE, ConfigItems.PRIMAL_CRUSHER);
         batchItems("tools",
-                Items.ESSENTIA_RESONATOR, Items.SANITY_CHECKER, Items.SCRIBING_TOOLS);
+                ConfigItems.ESSENTIA_RESONATOR, ConfigItems.SANITY_CHECKER, ConfigItems.SCRIBING_TOOLS);
+    }
 
-        // Special Block Items that don't use the built-in Block Item Model
-        basicItem(Blocks.LAMPLIGHT, "misc");
+    protected void simpleItem(Holder<? extends Item> item, String... parentFolder) {
+        ResourceLocation location = RegistryUtils.getItemModelLocation(item, parentFolder);
+        ResourceLocation model = ModelTemplates.FLAT_ITEM.create(location, TextureMapping.layer0(location), items.modelOutput);
+        items.itemModelOutput.accept(item.value(), ItemModelUtils.plainModel(model));
+    }
+
+    protected void batchItems(String folder, Holder<? extends Item>... items) {
+        for (Holder<? extends Item> item : items) {
+            simpleItem(item, folder);
+        }
+    }
+
+    protected void tintableAspectItem(Holder<? extends Item> item, String... parentFolder) {
+        ResourceLocation location = RegistryUtils.getItemModelLocation(item, parentFolder);
+
+        ResourceLocation model = ModelTemplates.FLAT_ITEM.create(location,
+                TextureMapping.layer0(location),
+                items.modelOutput);
+
+        items.itemModelOutput.accept(item.value(), ItemModelUtils.tintedModel(model, new AspectItemTintSource()));
+    }
+
+
+    protected void tintableAspect2LayerItem(Holder<? extends Item> item, String... parentFolder) {
+        ResourceLocation location = RegistryUtils.getItemModelLocation(item, parentFolder);
+
+        ResourceLocation emptyModel = ModelTemplates.FLAT_ITEM.create(location.withSuffix("_empty"),
+                TextureMapping.layer0(location),
+                items.modelOutput);
+        ResourceLocation filledModel = ModelTemplates.TWO_LAYERED_ITEM.create(location.withSuffix("_filled"),
+                TextureMapping.layered(location, location.withSuffix("_overlay")),
+                items.modelOutput);
+
+        items.itemModelOutput.accept(item.value(), ItemModelUtils.conditional(
+                new ItemModelProperties.HasData(),
+                ItemModelUtils.tintedModel(filledModel, new Constant(0xFFFFFFFF), new AspectItemTintSource()),
+                ItemModelUtils.plainModel(emptyModel)
+        ));
+    }
+
+    @Override
+    protected Stream<? extends Holder<Block>> getKnownBlocks() {
+        return Stream.empty();
+    }
+
+    @Override
+    public String getName() {
+        return "Item Data";
     }
 }

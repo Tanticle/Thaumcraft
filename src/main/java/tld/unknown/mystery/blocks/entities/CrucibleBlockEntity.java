@@ -5,6 +5,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.item.ItemEntity;
@@ -111,10 +112,10 @@ public class CrucibleBlockEntity extends SimpleBlockEntity implements IFluidHand
         boolean crafted = false, consumed = false;
         for(int i = 0; i < stack.getCount(); i++) {
             IResearchCapability research = player != null ? player.getCapability(ConfigCapabilities.RESEARCH) : new ResearchAttachment();
-            Optional<RecipeHolder<AlchemyRecipe>> recipe = CraftingUtils.findAlchemyRecipe(getLevel(), aspects, stack, research);
+            Optional<RecipeHolder<AlchemyRecipe>> recipe = CraftingUtils.findAlchemyRecipe((ServerLevel)getLevel(), aspects, stack, research);
             if(recipe.isPresent()) {
                 RecipeHolder<AlchemyRecipe> r = recipe.get();
-                ItemStack result = r.value().getResultItem(access).copy();
+                ItemStack result = r.value().result().copy();
                 this.aspects.remove(r.value().getAspects());
                 drain(50, FluidAction.EXECUTE);
                 spitItem(result);

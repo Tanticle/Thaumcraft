@@ -25,14 +25,14 @@ public class HomingItemModifier extends LootModifier {
     @Override
     protected ObjectArrayList<ItemStack> doApply(ObjectArrayList<ItemStack> generatedLoot, LootContext context) {
         UUID uuid;
-        BlockState state = context.getParamOrNull(LootContextParams.BLOCK_STATE);
+        BlockState state = context.getOptionalParameter(LootContextParams.BLOCK_STATE);
         if(state != null) {
-            Player e = (Player)context.getParam(LootContextParams.THIS_ENTITY);
-            if(!e.hasCorrectToolForDrops(state, context.getLevel(), BlockPos.containing(context.getParam(LootContextParams.ORIGIN))))
+            Player e = (Player)context.getParameter(LootContextParams.THIS_ENTITY);
+            if(!e.hasCorrectToolForDrops(state, context.getLevel(), BlockPos.containing(context.getParameter(LootContextParams.ORIGIN))))
                 return generatedLoot;
             uuid = e.getUUID();
         } else
-            uuid = context.getParam(LootContextParams.ATTACKING_ENTITY).getUUID();
+            uuid = context.getParameter(LootContextParams.ATTACKING_ENTITY).getUUID();
         generatedLoot.forEach(item -> item.set(ConfigItemComponents.COLLECTOR_MARKER.value(), uuid));
         return generatedLoot;
     }

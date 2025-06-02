@@ -24,23 +24,17 @@ public abstract class CodecRecipe<T extends CodecRecipe<T>> implements Recipe<Re
         this.result = result;
     }
 
-    @Override
-    public boolean canCraftInDimensions(int pWidth, int pHeight) {
-        return true;
-    }
-
-    @Override
-    public ItemStack getResultItem(HolderLookup.Provider pRegistries) {
+    public ItemStack result() {
         return result;
     }
 
     @Override
-    public RecipeSerializer<?> getSerializer() {
+    public RecipeSerializer<? extends Recipe<RecipeInput>> getSerializer() {
         return registryEntry.serializer();
     }
 
     @Override
-    public RecipeType<?> getType() {
+    public RecipeType<? extends Recipe<RecipeInput>> getType() {
         return registryEntry.type();
     }
 

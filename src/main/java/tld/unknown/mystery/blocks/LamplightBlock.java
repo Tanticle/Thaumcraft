@@ -1,11 +1,13 @@
 package tld.unknown.mystery.blocks;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.RenderShape;
+import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
@@ -13,14 +15,11 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 
 public class LamplightBlock extends Block {
 
-    private static final Properties PROPERTIES = Properties.of()
-            .replaceable()
-            .noOcclusion()
-            .air()
-            .lightLevel(bs -> 15);
-
-    public LamplightBlock() {
-        super(PROPERTIES);
+    public LamplightBlock(BlockBehaviour.Properties props) {
+        super(props.replaceable()
+                .noOcclusion()
+                .air()
+                .lightLevel(bs -> 15));
     }
 
     @Override
@@ -44,17 +43,12 @@ public class LamplightBlock extends Block {
     }
 
     @Override
-    public boolean isOcclusionShapeFullBlock(BlockState pState, BlockGetter pLevel, BlockPos pPos) {
-        return false;
-    }
-
-    @Override
     public boolean isCollisionShapeFullBlock(BlockState pState, BlockGetter pLevel, BlockPos pPos) {
         return false;
     }
 
     @Override
-    public ItemStack getCloneItemStack(LevelReader pLevel, BlockPos pPos, BlockState pState) {
+    public ItemStack getCloneItemStack(LevelReader level, BlockPos pos, BlockState state, boolean includeData, Player player) {
         return ItemStack.EMPTY;
     }
 }

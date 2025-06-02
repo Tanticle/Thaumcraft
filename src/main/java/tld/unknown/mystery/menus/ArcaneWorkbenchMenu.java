@@ -3,6 +3,7 @@ package tld.unknown.mystery.menus;
 import lombok.Getter;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.protocol.game.ClientboundContainerSetSlotPacket;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.Container;
 import net.minecraft.world.SimpleContainer;
@@ -146,12 +147,12 @@ public class ArcaneWorkbenchMenu extends AbstractContainerMenu {
             ServerPlayer serverplayer = (ServerPlayer)pPlayer;
             ItemStack result = ItemStack.EMPTY;
             IResearchCapability cap = player.getCapability(ConfigCapabilities.RESEARCH);
-            Optional<RecipeHolder<ArcaneCraftingRecipe>> optional = CraftingUtils.findArcaneCraftingRecipe(pLevel, this.craftingSlots, cap);
+            Optional<RecipeHolder<ArcaneCraftingRecipe>> optional = CraftingUtils.findArcaneCraftingRecipe((ServerLevel)pLevel, this.craftingSlots, cap);
             if (optional.isPresent()) {
                 RecipeHolder<ArcaneCraftingRecipe> recipe = optional.get();
                 data.set(DATA_ACTIVE_CRYSTALS, BitPacker.encodeFlags(recipe.value().getCrystals().keySet(), BitPacker.Length.BYTE));
                 data.set(DATA_REQUIRED_VIS, recipe.value().getVisAmount());
-                if (this.resultSlots.setRecipeUsed(pLevel, serverplayer, recipe)) {
+                if (this.resultSlots.setRecipeUsed(serverplayer, recipe)) {
                     result = recipe.value().getResult();
                 }
             } else {

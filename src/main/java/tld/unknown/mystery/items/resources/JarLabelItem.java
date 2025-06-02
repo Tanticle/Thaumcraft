@@ -7,8 +7,8 @@ import tld.unknown.mystery.items.AbstractAspectItem;
 
 public class JarLabelItem extends AbstractAspectItem {
 
-    public JarLabelItem() {
-        super(new Properties(), true);
+    public JarLabelItem(Properties properties) {
+        super(properties, true);
     }
 
     @Override

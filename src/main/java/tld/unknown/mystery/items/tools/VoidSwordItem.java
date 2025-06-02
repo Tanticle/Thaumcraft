@@ -20,8 +20,8 @@ public class VoidSwordItem extends SwordItem implements WarpingGear {
 
     private static final String COMPONENT_LESSER_SAP = "enchantment.thaumcraft.special.sapless";
 
-    public VoidSwordItem() {
-        super(ThaumcraftMaterials.Tools.VOID, new Properties());
+    public VoidSwordItem(Properties props) {
+        super(ThaumcraftMaterials.Tools.VOID, ThaumcraftMaterials.Tools.VOID.attackDamageBonus(), ThaumcraftMaterials.Tools.VOID.speed(), props);
     }
 
     @Override

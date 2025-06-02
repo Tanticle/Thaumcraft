@@ -91,7 +91,7 @@ public class JarBER extends SimpleBER<JarBlockEntity> {
         pPoseStack.scale(0.67F, 0.67F, 1);
         pPoseStack.translate(0, 0, MathUtils.px(0.01F));
 
-        consumer = pBufferSource.getBuffer(RenderType.entityTranslucentCull(AspectRenderer.getTexture(pBlockEntity.getLabel(), false)));
+        consumer = pBufferSource.getBuffer(RenderType.entityTranslucent(AspectRenderer.getTexture(pBlockEntity.getLabel(), false)));
         RenderHelper.drawQuadCentered(
                 consumer, pPoseStack.last().pose(),
                 new Vector2f(0, 0), MathUtils.px(7), MathUtils.px(7),

@@ -4,6 +4,8 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.Item;
 import net.neoforged.fml.loading.FMLEnvironment;
 import net.neoforged.fml.util.thread.EffectiveSide;
 import net.neoforged.neoforge.server.ServerLifecycleHooks;
@@ -21,5 +23,15 @@ public final class RegistryUtils {
         } else {
             return ServerLifecycleHooks.getCurrentServer().registryAccess();
         }
+    }
+
+    public static ResourceLocation getItemModelLocation(Holder<?> holder, String... subfolder) {
+        ResourceLocation id = holder.getKey().location();
+        return id.withPath(s -> String.format("item/%s/%s", String.join("/", subfolder), s));
+    }
+
+    public static ResourceLocation getBlockItemModelLocation(Holder<?> holder) {
+        ResourceLocation id = holder.getKey().location();
+        return id.withPath(s -> String.format("item/block/%s", s));
     }
 }

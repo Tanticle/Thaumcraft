@@ -25,12 +25,12 @@ public class HarvesterModifier extends LootModifier {
 
     @Override
     protected ObjectArrayList<ItemStack> doApply(ObjectArrayList<ItemStack> generatedLoot, LootContext context) {
-        if(context.hasParam(LootContextParams.BLOCK_STATE))
+        if(context.hasParameter(LootContextParams.BLOCK_STATE))
             return generatedLoot;
-        int level = ((Player)context.getParam(LootContextParams.ATTACKING_ENTITY)).getMainHandItem()
+        int level = ((Player)context.getParameter(LootContextParams.ATTACKING_ENTITY)).getMainHandItem()
                 .get(ConfigItemComponents.INFUSION_ENCHANTMENT.value()).enchantments()
                 .get(InfusionEnchantments.HARVESTER);
-        Entity victim = context.getParamOrNull(LootContextParams.THIS_ENTITY);
+        Entity victim = context.getOptionalParameter(LootContextParams.THIS_ENTITY);
         AspectList list = ConfigDataRegistries.ASPECT_REGISTRY.getAspects(victim.getType());
         if(context.getLevel().getRandom().nextInt(5) > level || list.isEmpty())
             return generatedLoot;

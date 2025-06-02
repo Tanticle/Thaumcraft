@@ -4,10 +4,7 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.item.AxeItem;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Rarity;
-import net.minecraft.world.item.UseAnim;
+import net.minecraft.world.item.*;
 import net.minecraft.world.level.Level;
 import tld.unknown.mystery.api.InfusionEnchantments;
 import tld.unknown.mystery.api.ThaumcraftMaterials;
@@ -21,19 +18,19 @@ import java.util.Map;
 public class ElementalAxeItem extends AxeItem {
 
     private static final int MAX_USE_DURATION = 72000;
-    private static final Properties ITEM_PROPERTIES = new Properties().rarity(Rarity.RARE).component(
-            ConfigItemComponents.INFUSION_ENCHANTMENT.value(), new InfusionEnchantmentComponent(Map.of(
-                    InfusionEnchantments.COLLECTOR, (byte)1,
-                    InfusionEnchantments.BURROWING, (byte)1,
-                    InfusionEnchantments.HARVESTER, (byte)5)));
 
-    public ElementalAxeItem() {
-        super(ThaumcraftMaterials.Tools.ELEMENTAL, ITEM_PROPERTIES);
+    public ElementalAxeItem(Properties props) {
+        super(ThaumcraftMaterials.Tools.ELEMENTAL, ThaumcraftMaterials.Tools.ELEMENTAL.attackDamageBonus(), ThaumcraftMaterials.Tools.ELEMENTAL.speed(),
+                props.rarity(Rarity.RARE).component(
+                        ConfigItemComponents.INFUSION_ENCHANTMENT.value(), new InfusionEnchantmentComponent(Map.of(
+                                InfusionEnchantments.COLLECTOR, (byte)1,
+                                InfusionEnchantments.BURROWING, (byte)1,
+                                InfusionEnchantments.HARVESTER, (byte)5))));
     }
 
     @Override
-    public UseAnim getUseAnimation(ItemStack pStack) {
-        return UseAnim.BOW;
+    public ItemUseAnimation getUseAnimation(ItemStack stack) {
+        return ItemUseAnimation.BOW;
     }
 
     @Override

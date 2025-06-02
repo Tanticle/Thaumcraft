@@ -13,7 +13,7 @@ import tld.unknown.mystery.api.ThaumcraftData;
 import tld.unknown.mystery.api.aspects.Aspect;
 import tld.unknown.mystery.api.aspects.AspectContainer;
 import tld.unknown.mystery.api.capabilities.IEssentiaCapability;
-import tld.unknown.mystery.blocks.JarBlock;
+import tld.unknown.mystery.blocks.alchemy.JarBlock;
 import tld.unknown.mystery.data.aspects.AspectList;
 import tld.unknown.mystery.registries.ConfigBlockEntities;
 import tld.unknown.mystery.util.simple.SimpleBlockEntity;
@@ -83,15 +83,16 @@ public class JarBlockEntity extends SimpleBlockEntity implements AspectContainer
         return this.amount > 0 ? (float)this.amount / MAX_ESSENTIA : 0;
     }
 
-    public void dump() {
+    public boolean dump() {
         if(this.currentAspect == null)
-            return;
+            return false;
         this.amount = 0;
         this.currentAspect = null;
         if(this.level != null && !this.level.isClientSide()) {
             //TODO: Pollute Aura
             sync();
         }
+        return true;
     }
 
     public boolean applyLabel(Direction dir, ResourceKey<Aspect> filterType) {

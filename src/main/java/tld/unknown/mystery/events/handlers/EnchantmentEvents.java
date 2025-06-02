@@ -41,7 +41,7 @@ public class EnchantmentEvents {
             Entity target = ((ServerLevel)e.getLevel()).getEntity(entity.getItem().get(ConfigItemComponents.COLLECTOR_MARKER.value()));
             entity.getItem().remove(ConfigItemComponents.COLLECTOR_MARKER.value());
             MovingItemEntity movingEntity = new MovingItemEntity(entity, target);
-            entity.kill();
+            entity.kill((ServerLevel)e.getLevel());
             e.getLevel().addFreshEntity(movingEntity);
         }
     }

@@ -4,7 +4,7 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
-import net.minecraft.client.renderer.GameRenderer;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextColor;
 import net.minecraft.resources.ResourceLocation;
@@ -37,7 +37,6 @@ public class ArcaneWorkbenchScreen extends AbstractContainerScreen<ArcaneWorkben
     @Override
     public void render(GuiGraphics graphics, int pMouseX, int pMouseY, float pPartialTick) {
         renderBackground(graphics, pMouseX, pMouseY, pPartialTick);
-        RenderSystem.setShader(GameRenderer::getPositionTexShader);
         RenderSystem.enableBlend();
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
         RenderSystem.setShaderTexture(0, TEXTURE);
@@ -46,7 +45,7 @@ public class ArcaneWorkbenchScreen extends AbstractContainerScreen<ArcaneWorkben
             pPoseStack.pushPose();
             Vec2 pos = RADIAL_POS.get(p.ordinal());
             pPoseStack.scale(.5F, .5F, 1);
-            graphics.blit(TEXTURE, (int)pos.x, (int)pos.y, 256 - 64, 0, 64, 64, 256, 256);
+            graphics.blit(RenderType::guiTextured, TEXTURE, (int)pos.x, (int)pos.y, 256 - 64, 0, 64, 64, 256, 256);
             pPoseStack.popPose();
         });
         RenderSystem.disableBlend();
@@ -69,10 +68,9 @@ public class ArcaneWorkbenchScreen extends AbstractContainerScreen<ArcaneWorkben
 
     @Override
     protected void renderBg(GuiGraphics graphics, float mouseX, int mouseY, int delta) {
-        RenderSystem.setShader(GameRenderer::getPositionTexShader);
         RenderSystem.enableBlend();
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-        graphics.blit(TEXTURE, width / 2 - 95, height / 2 - 117, 0, 0, 192, 256);
+        graphics.blit(RenderType::guiTextured, TEXTURE, width / 2 - 95, height / 2 - 117, 0, 0, 192, 256, 256, 256);
         RenderSystem.disableBlend();
     }
 }

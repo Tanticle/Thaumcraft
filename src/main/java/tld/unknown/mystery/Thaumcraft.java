@@ -2,16 +2,11 @@ package tld.unknown.mystery;
 
 import com.mojang.logging.LogUtils;
 import net.minecraft.resources.ResourceLocation;
-import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.IEventBus;
-import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.common.Mod;
-import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.fml.loading.FMLLoader;
 import org.slf4j.Logger;
 import tld.unknown.mystery.registries.*;
-import tld.unknown.mystery.registries.client.ConfigItemProperties;
 
 @Mod(Thaumcraft.MOD_ID)
 public final class Thaumcraft {
@@ -57,14 +52,5 @@ public final class Thaumcraft {
     public static void error(Throwable exception, String format, Object... args) {
         error(format, args);
         error("\t%s%s", exception.getClass().getSimpleName(), exception.getMessage() != null ? ": " + exception.getMessage() : "");
-    }
-
-    @EventBusSubscriber(modid = Thaumcraft.MOD_ID, bus = EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
-    public static class ClientEvents {
-
-        @SubscribeEvent
-        public static void onClientSetup(FMLClientSetupEvent event) {
-            ConfigItemProperties.init(event);
-        }
     }
 }

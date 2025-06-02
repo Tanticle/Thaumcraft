@@ -13,8 +13,8 @@ import tld.unknown.mystery.api.WarpingGear;
 
 public class VoidAxeItem extends AxeItem implements WarpingGear {
 
-    public VoidAxeItem() {
-        super(ThaumcraftMaterials.Tools.VOID, new Properties());
+    public VoidAxeItem(Properties props) {
+        super(ThaumcraftMaterials.Tools.VOID, ThaumcraftMaterials.Tools.VOID.attackDamageBonus(), ThaumcraftMaterials.Tools.VOID.speed(), props);
     }
 
     @Override

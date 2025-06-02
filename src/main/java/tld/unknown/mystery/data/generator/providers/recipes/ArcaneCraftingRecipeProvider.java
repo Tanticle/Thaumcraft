@@ -31,7 +31,7 @@ public class ArcaneCraftingRecipeProvider extends CodecDataProvider<ArcaneCrafti
                         "#+#",
                         "+ +",
                         "#+#",
-                        Map.of('#', Ingredient.of(new ItemStack(Items.STICK)), '+', Ingredient.of(new ItemStack(Items.GOLD_INGOT))))
+                        Map.of('#', Ingredient.of(Items.STICK), '+', Ingredient.of(Items.GOLD_INGOT)))
                 .setCrystalCost(Map.of(Aspect.Primal.AIR, 1))
                 .setVisCost(20));
     }

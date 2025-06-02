@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
 public abstract class AbstractAspectItem extends DataDependentItem<Aspect> {
 
     public AbstractAspectItem(Properties pProperties, boolean includeEmpty) {
-        super(pProperties, ConfigItemComponents.ASPECT_HOLDER.value(), Aspect.UNKNOWN_HOLDER, includeEmpty);
+        super(pProperties, ConfigItemComponents.ASPECT_HOLDER.value(), Aspect.UNKNOWN_HOLDER, "has_aspect", includeEmpty);
     }
 
     @Override

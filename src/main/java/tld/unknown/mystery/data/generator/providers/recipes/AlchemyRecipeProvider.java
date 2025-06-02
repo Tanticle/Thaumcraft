@@ -23,12 +23,12 @@ public class AlchemyRecipeProvider extends CodecDataProvider<AlchemyRecipe> {
     @Override
     protected void createEntries() {
         recipe(Recipes.ALCHEMY_DOUBLE_SLIME,
-                Ingredient.of(new ItemStack(Items.SLIME_BALL)),
+                Ingredient.of(Items.SLIME_BALL),
                 new AspectList().add(ThaumcraftData.Aspects.WATER, 5).add(ThaumcraftData.Aspects.LIFE, 5).add(ThaumcraftData.Aspects.ALCHEMY, 1),
                 new ItemStack(Items.SLIME_BALL, 2));
 
         recipe(Thaumcraft.id("debug"),
-                Ingredient.of(new ItemStack(Items.STICK)),
+                Ingredient.of(Items.STICK),
                 new AspectList().add(ThaumcraftData.Aspects.WATER, 5).add(ThaumcraftData.Aspects.EARTH, 5),
                 new ItemStack(Items.DIAMOND));
     }

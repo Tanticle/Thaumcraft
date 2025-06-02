@@ -1,11 +1,15 @@
 package tld.unknown.mystery.api;
 
 import net.minecraft.core.Registry;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.TagKey;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.item.equipment.EquipmentAsset;
+import net.minecraft.world.item.equipment.EquipmentAssets;
 import net.minecraft.world.level.block.Block;
 import tld.unknown.mystery.Thaumcraft;
 import tld.unknown.mystery.api.aspects.Aspect;
@@ -17,11 +21,17 @@ import tld.unknown.mystery.data.research.ResearchEntry;
 public final class ThaumcraftData {
 
     public static final class Registries {
+
         public static final ResourceKey<Registry<Aspect>> ASPECT = ResourceKey.createRegistryKey(Thaumcraft.id("aspects"));
         public static final ResourceKey<Registry<AspectList>> ASPECT_REGISTRY = ResourceKey.createRegistryKey(Thaumcraft.id("aspect_registry"));
         public static final ResourceKey<Registry<AuraBiomeInfo>> AURA_BIOME_INFO = ResourceKey.createRegistryKey(Thaumcraft.id("aura_biome_info"));
         public static final ResourceKey<Registry<ResearchCategory>> RESEARCH_CATEGORY = ResourceKey.createRegistryKey(Thaumcraft.id("research_categories"));
         public static final ResourceKey<Registry<ResearchEntry>> RESEARCH_ENTRY = ResourceKey.createRegistryKey(Thaumcraft.id("research_entries"));
+    }
+
+    public static final class TintSources {
+
+        public static final ResourceLocation ASPECT_ITEM = Thaumcraft.id("aspect_item");
     }
 
     /**
@@ -129,12 +139,12 @@ public final class ThaumcraftData {
         public static final ResourceLocation DESTRUCTIVE = Thaumcraft.id("destructive");
         public static final ResourceLocation ARCING = Thaumcraft.id("arcing");
         public static final ResourceLocation HARVESTER = Thaumcraft.id("harvester");
-        public static final ResourceLocation LAMPLIGHT = Thaumcraft.id("lamplight");
+        public static final ResourceLocation LAMPLIGHT = Thaumcraft.id("lamplight.json");
     }
 
     public static final class ItemProperties {
 
-        public static final ResourceLocation ASPECT_HOLDER_PRESENT = Thaumcraft.id("aspect_holder_present");
+        public static final ResourceLocation HAS_ASPECT = Thaumcraft.id("has_aspect");
     }
 
     public static final class Tags {
@@ -184,8 +194,27 @@ public final class ThaumcraftData {
 
     public static final class Entities {
 
-        public static final ResourceLocation TRAVELING_TRUNK = Thaumcraft.id("traveling_trunk");
-        public static final ResourceLocation MOVING_ITEM = Thaumcraft.id("moving_item");
+        public static final ResourceKey<EntityType<?>> TRAVELING_TRUNK = key("traveling_trunk");
+        public static final ResourceKey<EntityType<?>> MOVING_ITEM = key("moving_item");
+
+        private static ResourceKey<EntityType<?>> key(String id) {
+            return ResourceKey.create(net.minecraft.core.registries.Registries.ENTITY_TYPE, Thaumcraft.id(id));
+        }
+    }
+
+    public static final class ArmorTypes {
+
+        public static final ResourceKey<EquipmentAsset> THAUMIUM = key("thaumium");
+        public static final ResourceKey<EquipmentAsset> VOID_ROBE = key("void_robe");
+        public static final ResourceKey<EquipmentAsset> VOID_PLATE = key("void_plate");
+        public static final ResourceKey<EquipmentAsset> FORTRESS = key("fortress");
+        public static final ResourceKey<EquipmentAsset> CRIMSON_PLATE = key("crimson_plate");
+        public static final ResourceKey<EquipmentAsset> CRIMSON_ROBE = key("crimson_robe");
+        public static final ResourceKey<EquipmentAsset> CRIMSON_LEADER = key("crimson_leader");
+
+        private static ResourceKey<EquipmentAsset> key(String id) {
+            return ResourceKey.create(EquipmentAssets.ROOT_ID, Thaumcraft.id(id));
+        }
     }
 
     /**
@@ -271,6 +300,7 @@ public final class ThaumcraftData {
         public static final ResourceKey<Aspect> UNDEAD = key("exanimis");
         public static final ResourceKey<Aspect> CREATURE = key("bestia");
         public static final ResourceKey<Aspect> HUMAN = key("humanus");
+        public static final ResourceKey<Aspect> FORBIDDEN_ONE = key("amogus");
 
         private static ResourceKey<Aspect> key(String id) {
             return ResourceKey.create(Registries.ASPECT, Thaumcraft.id(id));

@@ -7,8 +7,8 @@ import tld.unknown.mystery.items.AbstractAspectItem;
 
 public class PhialItem extends AbstractAspectItem implements AspectContainerItem {
 
-    public PhialItem() {
-        super(new Properties().stacksTo(64), true);
+    public PhialItem(Properties props) {
+        super(props.stacksTo(64), true);
     }
 
     @Override

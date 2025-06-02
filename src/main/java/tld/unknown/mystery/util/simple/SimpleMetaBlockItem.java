@@ -37,8 +37,8 @@ public abstract class SimpleMetaBlockItem<T> extends DataDependentItem<T> {
     @Getter
     private final Block block;
 
-    public SimpleMetaBlockItem(Block block, Properties pProperties, DataComponentType<Holder<T>> dataType, Holder<T> fallback, boolean registerEmpty) {
-        super(pProperties, dataType, fallback, registerEmpty);
+    public SimpleMetaBlockItem(Block block, Properties pProperties, DataComponentType<Holder<T>> dataType, Holder<T> fallback, String dataSuffix, boolean registerEmpty) {
+        super(pProperties, dataType, fallback, dataSuffix, registerEmpty);
         this.block = block;
     }
 
@@ -107,7 +107,7 @@ public abstract class SimpleMetaBlockItem<T> extends DataDependentItem<T> {
                         itemstack.shrink(1);
                     }
 
-                    return InteractionResult.sidedSuccess(level.isClientSide);
+                    return InteractionResult.SUCCESS;
                 }
             }
         }
@@ -126,10 +126,6 @@ public abstract class SimpleMetaBlockItem<T> extends DataDependentItem<T> {
             if (compoundtag != null) {
                 BlockEntity blockentity = pLevel.getBlockEntity(pPos);
                 if (blockentity != null) {
-                    if (!pLevel.isClientSide && blockentity.onlyOpCanSetNbt() && (pPlayer == null || !pPlayer.canUseGameMasterBlocks())) {
-                        return false;
-                    }
-
                     CompoundTag compoundtag1 = blockentity.saveWithoutMetadata(pLevel.registryAccess());
                     CompoundTag compoundtag2 = compoundtag1.copy();
                     compoundtag1.merge(compoundtag.copyTag());
@@ -170,10 +166,6 @@ public abstract class SimpleMetaBlockItem<T> extends DataDependentItem<T> {
         }
 
         return blockstate;
-    }
-
-    public String getDescriptionId() {
-        return this.getBlock().getDescriptionId();
     }
 
     @Override

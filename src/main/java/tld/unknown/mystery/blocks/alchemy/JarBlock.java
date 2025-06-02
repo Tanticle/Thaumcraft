@@ -1,4 +1,4 @@
-package tld.unknown.mystery.blocks;
+package tld.unknown.mystery.blocks.alchemy;
 
 import lombok.Getter;
 import net.minecraft.core.BlockPos;
@@ -8,7 +8,6 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -17,9 +16,11 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SoundType;
+import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
+import net.minecraft.world.level.redstone.Orientation;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
@@ -50,8 +51,8 @@ public class JarBlock extends SimpleEntityBlock<JarBlockEntity> {
         return SHAPE;
     }
 
-    public JarBlock(boolean isVoid) {
-        super(SimpleBlockMaterials.GLASS, ConfigBlockEntities.JAR.entityTypeObject());
+    public JarBlock(boolean isVoid, BlockBehaviour.Properties props) {
+        super(SimpleBlockMaterials.glass(props), ConfigBlockEntities.JAR.entityTypeObject());
         this.isVoid = isVoid;
         registerDefaultState(this.getStateDefinition().any()
                 .setValue(CONNECTED, false)
@@ -76,19 +77,19 @@ public class JarBlock extends SimpleEntityBlock<JarBlockEntity> {
             JarBlockEntity jar = getEntity(level, pos);
             if(jar.removeLabel(hitResult.getDirection())) {
                 level.playSound(null, pos, ConfigSounds.PAPER_RUSTLING.value(), SoundSource.BLOCKS, 1F, 1F);
-                return InteractionResult.sidedSuccess(false);
+                return InteractionResult.SUCCESS;
             }
-            jar.dump();
-            level.playSound(null, pos, SoundEvents.BOTTLE_EMPTY, SoundSource.BLOCKS, 1F, 1F);
-            return InteractionResult.sidedSuccess(false);
+            if(jar.dump())
+                level.playSound(null, pos, SoundEvents.BOTTLE_EMPTY, SoundSource.BLOCKS, 1F, 1F);
+            return InteractionResult.SUCCESS;
         }
-        return InteractionResult.sidedSuccess(true);
+        return InteractionResult.SUCCESS;
     }
 
     @Override
-    protected ItemInteractionResult useItemOn(ItemStack pStack, BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, InteractionHand pHand, BlockHitResult pHitResult) {
+    protected InteractionResult useItemOn(ItemStack pStack, BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, InteractionHand pHand, BlockHitResult pHitResult) {
         if(pHand != InteractionHand.MAIN_HAND)
-            return ItemInteractionResult.FAIL;
+            return InteractionResult.FAIL;
         JarBlockEntity jar = getEntity(pLevel, pPos);
         ItemStack handItem = pPlayer.getMainHandItem();
         if(handItem.getItem().equals(ConfigItems.JAR_BRACE.value()) && !pState.getValue(BRACED)) {
@@ -97,9 +98,9 @@ public class JarBlock extends SimpleEntityBlock<JarBlockEntity> {
                     handItem.shrink(1);
                 pLevel.setBlock(pPos, pState.setValue(BRACED, true), 1 | 2);
                 pLevel.playSound(null, pPos, ConfigSounds.KNOB_TWISTING.value(), SoundSource.BLOCKS, 1F, 1F);
-                return ItemInteractionResult.sidedSuccess(false);
+                return InteractionResult.SUCCESS;
             } else {
-                return ItemInteractionResult.sidedSuccess(true);
+                return InteractionResult.SUCCESS;
             }
         } else if(handItem.getItem().equals(ConfigItems.PHIAL.value())) {
             if(ConfigItems.PHIAL.value().hasData(handItem)) {
@@ -113,12 +114,12 @@ public class JarBlock extends SimpleEntityBlock<JarBlockEntity> {
                             handItem.shrink(1);
                             pPlayer.addItem(new ItemStack(ConfigItems.PHIAL.value()));
                         }
-                        return ItemInteractionResult.sidedSuccess(false);
+                        return InteractionResult.SUCCESS;
                     } else {
-                        return ItemInteractionResult.sidedSuccess(true);
+                        return InteractionResult.SUCCESS;
                     }
                 } else {
-                    return ItemInteractionResult.FAIL;
+                    return InteractionResult.FAIL;
                 }
             } else {
                 if(jar.contains(null, 10, Direction.UP)) {
@@ -131,12 +132,12 @@ public class JarBlock extends SimpleEntityBlock<JarBlockEntity> {
                             handItem.shrink(1);
                             pPlayer.addItem(ConfigItems.PHIAL.value().create(ConfigDataRegistries.ASPECTS.getHolder(pLevel.registryAccess(), aspect)));
                         }
-                        return ItemInteractionResult.sidedSuccess(false);
+                        return InteractionResult.SUCCESS;
                     } else {
-                        return ItemInteractionResult.sidedSuccess(true);
+                        return InteractionResult.SUCCESS;
                     }
                 } else {
-                    return ItemInteractionResult.FAIL;
+                    return InteractionResult.FAIL;
                 }
             }
         } else if(handItem.getItem().equals(ConfigItems.JAR_LABEL.value())) {
@@ -149,21 +150,18 @@ public class JarBlock extends SimpleEntityBlock<JarBlockEntity> {
                 if(!pPlayer.isCreative())
                     handItem.shrink(1);
                 pLevel.playSound(null, pPos, ConfigSounds.JAR_TAPPING.value(), SoundSource.BLOCKS, 1F, 1F);
-                return ItemInteractionResult.sidedSuccess(false);
+                return InteractionResult.SUCCESS;
             }
         }
         return super.useItemOn(pStack, pState, pLevel, pPos, pPlayer, pHand, pHitResult);
     }
 
     @Override
-    public void neighborChanged(BlockState pState, Level pLevel, BlockPos pPos, Block pBlock, BlockPos pFromPos, boolean pIsMoving) {
-        if(pPos.above() != pFromPos) {
-            return;
-        }
-        if(pLevel.getCapability(ConfigCapabilities.ESSENTIA, pPos, Direction.UP) != null) {
-            pLevel.setBlock(pPos, pState.setValue(CONNECTED, true), 2);
+    protected void neighborChanged(BlockState state, Level level, BlockPos pos, Block neighborBlock, @Nullable Orientation orientation, boolean movedByPiston) {
+        if(level.getCapability(ConfigCapabilities.ESSENTIA, pos.above(), Direction.DOWN) != null) {
+            level.setBlock(pos, state.setValue(CONNECTED, true), 2);
         } else {
-            pLevel.setBlock(pPos, pState.setValue(CONNECTED, false), 2);
+            level.setBlock(pos, state.setValue(CONNECTED, false), 2);
         }
     }
 }

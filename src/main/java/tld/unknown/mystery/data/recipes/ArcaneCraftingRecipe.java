@@ -14,7 +14,10 @@ import net.minecraft.util.StringRepresentable;
 import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.PlacementInfo;
+import net.minecraft.world.item.crafting.RecipeBookCategory;
 import net.minecraft.world.item.crafting.RecipeInput;
+import net.minecraft.world.level.Level;
 import net.neoforged.neoforge.network.codec.NeoForgeStreamCodecs;
 import tld.unknown.mystery.api.ThaumcraftData;
 import tld.unknown.mystery.api.aspects.Aspect;
@@ -49,21 +52,19 @@ public class ArcaneCraftingRecipe extends CodecRecipe<ArcaneCraftingRecipe> {
         this.result = result;
     }
 
-    @Override
-    public NonNullList<ItemStack> getRemainingItems(RecipeInput recipeInput) {
-        return super.getRemainingItems(recipeInput);
+    public boolean isValid(Level level, SimpleContainer slots, IResearchCapability capability) {
+        return isValidPattern(slots) && playerKnowsResearch(level, capability);
     }
 
     public boolean isValidPattern(SimpleContainer craftingSlot) {
         return grid.verify(craftingSlot, 6) && crystals.keySet().stream().allMatch(p -> !craftingSlot.getItem(p.ordinal()).isEmpty() && craftingSlot.getItem(p.ordinal()).getCount() >= crystals.get(p));
     }
 
-    public boolean playerKnowsResearch(Player p) {
+    public boolean playerKnowsResearch(Level level, IResearchCapability p) {
         if(this.requiredResearch == null)
             return true;
-        Holder<ResearchEntry> entry = ConfigDataRegistries.RESEARCH_ENTRIES.getHolder(p.level().registryAccess(), requiredResearch);
-        IResearchCapability capability = p.getCapability(ConfigCapabilities.RESEARCH);
-        return capability.getResearchCompletion(entry) == IResearchCapability.ResearchCompletion.COMPLETE;
+        Holder<ResearchEntry> entry = ConfigDataRegistries.RESEARCH_ENTRIES.getHolder(level.registryAccess(), requiredResearch);
+        return p.getResearchCompletion(entry) == IResearchCapability.ResearchCompletion.COMPLETE;
     }
 
     public static final MapCodec<ArcaneCraftingRecipe> CODEC = RecordCodecBuilder.mapCodec(i -> i.group(
@@ -81,4 +82,14 @@ public class ArcaneCraftingRecipe extends CodecRecipe<ArcaneCraftingRecipe> {
             ByteBufCodecs.INT, ArcaneCraftingRecipe::getVisAmount,
             ItemStack.STREAM_CODEC, ArcaneCraftingRecipe::getResult,
             ArcaneCraftingRecipe::new);
+
+    @Override
+    public PlacementInfo placementInfo() {
+        return PlacementInfo.NOT_PLACEABLE;
+    }
+
+    @Override
+    public RecipeBookCategory recipeBookCategory() {
+        return null;
+    }
 }

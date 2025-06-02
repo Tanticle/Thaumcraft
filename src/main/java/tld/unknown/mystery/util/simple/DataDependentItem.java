@@ -1,6 +1,5 @@
 package tld.unknown.mystery.util.simple;
 
-import net.minecraft.client.renderer.item.ClampedItemPropertyFunction;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.NonNullList;
@@ -15,19 +14,17 @@ import java.util.Set;
 
 public abstract class DataDependentItem<T> extends Item implements SimpleCreativeTab.MultipleRegistrar {
 
-    public static ClampedItemPropertyFunction HAS_META_GETTER = (stack, world, entity, seed) -> stack.getItem() instanceof DataDependentItem<?> i ? i.hasData(stack) ? 1.0F : 0F : 0F;
-
-    private static final String DATA_PRESENT_SUFFIX = ".data_present";
-
+    private final String hasDataSuffix;
     private final boolean registerEmpty;
     private final DataComponentType<Holder<T>> componentType;
     private final Holder<T> fallback;
 
-    public DataDependentItem(Properties pProperties, DataComponentType<Holder<T>> dataType, Holder<T> fallback, boolean registerEmpty) {
+    public DataDependentItem(Properties pProperties, DataComponentType<Holder<T>> dataType, Holder<T> fallback, String hasDataSuffix, boolean registerEmpty) {
         super(pProperties);
         this.registerEmpty = registerEmpty;
         this.componentType = dataType;
         this.fallback = fallback;
+        this.hasDataSuffix = hasDataSuffix;
     }
 
     public T getData(ItemStack stack) {
@@ -61,7 +58,7 @@ public abstract class DataDependentItem<T> extends Item implements SimpleCreativ
     @Override
     public Component getName(ItemStack pStack) {
         if(hasData(pStack))
-            return Component.translatable(getDescriptionId() + DATA_PRESENT_SUFFIX, getDataNameFiller(RegistryUtils.access(), getHolder(pStack).unwrapKey().get()));
+            return Component.translatable(getDescriptionId() + "." + hasDataSuffix, getDataNameFiller(RegistryUtils.access(), getHolder(pStack).unwrapKey().get()));
         else
             return super.getName(pStack);
     }

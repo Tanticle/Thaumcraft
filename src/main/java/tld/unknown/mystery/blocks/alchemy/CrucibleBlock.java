@@ -1,12 +1,12 @@
-package tld.unknown.mystery.blocks;
+package tld.unknown.mystery.blocks.alchemy;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.item.ItemEntity;
@@ -14,6 +14,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.level.material.MapColor;
@@ -48,8 +49,8 @@ public class CrucibleBlock extends TickableEntityBlock<CrucibleBlockEntity> {
                     box(LEG_DEPTH, 0.0D, LEG_DEPTH, 16 - LEG_DEPTH, LEG_HEIGHT, 16 - LEG_DEPTH),
                     INSIDE), BooleanOp.ONLY_FIRST);
 
-    public CrucibleBlock() {
-        super(SimpleBlockMaterials.METAL.mapColor(MapColor.STONE), ConfigBlockEntities.CRUCIBLE.entityTypeObject());
+    public CrucibleBlock(BlockBehaviour.Properties props) {
+        super(SimpleBlockMaterials.metal(props).mapColor(MapColor.STONE), ConfigBlockEntities.CRUCIBLE.entityTypeObject());
     }
 
     @Override
@@ -71,7 +72,7 @@ public class CrucibleBlock extends TickableEntityBlock<CrucibleBlockEntity> {
 
                     if(be.processInput(stack, e.getOwner() instanceof Player p ? p : null, pLevel.registryAccess(), false)) {
                         if(stack.isEmpty()) {
-                            e.kill();
+                            e.kill((ServerLevel)pLevel);
                         } else {
                             e.setItem(stack);
                         }
@@ -92,9 +93,9 @@ public class CrucibleBlock extends TickableEntityBlock<CrucibleBlockEntity> {
     }
 
     @Override
-    protected ItemInteractionResult useItemOn(ItemStack pStack, BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, InteractionHand pHand, BlockHitResult pHitResult) {
+    protected InteractionResult useItemOn(ItemStack pStack, BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, InteractionHand pHand, BlockHitResult pHitResult) {
         if(pLevel.isClientSide)
-            return ItemInteractionResult.sidedSuccess(true);
+            return InteractionResult.SUCCESS;
 
         CrucibleBlockEntity be = getEntity(pLevel, pPos);
         Optional<FluidStack> stack = FluidUtil.getFluidContained(pStack);
@@ -104,10 +105,10 @@ public class CrucibleBlock extends TickableEntityBlock<CrucibleBlockEntity> {
                 pLevel.playSound(null, pPos, SoundEvents.BOTTLE_FILL, SoundSource.BLOCKS, .33F, randomPitch);
                 be.sync();
             }
-            return ItemInteractionResult.sidedSuccess(false);
+            return InteractionResult.SUCCESS;
         } else if(!FluidHelper.isTankEmpty(be) && be.isCooking() && !pPlayer.isCrouching() && pHitResult.getDirection() == Direction.UP) {
             be.processInput(pPlayer.getMainHandItem(), pPlayer, pLevel.registryAccess(), true);
-            return ItemInteractionResult.sidedSuccess(false);
+            return InteractionResult.SUCCESS;
         }
 
         return super.useItemOn(pStack, pState, pLevel, pPos, pPlayer, pHand, pHitResult);
@@ -116,7 +117,7 @@ public class CrucibleBlock extends TickableEntityBlock<CrucibleBlockEntity> {
     @Override
     protected InteractionResult useWithoutItem(BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, BlockHitResult pHitResult) {
         if(pLevel.isClientSide)
-            return InteractionResult.sidedSuccess(true);
+            return InteractionResult.SUCCESS;
 
         CrucibleBlockEntity be = getEntity(pLevel, pPos);
         if(pPlayer.isCrouching()) {

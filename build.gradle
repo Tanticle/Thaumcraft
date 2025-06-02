@@ -1,7 +1,8 @@
 plugins {
     id 'idea'
     id 'java-library'
-    id 'net.neoforged.moddev' version '2.0.30-beta'
+    id 'net.neoforged.moddev' version '2.0.75'
+    id 'io.freefair.lombok' version '8.12'
 }
 
 group = 'tld.unknown'
@@ -12,15 +13,9 @@ java {
     toolchain.languageVersion = JavaLanguageVersion.of(21)
 }
 
-repositories {
-    mavenLocal()
-    mavenCentral()
-}
+repositories { }
 
-dependencies {
-    compileOnly 'org.projectlombok:lombok:1.18.34'
-    annotationProcessor 'org.projectlombok:lombok:1.18.34'
-}
+dependencies { }
 
 neoForge {
     version = project.forge_version
@@ -39,8 +34,12 @@ neoForge {
         Server {
             server()
         }
-        Data {
-            data()
+        ClientData {
+            clientData()
+            programArguments.addAll '--mod', project.mod_id, '--all', '--output', file('src/datagen/resources/').getAbsolutePath(), '--existing', file('src/main/resources/').getAbsolutePath()
+        }
+        ServerData {
+            serverData()
             programArguments.addAll '--mod', project.mod_id, '--all', '--output', file('src/datagen/resources/').getAbsolutePath(), '--existing', file('src/main/resources/').getAbsolutePath()
         }
     }

@@ -60,7 +60,7 @@ public final class ConfigBlockEntities {
     private static <E extends BlockEntity> BlockEntityObject<E> register(ResourceLocation id, BlockEntityType.BlockEntitySupplier<E> supplier, ConfigBlocks.BlockObject<? extends Block>... validBlocks) {
         return new BlockEntityObject<>(REGISTRY_BLOCK_ENTITIES.register(id.getPath(), () -> {
             Block[] blocks = Arrays.stream(validBlocks).map(ConfigBlocks.BlockObject::block).toArray(Block[]::new);
-            return BlockEntityType.Builder.of(supplier, blocks).build(null);
+            return new BlockEntityType<>(supplier, blocks);
         }));
     }
 

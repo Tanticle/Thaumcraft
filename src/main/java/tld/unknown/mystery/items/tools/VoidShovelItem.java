@@ -13,8 +13,8 @@ import tld.unknown.mystery.api.WarpingGear;
 
 public class VoidShovelItem extends ShovelItem implements WarpingGear {
 
-    public VoidShovelItem() {
-        super(ThaumcraftMaterials.Tools.VOID, new Properties());
+    public VoidShovelItem(Properties props) {
+        super(ThaumcraftMaterials.Tools.VOID, ThaumcraftMaterials.Tools.VOID.attackDamageBonus(), ThaumcraftMaterials.Tools.VOID.speed(), props);
     }
 
     @Override

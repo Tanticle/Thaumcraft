@@ -15,7 +15,7 @@ import tld.unknown.mystery.data.generator.providers.recipes.ArcaneCraftingRecipe
 public final class ThaumcraftDataGenerator {
 
     @SubscribeEvent
-    public static void gatherData(GatherDataEvent e) {
+    public static void gatherData(GatherDataEvent.Client e) {
         DataGenerator dataGen = e.getGenerator();
         RegistrySetBuilder builder = new RegistrySetBuilder();
         dataGen.addProvider(true, new ResearchCategoryProvider(builder).build(e));
@@ -27,10 +27,10 @@ public final class ThaumcraftDataGenerator {
         dataGen.addProvider(true, (DataProvider.Factory<DataProvider>) AlchemyRecipeProvider::new);
         dataGen.addProvider(true, (DataProvider.Factory<DataProvider>) ArcaneCraftingRecipeProvider::new);
 
-        dataGen.addProvider(true, new BlockDataProvider(dataGen.getPackOutput(), e.getExistingFileHelper()));
-        dataGen.addProvider(true, new ItemModelProvider(dataGen.getPackOutput(), e.getExistingFileHelper()));
-        dataGen.addProvider(true, new TagsProvider(dataGen.getPackOutput(), e.getLookupProvider(), e.getExistingFileHelper()));
+        dataGen.addProvider(true, new BlockDataProvider(dataGen.getPackOutput()));
+        dataGen.addProvider(true, new ItemModelProvider(dataGen.getPackOutput()));
+        dataGen.addProvider(true, new TagsProvider(dataGen.getPackOutput(), e.getLookupProvider()));
 
-        dataGen.addProvider(true, new SoundProvider(dataGen.getPackOutput(), e.getExistingFileHelper()));
+        dataGen.addProvider(true, new SoundProvider(dataGen.getPackOutput()));
     }
 }

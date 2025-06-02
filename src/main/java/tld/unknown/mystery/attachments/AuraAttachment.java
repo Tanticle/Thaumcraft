@@ -45,7 +45,7 @@ public class AuraAttachment {
         Vec3i chunkPos = new Vec3i(access.getPos().x, access.getHeight(), access.getPos().z);
         float value = getBiomeAuraBase(access.getLevel().registryAccess(), access.getNoiseBiome(chunkPos.getX(), chunkPos.getY(), chunkPos.getZ()));
         for(Direction dir : Direction.values()) {
-            Vec3i offset = chunkPos.offset(dir.getNormal());
+            Vec3i offset = chunkPos.offset(dir.getUnitVec3i());
             value += getBiomeAuraBase(access.getLevel().registryAccess(), access.getNoiseBiome(offset.getX(), offset.getY(), offset.getZ()));
         }
         value /= 5.0F;

@@ -13,8 +13,8 @@ import tld.unknown.mystery.api.WarpingGear;
 
 public class VoidPickaxeItem extends PickaxeItem implements WarpingGear {
 
-    public VoidPickaxeItem() {
-        super(ThaumcraftMaterials.Tools.VOID, new Properties());
+    public VoidPickaxeItem(Properties props) {
+        super(ThaumcraftMaterials.Tools.VOID, ThaumcraftMaterials.Tools.VOID.attackDamageBonus(), ThaumcraftMaterials.Tools.VOID.speed(), props);
     }
 
     @Override

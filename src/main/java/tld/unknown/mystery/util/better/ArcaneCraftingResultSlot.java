@@ -1,6 +1,7 @@
 package tld.unknown.mystery.util.better;
 
 import net.minecraft.core.NonNullList;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.ResultContainer;
@@ -58,7 +59,9 @@ public class ArcaneCraftingResultSlot extends Slot {
     public void onTake(Player pPlayer, ItemStack pStack) {
         this.checkTakeAchievements(pStack);
         ArcaneCraftingRecipe recipe = (ArcaneCraftingRecipe)((ResultContainer)container).getRecipeUsed().value();
-        NonNullList<ItemStack> remains = pPlayer.level().getRecipeManager().getRemainingItemsFor(ConfigRecipeTypes.ARCANE_CRAFTING.type(),CraftingInput.of(3, 3, this.craftSlots.getItems()), pPlayer.level());
+        ServerLevel world = (ServerLevel)this.player.level();
+
+        /*NonNullList<ItemStack> remains = world.recipeAccess().getRecipeFor(ConfigRecipeTypes.ARCANE_CRAFTING.type(), CraftingInput.of(3, 3, this.craftSlots.getItems()), pPlayer.level());
 
         for(int i = 0; i < remains.size(); ++i) {
             ItemStack currentSlot = this.craftSlots.getItem(i);
@@ -86,6 +89,6 @@ public class ArcaneCraftingResultSlot extends Slot {
                     this.player.drop(slotRemains, false);
                 }
             }
-        }
+        }*/
     }
 }

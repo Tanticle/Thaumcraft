@@ -5,11 +5,7 @@ import tld.unknown.mystery.api.IScribingTools;
 
 public class ScribingToolsItem extends Item implements IScribingTools {
 
-    private static final Properties ITEM_PROPERTIES = new Properties()
-            .stacksTo(1)
-            .durability(100);
-
-    public ScribingToolsItem() {
-        super(ITEM_PROPERTIES);
+    public ScribingToolsItem(Properties props) {
+        super(props.stacksTo(1).durability(100));
     }
 }

@@ -4,6 +4,7 @@ import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.renderer.LightTexture;
+import net.minecraft.client.renderer.texture.TextureAtlas;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -26,7 +27,7 @@ public final class RenderHelper {
 
     public static TextureAtlasSprite getFluidSprite(FluidStack b) {
         ResourceLocation texture = IClientFluidTypeExtensions.of(b.getFluid()).getStillTexture(b);
-        return Minecraft.getInstance().getTextureAtlas(InventoryMenu.BLOCK_ATLAS).apply(texture);
+        return Minecraft.getInstance().getTextureAtlas(TextureAtlas.LOCATION_BLOCKS).apply(texture);
     }
 
     public static int getFluidTint(FluidStack b) {
@@ -34,7 +35,9 @@ public final class RenderHelper {
     }
 
     public static void drawOutlineFont(GuiGraphics graphics, int x, int y, String text, TextColor color, TextColor outlineColor) {
-        Minecraft.getInstance().font.drawInBatch8xOutline(FormattedCharSequence.forward(text, Style.EMPTY), x, y, color.getValue(), outlineColor.getValue(), graphics.pose().last().pose(), graphics.bufferSource(), LightTexture.FULL_BRIGHT);
+        graphics.drawSpecial(buffer -> {
+            Minecraft.getInstance().font.drawInBatch8xOutline(FormattedCharSequence.forward(text, Style.EMPTY), x, y, color.getValue(), outlineColor.getValue(), graphics.pose().last().pose(), buffer, LightTexture.FULL_BRIGHT);
+        });
     }
 
     public static void drawFace(Direction dir, VertexConsumer consumer, Matrix4f modelMatrix, Vector3f min, Vector3f max, int colour, float minU, float minV, float maxU, float maxV, boolean applyLight, int light, boolean applyOverlay, int overlay) {

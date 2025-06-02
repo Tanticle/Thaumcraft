@@ -5,6 +5,8 @@ import io.netty.buffer.ByteBuf;
 import lombok.Getter;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.entity.layers.RenderLayer;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.ResourceLocation;
@@ -46,10 +48,10 @@ public class IconTexture {
         graphics.pose().pushPose();
         if(isItem) {
             if(stack == null)
-                stack = new ItemStack(BuiltInRegistries.ITEM.get(location));
+                stack = new ItemStack(BuiltInRegistries.ITEM.getValue(location));
             graphics.renderItem(stack, x, y);
-        } else {;
-            graphics.blit(location, x, y, (int)(width * scale), (int)(height * scale), u, v, uSize, vSize, texWidth, texHeight);
+        } else {
+            graphics.blit(RenderType::guiTextured, location, x, y, (int)(width * scale), (int)(height * scale), u, v, uSize, vSize, texWidth, texHeight);
         }
         graphics.pose().popPose();
     }

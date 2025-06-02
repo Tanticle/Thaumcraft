@@ -8,6 +8,7 @@ import com.google.gson.JsonElement;
 import com.mojang.serialization.JsonOps;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.FileToIdConverter;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.server.packs.resources.SimpleJsonResourceReloadListener;
@@ -19,16 +20,16 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Block;
 import tld.unknown.mystery.Thaumcraft;
+import tld.unknown.mystery.api.ThaumcraftData;
+import tld.unknown.mystery.api.aspects.Aspect;
 import tld.unknown.mystery.api.aspects.AspectContainerItem;
 import tld.unknown.mystery.networking.packets.ClientboundAspectRegistrySyncPacket;
 
 import java.util.List;
 import java.util.Map;
 
-public class AspectRegistry extends SimpleJsonResourceReloadListener {
+public class AspectRegistry extends SimpleJsonResourceReloadListener<AspectList> {
 
-    private static final Gson GSON = new GsonBuilder().setPrettyPrinting().disableHtmlEscaping().create();
-    private static final String DIRECTORY = "thaumcraft/aspect_registry";
     private static final List<String> VALID_TYPES = ImmutableList.of("items", "blocks", "entities");
 
     private final HashBiMap<Item, AspectList> items = HashBiMap.create();
@@ -43,7 +44,7 @@ public class AspectRegistry extends SimpleJsonResourceReloadListener {
     private final HashBiMap<EntityType<?>, AspectList> entityCache = HashBiMap.create();
 
     public AspectRegistry() {
-        super(GSON, DIRECTORY);
+        super(AspectList.CODEC.codec(), FileToIdConverter.registry(ThaumcraftData.Registries.ASPECT_REGISTRY));
     }
 
     public AspectList getAspects(ItemStack stack) {
@@ -114,15 +115,14 @@ public class AspectRegistry extends SimpleJsonResourceReloadListener {
     }
 
     @Override
-    protected void apply(Map<ResourceLocation, JsonElement> pObject, ResourceManager resourceManager, ProfilerFiller profilerFiller) {
+    protected void apply(Map<ResourceLocation, AspectList> resourceLocationAspectMap, ResourceManager resourceManager, ProfilerFiller profilerFiller) {
         clearMaps();
-        pObject.forEach((id, json) -> {
-            if(VALID_TYPES.stream().anyMatch(t -> t.equals(id.getPath().split("/")[0]))) {
-                JsonOps.INSTANCE.withDecoder(AspectList.CODEC.decoder()).apply(json)
-                        .resultOrPartial(s -> Thaumcraft.error("Failed to parse AspectRegistry entry for resource \"%s\": %s", id, s))
-                        .ifPresent(result -> assignList(id, result.getFirst()));
-            }
-        });
+        for (ResourceLocation id : resourceLocationAspectMap.keySet()) {
+            String[] idParts = id.toString().split("/");
+            if(idParts.length > 3 && VALID_TYPES.stream().noneMatch(t -> t.equals(idParts[0])))
+                continue;
+            assignList(id, resourceLocationAspectMap.get(id));
+        }
         printStats();
     }
 
@@ -145,7 +145,7 @@ public class AspectRegistry extends SimpleJsonResourceReloadListener {
                 itemTags.put(TagKey.create(Registries.ITEM, tag), list);
             } else {
                 ResourceLocation tag = ResourceLocation.tryBuild(rl.getNamespace(), rl.getPath().replace("items/", ""));
-                items.put(BuiltInRegistries.ITEM.get(tag), list);
+                items.put(BuiltInRegistries.ITEM.getValue(tag), list);
             }
         } else if(rl.getPath().startsWith("blocks/")) {
             if(rl.getPath().startsWith("blocks/tags/")) {
@@ -153,7 +153,7 @@ public class AspectRegistry extends SimpleJsonResourceReloadListener {
                 blockTags.put(TagKey.create(Registries.BLOCK, tag), list);
             } else {
                 ResourceLocation tag = ResourceLocation.tryBuild(rl.getNamespace(), rl.getPath().replace("blocks/", ""));
-                blocks.put(BuiltInRegistries.BLOCK.get(tag), list);
+                blocks.put(BuiltInRegistries.BLOCK.getValue(tag), list);
             }
         }  else if(rl.getPath().startsWith("entities/")) {
             if(rl.getPath().startsWith("entities/tags/")) {
@@ -161,7 +161,7 @@ public class AspectRegistry extends SimpleJsonResourceReloadListener {
                 entityTags.put(TagKey.create(Registries.ENTITY_TYPE, tag), list);
             } else {
                 ResourceLocation tag = ResourceLocation.tryBuild(rl.getNamespace(), rl.getPath().replace("entities/", ""));
-                entities.put(BuiltInRegistries.ENTITY_TYPE.get(tag), list);
+                entities.put(BuiltInRegistries.ENTITY_TYPE.getValue(tag), list);
             }
         }
     }

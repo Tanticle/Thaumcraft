@@ -25,6 +25,6 @@ public class ConfigSounds {
     public static void init(IEventBus bus) { REGISTRY.register(bus); }
 
     private static Holder<SoundEvent> register(SoundEvent event) {
-        return REGISTRY.register(event.getLocation().getPath(), () -> event);
+        return REGISTRY.register(event. location().getPath(), () -> event);
     }
 }

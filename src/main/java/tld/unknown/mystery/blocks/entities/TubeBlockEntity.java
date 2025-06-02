@@ -52,7 +52,7 @@ public class TubeBlockEntity extends SimpleBlockEntity implements IEssentiaCapab
     private void determineSuction() {
         for(Direction dir : Direction.values()) {
             if(!disabledDirections.contains(dir)) {
-                IEssentiaCapability cap = getLevel().getCapability(ConfigCapabilities.ESSENTIA, getBlockPos().offset(dir.getNormal()), dir.getOpposite());
+                IEssentiaCapability cap = getLevel().getCapability(ConfigCapabilities.ESSENTIA, getBlockPos().offset(dir.getUnitVec3i()), dir.getOpposite());
                 if(cap != null) {
                     if (cap.compliesToAspect(null, dir.getOpposite())) {
                         if (amount <= 0 || cap.compliesToAspect(null, dir.getOpposite()) || cap.compliesToAspect(aspect.unwrapKey().get(), dir.getOpposite())) {
@@ -72,7 +72,7 @@ public class TubeBlockEntity extends SimpleBlockEntity implements IEssentiaCapab
     private void checkConflicts() {
         for(Direction dir : Direction.values()) {
             if(!disabledDirections.contains(dir)) {
-                IEssentiaCapability cap = getLevel().getCapability(ConfigCapabilities.ESSENTIA, getBlockPos().offset(dir.getNormal()), dir.getOpposite());
+                IEssentiaCapability cap = getLevel().getCapability(ConfigCapabilities.ESSENTIA, getBlockPos().offset(dir.getUnitVec3i()), dir.getOpposite());
                 if(cap != null) {
                     int suck = cap.getSuction(dir.getOpposite());
                     if (this.suction > 0 && (suck == this.suction || suck == this.suction - 1) && cap.compliesToAspect(this.suctionType.unwrapKey().get(), dir.getOpposite())) {
@@ -90,7 +90,7 @@ public class TubeBlockEntity extends SimpleBlockEntity implements IEssentiaCapab
         }
         for(Direction dir : Direction.values()) {
             if(!disabledDirections.contains(dir)) {
-                IEssentiaCapability cap = getLevel().getCapability(ConfigCapabilities.ESSENTIA, getBlockPos().offset(dir.getNormal()), dir.getOpposite());
+                IEssentiaCapability cap = getLevel().getCapability(ConfigCapabilities.ESSENTIA, getBlockPos().offset(dir.getUnitVec3i()), dir.getOpposite());
                 if(cap != null) {
                     if (cap.getSideStatus(dir.getOpposite()).isOutput()) {
                         if ((suctionType == null || suctionType == cap.getEssentiaType(dir.getOpposite()) || cap.getEssentiaType(dir.getOpposite()) == null) &&
@@ -185,7 +185,7 @@ public class TubeBlockEntity extends SimpleBlockEntity implements IEssentiaCapab
 
     @Override
     public ResourceKey<Aspect> getSuctionType(Direction dir) {
-        return suctionType.unwrapKey().get();
+        return suctionType == null ? null : suctionType.unwrapKey().get();
     }
 
     @Override

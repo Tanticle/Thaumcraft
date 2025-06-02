@@ -1,4 +1,4 @@
-package tld.unknown.mystery.blocks;
+package tld.unknown.mystery.blocks.alchemy;
 
 import com.google.common.collect.ImmutableMap;
 import com.mojang.serialization.MapCodec;
@@ -11,11 +11,14 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.DirectionalBlock;
 import net.minecraft.world.level.block.EntityBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
+import net.minecraft.world.level.redstone.Orientation;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import org.jetbrains.annotations.Nullable;
 import tld.unknown.mystery.blocks.entities.TubeBlockEntity;
 import tld.unknown.mystery.registries.ConfigCapabilities;
 import tld.unknown.mystery.util.simple.SimpleBlockMaterials;
@@ -42,12 +45,8 @@ public class TubeBlock extends DirectionalBlock implements EntityBlock {
 
     private static final MapCodec<TubeBlock> CODEC = simpleCodec(TubeBlock::new);
 
-    public TubeBlock() {
-        this(SimpleBlockMaterials.METAL);
-    }
-
-    public TubeBlock(Properties properties) {
-        super(properties);
+    public TubeBlock(BlockBehaviour.Properties props) {
+        super(SimpleBlockMaterials.metal(props));
 
         registerDefaultState(this.getStateDefinition().any()
                 .setValue(NORTH, false)
@@ -86,34 +85,29 @@ public class TubeBlock extends DirectionalBlock implements EntityBlock {
 
     @Override
     public void onPlace(BlockState pState, Level pLevel, BlockPos pPos, BlockState pOldState, boolean pIsMoving) {
-        if (!pOldState.is(pState.getBlock()) && !pLevel.isClientSide) {
-            for(Direction dir : Direction.values()) {
+        if (!pOldState.is(pState.getBlock()) && !pLevel.isClientSide)
+            for(Direction dir : Direction.values())
                 pLevel.updateNeighborsAt(pPos.relative(dir), this);
-            }
-        }
     }
 
     @Override
-    public void neighborChanged(BlockState pState, Level pLevel, BlockPos pPos, Block pBlock, BlockPos pFromPos, boolean pIsMoving) {
-        pLevel.setBlock(pPos, determineConnections(pLevel, pState, pPos), 1 | 2);
+    protected void neighborChanged(BlockState state, Level level, BlockPos pos, Block neighborBlock, @Nullable Orientation orientation, boolean movedByPiston) {
+        level.setBlock(pos, determineConnections(level, state, pos), 1 | 2);
     }
 
     @Override
     public void onRemove(BlockState pState, Level pLevel, BlockPos pPos, BlockState pNewState, boolean pIsMoving) {
         if (!pIsMoving && !pState.is(pNewState.getBlock())) {
             super.onRemove(pState, pLevel, pPos, pNewState, pIsMoving);
-            if (!pLevel.isClientSide) {
-                for(Direction dir : Direction.values()) {
+            if (!pLevel.isClientSide)
+                for(Direction dir : Direction.values())
                     pLevel.updateNeighborsAt(pPos.relative(dir), this);
-                }
-            }
         }
     }
 
     private BlockState determineConnections(Level level, BlockState state, BlockPos pos) {
-        for(Direction dir : Direction.values()) {
-            state = state.setValue(BY_DIRECTION.get(dir), level.getCapability(ConfigCapabilities.ESSENTIA, pos, dir.getOpposite()) != null);
-        }
+        for(Direction dir : Direction.values())
+            state = state.setValue(BY_DIRECTION.get(dir), level.getCapability(ConfigCapabilities.ESSENTIA, pos.offset(dir.getUnitVec3i()), dir.getOpposite()) != null);
         return state;
     }
 }

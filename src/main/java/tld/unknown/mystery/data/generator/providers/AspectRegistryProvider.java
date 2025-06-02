@@ -27,8 +27,8 @@ public class AspectRegistryProvider extends JsonCodecProvider<AspectList> {
 
     public AspectRegistryProvider(GatherDataEvent event) {
         super(event.getGenerator().getPackOutput(), PackOutput.Target.DATA_PACK,
-                "thaumcraft/aspect_registry", PackType.SERVER_DATA,
-                AspectList.CODEC.codec(), event.getLookupProvider(), Thaumcraft.MOD_ID, event.getExistingFileHelper());
+                "thaumcraft/aspect_registry", AspectList.CODEC.codec(),
+                event.getLookupProvider(), Thaumcraft.MOD_ID);
     }
 
     @Override
@@ -338,7 +338,7 @@ public class AspectRegistryProvider extends JsonCodecProvider<AspectList> {
         both(new AspectList().add(Aspects.TAINT, 5).add(Aspects.EARTH, 2), Blocks.PODZOL);
 
 
-        itemTag(Tags.Items.SLIMEBALLS, new AspectList().add(Aspects.WATER, 5).add(Aspects.LIFE, 5).add(Aspects.ALCHEMY, 1));
+        itemTag(Tags.Items.SLIME_BALLS, new AspectList().add(Aspects.WATER, 5).add(Aspects.LIFE, 5).add(Aspects.ALCHEMY, 1));
         itemTag(UncommonTags.ITEM_RUBBER, new AspectList().add(Aspects.WATER, 5).add(Aspects.MOVEMENT, 5).add(Aspects.TOOL, 5));
 
         entity(new AspectList().add(Aspects.UNDEAD, 20).add(Aspects.HUMAN, 10).add(Aspects.EARTH, 5), EntityType.ZOMBIE);

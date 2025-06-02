@@ -19,9 +19,10 @@ public class AspectTooltip implements ClientTooltipComponent {
     }
 
     @Override
-    public int getHeight() {
+    public int getHeight(Font font) {
         return SIZE + 3;
     }
+
 
     @Override
     public int getWidth(Font pFont) {
@@ -29,10 +30,10 @@ public class AspectTooltip implements ClientTooltipComponent {
     }
 
     @Override
-    public void renderImage(Font fontRenderer, int mouseX, int mouseY, GuiGraphics graphics) {
+    public void renderImage(Font font, int x, int y, int width, int height, GuiGraphics guiGraphics) {
         aspects.indexedForEach((aspect, amount, index) -> {
             int offset = index * (SIZE + SPACING);
-            AspectRenderer.renderAspectOverlay(graphics, aspect, mouseX + offset, mouseY + 1, SIZE, amount, false);
+            AspectRenderer.renderAspectOverlay(guiGraphics, aspect, x + offset, y + 1, SIZE, amount, false);
         });
     }
 

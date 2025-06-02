@@ -5,7 +5,9 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
+import net.minecraft.client.renderer.texture.TextureAtlas;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
+import net.minecraft.client.resources.model.AtlasSet;
 import net.minecraft.core.Direction;
 import net.minecraft.world.inventory.InventoryMenu;
 import net.neoforged.neoforge.fluids.FluidStack;
@@ -39,7 +41,7 @@ public class CrucibleBER extends SimpleBER<CrucibleBlockEntity> {
             FluidStack fluid = pBlockEntity.getFluidInTank(0);
             TextureAtlasSprite sprite = RenderHelper.getFluidSprite(fluid);
             pPoseStack.translate(0, FLUID_START + (FLUID_HEIGHT * fluidHeight) + (ASPECT_HEIGHT * aspectHeight) + (fluidHeight + aspectHeight >= 2 ? 0.0001 : 0), 0);
-            RenderSystem.setShaderTexture(0, InventoryMenu.BLOCK_ATLAS);
+            RenderSystem.setShaderTexture(0, TextureAtlas.LOCATION_BLOCKS);
             RenderHelper.drawFace(Direction.UP,
                     pBufferSource.getBuffer(RenderType.translucent()), pPoseStack.last().pose(),
                     new Vector3f(0, 0, 0), new Vector3f(1, 0, 1), RenderHelper.getFluidTint(fluid),

@@ -7,8 +7,8 @@ import tld.unknown.mystery.items.AbstractAspectItem;
 
 public class VisCrystalItem extends AbstractAspectItem implements AspectContainerItem {
 
-    public VisCrystalItem() {
-        super(new Properties().stacksTo(64), false);
+    public VisCrystalItem(Properties props) {
+        super(props.stacksTo(64), false);
     }
 
     @Override

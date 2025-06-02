@@ -8,6 +8,7 @@ import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import tld.unknown.mystery.util.codec.Codecs;
@@ -25,7 +26,7 @@ public record CodecRecipeSerializer<T extends CodecRecipe<?>>(MapCodec<T> codec,
             for (int y = 0; y < height; y++) {
                 for (int x = 0; x < width; x++) {
                     ItemStack stack = container.getItem(x + y * width + offset);
-                    Ingredient i = keys.getOrDefault(pattern.get(y).charAt(x), Ingredient.EMPTY);
+                    Ingredient i = keys.getOrDefault(pattern.get(y).charAt(x), Ingredient.of(Items.AIR));
                     if ((i.isEmpty() && !stack.isEmpty()) || !i.test(stack)) {
                         return false;
                     }

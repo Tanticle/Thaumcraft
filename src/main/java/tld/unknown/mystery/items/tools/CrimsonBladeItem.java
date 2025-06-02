@@ -1,18 +1,18 @@
 package tld.unknown.mystery.items.tools;
 
 import net.minecraft.ChatFormatting;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.tags.BlockTags;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Rarity;
-import net.minecraft.world.item.SwordItem;
-import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.*;
 import net.minecraft.world.level.Level;
+import tld.unknown.mystery.api.ThaumcraftData;
 import tld.unknown.mystery.api.ThaumcraftMaterials;
 import tld.unknown.mystery.api.WarpingGear;
 import tld.unknown.mystery.registries.ConfigItems;
@@ -23,13 +23,10 @@ public class CrimsonBladeItem extends SwordItem implements WarpingGear {
 
     private static final String COMPONENT_GREATER_SAP = "enchantment.thaumcraft.special.sapgreat";
 
-    private static final ThaumcraftMaterials.Tools CRIMSON_VOID = new ThaumcraftMaterials.Tools(BlockTags.INCORRECT_FOR_NETHERITE_TOOL, 200, 20, 8.0F, 3.5F, ConfigItems.INGOT_VOID);
-    private static final Properties ITEM_PROPERTIES = new Properties()
-            .durability(CRIMSON_VOID.getUses())
-            .rarity(Rarity.EPIC);
+    private static final ToolMaterial CRIMSON_VOID = new ToolMaterial(BlockTags.INCORRECT_FOR_NETHERITE_TOOL, 200, 8.0F, 3.5F, 20, TagKey.create(Registries.ITEM, ThaumcraftData.Items.INGOT_VOID));
     
-    public CrimsonBladeItem() {
-        super(CRIMSON_VOID, ITEM_PROPERTIES);
+    public CrimsonBladeItem(Properties props) {
+        super(CRIMSON_VOID, CRIMSON_VOID.attackDamageBonus(), CRIMSON_VOID.speed(), props.durability(CRIMSON_VOID.durability()).rarity(Rarity.EPIC));
     }
 
     @Override

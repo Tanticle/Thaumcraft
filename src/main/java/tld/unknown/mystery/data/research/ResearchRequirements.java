@@ -34,7 +34,7 @@ public record ResearchRequirements(
     ).apply(i, ResearchRequirements::new));
 
     public static final StreamCodec<RegistryFriendlyByteBuf, ResearchRequirements> STREAM_CODEC = StreamCodec.composite(
-            ItemStack.LIST_STREAM_CODEC, ResearchRequirements::itemRequirements,
+            ItemStack.OPTIONAL_LIST_STREAM_CODEC, ResearchRequirements::itemRequirements,
             Ingredient.CONTENTS_STREAM_CODEC.apply(ByteBufCodecs.list()), ResearchRequirements::craftingRequirements,
             ResearchKnowledge.STREAM_CODEC.apply(ByteBufCodecs.list()), ResearchRequirements::knowledgeRequirements,
             NeoForgeStreamCodecs.lazy(() ->  ResearchEntry.REGISTRY_STREAM_CODEC).apply(ByteBufCodecs.list()), ResearchRequirements::researchRequirements,

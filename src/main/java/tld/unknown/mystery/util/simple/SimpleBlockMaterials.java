@@ -5,19 +5,19 @@ import net.minecraft.world.level.material.MapColor;
 
 public final class SimpleBlockMaterials {
 
-    public static final BlockBehaviour.Properties GLASS = BlockBehaviour.Properties.of()
-            .mapColor(MapColor.NONE)
-            .noOcclusion();
+    public static BlockBehaviour.Properties glass(BlockBehaviour.Properties properties) {
+        return properties.mapColor(MapColor.NONE).noOcclusion();
+    }
 
-    public static final BlockBehaviour.Properties WOOD = BlockBehaviour.Properties.of()
-            .mapColor(MapColor.WOOD)
-            .ignitedByLava();
+    public static BlockBehaviour.Properties wood(BlockBehaviour.Properties properties) {
+        return properties.mapColor(MapColor.WOOD).ignitedByLava();
+    }
 
-    public static final BlockBehaviour.Properties METAL = BlockBehaviour.Properties.of()
-            .mapColor(MapColor.METAL)
-            .requiresCorrectToolForDrops();
+    public static BlockBehaviour.Properties metal(BlockBehaviour.Properties properties) {
+        return properties.mapColor(MapColor.METAL).requiresCorrectToolForDrops();
+    }
 
-    public static final BlockBehaviour.Properties STONE = BlockBehaviour.Properties.of()
-            .mapColor(MapColor.STONE)
-            .requiresCorrectToolForDrops();
+    public static BlockBehaviour.Properties stone(BlockBehaviour.Properties properties) {
+        return properties.mapColor(MapColor.STONE).requiresCorrectToolForDrops();
+    }
 }

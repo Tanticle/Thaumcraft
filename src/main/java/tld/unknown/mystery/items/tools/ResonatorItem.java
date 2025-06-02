@@ -18,8 +18,8 @@ public class ResonatorItem extends Item {
     private static final String COMPONENT_CONTENT = "msg.thaumcraft.resonator.content";
     private static final String COMPONENT_CONTENT_VALUE = "msg.thaumcraft.resonator.content.value";
 
-    public ResonatorItem() {
-        super(new Properties().rarity(Rarity.UNCOMMON).stacksTo(1));
+    public ResonatorItem(Properties props) {
+        super(props.rarity(Rarity.UNCOMMON).stacksTo(1));
     }
 
     @Override
@@ -31,12 +31,12 @@ public class ResonatorItem extends Item {
                 Component suction = Component.translatable(COMPONENT_SUCTION).withStyle(ChatFormatting.DARK_PURPLE)
                         .append(Component.literal(" - ").withStyle(ChatFormatting.DARK_GRAY))
                         .append(Component.translatable(COMPONENT_SUCTION_VALUE, cap.getSuction(pContext.getClickedFace()), Aspect.getName(pContext.getLevel().registryAccess(), cap.getSuctionType(pContext.getClickedFace()), false, false)).withStyle(ChatFormatting.RESET));
-                pContext.getPlayer().sendSystemMessage(suction);
+                pContext.getPlayer().displayClientMessage(suction, true);
                 if(cap.getEssentia(pContext.getClickedFace()) > 0) {
                     Component content = Component.translatable(COMPONENT_CONTENT).withStyle(ChatFormatting.BLUE)
                             .append(Component.literal(" - ").withStyle(ChatFormatting.DARK_GRAY))
                             .append(Component.translatable(COMPONENT_CONTENT_VALUE, cap.getEssentia(pContext.getClickedFace()), Aspect.getName(pContext.getLevel().registryAccess(), cap.getEssentiaType(pContext.getClickedFace()), false, false)));
-                    pContext.getPlayer().sendSystemMessage(content);
+                    pContext.getPlayer().displayClientMessage(content, true);
                 }
                 return InteractionResult.SUCCESS;
             }

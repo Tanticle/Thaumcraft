@@ -10,13 +10,11 @@ import tld.unknown.mystery.registries.ConfigBlocks;
 
 public class CrystalBlockItem extends BlockItem implements AspectContainerItem {
 
-    private static final Properties ITEM_PROPERTIES = new Properties().stacksTo(64);
-
     @Getter
     private final CrystalBlock.CrystalAspect aspect;
 
-    public CrystalBlockItem(CrystalBlock.CrystalAspect aspect) {
-        super(ConfigBlocks.CRYSTAL_COLONY.get(aspect).block(), ITEM_PROPERTIES);
+    public CrystalBlockItem(CrystalBlock.CrystalAspect aspect, Properties props) {
+        super(ConfigBlocks.CRYSTAL_COLONY.get(aspect).block(), props.stacksTo(64));
         this.aspect = aspect;
     }
 

@@ -11,8 +11,12 @@ import tld.unknown.mystery.Thaumcraft;
 @EventBusSubscriber(modid = Thaumcraft.MOD_ID, bus = EventBusSubscriber.Bus.MOD)
 public final class ConfigKeybinds {
 
-    private static final KeyMapping RESEARCH_DEBUG_SCREEN = new KeyMapping("key.chaumtraft.debug.research",
+    public static final KeyMapping RESEARCH_DEBUG_SCREEN = new KeyMapping("key.chaumtraft.debug.research",
             KeyConflictContext.IN_GAME, InputConstants.Type.KEYSYM, InputConstants.KEY_O,
+            "key.chaumtraft.category.debug");
+
+    public static final KeyMapping TUBE_DEBUG_RENDERER = new KeyMapping("key.chaumtraft.debug.tubes",
+            KeyConflictContext.IN_GAME, InputConstants.Type.KEYSYM, InputConstants.KEY_M,
             "key.chaumtraft.category.debug");
 
     @SubscribeEvent
@@ -23,5 +27,6 @@ public final class ConfigKeybinds {
 
     private static void registerDebugKeys(RegisterKeyMappingsEvent e) {
         e.register(RESEARCH_DEBUG_SCREEN);
+        e.register(TUBE_DEBUG_RENDERER);
     }
 }
