@@ -22,12 +22,13 @@ public class IconTexture {
 
     public IconTexture(ResourceLocation location) {
         if(location.getPath().endsWith(".png")) {
-            if(Minecraft.getInstance() == null)
+            /*if(Minecraft.getInstance() == null)
                 this.location = location;
             else if(Minecraft.getInstance().getResourceManager().getResource(location).isPresent())
                 this.location = location;
             else
-                this.location = ThaumcraftData.Textures.UNKNOWN;
+                this.location = ThaumcraftData.Textures.UNKNOWN;*/
+            this.location = ThaumcraftData.Textures.UNKNOWN;
             this.isItem = false;
         } else {
             if(BuiltInRegistries.ITEM.containsKey(location)) {
