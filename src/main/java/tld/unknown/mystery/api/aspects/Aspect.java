@@ -34,11 +34,11 @@ public class Aspect {
     private final List<ResourceKey<Aspect>> components;
 
     public static Component getName(HolderLookup.Provider provider, ResourceKey<Aspect> key, boolean pureColor, boolean primalColor) {
-        if(key == null)
+        if (key == null)
             return Component.translatable("aspect.thaumcraft.untyped");
         ResourceLocation id = key.location();
-        MutableComponent c = Component.translatable("aspect." + id.getNamespace() + "." + id.getPath());
-        if(pureColor || primalColor) {
+        MutableComponent c = Component.translatable(id.toLanguageKey("aspect"));
+        if (pureColor || primalColor) {
             Aspect a = ConfigDataRegistries.ASPECTS.get(provider, key);
             if (pureColor)
                 return c.setStyle(Style.EMPTY.withColor(a.colour().argb32(false)));
@@ -62,7 +62,7 @@ public class Aspect {
     public static final RegistryFileCodec<Aspect> REGISTRY_CODEC = RegistryFileCodec.create(ThaumcraftData.Registries.ASPECT, CODEC.codec());
 
     public static final StreamCodec<RegistryFriendlyByteBuf, Aspect> STREAM_CODEC = StreamCodec.composite(
-        Colour.STREAM_CODEC, Aspect::colour, ResourceKey.streamCodec(ThaumcraftData.Registries.ASPECT).apply(ByteBufCodecs.list()), Aspect::components, Aspect::new);
+            Colour.STREAM_CODEC, Aspect::colour, ResourceKey.streamCodec(ThaumcraftData.Registries.ASPECT).apply(ByteBufCodecs.list()), Aspect::components, Aspect::new);
     public static final StreamCodec<RegistryFriendlyByteBuf, Holder<Aspect>> REGISTRY_STREAM_CODEC = ByteBufCodecs.holder(ThaumcraftData.Registries.ASPECT, STREAM_CODEC);
 
     @AllArgsConstructor
