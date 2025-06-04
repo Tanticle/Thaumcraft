@@ -2,10 +2,6 @@ package tld.unknown.mystery.data.aspects;
 
 import com.google.common.collect.HashBiMap;
 import com.google.common.collect.ImmutableList;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonElement;
-import com.mojang.serialization.JsonOps;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.FileToIdConverter;
@@ -21,7 +17,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Block;
 import tld.unknown.mystery.Thaumcraft;
 import tld.unknown.mystery.api.ThaumcraftData;
-import tld.unknown.mystery.api.aspects.Aspect;
 import tld.unknown.mystery.api.aspects.AspectContainerItem;
 import tld.unknown.mystery.networking.packets.ClientboundAspectRegistrySyncPacket;
 
@@ -48,18 +43,21 @@ public class AspectRegistry extends SimpleJsonResourceReloadListener<AspectList>
     }
 
     public AspectList getAspects(ItemStack stack) {
+        if (stack.isEmpty())
+            return new AspectList();
+
         Item item = stack.getItem();
         AspectList list = itemCache.get(item);
-        if(list == null) {
+        if (list == null) {
             list = items.getOrDefault(item, new AspectList()).clone();
-            if(item instanceof BlockItem b)
+            if (item instanceof BlockItem b)
                 list = getAspects(b.getBlock());
             else {
                 AspectList values = new AspectList();
                 BuiltInRegistries.ITEM.wrapAsHolder(item).tags().filter(itemTags::containsKey).forEach(key -> values.merge(itemTags.get(key)));
                 list.merge(values);
             }
-            if(stack.getItem() instanceof AspectContainerItem i) {
+            if (stack.getItem() instanceof AspectContainerItem i) {
                 list.merge(i.getAspects(stack));
             }
             itemCache.put(item, list);
@@ -68,7 +66,7 @@ public class AspectRegistry extends SimpleJsonResourceReloadListener<AspectList>
     }
 
     public AspectList getAspects(Block block) {
-        if(blockCache.containsKey(block))
+        if (blockCache.containsKey(block))
             return blockCache.get(block);
         AspectList aspects = blocks.getOrDefault(block, new AspectList()).clone();
         BuiltInRegistries.BLOCK.wrapAsHolder(block).tags().filter(blockTags::containsKey).forEach(key -> aspects.merge(blockTags.get(key)));
@@ -77,7 +75,7 @@ public class AspectRegistry extends SimpleJsonResourceReloadListener<AspectList>
     }
 
     public AspectList getAspects(EntityType<?> entityType) {
-        if(entityCache.containsKey(entityType))
+        if (entityCache.containsKey(entityType))
             return entityCache.get(entityType);
 
         AspectList aspects = entities.getOrDefault(entityType, new AspectList()).clone();
@@ -110,7 +108,7 @@ public class AspectRegistry extends SimpleJsonResourceReloadListener<AspectList>
         this.itemTags.putAll(packet.itemTags());
         this.blockTags.putAll(packet.blockTags());
         this.entityTags.putAll(packet.entityTags());
-        if(Thaumcraft.isDev())
+        if (Thaumcraft.isDev())
             printStats();
     }
 
@@ -119,7 +117,7 @@ public class AspectRegistry extends SimpleJsonResourceReloadListener<AspectList>
         clearMaps();
         for (ResourceLocation id : resourceLocationAspectMap.keySet()) {
             String[] idParts = id.toString().split("/");
-            if(idParts.length > 3 && VALID_TYPES.stream().noneMatch(t -> t.equals(idParts[0])))
+            if (idParts.length > 3 && VALID_TYPES.stream().noneMatch(t -> t.equals(idParts[0])))
                 continue;
             assignList(id, resourceLocationAspectMap.get(id));
         }
@@ -139,24 +137,24 @@ public class AspectRegistry extends SimpleJsonResourceReloadListener<AspectList>
     }
 
     private void assignList(ResourceLocation rl, AspectList list) {
-        if(rl.getPath().startsWith("items/")) {
-            if(rl.getPath().startsWith("items/tags/")) {
+        if (rl.getPath().startsWith("items/")) {
+            if (rl.getPath().startsWith("items/tags/")) {
                 ResourceLocation tag = ResourceLocation.tryBuild(rl.getNamespace(), rl.getPath().replace("items/tags/", ""));
                 itemTags.put(TagKey.create(Registries.ITEM, tag), list);
             } else {
                 ResourceLocation tag = ResourceLocation.tryBuild(rl.getNamespace(), rl.getPath().replace("items/", ""));
                 items.put(BuiltInRegistries.ITEM.getValue(tag), list);
             }
-        } else if(rl.getPath().startsWith("blocks/")) {
-            if(rl.getPath().startsWith("blocks/tags/")) {
+        } else if (rl.getPath().startsWith("blocks/")) {
+            if (rl.getPath().startsWith("blocks/tags/")) {
                 ResourceLocation tag = ResourceLocation.tryBuild(rl.getNamespace(), rl.getPath().replace("blocks/tags/", ""));
                 blockTags.put(TagKey.create(Registries.BLOCK, tag), list);
             } else {
                 ResourceLocation tag = ResourceLocation.tryBuild(rl.getNamespace(), rl.getPath().replace("blocks/", ""));
                 blocks.put(BuiltInRegistries.BLOCK.getValue(tag), list);
             }
-        }  else if(rl.getPath().startsWith("entities/")) {
-            if(rl.getPath().startsWith("entities/tags/")) {
+        } else if (rl.getPath().startsWith("entities/")) {
+            if (rl.getPath().startsWith("entities/tags/")) {
                 ResourceLocation tag = ResourceLocation.tryBuild(rl.getNamespace(), rl.getPath().replace("entities/tags/", ""));
                 entityTags.put(TagKey.create(Registries.ENTITY_TYPE, tag), list);
             } else {
