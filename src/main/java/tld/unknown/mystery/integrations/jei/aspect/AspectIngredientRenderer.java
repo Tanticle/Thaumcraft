@@ -20,7 +20,7 @@ public class AspectIngredientRenderer implements IIngredientRenderer<AspectList>
     @Override
     public List<Component> getTooltip(AspectList ingredient, TooltipFlag tooltipFlag) {
         List<Component> tooltip = new ArrayList<>();
-        tooltip.add(Component.literal(ingredient.aspectsPresent().get(0).location().toLanguageKey()));
+        tooltip.add(Component.translatable(ingredient.aspectsPresent().get(0).location().toLanguageKey("aspect")));
         return tooltip;
     }
 }
