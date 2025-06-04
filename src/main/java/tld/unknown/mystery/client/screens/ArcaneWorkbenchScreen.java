@@ -3,7 +3,10 @@ package tld.unknown.mystery.client.screens;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
+import net.minecraft.client.gui.screens.inventory.AbstractRecipeBookScreen;
+import net.minecraft.client.gui.screens.inventory.CraftingScreen;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextColor;
@@ -36,22 +39,18 @@ public class ArcaneWorkbenchScreen extends AbstractContainerScreen<ArcaneWorkben
 
     @Override
     public void render(GuiGraphics graphics, int pMouseX, int pMouseY, float pPartialTick) {
-        renderBackground(graphics, pMouseX, pMouseY, pPartialTick);
-        RenderSystem.enableBlend();
-        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-        RenderSystem.setShaderTexture(0, TEXTURE);
         PoseStack pPoseStack = graphics.pose();
-       BitPacker.readFlags(menu.getData().get(ArcaneWorkbenchMenu.DATA_ACTIVE_CRYSTALS), Aspect.Primal.class, BitPacker.Length.BYTE).forEach(p -> {
+        BitPacker.readFlags(menu.getData().get(ArcaneWorkbenchMenu.DATA_ACTIVE_CRYSTALS), Aspect.Primal.class, BitPacker.Length.BYTE).forEach(p -> {
             pPoseStack.pushPose();
             Vec2 pos = RADIAL_POS.get(p.ordinal());
             pPoseStack.scale(.5F, .5F, 1);
-            graphics.blit(RenderType::guiTextured, TEXTURE, (int)pos.x, (int)pos.y, 256 - 64, 0, 64, 64, 256, 256);
+            graphics.blit(RenderType::guiTextured, TEXTURE, (int) pos.x, (int) pos.y, 256 - 64, 0, 64, 64, 256, 256);
             pPoseStack.popPose();
         });
         RenderSystem.disableBlend();
 
         int requiredVis = menu.getData().get(ArcaneWorkbenchMenu.DATA_REQUIRED_VIS);
-        if(requiredVis > -1) {
+        if (requiredVis > -1) {
             pPoseStack.pushPose();
             int xBase = (this.width - 190) / 2 + 168;
             int yBase = (this.height - 234) / 2 + 46;
@@ -61,10 +60,12 @@ public class ArcaneWorkbenchScreen extends AbstractContainerScreen<ArcaneWorkben
             pPoseStack.popPose();
         }
         super.render(graphics, pMouseX, pMouseY, pPartialTick);
+        this.renderTooltip(graphics, pMouseX, pMouseY);
     }
 
     @Override
-    protected void renderLabels(GuiGraphics p_281635_, int p_282681_, int p_283686_) { }
+    protected void renderLabels(GuiGraphics p_281635_, int p_282681_, int p_283686_) {
+    }
 
     @Override
     protected void renderBg(GuiGraphics graphics, float mouseX, int mouseY, int delta) {
@@ -72,5 +73,6 @@ public class ArcaneWorkbenchScreen extends AbstractContainerScreen<ArcaneWorkben
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
         graphics.blit(RenderType::guiTextured, TEXTURE, width / 2 - 95, height / 2 - 117, 0, 0, 192, 256, 256, 256);
         RenderSystem.disableBlend();
+
     }
 }

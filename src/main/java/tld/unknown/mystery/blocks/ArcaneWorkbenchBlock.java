@@ -19,6 +19,7 @@ import net.minecraft.world.phys.shapes.BooleanOp;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import tld.unknown.mystery.Thaumcraft;
 import tld.unknown.mystery.blocks.entities.ArcaneWorkbenchBlockEntity;
 import tld.unknown.mystery.menus.ArcaneWorkbenchMenu;
 import tld.unknown.mystery.registries.ConfigBlockEntities;
@@ -33,6 +34,7 @@ public class ArcaneWorkbenchBlock extends SimpleEntityBlock<ArcaneWorkbenchBlock
             Shapes.join(
                     Shapes.box(6, 2, 6, 8, 11, 8),
                     Shapes.box(0, 11, 0, 16, 16, 16), BooleanOp.AND), BooleanOp.OR);
+
     public ArcaneWorkbenchBlock(BlockBehaviour.Properties props) {
         super(SimpleBlockMaterials.wood(props), ConfigBlockEntities.ARCANE_WORKBENCH.entityTypeObject());
     }
@@ -58,6 +60,17 @@ public class ArcaneWorkbenchBlock extends SimpleEntityBlock<ArcaneWorkbenchBlock
 
     public MenuProvider getMenuProvider(BlockState pState, Level pLevel, BlockPos pPos) {
         return new SimpleMenuProvider((id, inv, player) -> new ArcaneWorkbenchMenu(id, inv, getEntity(pLevel, pPos).getInventory(), player, ContainerLevelAccess.create(pLevel, pPos)), CONTAINER_TITLE);
+    }
+
+    @Override
+    protected void onRemove(BlockState state, Level level, BlockPos pos, BlockState newState, boolean movedByPiston) {
+        if (state.getBlock() != newState.getBlock()) {
+            if (level.getBlockEntity(pos) instanceof ArcaneWorkbenchBlockEntity arcaneWorkbenchBlockEntity) {
+                arcaneWorkbenchBlockEntity.drops();
+                level.updateNeighbourForOutputSignal(pos, this);
+            }
+        }
+        super.onRemove(state, level, pos, newState, movedByPiston);
     }
 
     @Override

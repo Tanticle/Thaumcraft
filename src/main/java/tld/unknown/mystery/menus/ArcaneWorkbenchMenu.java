@@ -64,20 +64,20 @@ public class ArcaneWorkbenchMenu extends AbstractContainerMenu {
         this.data = new SimpleContainerData(3);
 
         populateCrystalSlots();
-        for(int y = 0; y < 3; ++y) {
-            for(int x = 0; x < 3; ++x) {
+        for (int y = 0; y < 3; ++y) {
+            for (int x = 0; x < 3; ++x) {
                 this.addSlot(new Slot(this.craftingSlots, (x + y * 3) + 6, 33 + x * 24, 6 + y * 24));
             }
         }
         this.addSlot(new ArcaneCraftingResultSlot(player, this.craftingSlots, this.resultSlots, 0, 153, 30));
 
-        for(int y = 0; y < 3; ++y) {
-            for(int x = 0; x < 9; ++x) {
+        for (int y = 0; y < 3; ++y) {
+            for (int x = 0; x < 9; ++x) {
                 this.addSlot(new Slot(playerInv, x + y * 9 + 9, 9 + x * 18, 117 + y * 18));
             }
         }
 
-        for(int i = 0; i < 9; ++i) {
+        for (int i = 0; i < 9; ++i) {
             this.addSlot(new Slot(playerInv, i, 9 + i * 18, 175));
         }
 
@@ -85,6 +85,7 @@ public class ArcaneWorkbenchMenu extends AbstractContainerMenu {
 
         slotsChanged(craftingSlots);
     }
+
 
     @Override
     public ItemStack quickMoveStack(Player pPlayer, int pIndex) {
@@ -138,16 +139,17 @@ public class ArcaneWorkbenchMenu extends AbstractContainerMenu {
     public void slotsChanged(Container pInventory) {
         this.access.execute((level, pos) -> {
             craftingComponentsUpdated(level, pos, this.player);
-            ((SimpleBlockEntity)level.getBlockEntity(pos)).sync();
+            ((SimpleBlockEntity) level.getBlockEntity(pos)).sync();
         });
     }
 
+
     private void craftingComponentsUpdated(Level pLevel, BlockPos pos, Player pPlayer) {
         if (!pLevel.isClientSide) {
-            ServerPlayer serverplayer = (ServerPlayer)pPlayer;
+            ServerPlayer serverplayer = (ServerPlayer) pPlayer;
             ItemStack result = ItemStack.EMPTY;
             IResearchCapability cap = player.getCapability(ConfigCapabilities.RESEARCH);
-            Optional<RecipeHolder<ArcaneCraftingRecipe>> optional = CraftingUtils.findArcaneCraftingRecipe((ServerLevel)pLevel, this.craftingSlots, cap);
+            Optional<RecipeHolder<ArcaneCraftingRecipe>> optional = CraftingUtils.findArcaneCraftingRecipe((ServerLevel) pLevel, this.craftingSlots, cap);
             if (optional.isPresent()) {
                 RecipeHolder<ArcaneCraftingRecipe> recipe = optional.get();
                 data.set(DATA_ACTIVE_CRYSTALS, BitPacker.encodeFlags(recipe.value().getCrystals().keySet(), BitPacker.Length.BYTE));

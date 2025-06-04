@@ -5,6 +5,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
+import net.minecraft.world.Containers;
 import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.level.block.state.BlockState;
 import tld.unknown.mystery.menus.ArcaneWorkbenchMenu;
@@ -29,5 +30,9 @@ public class ArcaneWorkbenchBlockEntity extends SimpleBlockEntity {
     @Override
     protected void writeNbt(CompoundTag nbt, HolderLookup.Provider pRegistries) {
         nbt.put("Contents", inventory.createTag(pRegistries));
+    }
+
+    public void drops() {
+        Containers.dropContents(this.level, this.worldPosition, inventory);
     }
 }
