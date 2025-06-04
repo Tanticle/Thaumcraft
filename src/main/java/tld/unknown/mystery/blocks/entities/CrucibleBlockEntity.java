@@ -1,10 +1,12 @@
 package tld.unknown.mystery.blocks.entities;
 
 import lombok.Getter;
+import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -33,6 +35,7 @@ import tld.unknown.mystery.util.simple.SimpleBlockEntity;
 import tld.unknown.mystery.util.simple.TickableBlockEntity;
 
 import java.util.Optional;
+import java.util.logging.LogManager;
 
 //TODO: Visuals and Sound
 public class CrucibleBlockEntity extends SimpleBlockEntity implements IFluidHandler, TickableBlockEntity {
@@ -62,21 +65,21 @@ public class CrucibleBlockEntity extends SimpleBlockEntity implements IFluidHand
     @Override
     public void onServerTick() {
         int prevHeat = this.heat;
-        if(!FluidHelper.isTankEmpty(this) ) {
-            if(level.getBlockState(this.getBlockPos().below()).getTags().anyMatch(tag -> tag == ThaumcraftData.Tags.CRUCIBLE_HEATER)) {
+        if (!FluidHelper.isTankEmpty(this)) {
+            if (level.getBlockState(this.getBlockPos().below()).getTags().anyMatch(tag -> tag == ThaumcraftData.Tags.CRUCIBLE_HEATER)) {
                 this.heat += this.heat < HEAT_MAX ? 1 : 0;
-                if(prevHeat < HEAT_THRESHOLD && this.heat >= HEAT_THRESHOLD) {
+                if (prevHeat < HEAT_THRESHOLD && this.heat >= HEAT_THRESHOLD) {
                     this.sync();
                 }
-            } else if(this.heat > 0) {
+            } else if (this.heat > 0) {
                 this.heat--;
-                if(this.heat < HEAT_THRESHOLD) {
+                if (this.heat < HEAT_THRESHOLD) {
                     this.sync();
                 }
             }
-        } else if(this.heat > 0) {
+        } else if (this.heat > 0) {
             this.heat--;
-            if(this.heat < HEAT_THRESHOLD) {
+            if (this.heat < HEAT_THRESHOLD) {
                 this.sync();
             }
         }
@@ -93,12 +96,12 @@ public class CrucibleBlockEntity extends SimpleBlockEntity implements IFluidHand
     protected void writeNbt(CompoundTag nbt, HolderLookup.Provider pRegistries) {
         nbt.put("aspects", aspects.serializeNBT(pRegistries));
         nbt.put("water", waterTank.writeToNBT(pRegistries, new CompoundTag()));
-        nbt.putShort("heat", (short)heat);
+        nbt.putShort("heat", (short) heat);
     }
 
     // TODO: Flux Pollution
     public void emptyCrucible() {
-        if(!FluidHelper.isTankEmpty(this)) {
+        if (!FluidHelper.isTankEmpty(this)) {
             waterTank.setFluid(FluidStack.EMPTY);
             aspects.clear();
             float randomPitch = 1.0F + (getLevel().getRandom().nextFloat() - getLevel().getRandom().nextFloat()) * .3F;
@@ -110,10 +113,10 @@ public class CrucibleBlockEntity extends SimpleBlockEntity implements IFluidHand
     // TODO: Crafting Event
     public boolean processInput(ItemStack stack, Player player, RegistryAccess access, boolean wasClicked) {
         boolean crafted = false, consumed = false;
-        for(int i = 0; i < stack.getCount(); i++) {
+        for (int i = 0; i < stack.getCount(); i++) {
             IResearchCapability research = player != null ? player.getCapability(ConfigCapabilities.RESEARCH) : new ResearchAttachment();
-            Optional<RecipeHolder<AlchemyRecipe>> recipe = CraftingUtils.findAlchemyRecipe((ServerLevel)getLevel(), aspects, stack, research);
-            if(recipe.isPresent()) {
+            Optional<RecipeHolder<AlchemyRecipe>> recipe = CraftingUtils.findAlchemyRecipe((ServerLevel) getLevel(), aspects, stack, research);
+            if (recipe.isPresent()) {
                 RecipeHolder<AlchemyRecipe> r = recipe.get();
                 ItemStack result = r.value().result().copy();
                 this.aspects.remove(r.value().getAspects());
@@ -123,8 +126,8 @@ public class CrucibleBlockEntity extends SimpleBlockEntity implements IFluidHand
                 crafted = true;
             } else {
                 AspectList list = ConfigDataRegistries.ASPECT_REGISTRY.getAspects(stack);
-                if(!list.isEmpty()) {
-                    if(aspects.size() + list.size() > MAX_ESSENTIA) {
+                if (!list.isEmpty()) {
+                    if (aspects.size() + list.size() > MAX_ESSENTIA) {
                         aspects.merge(list.drain(MAX_ESSENTIA - aspects.size()));
                         //TODO Vent list as flux.
                         Thaumcraft.debug("Spilled %d as flux.", list.size());
@@ -132,17 +135,21 @@ public class CrucibleBlockEntity extends SimpleBlockEntity implements IFluidHand
                         aspects.merge(list);
                     }
 
-                    if(player == null || !player.isCreative() || !wasClicked) {
+                    if (player == null || !player.isCreative() || !wasClicked) {
+                        Thaumcraft.info(Integer.toString(stack.getCount()));
                         stack.shrink(1);
+                        consumed = true;
+                        //break out before we end up consuming half the player's stack. (bad!)
+                        break;
                     }
                     consumed = true;
                 }
             }
         }
 
-        if(crafted) {
+        if (crafted) {
             Thaumcraft.debug("Alchemy successful.");
-        } else if(consumed) {
+        } else if (consumed) {
             Thaumcraft.debug("Item melted down.");
         } else {
             Thaumcraft.debug("Unable to process Item.");
@@ -154,11 +161,11 @@ public class CrucibleBlockEntity extends SimpleBlockEntity implements IFluidHand
     }
 
     public float getFluidPercentage() {
-        return FluidHelper.isTankEmpty(this) ? 0 : (float)waterTank.getFluidAmount() / waterTank.getCapacity();
+        return FluidHelper.isTankEmpty(this) ? 0 : (float) waterTank.getFluidAmount() / waterTank.getCapacity();
     }
 
     public float getAspectPercentage() {
-        return aspects.isEmpty() ? 0 : (float)aspects.size() / MAX_ESSENTIA;
+        return aspects.isEmpty() ? 0 : (float) aspects.size() / MAX_ESSENTIA;
     }
 
     public boolean isCooking() {
@@ -167,9 +174,9 @@ public class CrucibleBlockEntity extends SimpleBlockEntity implements IFluidHand
 
     private void spitItem(ItemStack items) {
         boolean repeatDrop = false;
-        while(!items.isEmpty()) {
+        while (!items.isEmpty()) {
             ItemStack copy = items.copy();
-            if(copy.getCount() > copy.getMaxStackSize())
+            if (copy.getCount() > copy.getMaxStackSize())
                 copy.setCount(copy.getMaxStackSize());
             items.shrink(copy.getCount());
             double hVel = repeatDrop ? (getLevel().getRandom().nextFloat() - getLevel().getRandom().nextFloat()) * .01F : 0F;
@@ -208,19 +215,19 @@ public class CrucibleBlockEntity extends SimpleBlockEntity implements IFluidHand
     }
 
     @Override
-    public int fill(FluidStack resource, IFluidHandler.FluidAction action) {
+    public int fill(FluidStack resource, FluidAction action) {
         setChanged();
         return waterTank.fill(resource, action);
     }
 
     @Override
-    public @NotNull FluidStack drain(int maxDrain, IFluidHandler.FluidAction action) {
+    public @NotNull FluidStack drain(int maxDrain, FluidAction action) {
         setChanged();
         return waterTank.drain(maxDrain, action);
     }
 
     @Override
-    public @NotNull FluidStack drain(FluidStack resource, IFluidHandler.FluidAction action) {
+    public @NotNull FluidStack drain(FluidStack resource, FluidAction action) {
         setChanged();
         return waterTank.drain(resource, action);
     }
