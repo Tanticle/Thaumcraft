@@ -36,10 +36,6 @@ public class AspectRegistryProvider extends JsonCodecProvider<AspectList> {
     }
 
     private void vanilla() {
-        BuiltInRegistries.ITEM.stream().forEach(i -> {
-            item(new AspectList(Aspects.CHAOS, 420), i);
-        });
-
         bothTag(Tags.Blocks.STORAGE_BLOCKS_REDSTONE, new AspectList().add(Aspects.ORDER, 1).add(Aspects.CHAOS, 1).add(Aspects.AIR, 1).add(Aspects.WATER, 1).add(Aspects.FIRE, 1).add(Aspects.EARTH, 1));
         //------------------------------------------------------[BLOCKS]------------------------------------------------------------------------
         //STONES
