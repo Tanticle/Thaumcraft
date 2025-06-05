@@ -13,6 +13,9 @@ import tld.unknown.mystery.integrations.jei.AspectFromItemStack;
 import tld.unknown.mystery.integrations.jei.ThaumcraftJEIPlugin;
 
 public class AspectFromItemStackCategory implements IRecipeCategory<AspectFromItemStack> {
+    public static final int ROWS = 7;
+    public static final int COLUMNS = 14;
+
     private IDrawable icon;
 
     public AspectFromItemStackCategory(IDrawable icon) {
@@ -41,19 +44,24 @@ public class AspectFromItemStackCategory implements IRecipeCategory<AspectFromIt
 
     @Override
     public int getHeight() {
-        return 256;
+        return 128;
     }
 
     @Override
     public void setRecipe(IRecipeLayoutBuilder builder, AspectFromItemStack recipe, IFocusGroup focuses) {
         var i = 0;
         for (var item : recipe.items) {
-            var row = i / 14;
-            var col = i % 14;
+            var row = i / COLUMNS;
+            var col = i % COLUMNS;
             builder.addInputSlot().add(VanillaTypes.ITEM_STACK, item).setPosition(col * (16 + 2), row * (16 + 2));
             i++;
         }
 
         builder.addOutputSlot().add(ThaumcraftJEIPlugin.ASPECT_LIST, new AspectList(recipe.aspect, 1)).setPosition(0, -22);
+    }
+
+    @Override
+    public boolean needsRecipeBorder() {
+        return false;
     }
 }

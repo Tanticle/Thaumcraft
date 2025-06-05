@@ -3,7 +3,6 @@ package tld.unknown.mystery.data.generator.providers;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.packs.PackType;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
@@ -37,6 +36,10 @@ public class AspectRegistryProvider extends JsonCodecProvider<AspectList> {
     }
 
     private void vanilla() {
+        BuiltInRegistries.ITEM.stream().forEach(i -> {
+            item(new AspectList(Aspects.CHAOS, 420), i);
+        });
+
         bothTag(Tags.Blocks.STORAGE_BLOCKS_REDSTONE, new AspectList().add(Aspects.ORDER, 1).add(Aspects.CHAOS, 1).add(Aspects.AIR, 1).add(Aspects.WATER, 1).add(Aspects.FIRE, 1).add(Aspects.EARTH, 1));
         //------------------------------------------------------[BLOCKS]------------------------------------------------------------------------
         //STONES
@@ -285,8 +288,6 @@ public class AspectRegistryProvider extends JsonCodecProvider<AspectList> {
         itemTag(ItemTags.PLANKS, new AspectList().add(Aspects.PLANT, 5).add(Aspects.CRAFT, 1));
 
 
-
-
         //PLANTS
         bothTag(Tags.Items.DYES, new AspectList().add(Aspects.SENSE, 5).add(Aspects.CHANGE, 5).add(Aspects.LIFE, 5));
         itemTag(ItemTags.COALS, new AspectList().add(Aspects.POWER, 10).add(Aspects.FIRE, 10));//SAND - LIKE
@@ -346,7 +347,7 @@ public class AspectRegistryProvider extends JsonCodecProvider<AspectList> {
 
     private void item(AspectList list, Item... item) {
         for (Item i : item) {
-            if(!BuiltInRegistries.ITEM.containsValue(i))
+            if (!BuiltInRegistries.ITEM.containsValue(i))
                 continue;
             ResourceLocation itemId = BuiltInRegistries.ITEM.getKey(i);
             ResourceLocation loc = ResourceLocation.tryBuild(itemId.getNamespace(), "items/" + itemId.getPath());
@@ -356,7 +357,7 @@ public class AspectRegistryProvider extends JsonCodecProvider<AspectList> {
 
     private void block(AspectList list, Block... blocks) {
         for (Block b : blocks) {
-            if(!BuiltInRegistries.BLOCK.containsValue(b))
+            if (!BuiltInRegistries.BLOCK.containsValue(b))
                 continue;
             ResourceLocation blockID = BuiltInRegistries.BLOCK.getKey(b);
             ResourceLocation loc = ResourceLocation.tryBuild(blockID.getNamespace(), "blocks/" + blockID.getPath());
