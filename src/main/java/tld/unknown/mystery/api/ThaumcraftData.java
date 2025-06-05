@@ -1,13 +1,14 @@
 package tld.unknown.mystery.api;
 
 import net.minecraft.core.Registry;
-import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.item.crafting.Recipe;
+import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.item.equipment.EquipmentAsset;
 import net.minecraft.world.item.equipment.EquipmentAssets;
 import net.minecraft.world.level.block.Block;
@@ -15,6 +16,7 @@ import tld.unknown.mystery.Thaumcraft;
 import tld.unknown.mystery.api.aspects.Aspect;
 import tld.unknown.mystery.data.aspects.AspectList;
 import tld.unknown.mystery.data.aura.AuraBiomeInfo;
+import tld.unknown.mystery.data.recipes.ArcaneCraftingRecipe;
 import tld.unknown.mystery.data.research.ResearchCategory;
 import tld.unknown.mystery.data.research.ResearchEntry;
 
@@ -27,6 +29,8 @@ public final class ThaumcraftData {
         public static final ResourceKey<Registry<AuraBiomeInfo>> AURA_BIOME_INFO = ResourceKey.createRegistryKey(Thaumcraft.id("aura_biome_info"));
         public static final ResourceKey<Registry<ResearchCategory>> RESEARCH_CATEGORY = ResourceKey.createRegistryKey(Thaumcraft.id("research_categories"));
         public static final ResourceKey<Registry<ResearchEntry>> RESEARCH_ENTRY = ResourceKey.createRegistryKey(Thaumcraft.id("research_entries"));
+
+        public static final ResourceKey<Registry<ArcaneCraftingRecipe>> ARCANE_CRAFTING_RECIPE_TYPE = ResourceKey.createRegistryKey(Thaumcraft.id("arcane_crafting"));
     }
 
     public static final class TintSources {
@@ -42,12 +46,27 @@ public final class ThaumcraftData {
         public static final ResourceLocation UNKNOWN = Thaumcraft.id("textures/unknown.png");
     }
 
+
     public static final class Recipes {
 
-        public static final ResourceLocation TYPE_ALCHEMY = Thaumcraft.id("alchemy");
+        public static final class Types {
 
-        public static final ResourceLocation TYPE_ARCANE_CRAFTING = Thaumcraft.id("arcane_crafting");
-        public static final ResourceLocation ALCHEMY_DOUBLE_SLIME = Thaumcraft.id("double_slime");
+            public static final ResourceKey<RecipeType<?>> ARCANE_CRAFTING = key("arcane_crafting");
+            public static final ResourceKey<RecipeType<?>> ALCHEMY = key("alchemy");
+
+            private static <T extends Recipe<?>> ResourceKey<RecipeType<?>> key(String id) {
+                return ResourceKey.create(net.minecraft.core.registries.Registries.RECIPE_TYPE, Thaumcraft.id(id));
+            }
+        }
+
+        public static final class ArcaneCrafting {
+
+            public static final ResourceKey<Recipe<?>> DEBUG = key("debug");
+
+            private static ResourceKey<Recipe<?>> key(String id) {
+                return ResourceKey.create(net.minecraft.core.registries.Registries.RECIPE, Thaumcraft.id(id));
+            }
+        }
     }
 
 

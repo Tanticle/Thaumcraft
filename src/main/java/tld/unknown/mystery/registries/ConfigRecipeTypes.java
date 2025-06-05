@@ -2,7 +2,7 @@ package tld.unknown.mystery.registries;
 
 import lombok.RequiredArgsConstructor;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
@@ -23,8 +23,8 @@ public final class ConfigRecipeTypes {
 
     /* -------------------------------------------------------------------------------------------------------------- */
 
-    public static final RecipeObject<AlchemyRecipe> ALCHEMY = register(ThaumcraftData.Recipes.TYPE_ALCHEMY, () -> new CodecRecipeSerializer<>(AlchemyRecipe.CODEC, AlchemyRecipe.STREAM_CODEC));
-    public static final RecipeObject<ArcaneCraftingRecipe> ARCANE_CRAFTING = register(ThaumcraftData.Recipes.TYPE_ARCANE_CRAFTING, () -> new CodecRecipeSerializer<>(ArcaneCraftingRecipe.CODEC, ArcaneCraftingRecipe.STREAM_CODEC));
+    public static final RecipeObject<AlchemyRecipe> ALCHEMY = register(ThaumcraftData.Recipes.Types.ALCHEMY, () -> new CodecRecipeSerializer<>(AlchemyRecipe.CODEC, AlchemyRecipe.STREAM_CODEC));
+    public static final RecipeObject<ArcaneCraftingRecipe> ARCANE_CRAFTING = register(ThaumcraftData.Recipes.Types.ARCANE_CRAFTING, () -> new CodecRecipeSerializer<>(ArcaneCraftingRecipe.CODEC, ArcaneCraftingRecipe.STREAM_CODEC));
 
     /* -------------------------------------------------------------------------------------------------------------- */
 
@@ -33,9 +33,9 @@ public final class ConfigRecipeTypes {
         REGISTRY_SERIALIZER.register(bus);
     }
 
-    private static <T extends Recipe<?>> RecipeObject<T> register(ResourceLocation location, Supplier<RecipeSerializer<T>> serializer) {
-        Supplier<RecipeType<T>> type = REGISTRY_TYPE.register(location.getPath(), () -> RecipeType.simple(location));
-        Supplier<RecipeSerializer<T>> serial = REGISTRY_SERIALIZER.register(location.getPath(), serializer);
+    private static <T extends Recipe<?>> RecipeObject<T> register(ResourceKey<RecipeType<?>> key, Supplier<RecipeSerializer<T>> serializer) {
+        Supplier<RecipeType<T>> type = REGISTRY_TYPE.register(key.location().getPath(), () -> RecipeType.simple(key.location()));
+        Supplier<RecipeSerializer<T>> serial = REGISTRY_SERIALIZER.register(key.location().getPath(), serializer);
         return new RecipeObject<>(type, serial);
     }
 

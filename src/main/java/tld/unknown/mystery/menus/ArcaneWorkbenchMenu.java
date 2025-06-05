@@ -20,6 +20,7 @@ import tld.unknown.mystery.data.recipes.ArcaneCraftingRecipe;
 import tld.unknown.mystery.registries.ConfigCapabilities;
 import tld.unknown.mystery.registries.ConfigMenus;
 import tld.unknown.mystery.util.BitPacker;
+import tld.unknown.mystery.util.ContainerRecipeInput;
 import tld.unknown.mystery.util.CraftingUtils;
 import tld.unknown.mystery.util.PredicateSlot;
 import tld.unknown.mystery.util.better.ArcaneCraftingResultSlot;
@@ -147,13 +148,13 @@ public class ArcaneWorkbenchMenu extends AbstractContainerMenu {
             ServerPlayer serverplayer = (ServerPlayer)pPlayer;
             ItemStack result = ItemStack.EMPTY;
             IResearchCapability cap = player.getCapability(ConfigCapabilities.RESEARCH);
-            Optional<RecipeHolder<ArcaneCraftingRecipe>> optional = CraftingUtils.findArcaneCraftingRecipe((ServerLevel)pLevel, this.craftingSlots, cap);
+            Optional<RecipeHolder<ArcaneCraftingRecipe>> optional = CraftingUtils.findArcaneCraftingRecipe((ServerLevel)pLevel, new ContainerRecipeInput(this.craftingSlots), cap);
             if (optional.isPresent()) {
                 RecipeHolder<ArcaneCraftingRecipe> recipe = optional.get();
-                data.set(DATA_ACTIVE_CRYSTALS, BitPacker.encodeFlags(recipe.value().getCrystals().keySet(), BitPacker.Length.BYTE));
-                data.set(DATA_REQUIRED_VIS, recipe.value().getVisAmount());
+                data.set(DATA_ACTIVE_CRYSTALS, BitPacker.encodeFlags(recipe.value().crystals().keySet(), BitPacker.Length.BYTE));
+                data.set(DATA_REQUIRED_VIS, recipe.value().visAmount());
                 if (this.resultSlots.setRecipeUsed(serverplayer, recipe)) {
-                    result = recipe.value().getResult();
+                    result = recipe.value().result();
                 }
             } else {
                 data.set(DATA_ACTIVE_CRYSTALS, 0);

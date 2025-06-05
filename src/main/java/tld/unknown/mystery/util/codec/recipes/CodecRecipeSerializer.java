@@ -6,10 +6,11 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
-import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.Recipe;
+import net.minecraft.world.item.crafting.RecipeInput;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import tld.unknown.mystery.util.codec.Codecs;
 
@@ -17,12 +18,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public record CodecRecipeSerializer<T extends CodecRecipe<?>>(MapCodec<T> codec,
-                                                              StreamCodec<RegistryFriendlyByteBuf, T> streamCodec) implements RecipeSerializer<T> {
+public record CodecRecipeSerializer<T extends Recipe<?>>(
+        MapCodec<T> codec,
+        StreamCodec<RegistryFriendlyByteBuf, T> streamCodec
+) implements RecipeSerializer<T> {
 
     public record CraftingGrid(int width, int height, List<String> pattern, Map<Character, Ingredient> keys) {
 
-        public boolean verify(SimpleContainer container, int offset) {
+        public boolean verify(RecipeInput container, int offset) {
             for (int y = 0; y < height; y++) {
                 for (int x = 0; x < width; x++) {
                     ItemStack stack = container.getItem(x + y * width + offset);

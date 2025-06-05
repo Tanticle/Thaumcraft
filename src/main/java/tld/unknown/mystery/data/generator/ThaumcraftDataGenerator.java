@@ -8,8 +8,8 @@ import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.data.event.GatherDataEvent;
 import tld.unknown.mystery.Thaumcraft;
 import tld.unknown.mystery.data.generator.providers.*;
-import tld.unknown.mystery.data.generator.providers.recipes.AlchemyRecipeProvider;
-import tld.unknown.mystery.data.generator.providers.recipes.ArcaneCraftingRecipeProvider;
+import tld.unknown.mystery.data.generator.providers.recipes.AlchemyProvider;
+import tld.unknown.mystery.data.generator.providers.recipes.ArcaneCraftingProvider;
 
 @EventBusSubscriber(modid = Thaumcraft.MOD_ID, bus = EventBusSubscriber.Bus.MOD)
 public final class ThaumcraftDataGenerator {
@@ -24,8 +24,8 @@ public final class ThaumcraftDataGenerator {
         dataGen.addProvider(true, new AspectRegistryProvider(e));
         dataGen.addProvider(true, new AuraBiomeProvider(builder).build(e));
 
-        dataGen.addProvider(true, (DataProvider.Factory<DataProvider>) AlchemyRecipeProvider::new);
-        dataGen.addProvider(true, (DataProvider.Factory<DataProvider>) ArcaneCraftingRecipeProvider::new);
+        dataGen.addProvider(true, (DataProvider.Factory<DataProvider>) ArcaneCraftingProvider::new);
+        dataGen.addProvider(true, (DataProvider.Factory<DataProvider>) AlchemyProvider::new);
 
         dataGen.addProvider(true, new BlockDataProvider(dataGen.getPackOutput()));
         dataGen.addProvider(true, new ItemModelProvider(dataGen.getPackOutput()));

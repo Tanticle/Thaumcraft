@@ -15,19 +15,19 @@ import net.minecraft.resources.RegistryFileCodec;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.StringRepresentable;
-import org.apache.commons.compress.utils.Lists;
 import tld.unknown.mystery.api.ThaumcraftData;
 import tld.unknown.mystery.data.aspects.PrimalAspects;
 import tld.unknown.mystery.registries.ConfigDataRegistries;
 import tld.unknown.mystery.util.Colour;
 import tld.unknown.mystery.util.FallbackHolder;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @AllArgsConstructor
 public class Aspect {
 
-    public static final Aspect UNKNOWN = new Aspect(Colour.fromInteger(0xFFFFFF, false), Lists.newArrayList());
+    public static final Aspect UNKNOWN = new Aspect(Colour.fromInteger(0xFFFFFF, false), new ArrayList<>());
     public static final Holder<Aspect> UNKNOWN_HOLDER = new FallbackHolder<>(ThaumcraftData.Aspects.UNKNOWN, UNKNOWN);
 
     private final Colour colour;
@@ -58,7 +58,7 @@ public class Aspect {
 
     public static final MapCodec<Aspect> CODEC = RecordCodecBuilder.mapCodec(i -> i.group(
             Colour.CODEC.fieldOf("colour").forGetter(Aspect::colour),
-            ResourceKey.codec(ThaumcraftData.Registries.ASPECT).listOf().optionalFieldOf("origin", Lists.newArrayList()).forGetter(Aspect::components)).apply(i, Aspect::new));
+            ResourceKey.codec(ThaumcraftData.Registries.ASPECT).listOf().optionalFieldOf("origin", new ArrayList<>()).forGetter(Aspect::components)).apply(i, Aspect::new));
     public static final RegistryFileCodec<Aspect> REGISTRY_CODEC = RegistryFileCodec.create(ThaumcraftData.Registries.ASPECT, CODEC.codec());
 
     public static final StreamCodec<RegistryFriendlyByteBuf, Aspect> STREAM_CODEC = StreamCodec.composite(

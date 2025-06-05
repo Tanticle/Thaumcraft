@@ -14,18 +14,18 @@ import tld.unknown.mystery.util.codec.data.CodecDataProvider;
 
 import static tld.unknown.mystery.api.ThaumcraftData.Recipes;
 
-public class AlchemyRecipeProvider extends CodecDataProvider<AlchemyRecipe> {
+public class AlchemyProvider extends CodecDataProvider<AlchemyRecipe> {
 
-    public AlchemyRecipeProvider(PackOutput generator) {
+    public AlchemyProvider(PackOutput generator) {
         super(generator, "AlchemyRecipes", "recipes/alchemy", AlchemyRecipe.CODEC);
     }
 
     @Override
     protected void createEntries() {
-        recipe(Recipes.ALCHEMY_DOUBLE_SLIME,
+        /*recipe(Recipes.ALCHEMY_DOUBLE_SLIME,
                 Ingredient.of(Items.SLIME_BALL),
                 new AspectList().add(ThaumcraftData.Aspects.WATER, 5).add(ThaumcraftData.Aspects.LIFE, 5).add(ThaumcraftData.Aspects.ALCHEMY, 1),
-                new ItemStack(Items.SLIME_BALL, 2));
+                new ItemStack(Items.SLIME_BALL, 2));*/
 
         recipe(Thaumcraft.id("debug"),
                 Ingredient.of(Items.STICK),
@@ -35,7 +35,7 @@ public class AlchemyRecipeProvider extends CodecDataProvider<AlchemyRecipe> {
 
     @Override
     protected void processJson(JsonElement element) {
-        element.getAsJsonObject().addProperty("type", Recipes.TYPE_ALCHEMY.toString());
+        element.getAsJsonObject().addProperty("type", Recipes.Types.ALCHEMY.toString());
     }
 
     private void recipe(ResourceLocation id, Ingredient catalyst, AspectList aspects, ItemStack result) {
