@@ -36,12 +36,17 @@ public class AspectList implements INBTSerializable<CompoundTag> {
         this.aspects = aspects;
     }
 
+    public AspectList(ResourceKey<Aspect> aspect, int amount) {
+        this();
+        add(aspect, amount);
+    }
+
     public AspectList add(Holder<Aspect> holder, int amount) {
         return add(RegistryUtils.getKey(holder), amount);
     }
 
     public AspectList add(ResourceKey<Aspect> aspect, int amount) {
-        aspects.compute(aspect, (rl, a) -> a == null ? (short)amount : (short)(amount + a));
+        aspects.compute(aspect, (rl, a) -> a == null ? (short) amount : (short) (amount + a));
         return this;
     }
 
@@ -56,24 +61,24 @@ public class AspectList implements INBTSerializable<CompoundTag> {
     }
 
     public AspectList remove(ResourceKey<Aspect> aspect, int amount) {
-        aspects.computeIfPresent(aspect, (rl, a) -> a <= amount ? null : (short)(a - amount));
+        aspects.computeIfPresent(aspect, (rl, a) -> a <= amount ? null : (short) (a - amount));
         return this;
     }
 
     public AspectList drain(int amount) {
-        if(size() <= amount) {
+        if (size() <= amount) {
             AspectList copy = this.clone();
             clear();
             return copy;
-        } else if(amount <= 0) {
+        } else if (amount <= 0) {
             return new AspectList();
         } else {
             int total = 0;
             List<ResourceKey<Aspect>> aspects = Lists.newArrayList();
             ResourceKey<Aspect> leftOver = null;
             int leftOverAmount = 0;
-            for(Map.Entry<ResourceKey<Aspect>, Short> e : entrySet()) {
-                if(total + e.getValue() <= amount) {
+            for (Map.Entry<ResourceKey<Aspect>, Short> e : entrySet()) {
+                if (total + e.getValue() <= amount) {
                     aspects.add(e.getKey());
                     total += e.getValue();
                 } else {
@@ -88,7 +93,7 @@ public class AspectList implements INBTSerializable<CompoundTag> {
                 remove(a);
             });
 
-            if(leftOver != null && leftOverAmount != 0) {
+            if (leftOver != null && leftOverAmount != 0) {
                 returnVal.add(leftOver, leftOverAmount);
                 remove(leftOver, leftOverAmount);
             }
@@ -98,8 +103,8 @@ public class AspectList implements INBTSerializable<CompoundTag> {
     }
 
     public boolean contains(AspectList list) {
-        for(Map.Entry<ResourceKey<Aspect>, Short> entry : list.entrySet()) {
-            if(!contains(entry.getKey(), entry.getValue())) {
+        for (Map.Entry<ResourceKey<Aspect>, Short> entry : list.entrySet()) {
+            if (!contains(entry.getKey(), entry.getValue())) {
                 return false;
             }
         }
@@ -107,7 +112,7 @@ public class AspectList implements INBTSerializable<CompoundTag> {
     }
 
     public short getAspect(ResourceKey<Aspect> key) {
-        return aspects.getOrDefault(key, (short)0);
+        return aspects.getOrDefault(key, (short) 0);
     }
 
     public List<ResourceKey<Aspect>> aspectsPresent() {
@@ -124,21 +129,21 @@ public class AspectList implements INBTSerializable<CompoundTag> {
 
     public void merge(AspectList list) {
         list.indexedForEach((aspect, amount, i) -> {
-            aspects.computeIfPresent(aspect, (rl, a) -> (short)(a + amount));
+            aspects.computeIfPresent(aspect, (rl, a) -> (short) (a + amount));
             aspects.putIfAbsent(aspect, amount);
         });
     }
 
     public int size() {
         int amount = 0;
-        for(short s : aspects.values()) {
+        for (short s : aspects.values()) {
             amount += s;
         }
         return amount;
     }
 
     public int amount(ResourceKey<Aspect> loc) {
-        return aspects.getOrDefault(loc, (short)0);
+        return aspects.getOrDefault(loc, (short) 0);
     }
 
     public int aspectCount() {
@@ -159,7 +164,7 @@ public class AspectList implements INBTSerializable<CompoundTag> {
 
     public void indexedForEach(TriConsumer<ResourceKey<Aspect>, Short, Integer> consumer) {
         int i = 0;
-        for(Map.Entry<ResourceKey<Aspect>, Short> entry : aspects.entrySet()) {
+        for (Map.Entry<ResourceKey<Aspect>, Short> entry : aspects.entrySet()) {
             consumer.accept(entry.getKey(), entry.getValue(), i++);
         }
     }
@@ -173,7 +178,7 @@ public class AspectList implements INBTSerializable<CompoundTag> {
         StringBuilder builder = new StringBuilder("AspectList[");
         indexedForEach((rl, a, i) -> {
             builder.append(rl).append(" ").append(a);
-            if(i != aspects.size() - 1) {
+            if (i != aspects.size() - 1) {
                 builder.append(" | ");
             }
         });

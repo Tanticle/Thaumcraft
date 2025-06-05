@@ -118,5 +118,7 @@
   "misc.thaumcraft.tooltip.aspect_simple": "%s",
   "misc.thaumcraft.tooltip.aspect_complex": "%dx %s",
 
-  "network.thaumcraft.aspect_registry_disconnect": "Unable to synchronize Aspect Registry! Check the log for more information."
+  "network.thaumcraft.aspect_registry_disconnect": "Unable to synchronize Aspect Registry! Check the log for more information.",
+
+  "thaumcraft.jei.category.aspect_from_item_stack": "Aspect from Item Stack"
 }
