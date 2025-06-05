@@ -29,4 +29,13 @@ public class AspectFromItemStack {
         // Sort by aspect count descending
         this.items.sort((a, b) -> Integer.compare(b.getCount(), a.getCount()));
     }
+
+    public List<AspectFromItemStack> split(int max) {
+        List<AspectFromItemStack> result = new ArrayList<>();
+        for (int i = 0; i < items.size(); i += max) {
+            int end = Math.min(i + max, items.size());
+            result.add(new AspectFromItemStack(items.subList(i, end), aspect));
+        }
+        return result;
+    }
 }

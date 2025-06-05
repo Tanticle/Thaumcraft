@@ -58,7 +58,7 @@ public class ThaumcraftJEIPlugin implements IModPlugin {
         ConfigDataRegistries.ASPECTS.keys(Minecraft.getInstance().getConnection().registryAccess()).forEach(aspect -> {
             var recipe = new AspectFromItemStack(items, aspect);
             if (!recipe.items.isEmpty()) {
-                recipes.add(recipe);
+                recipes.addAll(recipe.split(14 * 14));
             }
         });
 
