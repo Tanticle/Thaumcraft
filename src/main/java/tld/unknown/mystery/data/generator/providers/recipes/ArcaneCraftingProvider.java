@@ -15,7 +15,7 @@ import java.util.Map;
 public class ArcaneCraftingProvider extends CodecDataProvider<ArcaneCraftingRecipe> {
 
     public ArcaneCraftingProvider(PackOutput output) {
-        super(output, "Arcane Crafting Recipes", "recipes/arcane_crafting", ArcaneCraftingRecipe.CODEC);
+        super(output, "Arcane Crafting Recipes", "recipe/arcane_crafting", ArcaneCraftingRecipe.CODEC);
     }
 
     @Override
