@@ -80,5 +80,9 @@ public class Aspect {
         public String getSerializedName() {
             return id.location().getPath();
         }
+
+        public ResourceKey<Aspect> getId() {
+            return id;
+        }
     }
 }

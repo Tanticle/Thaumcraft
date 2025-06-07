@@ -62,6 +62,7 @@ public final class ThaumcraftData {
         public static final class ArcaneCrafting {
 
             public static final ResourceKey<Recipe<?>> DEBUG = key("debug");
+            public static final ResourceKey<Recipe<?>> TUBE = key("tube");
 
             private static ResourceKey<Recipe<?>> key(String id) {
                 return ResourceKey.create(net.minecraft.core.registries.Registries.RECIPE, Thaumcraft.id(id));
