@@ -17,7 +17,7 @@ import static tld.unknown.mystery.api.ThaumcraftData.Recipes;
 public class AlchemyProvider extends CodecDataProvider<AlchemyRecipe> {
 
     public AlchemyProvider(PackOutput generator) {
-        super(generator, "AlchemyRecipes", "recipes/alchemy", AlchemyRecipe.CODEC);
+        super(generator, "AlchemyRecipes", "recipe/alchemy", AlchemyRecipe.CODEC);
     }
 
     @Override
@@ -35,10 +35,10 @@ public class AlchemyProvider extends CodecDataProvider<AlchemyRecipe> {
 
     @Override
     protected void processJson(JsonElement element) {
-        element.getAsJsonObject().addProperty("type", Recipes.Types.ALCHEMY.toString());
+        element.getAsJsonObject().addProperty("type", Recipes.Types.ALCHEMY.location().toString());
     }
 
     private void recipe(ResourceLocation id, Ingredient catalyst, AspectList aspects, ItemStack result) {
-        //register(id, new AlchemyRecipe(catalyst, aspects, result));
+        register(id, new AlchemyRecipe(catalyst, aspects, result));
     }
 }

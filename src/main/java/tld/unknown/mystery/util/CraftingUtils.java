@@ -16,8 +16,9 @@ import java.util.Optional;
 public final class CraftingUtils {
 
     public static Optional<RecipeHolder<AlchemyRecipe>> findAlchemyRecipe(ServerLevel p, AspectList list, ItemStack stack, IResearchCapability research) {
+        AlchemyRecipe.Input input = new AlchemyRecipe.Input(research, stack, list);
         return p.recipeAccess().recipeMap().byType(ConfigRecipeTypes.ALCHEMY.type()).stream()
-                .filter(holder -> holder.value().isValid(list, stack, research))
+                .filter(holder -> holder.value().matches(input, p))
                 .findFirst();
     }
 

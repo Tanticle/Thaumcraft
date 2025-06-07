@@ -118,7 +118,7 @@ public class CrucibleBlockEntity extends SimpleBlockEntity implements IFluidHand
             Optional<RecipeHolder<AlchemyRecipe>> recipe = CraftingUtils.findAlchemyRecipe((ServerLevel) getLevel(), aspects, stack, research);
             if (recipe.isPresent()) {
                 RecipeHolder<AlchemyRecipe> r = recipe.get();
-                ItemStack result = r.value().result().copy();
+                ItemStack result = r.value().getResult().copy();
                 this.aspects.remove(r.value().getAspects());
                 drain(50, FluidAction.EXECUTE);
                 spitItem(result);
