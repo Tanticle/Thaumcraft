@@ -3,6 +3,7 @@ package tld.unknown.mystery.api.aspects;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.network.RegistryFriendlyByteBuf;
@@ -65,6 +66,7 @@ public class Aspect {
             Colour.STREAM_CODEC, Aspect::colour, ResourceKey.streamCodec(ThaumcraftData.Registries.ASPECT).apply(ByteBufCodecs.list()), Aspect::components, Aspect::new);
     public static final StreamCodec<RegistryFriendlyByteBuf, Holder<Aspect>> REGISTRY_STREAM_CODEC = ByteBufCodecs.holder(ThaumcraftData.Registries.ASPECT, STREAM_CODEC);
 
+    @Getter
     @AllArgsConstructor
     public enum Primal implements StringRepresentable {
         CHAOS(ThaumcraftData.Aspects.CHAOS),
@@ -79,10 +81,6 @@ public class Aspect {
         @Override
         public String getSerializedName() {
             return id.location().getPath();
-        }
-
-        public ResourceKey<Aspect> getId() {
-            return id;
         }
     }
 }
