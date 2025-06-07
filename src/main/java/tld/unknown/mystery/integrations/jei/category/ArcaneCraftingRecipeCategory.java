@@ -50,6 +50,13 @@ public class ArcaneCraftingRecipeCategory implements IRecipeCategory<ArcaneCraft
     @Override
     public void draw(ArcaneCraftingRecipe recipe, IRecipeSlotsView recipeSlotsView, GuiGraphics guiGraphics, double mouseX, double mouseY) {
         guiGraphics.blit(RenderType::guiTextured, BACKGROUND_TEXTURE, 0, 0, 0, 0, getWidth(), getHeight(), getWidth(), getHeight());
+
+        var pose = guiGraphics.pose();
+        pose.pushPose();
+        pose.translate(168, 94, 400);
+        pose.scale(.75F, .75F, 0);
+        guiGraphics.drawCenteredString(Minecraft.getInstance().font, String.format("%d vis", recipe.visAmount()), 0, 0, 0x6E6EEE);
+        pose.popPose();
     }
 
     @Override
