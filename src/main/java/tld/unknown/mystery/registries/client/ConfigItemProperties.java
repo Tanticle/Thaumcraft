@@ -2,7 +2,6 @@ package tld.unknown.mystery.registries.client;
 
 import com.mojang.datafixers.util.Pair;
 import com.mojang.serialization.MapCodec;
-import net.minecraft.client.renderer.item.properties.conditional.ConditionalItemModelProperty;
 import net.minecraft.resources.ResourceLocation;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
@@ -12,7 +11,6 @@ import net.neoforged.neoforge.client.event.RegisterConditionalItemModelPropertyE
 import tld.unknown.mystery.Thaumcraft;
 import tld.unknown.mystery.api.ThaumcraftData;
 import tld.unknown.mystery.items.ItemModelProperties;
-import tld.unknown.mystery.util.ReflectionUtils;
 
 @OnlyIn(Dist.CLIENT)
 @EventBusSubscriber(modid = Thaumcraft.MOD_ID, bus = EventBusSubscriber.Bus.MOD)

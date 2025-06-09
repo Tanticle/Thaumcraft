@@ -1,8 +1,5 @@
 package tld.unknown.mystery.util;
 
-import com.mojang.datafixers.util.Pair;
-import net.minecraft.resources.ResourceLocation;
-
 import java.lang.reflect.Modifier;
 import java.util.Arrays;
 import java.util.List;

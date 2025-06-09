@@ -1,17 +1,12 @@
 package tld.unknown.mystery.util.better;
 
-import net.minecraft.core.NonNullList;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.ResultContainer;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.CraftingInput;
-import tld.unknown.mystery.Thaumcraft;
-import tld.unknown.mystery.api.aspects.Aspect;
 import tld.unknown.mystery.data.recipes.ArcaneCraftingRecipe;
-import tld.unknown.mystery.registries.ConfigRecipeTypes;
 
 public class ArcaneCraftingResultSlot extends Slot {
 

@@ -1,6 +1,5 @@
 package tld.unknown.mystery.items;
 
-import net.minecraft.client.gui.screens.inventory.CraftingScreen;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.network.chat.Component;

@@ -5,10 +5,8 @@ import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
-import net.neoforged.neoforge.client.event.RenderLevelStageEvent;
 import tld.unknown.mystery.Thaumcraft;
 import tld.unknown.mystery.client.rendering.debug.TubeDebugRenderer;
-import tld.unknown.mystery.registries.client.ConfigItemProperties;
 
 @EventBusSubscriber(modid = Thaumcraft.MOD_ID, bus = EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
 public class ThaumcraftClient {

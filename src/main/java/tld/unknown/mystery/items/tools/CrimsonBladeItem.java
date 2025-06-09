@@ -13,9 +13,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.Level;
 import tld.unknown.mystery.api.ThaumcraftData;
-import tld.unknown.mystery.api.ThaumcraftMaterials;
 import tld.unknown.mystery.api.WarpingGear;
-import tld.unknown.mystery.registries.ConfigItems;
 
 import java.util.List;
 

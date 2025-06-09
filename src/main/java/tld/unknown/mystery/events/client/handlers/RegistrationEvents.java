@@ -13,7 +13,10 @@ import tld.unknown.mystery.client.rendering.ber.*;
 import tld.unknown.mystery.client.rendering.ui.AspectTooltip;
 import tld.unknown.mystery.client.screens.ArcaneWorkbenchScreen;
 import tld.unknown.mystery.client.tints.AspectItemTintSource;
-import tld.unknown.mystery.registries.*;
+import tld.unknown.mystery.registries.ConfigBlockEntities;
+import tld.unknown.mystery.registries.ConfigBlocks;
+import tld.unknown.mystery.registries.ConfigDataRegistries;
+import tld.unknown.mystery.registries.ConfigMenus;
 import tld.unknown.mystery.util.RegistryUtils;
 
 @EventBusSubscriber(modid = Thaumcraft.MOD_ID, value = Dist.CLIENT, bus = EventBusSubscriber.Bus.MOD)

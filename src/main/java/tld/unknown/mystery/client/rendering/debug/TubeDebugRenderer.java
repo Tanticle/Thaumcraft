@@ -1,6 +1,5 @@
 package tld.unknown.mystery.client.rendering.debug;
 
-import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Minecraft;
@@ -12,14 +11,9 @@ import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
-import tld.unknown.mystery.api.capabilities.IEssentiaCapability;
 import tld.unknown.mystery.blocks.alchemy.TubeBlock;
-import tld.unknown.mystery.blocks.entities.TubeBlockEntity;
-import tld.unknown.mystery.data.aspects.PrimalAspects;
-import tld.unknown.mystery.registries.ConfigCapabilities;
 import tld.unknown.mystery.util.MathUtils;
 
-import java.util.EnumMap;
 import java.util.Map;
 
 public class TubeDebugRenderer implements DebugRenderer.SimpleDebugRenderer {

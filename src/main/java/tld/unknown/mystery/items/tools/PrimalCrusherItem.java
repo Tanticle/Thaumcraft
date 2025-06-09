@@ -11,11 +11,9 @@ import net.minecraft.world.item.ToolMaterial;
 import net.minecraft.world.level.Level;
 import tld.unknown.mystery.api.InfusionEnchantments;
 import tld.unknown.mystery.api.ThaumcraftData;
-import tld.unknown.mystery.api.ThaumcraftMaterials;
 import tld.unknown.mystery.api.WarpingGear;
 import tld.unknown.mystery.items.components.InfusionEnchantmentComponent;
 import tld.unknown.mystery.registries.ConfigItemComponents;
-import tld.unknown.mystery.registries.ConfigItems;
 
 import java.util.Map;
 

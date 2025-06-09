@@ -4,18 +4,11 @@ import com.google.gson.JsonElement;
 import net.minecraft.data.PackOutput;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.item.crafting.Ingredient;
 import tld.unknown.mystery.api.ThaumcraftData;
-import tld.unknown.mystery.api.aspects.Aspect;
-import tld.unknown.mystery.data.recipes.ArcaneCraftingRecipe;
 import tld.unknown.mystery.data.recipes.InfusionRecipe;
-import tld.unknown.mystery.registries.ConfigBlocks;
 import tld.unknown.mystery.util.codec.data.CodecDataProvider;
-import tld.unknown.mystery.util.simple.SimpleDataProvider;
 
 import static tld.unknown.mystery.api.ThaumcraftData.Recipes.Infusion;
-
-import java.util.Map;
 
 public class InfusionProvider extends CodecDataProvider<InfusionRecipe> {
 

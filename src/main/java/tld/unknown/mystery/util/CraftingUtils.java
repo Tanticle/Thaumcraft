@@ -10,7 +10,6 @@ import tld.unknown.mystery.data.recipes.AlchemyRecipe;
 import tld.unknown.mystery.data.recipes.ArcaneCraftingRecipe;
 import tld.unknown.mystery.registries.ConfigRecipeTypes;
 
-import java.util.List;
 import java.util.Optional;
 
 public final class CraftingUtils {
