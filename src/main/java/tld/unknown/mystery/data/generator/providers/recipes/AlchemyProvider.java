@@ -27,7 +27,7 @@ public class AlchemyProvider extends CodecDataProvider<AlchemyRecipe> {
                 new AspectList().add(ThaumcraftData.Aspects.WATER, 5).add(ThaumcraftData.Aspects.LIFE, 5).add(ThaumcraftData.Aspects.ALCHEMY, 1),
                 new ItemStack(Items.SLIME_BALL, 2));*/
 
-        recipe(Thaumcraft.id("debug"),
+        recipe(Recipes.Alchemy.DEBUG.location(),
                 Ingredient.of(Items.STICK),
                 new AspectList().add(ThaumcraftData.Aspects.WATER, 5).add(ThaumcraftData.Aspects.EARTH, 5),
                 new ItemStack(Items.DIAMOND));
