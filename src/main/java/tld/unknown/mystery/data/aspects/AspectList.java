@@ -50,6 +50,11 @@ public class AspectList implements INBTSerializable<CompoundTag> {
         return this;
     }
 
+    public AspectList set(ResourceKey<Aspect> aspect, int amount) {
+        aspects.put(aspect, (short) amount);
+        return this;
+    }
+
     public AspectList remove(AspectList list) {
         list.indexedForEach((rl, s, i) -> remove(rl, s));
         return this;
