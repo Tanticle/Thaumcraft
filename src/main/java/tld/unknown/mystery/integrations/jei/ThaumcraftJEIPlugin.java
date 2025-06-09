@@ -5,15 +5,14 @@ import mezz.jei.api.JeiPlugin;
 import mezz.jei.api.constants.VanillaTypes;
 import mezz.jei.api.ingredients.IIngredientType;
 import mezz.jei.api.recipe.types.IRecipeType;
-import mezz.jei.api.registration.IModIngredientRegistration;
-import mezz.jei.api.registration.IRecipeCatalystRegistration;
-import mezz.jei.api.registration.IRecipeCategoryRegistration;
-import mezz.jei.api.registration.IRecipeRegistration;
+import mezz.jei.api.registration.*;
 import net.minecraft.client.Minecraft;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.player.Inventory;
 import net.neoforged.neoforge.server.ServerLifecycleHooks;
 import tld.unknown.mystery.Thaumcraft;
 import tld.unknown.mystery.api.ThaumcraftData;
+import tld.unknown.mystery.api.aspects.Aspect;
 import tld.unknown.mystery.data.aspects.AspectList;
 import tld.unknown.mystery.data.recipes.ArcaneCraftingRecipe;
 import tld.unknown.mystery.integrations.jei.aspect.AspectIngredientCodec;
@@ -21,6 +20,7 @@ import tld.unknown.mystery.integrations.jei.aspect.AspectIngredientHelper;
 import tld.unknown.mystery.integrations.jei.aspect.AspectIngredientRenderer;
 import tld.unknown.mystery.integrations.jei.category.ArcaneCraftingRecipeCategory;
 import tld.unknown.mystery.integrations.jei.category.AspectFromItemStackCategory;
+import tld.unknown.mystery.menus.ArcaneWorkbenchMenu;
 import tld.unknown.mystery.registries.ConfigBlocks;
 import tld.unknown.mystery.registries.ConfigDataRegistries;
 import tld.unknown.mystery.registries.ConfigItems;
@@ -86,5 +86,10 @@ public class ThaumcraftJEIPlugin implements IModPlugin {
     @Override
     public void registerRecipeCatalysts(IRecipeCatalystRegistration registration) {
         registration.addCraftingStation(ARCANE_RECIPE, ConfigBlocks.ARCANE_WORKBENCH.item());
+    }
+
+    @Override
+    public void registerRecipeTransferHandlers(IRecipeTransferRegistration registration) {
+        registration.addRecipeTransferHandler(ArcaneWorkbenchMenu.class, null, ARCANE_RECIPE, 0, Aspect.Primal.values().length + 3 * 3, ArcaneWorkbenchMenu.SLOT_GRID_START + 3 * 3, Inventory.INVENTORY_SIZE);
     }
 }

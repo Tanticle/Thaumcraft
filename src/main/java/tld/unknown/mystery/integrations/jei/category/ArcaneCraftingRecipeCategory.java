@@ -14,6 +14,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.crafting.Ingredient;
 import org.jetbrains.annotations.Nullable;
 import tld.unknown.mystery.Thaumcraft;
+import tld.unknown.mystery.api.aspects.Aspect;
 import tld.unknown.mystery.data.recipes.ArcaneCraftingRecipe;
 import tld.unknown.mystery.integrations.jei.ThaumcraftJEIPlugin;
 import tld.unknown.mystery.registries.ConfigDataRegistries;
@@ -61,23 +62,8 @@ public class ArcaneCraftingRecipeCategory implements IRecipeCategory<ArcaneCraft
 
     @Override
     public void setRecipe(IRecipeLayoutBuilder builder, ArcaneCraftingRecipe recipe, IFocusGroup focuses) {
-
-        var grid = recipe.grid();
-        for (int x = 0; x < grid.width(); x++) {
-            for (int y = 0; y < grid.height(); y++) {
-                Ingredient i = grid.keys().get(grid.pattern().get(y).charAt(x));
-                if (i != null)
-                    builder.addInputSlot().add(i).setPosition(40 + x * 24, 40 + y * 24);
-            }
-        }
-
-        builder.addOutputSlot().add(recipe.result()).setPosition(160, 64);
-
-        recipe.crystals().forEach((crystalKind, amount) -> {
-            var aspect = ConfigDataRegistries.ASPECTS.getHolder(Minecraft.getInstance().getConnection().registryAccess(), crystalKind.getId());
-            var crystalItem = ConfigItems.VIS_CRYSTAL.value().create(aspect);
-            crystalItem.setCount(amount);
-            var slot = builder.addInputSlot().add(crystalItem);
+        for (var crystalKind : Aspect.Primal.values()) {
+            var slot = builder.addInputSlot();
             switch (crystalKind) {
                 case CHAOS -> slot.setPosition(64, 116);
                 case ORDER -> slot.setPosition(112, 93);
@@ -86,8 +72,28 @@ public class ArcaneCraftingRecipeCategory implements IRecipeCategory<ArcaneCraft
                 case FIRE -> slot.setPosition(16, 35);
                 case EARTH -> slot.setPosition(16, 93);
             }
-        });
 
-        builder.moveRecipeTransferButton(150, 96);
+            var amount = recipe.crystals().getOrDefault(crystalKind, 0);
+            if (amount != 0) {
+                var aspect = ConfigDataRegistries.ASPECTS.getHolder(Minecraft.getInstance().getConnection().registryAccess(), crystalKind.getId());
+                var crystalItem = ConfigItems.VIS_CRYSTAL.value().create(aspect);
+                crystalItem.setCount(amount);
+                slot.add(crystalItem);
+            }
+        }
+
+        var grid = recipe.grid();
+        for (int y = 0; y < grid.height(); y++) {
+            for (int x = 0; x < grid.width(); x++) {
+                Ingredient i = grid.keys().get(grid.pattern().get(y).charAt(x));
+                var slot = builder.addInputSlot(40 + x * 24, 40 + y * 24);
+                if (i != null)
+                    slot.add(i);
+            }
+        }
+
+        builder.addOutputSlot().add(recipe.result()).setPosition(160, 64);
+
+        builder.moveRecipeTransferButton(150, 112);
     }
 }
