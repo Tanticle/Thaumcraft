@@ -1,12 +1,10 @@
 package tld.unknown.mystery.blocks.entities;
 
 import lombok.Getter;
-import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -35,7 +33,6 @@ import tld.unknown.mystery.util.simple.SimpleBlockEntity;
 import tld.unknown.mystery.util.simple.TickableBlockEntity;
 
 import java.util.Optional;
-import java.util.logging.LogManager;
 
 //TODO: Visuals and Sound
 public class CrucibleBlockEntity extends SimpleBlockEntity implements IFluidHandler, TickableBlockEntity {
@@ -118,8 +115,8 @@ public class CrucibleBlockEntity extends SimpleBlockEntity implements IFluidHand
             Optional<RecipeHolder<AlchemyRecipe>> recipe = CraftingUtils.findAlchemyRecipe((ServerLevel) getLevel(), aspects, stack, research);
             if (recipe.isPresent()) {
                 RecipeHolder<AlchemyRecipe> r = recipe.get();
-                ItemStack result = r.value().getResult().copy();
-                this.aspects.remove(r.value().getAspects());
+                ItemStack result = r.value().result().copy();
+                this.aspects.remove(r.value().aspects());
                 drain(50, FluidAction.EXECUTE);
                 spitItem(result);
                 stack.shrink(1);

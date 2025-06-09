@@ -12,6 +12,7 @@ import tld.unknown.mystery.Thaumcraft;
 import tld.unknown.mystery.api.ThaumcraftData;
 import tld.unknown.mystery.data.recipes.AlchemyRecipe;
 import tld.unknown.mystery.data.recipes.ArcaneCraftingRecipe;
+import tld.unknown.mystery.data.recipes.InfusionRecipe;
 import tld.unknown.mystery.util.codec.recipes.CodecRecipeSerializer;
 
 import java.util.function.Supplier;
@@ -25,6 +26,7 @@ public final class ConfigRecipeTypes {
 
     public static final RecipeObject<AlchemyRecipe> ALCHEMY = register(ThaumcraftData.Recipes.Types.ALCHEMY, () -> new CodecRecipeSerializer<>(AlchemyRecipe.CODEC, AlchemyRecipe.STREAM_CODEC));
     public static final RecipeObject<ArcaneCraftingRecipe> ARCANE_CRAFTING = register(ThaumcraftData.Recipes.Types.ARCANE_CRAFTING, () -> new CodecRecipeSerializer<>(ArcaneCraftingRecipe.CODEC, ArcaneCraftingRecipe.STREAM_CODEC));
+    public static final RecipeObject<InfusionRecipe> INFUSION = register(ThaumcraftData.Recipes.Types.INFUSION, () -> new CodecRecipeSerializer<>(InfusionRecipe.CODEC, InfusionRecipe.STREAM_CODEC));
 
     /* -------------------------------------------------------------------------------------------------------------- */
 
