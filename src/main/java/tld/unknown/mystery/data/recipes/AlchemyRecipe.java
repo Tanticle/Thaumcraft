@@ -2,8 +2,6 @@ package tld.unknown.mystery.data.recipes;
 
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
@@ -14,13 +12,11 @@ import tld.unknown.mystery.api.capabilities.IResearchCapability;
 import tld.unknown.mystery.data.aspects.AspectList;
 import tld.unknown.mystery.registries.ConfigRecipeTypes;
 
-@Getter
-@AllArgsConstructor
-public class AlchemyRecipe implements Recipe<AlchemyRecipe.Input> {
-
-    private final Ingredient catalyst;
-    private final AspectList aspects;
-    private final ItemStack result;
+public record AlchemyRecipe(
+        Ingredient catalyst,
+        AspectList aspects,
+        ItemStack result
+) implements Recipe<AlchemyRecipe.Input> {
 
     @Override
     public boolean matches(Input pRecipeInput, Level pLevel) {
@@ -54,18 +50,21 @@ public class AlchemyRecipe implements Recipe<AlchemyRecipe.Input> {
     }
 
     public static final MapCodec<AlchemyRecipe> CODEC = RecordCodecBuilder.mapCodec(i -> i.group(
-            Ingredient.CODEC.fieldOf("catalyst").forGetter(AlchemyRecipe::getCatalyst),
-            AspectList.CODEC.fieldOf("aspects").forGetter(AlchemyRecipe::getAspects),
-            ItemStack.CODEC.fieldOf("result").forGetter(AlchemyRecipe::getResult)
+            Ingredient.CODEC.fieldOf("catalyst").forGetter(AlchemyRecipe::catalyst),
+            AspectList.CODEC.fieldOf("aspects").forGetter(AlchemyRecipe::aspects),
+            ItemStack.CODEC.fieldOf("result").forGetter(AlchemyRecipe::result)
     ).apply(i, AlchemyRecipe::new));
 
     public static final StreamCodec<RegistryFriendlyByteBuf, AlchemyRecipe> STREAM_CODEC = StreamCodec.composite(
-            Ingredient.CONTENTS_STREAM_CODEC, AlchemyRecipe::getCatalyst,
-            AspectList.STREAM_CODEC, AlchemyRecipe::getAspects,
-            ItemStack.STREAM_CODEC, AlchemyRecipe::getResult,
+            Ingredient.CONTENTS_STREAM_CODEC, AlchemyRecipe::catalyst,
+            AspectList.STREAM_CODEC, AlchemyRecipe::aspects,
+            ItemStack.STREAM_CODEC, AlchemyRecipe::result,
             AlchemyRecipe::new);
 
-    public record Input(IResearchCapability playerResearch, ItemStack catalyst, AspectList aspects) implements RecipeInput {
+    public record Input(
+            IResearchCapability playerResearch,
+            ItemStack catalyst,
+            AspectList aspects) implements RecipeInput {
 
         @Override
         public ItemStack getItem(int index) {
