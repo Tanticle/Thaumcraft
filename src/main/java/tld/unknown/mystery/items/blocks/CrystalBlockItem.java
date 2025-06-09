@@ -30,7 +30,7 @@ public class CrystalBlockItem extends BlockItem implements AspectContainerItem {
     @Override
     public Component getName(ItemStack pStack) {
         Component aspect = Aspect.getName(RegistryUtils.access(), getAspect().getId(), false, true);
-        Component text = Component.translatable("block.%s", ThaumcraftData.Blocks.CRYSTAL_COLONY.toLanguageKey());
+        Component text = Component.translatable(String.format("block.%s", ThaumcraftData.Blocks.CRYSTAL_COLONY.toLanguageKey()));
         return Component.empty().append(aspect).append(" ").append(text);
     }
 }
