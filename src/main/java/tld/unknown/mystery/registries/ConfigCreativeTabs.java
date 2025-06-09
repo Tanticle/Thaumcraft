@@ -12,7 +12,7 @@ public final class ConfigCreativeTabs {
 
     private static final DeferredRegister<CreativeModeTab> REGISTRY = DeferredRegister.create(BuiltInRegistries.CREATIVE_MODE_TAB, Thaumcraft.MOD_ID);
 
-    public static final SimpleCreativeTab MAIN = new SimpleCreativeTab(ThaumcraftData.CreativeTabs.MAIN, ConfigBlocks.ARCANE_WORKBENCH::itemSupplier);
+    public static final SimpleCreativeTab MAIN = new SimpleCreativeTab(ThaumcraftData.CreativeTabs.MAIN, ThaumcraftData.Blocks.ARCANE_WORKBENCH);
 
     public static void init(IEventBus bus) {
         REGISTRY.register(bus);
