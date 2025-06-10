@@ -4,6 +4,7 @@ import net.minecraft.core.Holder;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
+import tld.unknown.mystery.api.ThaumcraftData;
 import tld.unknown.mystery.api.aspects.Aspect;
 import tld.unknown.mystery.registries.ConfigDataRegistries;
 import tld.unknown.mystery.registries.ConfigItemComponents;
@@ -20,7 +21,7 @@ public abstract class AbstractAspectItem extends DataDependentItem<Aspect> {
 
     @Override
     protected Set<Holder<Aspect>> getValidValues(HolderLookup.Provider access) {
-        return ConfigDataRegistries.ASPECTS.holderStream(access).collect(Collectors.toSet());
+        return ConfigDataRegistries.ASPECTS.holderStream(access).filter(a -> !a.getKey().equals(ThaumcraftData.Aspects.UNKNOWN)).collect(Collectors.toSet());
     }
 
     @Override

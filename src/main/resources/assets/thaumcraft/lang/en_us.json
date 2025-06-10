@@ -107,6 +107,7 @@
   "aspect.thaumcraft.vitreus": "Vitreus",
   "aspect.thaumcraft.volatus": "Volatus",
   "aspect.thaumcraft.untyped": "Untyped",
+  "aspect.thaumcraft.unknown": "Unknown",
 
   "msg.thaumcraft.resonator.suction": "Suction",
   "msg.thaumcraft.resonator.suction.value": "%d %s",
