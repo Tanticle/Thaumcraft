@@ -47,6 +47,10 @@ public class AspectRegistry extends SimpleJsonResourceReloadListener<AspectList>
             return new AspectList();
 
         Item item = stack.getItem();
+
+        if (item instanceof AspectContainerItem i)
+            return i.getAspects(stack);
+
         AspectList list = itemCache.get(item);
         if (list == null) {
             list = items.getOrDefault(item, new AspectList()).clone();
@@ -56,9 +60,6 @@ public class AspectRegistry extends SimpleJsonResourceReloadListener<AspectList>
                 AspectList values = new AspectList();
                 BuiltInRegistries.ITEM.wrapAsHolder(item).tags().filter(itemTags::containsKey).forEach(key -> values.merge(itemTags.get(key)));
                 list.merge(values);
-            }
-            if (stack.getItem() instanceof AspectContainerItem i) {
-                list.merge(i.getAspects(stack));
             }
             itemCache.put(item, list);
         }
