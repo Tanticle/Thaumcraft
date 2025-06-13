@@ -1,5 +1,3 @@
 {
-  "textures": {
-    "particle": "minecraft:empty"
-  }
+  "loader": "neoforge:empty"
 }
