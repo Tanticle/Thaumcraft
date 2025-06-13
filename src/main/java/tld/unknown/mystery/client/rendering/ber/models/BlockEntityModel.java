@@ -7,6 +7,7 @@ import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import tld.unknown.mystery.util.Colour;
 
 import java.util.function.Function;
 
@@ -28,7 +29,7 @@ public abstract class BlockEntityModel<T extends BlockEntity> {
         setupAnimation(blockEntity, delta);
         VertexConsumer consumer = pBuffer.getBuffer(renderType.apply(getTexture(blockEntity)));
         pPoseStack.translate(.5F, -.5F, .5F);
-        rootPart.render(pPoseStack, consumer, pPackedLight, pPackedOverlay, 1); //TODO combine colour
+        rootPart.render(pPoseStack, consumer, pPackedLight, pPackedOverlay, Colour.fromARGB(pAlpha, pRed, pGreen, pBlue).argb32(true));
         pPoseStack.popPose();
     }
 

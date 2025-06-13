@@ -23,7 +23,7 @@ public class RunicMatrixModel extends BlockEntityModel<RunicMatrixBlockEntity> {
     private final Map<Direction, ModelPart[]> rotations;
 
     public RunicMatrixModel(ModelPart root) {
-        super(root, RenderType::entityCutout);
+        super(root, RenderType::entitySolid);
         this.rootw = root.getChild("root");
         this.lnw = rootw.getChild("lnw");
         this.lne = rootw.getChild("lne");
@@ -49,14 +49,16 @@ public class RunicMatrixModel extends BlockEntityModel<RunicMatrixBlockEntity> {
         PartDefinition partdefinition = meshdefinition.getRoot();
 
         PartDefinition root = partdefinition.addOrReplaceChild("root", CubeListBuilder.create(), PartPose.offset(0.0F, 16.0F, 0.0F));
-        root.addOrReplaceChild("lnw", CubeListBuilder.create().texOffs(0, 14).addBox(0.5F, 0.5F, -7.5F, 7.0F, 7.0F, 7.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 0.0F, 0.0F));
-        root.addOrReplaceChild("lne", CubeListBuilder.create().texOffs(28, 14).addBox(-7.5F, 0.5F, -7.5F, 7.0F, 7.0F, 7.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 0.0F, 0.0F));
-        root.addOrReplaceChild("lsw", CubeListBuilder.create().texOffs(28, 14).addBox(0.5F, 0.5F, 0.5F, 7.0F, 7.0F, 7.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 0.0F, 0.0F));
-        root.addOrReplaceChild("lse", CubeListBuilder.create().texOffs(0, 0).addBox(-7.5F, 0.5F, 0.5F, 7.0F, 7.0F, 7.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 0.0F, 0.0F));
-        root.addOrReplaceChild("unw", CubeListBuilder.create().texOffs(0, 0).addBox(0.5F, -7.5F, -7.5F, 7.0F, 7.0F, 7.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 0.0F, 0.0F));
-        root.addOrReplaceChild("une", CubeListBuilder.create().texOffs(28, 0).addBox(-7.5F, -7.5F, -7.5F, 7.0F, 7.0F, 7.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 0.0F, 0.0F));
-        root.addOrReplaceChild("usw", CubeListBuilder.create().texOffs(28, 0).addBox(0.5F, -7.5F, 0.5F, 7.0F, 7.0F, 7.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 0.0F, 0.0F));
-        root.addOrReplaceChild("use", CubeListBuilder.create().texOffs(0, 0).addBox(-7.5F, -7.5F, 0.5F, 7.0F, 7.0F, 7.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 0.0F, 0.0F));
+
+        createElement(root, "lnw", 4.0F, 4.0F, -4.0F, 90, 0, 0);
+        createElement(root, "lne", -4.0F, 4.0F, -4.0F, 90, 90, 0);
+        createElement(root, "lsw", 4.0F, 4.0F, 4.0F, 90, 90, 90);
+        createElement(root, "lse", -4.0F, 4.0F, 4.0F, 0, 90, 90);
+        createElement(root, "unw", 4.0F, -4.0F, -4.0F, 0, 0, 90);
+        createElement(root, "une", -4.0F, -4.0F, -4.0F, 0, 90, 0);
+        createElement(root, "usw", 4.0F, -4.0F, 4.0F, 90, 0, 90);
+        createElement(root, "use", -4.0F, -4.0F, 4.0F, 0, 0, 0);
+
         return LayerDefinition.create(meshdefinition, 64, 64);
     }
 
@@ -70,7 +72,7 @@ public class RunicMatrixModel extends BlockEntityModel<RunicMatrixBlockEntity> {
         RunicMatrixBlockEntity.RubikAnimation rubikAnimation = blockEntity.getAnimationHandler().getRubikAnimation();
         RunicMatrixBlockEntity.AnimationHandler animationHandler = blockEntity.getAnimationHandler();
         resetModel();
-        if(rubikAnimation != null && !animationHandler.isRubikDone()) {
+        /*if(rubikAnimation != null && !animationHandler.isRubikDone()) {
             float angle = (float)Math.toRadians(animationHandler.getRubikAngle(tickDelta));
             for(ModelPart part : rotations.get(rubikAnimation.axis())) {
                 switch(rubikAnimation.axis().getAxis()) {
@@ -79,6 +81,12 @@ public class RunicMatrixModel extends BlockEntityModel<RunicMatrixBlockEntity> {
                     case Z -> part.zRot = angle;
                 }
             }
-        }
+        }*/ //TODO - Models, Fix Rubiks Animation
+    }
+
+    private static void createElement(PartDefinition root, String name, float x, float y, float z, float pitch, float yaw, float roll) {
+        root.addOrReplaceChild(name,
+                CubeListBuilder.create().addBox(-3.5F, -3.5F, -3.5F, 7.0F, 7.0F, 7.0F, CubeDeformation.NONE, 0.4375F, 0.4375F),
+                PartPose.offsetAndRotation(x, y, z, (float)Math.toRadians(pitch), (float)Math.toRadians(yaw), (float)Math.toRadians(roll)));
     }
 }
