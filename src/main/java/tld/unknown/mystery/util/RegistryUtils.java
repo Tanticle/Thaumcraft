@@ -24,13 +24,27 @@ public final class RegistryUtils {
         }
     }
 
-    public static ResourceLocation getItemModelLocation(Holder<?> holder, String... subfolder) {
+    public static ResourceLocation getBlockLocation(Holder<?> holder, String... subfolder) {
         ResourceLocation id = holder.getKey().location();
+        if(subfolder.length == 0) {
+            return id.withPath(s -> String.format("block/%s", s));
+        }
+        return id.withPath(s -> String.format("block/%s/%s", String.join("/", subfolder), s));
+    }
+
+    public static ResourceLocation getObjLocation(Holder<?> holder, String... subfolder) {
+        return getBlockLocation(holder, subfolder).withPrefix("models/").withSuffix(".obj");
+    }
+
+    public static ResourceLocation getItemLocation(Holder<?> holder, String... subfolder) {
+        ResourceLocation id = holder.getKey().location();
+        if(subfolder.length == 0) {
+            return id.withPath(s -> String.format("item/%s", s));
+        }
         return id.withPath(s -> String.format("item/%s/%s", String.join("/", subfolder), s));
     }
 
-    public static ResourceLocation getBlockItemModelLocation(Holder<?> holder) {
-        ResourceLocation id = holder.getKey().location();
-        return id.withPath(s -> String.format("item/block/%s", s));
+    public static ResourceLocation getBlockItemLocation(Holder<?> holder) {
+        return getItemLocation(holder, "block");
     }
 }

@@ -15,9 +15,12 @@ import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
+import net.neoforged.neoforge.client.model.generators.loaders.ObjModelBuilder;
+import net.neoforged.neoforge.client.model.generators.template.ExtendedModelTemplateBuilder;
 import net.neoforged.neoforge.registries.DeferredBlock;
 import tld.unknown.mystery.Thaumcraft;
 import tld.unknown.mystery.blocks.CrystalBlock;
+import tld.unknown.mystery.blocks.InfusionPillarBlock;
 import tld.unknown.mystery.blocks.alchemy.CreativeAspectSourceBlock;
 import tld.unknown.mystery.blocks.alchemy.JarBlock;
 import tld.unknown.mystery.blocks.alchemy.TubeBlock;
@@ -53,10 +56,11 @@ public class BlockDataProvider extends ModelProvider {
 
         registerJars();
         registerAspectSource();
+        registerInfusionPillar();
 
         registerCrystalColonies();
 
-        registerEmptyBlock(ConfigBlocks.RUNIC_MATRIX, RegistryUtils.getBlockItemModelLocation(ConfigBlocks.RUNIC_MATRIX.blockSupplier()));
+        registerEmptyBlock(ConfigBlocks.RUNIC_MATRIX, RegistryUtils.getBlockItemLocation(ConfigBlocks.RUNIC_MATRIX.blockSupplier()));
         registerFakeBlock(ConfigBlocks.LAMPLIGHT);
     }
 
@@ -86,7 +90,7 @@ public class BlockDataProvider extends ModelProvider {
             generator.with(center);
 
         blocks.blockStateOutput.accept(generator);
-        blockTextureItem(block, RegistryUtils.getBlockItemModelLocation(block.blockSupplier()));
+        blockTextureItem(block, RegistryUtils.getBlockItemLocation(block.blockSupplier()));
     }
 
     private void registerJars() {
@@ -168,7 +172,31 @@ public class BlockDataProvider extends ModelProvider {
         ResourceLocation model = Thaumcraft.id("block/empty");
         blocks.blockStateOutput.accept(MultiVariantGenerator.multiVariant(block.block(), Variant.variant().with(VariantProperties.MODEL, model)));
         if(itemModel != null)
-            blockTextureItem(block, itemModel);
+            blockParentItem(block, itemModel);
+    }
+
+    private void registerInfusionPillar() {
+        DeferredBlock<InfusionPillarBlock> block = ConfigBlocks.INFUSION_PILLAR.blockSupplier();
+        ResourceLocation model = TexturedModel.createDefault(
+                b -> new TextureMapping()
+                        .put(TextureSlot.ALL, TextureMapping.getBlockTexture(b))
+                        .put(TextureSlot.PARTICLE, TextureMapping.getBlockTexture(b)), //TODO - Datagen, Replace with arcane stone.
+                ExtendedModelTemplateBuilder.builder()
+                    .customLoader(ObjModelBuilder::new, loader -> {
+                        loader.modelLocation(RegistryUtils.getBlockLocation(block).withSuffix(".obj").withPrefix("models/"));
+                    }).requiredTextureSlot(TextureSlot.TEXTURE).requiredTextureSlot(TextureSlot.PARTICLE).build()).create(block.get(), blocks.modelOutput);
+
+        MultiVariantGenerator generator = MultiVariantGenerator.multiVariant(block.get());
+        generator.with(PropertyDispatch.property(InfusionPillarBlock.FACING).generate(dir -> {
+            VariantProperties.Rotation yRot = switch(dir) {
+                case EAST -> VariantProperties.Rotation.R90;
+                case SOUTH -> VariantProperties.Rotation.R180;
+                case WEST -> VariantProperties.Rotation.R270;
+                case NORTH, DOWN, UP -> VariantProperties.Rotation.R0;
+            };
+            return Variant.variant().with(VariantProperties.MODEL, model).with(VariantProperties.Y_ROT, yRot);
+        }));
+        blocks.blockStateOutput.accept(generator);
     }
 
     private void blockParentItem(ConfigBlocks.BlockObject<? extends Block> block, ResourceLocation blockModel) {

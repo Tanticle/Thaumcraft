@@ -53,7 +53,7 @@ public class ItemModelProvider extends ModelProvider {
     }
 
     protected void simpleItem(Holder<? extends Item> item, String... parentFolder) {
-        ResourceLocation location = RegistryUtils.getItemModelLocation(item, parentFolder);
+        ResourceLocation location = RegistryUtils.getItemLocation(item, parentFolder);
         ResourceLocation model = ModelTemplates.FLAT_ITEM.create(location, TextureMapping.layer0(location), items.modelOutput);
         items.itemModelOutput.accept(item.value(), ItemModelUtils.plainModel(model));
     }
@@ -65,7 +65,7 @@ public class ItemModelProvider extends ModelProvider {
     }
 
     protected void tintableAspectItem(Holder<? extends Item> item, String... parentFolder) {
-        ResourceLocation location = RegistryUtils.getItemModelLocation(item, parentFolder);
+        ResourceLocation location = RegistryUtils.getItemLocation(item, parentFolder);
 
         ResourceLocation model = ModelTemplates.FLAT_ITEM.create(location,
                 TextureMapping.layer0(location),
@@ -76,7 +76,7 @@ public class ItemModelProvider extends ModelProvider {
 
 
     protected void tintableAspect2LayerItem(Holder<? extends Item> item, String... parentFolder) {
-        ResourceLocation location = RegistryUtils.getItemModelLocation(item, parentFolder);
+        ResourceLocation location = RegistryUtils.getItemLocation(item, parentFolder);
 
         ResourceLocation emptyModel = ModelTemplates.FLAT_ITEM.create(location.withSuffix("_empty"),
                 TextureMapping.layer0(location),

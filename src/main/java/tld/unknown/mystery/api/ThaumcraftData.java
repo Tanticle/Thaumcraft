@@ -214,6 +214,7 @@ public final class ThaumcraftData {
         public static final ResourceLocation CREATIVE_ASPECT_SOURCE = Thaumcraft.id("creative_aspect_source");
 
         public static final ResourceLocation LAMPLIGHT = Thaumcraft.id("lamplight");
+        public static final ResourceLocation INFUSION_PILLAR = Thaumcraft.id("infusion_pillar");
     }
 
     public static final class CreativeTabs {

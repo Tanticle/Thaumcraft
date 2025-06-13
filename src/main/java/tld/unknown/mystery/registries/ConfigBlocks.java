@@ -52,6 +52,7 @@ public final class ConfigBlocks {
     public static final BlockObject<CreativeAspectSourceBlock> CREATIVE_ASPECT_SOURCE = registerBlock(Blocks.CREATIVE_ASPECT_SOURCE, CreativeAspectSourceBlock::new, Rarity.EPIC, ConfigCreativeTabs.MAIN);
 
     public static final DeferredBlock<LamplightBlock> LAMPLIGHT = registerBlockNoItem(Blocks.LAMPLIGHT, LamplightBlock::new);
+    public static final BlockObject<InfusionPillarBlock> INFUSION_PILLAR = registerBlock(Blocks.INFUSION_PILLAR, InfusionPillarBlock::new, ConfigCreativeTabs.MAIN);
 
     /* -------------------------------------------------------------------------------------------------------------- */
 
