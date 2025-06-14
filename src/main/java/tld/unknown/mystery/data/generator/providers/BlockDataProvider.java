@@ -231,22 +231,14 @@ public class BlockDataProvider extends ModelProvider {
         ResourceLocation model = TexturedModel.createDefault(
                 b -> new TextureMapping()
                         .put(TextureSlot.ALL, TextureMapping.getBlockTexture(b))
-                        .put(TextureSlot.PARTICLE, TextureMapping.getBlockTexture(b)), //TODO - Datagen, Replace with arcane stone.
+                        .put(TextureSlot.PARTICLE, TextureMapping.getBlockTexture(ConfigBlocks.ARCANE_STONE_BRICK.block())),
                 ExtendedModelTemplateBuilder.builder()
                     .customLoader(ObjModelBuilder::new, loader -> {
                         loader.modelLocation(RegistryUtils.getBlockLocation(block).withSuffix(".obj").withPrefix("models/"));
                     }).requiredTextureSlot(TextureSlot.TEXTURE).requiredTextureSlot(TextureSlot.PARTICLE).build()).create(block.get(), blocks.modelOutput);
 
         MultiVariantGenerator generator = MultiVariantGenerator.multiVariant(block.get());
-        generator.with(PropertyDispatch.property(InfusionPillarBlock.FACING).generate(dir -> {
-            VariantProperties.Rotation yRot = switch(dir) {
-                case EAST -> VariantProperties.Rotation.R90;
-                case SOUTH -> VariantProperties.Rotation.R180;
-                case WEST -> VariantProperties.Rotation.R270;
-                case NORTH, DOWN, UP -> VariantProperties.Rotation.R0;
-            };
-            return Variant.variant().with(VariantProperties.MODEL, model).with(VariantProperties.Y_ROT, yRot);
-        }));
+        generator.with(PropertyDispatch.property(InfusionPillarBlock.POINTING).generate(dir -> Variant.variant().with(VariantProperties.MODEL, model).with(VariantProperties.Y_ROT, dir.getBlockRotation())));
         blocks.blockStateOutput.accept(generator);
     }
 
