@@ -199,6 +199,8 @@ public final class ThaumcraftData {
         public static final ResourceLocation ARCANE_STONE_STAIRS = ARCANE_STONE.withSuffix("_stairs");
         public static final ResourceLocation ARCANE_STONE_SLAB = ARCANE_STONE.withSuffix("_slab");
         public static final ResourceLocation ARCANE_STONE_BRICK = Thaumcraft.id("arcane_stone_brick");
+        public static final ResourceLocation ARCANE_STONE_BRICK_STAIRS = ARCANE_STONE_BRICK.withSuffix("_stairs");
+        public static final ResourceLocation ARCANE_STONE_BRICK_SLAB = ARCANE_STONE_BRICK.withSuffix("_slab");
 
         public static final ResourceLocation ARCANE_WORKBENCH = Thaumcraft.id("arcane_workbench");
         public static final ResourceLocation ARCANE_PEDESTAL = Thaumcraft.id("pedestal_arcane");

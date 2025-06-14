@@ -53,6 +53,7 @@ public class BlockDataProvider extends ModelProvider {
         registerAxisTexturedBlock(ConfigBlocks.ARCANE_STONE, true);
         registerStairAndSlab(ConfigBlocks.ARCANE_STONE, ConfigBlocks.ARCANE_STONE_STAIRS, ConfigBlocks.ARCANE_STONE_SLAB, true);
         simpleBlock(ConfigBlocks.ARCANE_STONE_BRICK);
+        registerStairAndSlab(ConfigBlocks.ARCANE_STONE_BRICK, ConfigBlocks.ARCANE_STONE_BRICK_STAIRS, ConfigBlocks.ARCANE_STONE_BRICK_SLAB, false);
 
         simpleExistingBlock(ConfigBlocks.CRUCIBLE);
         simpleExistingBlock(ConfigBlocks.ARCANE_WORKBENCH);

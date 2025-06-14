@@ -44,6 +44,8 @@ public final class ConfigBlocks {
     public static final BlockObject<StairBlock> ARCANE_STONE_STAIRS = registerBlock(Blocks.ARCANE_STONE_STAIRS, props -> new StairBlock(ARCANE_STONE.block().defaultBlockState(), SimpleBlockMaterials.stone(props)), ConfigCreativeTabs.MAIN);
     public static final BlockObject<SlabBlock> ARCANE_STONE_SLAB = registerBlock(Blocks.ARCANE_STONE_SLAB, props -> new SlabBlock(SimpleBlockMaterials.stone(props)), ConfigCreativeTabs.MAIN);
     public static final BlockObject<Block> ARCANE_STONE_BRICK = registerBlock(Blocks.ARCANE_STONE_BRICK, props -> new Block(SimpleBlockMaterials.stone(props)), ConfigCreativeTabs.MAIN);
+    public static final BlockObject<StairBlock> ARCANE_STONE_BRICK_STAIRS = registerBlock(Blocks.ARCANE_STONE_BRICK_STAIRS, props -> new StairBlock(ARCANE_STONE.block().defaultBlockState(), SimpleBlockMaterials.stone(props)), ConfigCreativeTabs.MAIN);
+    public static final BlockObject<SlabBlock> ARCANE_STONE_BRICK_SLAB = registerBlock(Blocks.ARCANE_STONE_BRICK_SLAB, props -> new SlabBlock(SimpleBlockMaterials.stone(props)), ConfigCreativeTabs.MAIN);
 
     public static final Map<CrystalBlock.CrystalAspect, BlockObject<CrystalBlock>> CRYSTAL_COLONY = registerEnumBlock(Blocks.CRYSTAL_COLONY, CrystalBlock.CrystalAspect.class, CrystalBlock::new, CrystalBlockItem::new, ConfigCreativeTabs.MAIN);
     public static final BlockObject<ArcaneWorkbenchBlock> ARCANE_WORKBENCH = registerBlock(Blocks.ARCANE_WORKBENCH, ArcaneWorkbenchBlock::new, ConfigCreativeTabs.MAIN);
