@@ -23,14 +23,12 @@ public class PedestalBlockEntity extends SimpleBlockEntity {
 
     @Override
     protected void readNbt(CompoundTag nbt, HolderLookup.Provider pRegistries) {
-        this.itemStack = ItemStack.parse(pRegistries, nbt.getCompound("item")).orElse(ItemStack.EMPTY);
+        this.itemStack = ItemStack.parseOptional(pRegistries, nbt.getCompound("item"));
     }
 
     @Override
     protected void writeNbt(CompoundTag nbt, HolderLookup.Provider pRegistries) {
-        CompoundTag tag = new CompoundTag();
-        itemStack.save(pRegistries, nbt);
-        nbt.put("item", tag);
+        nbt.put("item", itemStack.saveOptional(pRegistries));
     }
 
     private PedestalBlock.Type getPedestalType() {

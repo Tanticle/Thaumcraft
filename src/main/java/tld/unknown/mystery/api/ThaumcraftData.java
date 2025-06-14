@@ -195,7 +195,11 @@ public final class ThaumcraftData {
 
     public static final class Blocks {
 
-        public static final ResourceLocation BETTER_SIGN = Thaumcraft.id("extended_sign");
+        public static final ResourceLocation ARCANE_STONE = Thaumcraft.id("arcane_stone");
+        public static final ResourceLocation ARCANE_STONE_STAIRS = ARCANE_STONE.withSuffix("_stairs");
+        public static final ResourceLocation ARCANE_STONE_SLAB = ARCANE_STONE.withSuffix("_slab");
+        public static final ResourceLocation ARCANE_STONE_BRICK = Thaumcraft.id("arcane_stone_brick");
+
         public static final ResourceLocation ARCANE_WORKBENCH = Thaumcraft.id("arcane_workbench");
         public static final ResourceLocation ARCANE_PEDESTAL = Thaumcraft.id("pedestal_arcane");
         public static final ResourceLocation ANCIENT_PEDESTAL = Thaumcraft.id("pedestal_ancient");
@@ -206,8 +210,6 @@ public final class ThaumcraftData {
         public static final ResourceLocation VOID_JAR = Thaumcraft.id("void_jar");
 
         public static final ResourceLocation CRYSTAL_COLONY = Thaumcraft.id("crystal_colony");
-        public static final ResourceLocation SILVERWOOD = Thaumcraft.id("silverwood");
-        public static final ResourceLocation GREATWOOD = Thaumcraft.id("greatwood");
 
         public static final ResourceLocation TUBE = Thaumcraft.id("tube");
 

@@ -14,6 +14,8 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.SlabBlock;
+import net.minecraft.world.level.block.StairBlock;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.neoforged.neoforge.client.model.generators.loaders.ObjModelBuilder;
 import net.neoforged.neoforge.client.model.generators.template.ExtendedModelTemplateBuilder;
@@ -48,6 +50,10 @@ public class BlockDataProvider extends ModelProvider {
         this.blocks = blockModels;
         this.items = itemModels;
 
+        registerAxisTexturedBlock(ConfigBlocks.ARCANE_STONE, true);
+        registerStairAndSlab(ConfigBlocks.ARCANE_STONE, ConfigBlocks.ARCANE_STONE_STAIRS, ConfigBlocks.ARCANE_STONE_SLAB, true);
+        simpleBlock(ConfigBlocks.ARCANE_STONE_BRICK);
+
         simpleExistingBlock(ConfigBlocks.CRUCIBLE);
         simpleExistingBlock(ConfigBlocks.ARCANE_WORKBENCH);
         batchSimpleExistingBlock(ConfigBlocks.ARCANE_PEDESTAL, ConfigBlocks.ANCIENT_PEDESTAL, ConfigBlocks.ELDRITCH_PEDESTAL);
@@ -67,6 +73,14 @@ public class BlockDataProvider extends ModelProvider {
     @Override
     protected Stream<? extends Holder<Item>> getKnownItems() {
         return super.getKnownItems().filter(holder -> holder.value() instanceof BlockItem);
+    }
+
+    public void simpleBlock(ConfigBlocks.BlockObject<? extends Block> block) {
+        ResourceLocation id = RegistryUtils.getBlockLocation(block.blockSupplier());
+        TextureMapping mapping = new TextureMapping().put(TextureSlot.ALL, id).put(TextureSlot.PARTICLE, id);
+        TexturedModel.Provider model = TexturedModel.createDefault(b -> mapping, ModelTemplates.CUBE_ALL);
+        blocks.createTrivialBlock(block.block(), model);
+        blockParentItem(block, id);
     }
 
     private void registerDirectionalMultipart(ConfigBlocks.BlockObject<? extends Block> block, Map<Direction, BooleanProperty> dirProperties, ResourceLocation centerPart, ResourceLocation sidePart, boolean hideCenter) {
@@ -161,6 +175,42 @@ public class BlockDataProvider extends ModelProvider {
         ResourceLocation model = ModelLocationUtils.getModelLocation(block.block());
         blocks.blockStateOutput.accept(MultiVariantGenerator.multiVariant(block.block(), Variant.variant().with(VariantProperties.MODEL, model)));
         blockParentItem(block, model);
+    }
+
+    private void registerStairAndSlab(ConfigBlocks.BlockObject<? extends Block> block, ConfigBlocks.BlockObject<? extends StairBlock> stairs, ConfigBlocks.BlockObject<? extends SlabBlock> slab, boolean uniqueTextures) {
+        ResourceLocation texture = RegistryUtils.getBlockLocation(block.blockSupplier());
+        TextureMapping mapping = new TextureMapping().put(TextureSlot.PARTICLE, texture.withSuffix(uniqueTextures ? "_0" : ""))
+                .put(TextureSlot.BOTTOM, texture.withSuffix(uniqueTextures ? "_0" : ""))
+                .put(TextureSlot.TOP, texture.withSuffix(uniqueTextures ? "_1" : ""))
+                .put(TextureSlot.SIDE, texture.withSuffix(uniqueTextures ? "_2" : ""));
+        ResourceLocation stairsStraight = ModelTemplates.STAIRS_STRAIGHT.create(stairs.block(), mapping, blocks.modelOutput);
+        ResourceLocation innerStairs = ModelTemplates.STAIRS_INNER.create(stairs.block(), mapping, blocks.modelOutput);
+        ResourceLocation outerStairs = ModelTemplates.STAIRS_OUTER.create(stairs.block(), mapping, blocks.modelOutput);
+        blocks.blockStateOutput.accept(BlockModelGenerators.createStairs(stairs.block(), innerStairs, stairsStraight, outerStairs));
+        ResourceLocation bottomSlab = ModelTemplates.SLAB_BOTTOM.create(slab.block(), mapping, blocks.modelOutput);
+        ResourceLocation topSlab = ModelTemplates.SLAB_TOP.create(slab.block(), mapping, blocks.modelOutput);
+        blocks.blockStateOutput.accept(BlockModelGenerators.createSlab(slab.block(), bottomSlab, topSlab, RegistryUtils.getBlockLocation(block.blockSupplier())));
+        blockParentItem(stairs, stairsStraight);
+        blockParentItem(slab, bottomSlab);
+    }
+
+    private void registerAxisTexturedBlock(ConfigBlocks.BlockObject<? extends Block> block, boolean variations) {
+        ResourceLocation id = RegistryUtils.getBlockLocation(block.blockSupplier());
+        TextureMapping mapping = new TextureMapping().put(TextureSlot.PARTICLE, id.withSuffix("_0"))
+                .put(TextureSlot.UP, id.withSuffix("_0")).put(TextureSlot.DOWN, id.withSuffix("_0"))
+                .put(TextureSlot.EAST, id.withSuffix("_1")).put(TextureSlot.WEST, id.withSuffix("_1"))
+                .put(TextureSlot.NORTH, id.withSuffix("_2")).put(TextureSlot.SOUTH, id.withSuffix("_2"));
+        ResourceLocation model = ModelTemplates.CUBE_DIRECTIONAL.create(block.block(), mapping, blocks.modelOutput);
+        if(variations) {
+            Variant standard = Variant.variant().with(VariantProperties.MODEL, model);
+            Variant x = Variant.variant().with(VariantProperties.MODEL, model).with(VariantProperties.X_ROT , VariantProperties.Rotation.R90);
+            Variant y = Variant.variant().with(VariantProperties.MODEL, model).with(VariantProperties.Y_ROT , VariantProperties.Rotation.R90);
+            Variant xy = Variant.variant().with(VariantProperties.MODEL, model).with(VariantProperties.X_ROT , VariantProperties.Rotation.R90).with(VariantProperties.Y_ROT , VariantProperties.Rotation.R90);
+            blocks.blockStateOutput.accept(MultiVariantGenerator.multiVariant(block.block(), standard, x, y, xy));
+        } else {
+            BlockModelGenerators.createSimpleBlock(block.block(), model);
+        }
+        blockParentItem(block, id);
     }
 
     private void registerFakeBlock(DeferredBlock<?> block) {

@@ -86,7 +86,7 @@ public class PedestalBlock extends SimpleEntityBlock<PedestalBlockEntity> {
     protected InteractionResult useWithoutItem(BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, BlockHitResult pHitResult) {
         if (!(pLevel.getBlockEntity(pPos) instanceof PedestalBlockEntity be))
             return InteractionResult.FAIL;
-        if (pPlayer.isCrouching() || be.getItemStack() == ItemStack.EMPTY)
+        if (pPlayer.isCrouching() || be.getItemStack().isEmpty()) //TODO - BE, fix pickup logic happening with empty content.
             return InteractionResult.PASS;
 
         if(!pLevel.isClientSide()) {

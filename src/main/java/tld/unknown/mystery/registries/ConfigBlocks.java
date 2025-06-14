@@ -7,6 +7,8 @@ import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Rarity;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.SlabBlock;
+import net.minecraft.world.level.block.StairBlock;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.neoforged.bus.api.IEventBus;
@@ -20,6 +22,7 @@ import tld.unknown.mystery.blocks.alchemy.CrucibleBlock;
 import tld.unknown.mystery.blocks.alchemy.JarBlock;
 import tld.unknown.mystery.blocks.alchemy.TubeBlock;
 import tld.unknown.mystery.items.blocks.CrystalBlockItem;
+import tld.unknown.mystery.util.simple.SimpleBlockMaterials;
 import tld.unknown.mystery.util.simple.SimpleCreativeTab;
 
 import java.util.HashMap;
@@ -36,6 +39,11 @@ public final class ConfigBlocks {
     private static final DeferredRegister.Items REGISTRY_ITEM = DeferredRegister.Items.createItems(Thaumcraft.MOD_ID);
 
     /* -------------------------------------------------------------------------------------------------------------- */
+
+    public static final BlockObject<Block> ARCANE_STONE = registerBlock(Blocks.ARCANE_STONE, props -> new Block(SimpleBlockMaterials.stone(props)), ConfigCreativeTabs.MAIN);
+    public static final BlockObject<StairBlock> ARCANE_STONE_STAIRS = registerBlock(Blocks.ARCANE_STONE_STAIRS, props -> new StairBlock(ARCANE_STONE.block().defaultBlockState(), SimpleBlockMaterials.stone(props)), ConfigCreativeTabs.MAIN);
+    public static final BlockObject<SlabBlock> ARCANE_STONE_SLAB = registerBlock(Blocks.ARCANE_STONE_SLAB, props -> new SlabBlock(SimpleBlockMaterials.stone(props)), ConfigCreativeTabs.MAIN);
+    public static final BlockObject<Block> ARCANE_STONE_BRICK = registerBlock(Blocks.ARCANE_STONE_BRICK, props -> new Block(SimpleBlockMaterials.stone(props)), ConfigCreativeTabs.MAIN);
 
     public static final Map<CrystalBlock.CrystalAspect, BlockObject<CrystalBlock>> CRYSTAL_COLONY = registerEnumBlock(Blocks.CRYSTAL_COLONY, CrystalBlock.CrystalAspect.class, CrystalBlock::new, CrystalBlockItem::new, ConfigCreativeTabs.MAIN);
     public static final BlockObject<ArcaneWorkbenchBlock> ARCANE_WORKBENCH = registerBlock(Blocks.ARCANE_WORKBENCH, ArcaneWorkbenchBlock::new, ConfigCreativeTabs.MAIN);

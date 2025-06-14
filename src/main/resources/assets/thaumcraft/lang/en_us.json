@@ -1,6 +1,11 @@
 {
   "itemGroup.thaumcraft.main": "Thaumcraft",
 
+  "block.thaumcraft.arcane_stone": "Arcane Stone",
+  "block.thaumcraft.arcane_stone_stairs": "Arcane Stone Stairs",
+  "block.thaumcraft.arcane_stone_slab": "Arcane Stone Slab",
+  "block.thaumcraft.arcane_stone_brick": "Arcane Stone Brick",
+  "block.thaumcraft.infusion_pillar": "Arcane Infusion Pillar",
   "block.thaumcraft.crucible": "Crucible",
   "block.thaumcraft.arcane_workbench": "Arcane Workbench",
   "block.thaumcraft.runic_matrix": "Runic Matrix",
