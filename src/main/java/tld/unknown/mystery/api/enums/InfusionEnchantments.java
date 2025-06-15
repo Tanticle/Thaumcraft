@@ -1,4 +1,4 @@
-package tld.unknown.mystery.api;
+package tld.unknown.mystery.api.enums;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

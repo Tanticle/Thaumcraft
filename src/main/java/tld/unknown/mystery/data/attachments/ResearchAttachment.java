@@ -1,4 +1,4 @@
-package tld.unknown.mystery.attachments;
+package tld.unknown.mystery.data.attachments;
 
 import com.mojang.serialization.Codec;
 import net.minecraft.core.Holder;

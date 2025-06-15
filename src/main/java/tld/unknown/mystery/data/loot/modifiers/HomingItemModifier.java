@@ -1,4 +1,4 @@
-package tld.unknown.mystery.loot.modifiers;
+package tld.unknown.mystery.data.loot.modifiers;
 
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
