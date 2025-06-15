@@ -25,6 +25,8 @@ public interface IEssentiaCapability {
 
     boolean compliesToAspect(ResourceKey<Aspect> aspect, Direction dir);
 
+    boolean isContainer(Direction dir);
+
     @Getter
     @AllArgsConstructor
     enum SideStatus {

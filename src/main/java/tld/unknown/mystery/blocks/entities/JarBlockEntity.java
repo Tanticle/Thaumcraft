@@ -11,14 +11,12 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.state.BlockState;
 import tld.unknown.mystery.api.ThaumcraftData;
 import tld.unknown.mystery.api.aspects.Aspect;
-import tld.unknown.mystery.api.aspects.AspectContainer;
 import tld.unknown.mystery.api.capabilities.IEssentiaCapability;
 import tld.unknown.mystery.blocks.alchemy.JarBlock;
-import tld.unknown.mystery.data.aspects.AspectList;
 import tld.unknown.mystery.registries.ConfigBlockEntities;
 import tld.unknown.mystery.util.simple.SimpleBlockEntity;
 
-public class JarBlockEntity extends SimpleBlockEntity implements AspectContainer, IEssentiaCapability {
+public class JarBlockEntity extends SimpleBlockEntity implements IEssentiaCapability {
 
     private static final int MAX_ESSENTIA = 250;
 
@@ -125,57 +123,6 @@ public class JarBlockEntity extends SimpleBlockEntity implements AspectContainer
     }
 
     /* -------------------------------------------------------------------------------------------------------------- */
-    /*                                            Aspect Container Methods                                            */
-    /* -------------------------------------------------------------------------------------------------------------- */
-
-    @Override
-    public int getAspectCount(ResourceKey<Aspect> aspect) {
-        return aspect.equals(currentAspect) ? amount : 0;
-    }
-
-    @Override
-    public AspectList getAspectList() {
-        return new AspectList().add(currentAspect, amount);
-    }
-
-    @Override
-    public int drainAspect(ResourceKey<Aspect> aspect) {
-        int essentia = this.amount;
-        this.amount = 0;
-        return essentia;
-    }
-
-    @Override
-    public int drainAspect(ResourceKey<Aspect> aspect, int amount) {
-        if(aspect.equals(currentAspect)) {
-            int currentAmount = this.amount;
-            if(currentAmount <= amount) {
-                this.amount = 0;
-                this.currentAspect = null;
-                return currentAmount;
-            }
-            this.amount -= amount;
-            return amount;
-        }
-        return 0;
-    }
-
-    //TODO: Void Effect & Flux
-    @Override
-    public int addAspect(ResourceKey<Aspect> aspect, int amount) {
-        if(this.currentAspect == null && this.amount == 0) {
-            this.currentAspect = aspect;
-            this.amount = Math.min(MAX_ESSENTIA, amount);
-            return this.amount;
-        } else if(aspect.equals(currentAspect)) {
-            int addAmount = Math.min(MAX_ESSENTIA - this.amount, amount);
-            this.amount += addAmount;
-            return addAmount;
-        }
-        return 0;
-    }
-
-    /* -------------------------------------------------------------------------------------------------------------- */
     /*                                         Essentia Capability Methods                                            */
     /* -------------------------------------------------------------------------------------------------------------- */
 
@@ -222,12 +169,35 @@ public class JarBlockEntity extends SimpleBlockEntity implements AspectContainer
 
     @Override
     public int drainAspect(ResourceKey<Aspect> aspect, int amount, Direction dir) {
-        return dir == Direction.UP ? drainAspect(aspect, amount) : 0;
+        if(dir != Direction.UP)
+            return 0;
+        if(aspect.equals(currentAspect)) {
+            int currentAmount = this.amount;
+            if(currentAmount <= amount) {
+                this.amount = 0;
+                this.currentAspect = null;
+                return currentAmount;
+            }
+            this.amount -= amount;
+            return amount;
+        }
+        return 0;
     }
 
     @Override
     public int fillAspect(ResourceKey<Aspect> aspect, int amount, Direction dir) {
-        return dir == Direction.UP ? addAspect(aspect, amount) : 0;
+        if(dir != Direction.UP)
+            return 0;
+        if(this.currentAspect == null && this.amount == 0) {
+            this.currentAspect = aspect;
+            this.amount = Math.min(MAX_ESSENTIA, amount);
+            return this.amount;
+        } else if(aspect.equals(currentAspect)) {
+            int addAmount = Math.min(MAX_ESSENTIA - this.amount, amount);
+            this.amount += addAmount;
+            return addAmount;
+        }
+        return 0;
     }
 
     @Override
@@ -243,5 +213,10 @@ public class JarBlockEntity extends SimpleBlockEntity implements AspectContainer
     @Override
     public boolean contains(ResourceKey<Aspect> aspect, int amount, Direction dir) {
         return (aspect == null || compliesToAspect(aspect, dir)) && this.amount >= amount;
+    }
+
+    @Override
+    public boolean isContainer(Direction dir) {
+        return dir == Direction.UP;
     }
 }
