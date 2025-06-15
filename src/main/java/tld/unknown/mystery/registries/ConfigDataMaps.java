@@ -5,7 +5,7 @@ import net.minecraft.core.Registry;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.Item;
+import net.minecraft.world.level.block.Block;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.registries.datamaps.DataMapType;
@@ -20,7 +20,7 @@ public final class ConfigDataMaps {
 
     /* -------------------------------------------------------------------------------------------------------------- */
 
-    public static final DataMapType<Item, DataMapEntries.InfusionStabilizerData> INFUSION_STABILIZER = register(ThaumcraftData.DataMaps.INFUSION_STABILIZER, Registries.ITEM, DataMapEntries.InfusionStabilizerData.CODEC);
+    public static final DataMapType<Block, DataMapEntries.InfusionStabilizerData> INFUSION_STABILIZER = register(ThaumcraftData.DataMaps.INFUSION_STABILIZER, Registries.BLOCK, DataMapEntries.InfusionStabilizerData.CODEC);
 
     /* -------------------------------------------------------------------------------------------------------------- */
 

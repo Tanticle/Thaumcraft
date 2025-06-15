@@ -5,16 +5,27 @@ import lombok.Getter;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
+import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.util.StringRepresentable;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import tld.unknown.mystery.Thaumcraft;
+import tld.unknown.mystery.api.capabilities.IInfusionPedestalCapability;
+import tld.unknown.mystery.api.capabilities.IResearchCapability;
+import tld.unknown.mystery.data.aspects.AspectList;
+import tld.unknown.mystery.data.recipes.InfusionRecipe;
 import tld.unknown.mystery.registries.ConfigBlockEntities;
 import tld.unknown.mystery.registries.ConfigCapabilities;
+import tld.unknown.mystery.registries.ConfigDataMaps;
 import tld.unknown.mystery.registries.ConfigSounds;
 import tld.unknown.mystery.util.CraftingUtils;
 import tld.unknown.mystery.util.simple.SimpleBlockEntity;
@@ -23,6 +34,7 @@ import tld.unknown.mystery.util.simple.TickableBlockEntity;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 @Getter
 public class RunicMatrixBlockEntity extends SimpleBlockEntity implements TickableBlockEntity {
@@ -31,16 +43,16 @@ public class RunicMatrixBlockEntity extends SimpleBlockEntity implements Tickabl
     private static final int RADIUS_BELOW = -7;
     private static final int RADIUS_ABOVE = 3;
 
-
     private final AnimationHandler animationHandler;
 
-    private boolean activated;
-
+    private MatrixState state;
+    private RecipeHolder<InfusionRecipe> currentRecipe;
+    private AspectList requiredEssentia;
     private List<BlockEntity> itemProviders;
 
     public RunicMatrixBlockEntity(BlockPos pPos, BlockState pBlockState) {
         super(ConfigBlockEntities.RUNIC_MATRIX.entityType(), pPos, pBlockState);
-        this.activated = false;
+        this.state = MatrixState.INACTIVE;
         this.animationHandler = new AnimationHandler(this);
     }
 
@@ -51,12 +63,12 @@ public class RunicMatrixBlockEntity extends SimpleBlockEntity implements Tickabl
 
     @Override
     protected void readNbt(CompoundTag nbt, HolderLookup.Provider pRegistries) {
-        this.activated = nbt.getBoolean("activated");
+        this.state = MatrixState.fromString(nbt.getString("state"));
     }
 
     @Override
     protected void writeNbt(CompoundTag nbt, HolderLookup.Provider pRegistries) {
-        nbt.putBoolean("activated", this.activated);
+        nbt.putString("state", this.state.getSerializedName());
     }
 
     @Override
@@ -75,7 +87,17 @@ public class RunicMatrixBlockEntity extends SimpleBlockEntity implements Tickabl
         }
     }
 
-    private void scanEnvironment(Level level) {
+    public boolean activate(Level level) {
+        if(CraftingUtils.verifyInfusionAltarStructure(level, this.getBlockPos(), false)) {
+            this.state = MatrixState.STARTING;
+            level.playSound(null, getBlockPos(), ConfigSounds.SPARKLE_HUM.value(), SoundSource.BLOCKS, 1, 1);
+            sync();
+            return true;
+        }
+        return false;
+    }
+
+    private void scanEnvironment() {
         List<BlockPos> stabilityModifiers = new ArrayList<>();
         itemProviders.clear();
 
@@ -83,23 +105,32 @@ public class RunicMatrixBlockEntity extends SimpleBlockEntity implements Tickabl
             for(int z = -RADIUS_HORIZONTAL; z <= RADIUS_HORIZONTAL; z++) {
                 for(int y = RADIUS_BELOW; y <= RADIUS_ABOVE; y++) {
                     BlockPos pos = getBlockPos().offset(x, y, z);
-
-                    if(level.getCapability(ConfigCapabilities.INFUSION_PEDESTAL, pos) != null) {
+                    if(pos.equals(getBlockPos().below(2))) //Skip the middle pedestal, it is treated separately.
+                        continue;
+                    if (level.getCapability(ConfigCapabilities.INFUSION_PEDESTAL, pos) != null)
                         itemProviders.add(level.getBlockEntity(pos));
-                    }
+                    if (level.getCapability(ConfigCapabilities.INFUSION_STABILIZER, pos) != null || level.getBlockState(pos).getBlockHolder().getData(ConfigDataMaps.INFUSION_STABILIZER) != null)
+                        stabilityModifiers.add(pos);
                 }
             }
         }
+        //TODO: Infusion - Instability
     }
 
-    public boolean activate(Level level) {
-        if(CraftingUtils.verifyInfusionAltarStructure(level, this.getBlockPos(), false)) {
-            this.activated = true;
-            level.playSound(null, getBlockPos(), ConfigSounds.SPARKLE_HUM.value(), SoundSource.BLOCKS, 1, 1);
-            sync();
-            return true;
+    private boolean beginCrafting(Player player) {
+        scanEnvironment();
+        this.currentRecipe = getCurrentRecipe(player.getCapability(ConfigCapabilities.RESEARCH)).get();
+    }
+
+    private Optional<RecipeHolder<InfusionRecipe>> getCurrentRecipe(IResearchCapability research) {
+        IInfusionPedestalCapability catalystPedestal = level.getCapability(ConfigCapabilities.INFUSION_PEDESTAL, getBlockPos().below(2));
+        if(catalystPedestal == null) {
+            Thaumcraft.error("Infusion crafting failed: Structure is valid but no central pedestal has been found. Please report this.");
+            return Optional.empty();
         }
-        return false;
+        ItemStack catalyst = catalystPedestal.getItem();
+        List<ItemStack> components = itemProviders.stream().map(be -> level.getCapability(ConfigCapabilities.INFUSION_PEDESTAL, be.getBlockPos()).getItem()).filter(item -> item != ItemStack.EMPTY).toList();
+        return CraftingUtils.findInfusionRecipe((ServerLevel)level, new InfusionRecipe.Input(catalyst, NonNullList.copyOf(components), research));
     }
 
     public static class AnimationHandler {
@@ -153,24 +184,7 @@ public class RunicMatrixBlockEntity extends SimpleBlockEntity implements Tickabl
         }
 
         public void tick() {
-            if (be.isActivated() && this.activateProgress != 1.0F) {
-                if (this.activateProgress < 1.0F) {
-                    this.activateProgress += Math.max(this.activateProgress / 10.0F, 0.001F);
-                }
-                if (this.activateProgress > 0.999D) {
-                    this.activateProgress = 1.0F;
-                }
-            }
-            if (!be.isActivated() && this.activateProgress > 0.0F) {
-                this.activateProgress -= this.activateProgress / 10.0F;
-                if (this.activateProgress < 0.001D) {
-                    this.activateProgress = 0.0F;
-                }
-            }
 
-            if(rubikAnimation != null && !rubikDone) {
-                rubikTarget = Math.min(rubikTarget + rubikAnimation.speed(), rubikAnimation.target());
-            }
         }
     }
 
@@ -178,9 +192,12 @@ public class RunicMatrixBlockEntity extends SimpleBlockEntity implements Tickabl
 
     @AllArgsConstructor
     public enum MatrixState implements StringRepresentable {
+        INACTIVE,
+        STARTING,
         IDLE,
+        ABSORBING,
         CRAFTING,
-        SECRET;
+        EXPLODING;
 
         @Override
         public String getSerializedName() {
@@ -188,7 +205,7 @@ public class RunicMatrixBlockEntity extends SimpleBlockEntity implements Tickabl
         }
 
         public static MatrixState fromString(String name) {
-            return Arrays.stream(MatrixState.values()).filter(s -> s.getSerializedName().equals(name)).findFirst().orElse(MatrixState.IDLE);
+            return Arrays.stream(MatrixState.values()).filter(s -> s.getSerializedName().equals(name)).findFirst().orElse(MatrixState.INACTIVE);
         }
     }
 }

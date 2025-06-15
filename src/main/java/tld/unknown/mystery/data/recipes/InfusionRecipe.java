@@ -35,12 +35,12 @@ public record InfusionRecipe(
 
     @Override
     public boolean matches(Input input, Level level) {
-        Holder<ResearchEntry> entry = ConfigDataRegistries.RESEARCH_ENTRIES.getHolder(level.registryAccess(), requiredResearch);
-        if(input.playerResearch().getResearchState(entry).state() == IResearchCapability.ResearchCompletion.COMPLETE) {
+        //Holder<ResearchEntry> entry = ConfigDataRegistries.RESEARCH_ENTRIES.getHolder(level.registryAccess(), requiredResearch); //TODO: Infusion - Implement research check when finished testing.
+        //if(input.playerResearch().getResearchState(entry).state() == IResearchCapability.ResearchCompletion.COMPLETE) {
             if(catalyst.test(input.catalyst())) {
                 return components.stream().allMatch(component -> input.components().stream().anyMatch(component));
             }
-        }
+        //}
         return false;
     }
 

@@ -11,6 +11,7 @@ import tld.unknown.mystery.api.capabilities.IResearchCapability;
 import tld.unknown.mystery.data.aspects.AspectList;
 import tld.unknown.mystery.data.recipes.AlchemyRecipe;
 import tld.unknown.mystery.data.recipes.ArcaneCraftingRecipe;
+import tld.unknown.mystery.data.recipes.InfusionRecipe;
 import tld.unknown.mystery.registries.ConfigBlocks;
 import tld.unknown.mystery.registries.ConfigCapabilities;
 import tld.unknown.mystery.registries.ConfigRecipeTypes;
@@ -29,6 +30,12 @@ public final class CraftingUtils {
     public static Optional<RecipeHolder<ArcaneCraftingRecipe>> findArcaneCraftingRecipe(ServerLevel p, RecipeInput craftingSlots, IResearchCapability research) {
         return p.recipeAccess().recipeMap().byType(ConfigRecipeTypes.ARCANE_CRAFTING.type()).stream()
                 .filter(holder -> holder.value().isValid(p, craftingSlots, research))
+                .findFirst();
+    }
+
+    public static Optional<RecipeHolder<InfusionRecipe>> findInfusionRecipe(ServerLevel p, InfusionRecipe.Input input) {
+        return p.recipeAccess().recipeMap().byType(ConfigRecipeTypes.INFUSION.type()).stream()
+                .filter(holder -> holder.value().matches(input, p))
                 .findFirst();
     }
 
