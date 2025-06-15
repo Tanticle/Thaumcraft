@@ -6,28 +6,41 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.util.StringRepresentable;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import tld.unknown.mystery.registries.ConfigBlockEntities;
+import tld.unknown.mystery.registries.ConfigCapabilities;
+import tld.unknown.mystery.registries.ConfigSounds;
+import tld.unknown.mystery.util.CraftingUtils;
 import tld.unknown.mystery.util.simple.SimpleBlockEntity;
 import tld.unknown.mystery.util.simple.TickableBlockEntity;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 @Getter
 public class RunicMatrixBlockEntity extends SimpleBlockEntity implements TickableBlockEntity {
 
+    private static final int RADIUS_HORIZONTAL = 8;
+    private static final int RADIUS_BELOW = -7;
+    private static final int RADIUS_ABOVE = 3;
+
+
     private final AnimationHandler animationHandler;
 
     private boolean activated;
-    private MatrixState matrixState;
+
+    private List<BlockEntity> itemProviders;
 
     public RunicMatrixBlockEntity(BlockPos pPos, BlockState pBlockState) {
         super(ConfigBlockEntities.RUNIC_MATRIX.entityType(), pPos, pBlockState);
         this.activated = false;
-        this.matrixState = MatrixState.IDLE;
         this.animationHandler = new AnimationHandler(this);
     }
 
@@ -38,12 +51,12 @@ public class RunicMatrixBlockEntity extends SimpleBlockEntity implements Tickabl
 
     @Override
     protected void readNbt(CompoundTag nbt, HolderLookup.Provider pRegistries) {
-        this.matrixState = MatrixState.fromString(nbt.getString("state"));
+        this.activated = nbt.getBoolean("activated");
     }
 
     @Override
     protected void writeNbt(CompoundTag nbt, HolderLookup.Provider pRegistries) {
-        nbt.putString("state", matrixState.getSerializedName());
+        nbt.putBoolean("activated", this.activated);
     }
 
     @Override
@@ -62,8 +75,31 @@ public class RunicMatrixBlockEntity extends SimpleBlockEntity implements Tickabl
         }
     }
 
-    public void activate() {
-        this.activated = !activated;
+    private void scanEnvironment(Level level) {
+        List<BlockPos> stabilityModifiers = new ArrayList<>();
+        itemProviders.clear();
+
+        for(int x = -RADIUS_HORIZONTAL; x <= RADIUS_HORIZONTAL; x++) {
+            for(int z = -RADIUS_HORIZONTAL; z <= RADIUS_HORIZONTAL; z++) {
+                for(int y = RADIUS_BELOW; y <= RADIUS_ABOVE; y++) {
+                    BlockPos pos = getBlockPos().offset(x, y, z);
+
+                    if(level.getCapability(ConfigCapabilities.INFUSION_PEDESTAL, pos) != null) {
+                        itemProviders.add(level.getBlockEntity(pos));
+                    }
+                }
+            }
+        }
+    }
+
+    public boolean activate(Level level) {
+        if(CraftingUtils.verifyInfusionAltarStructure(level, this.getBlockPos(), false)) {
+            this.activated = true;
+            level.playSound(null, getBlockPos(), ConfigSounds.SPARKLE_HUM.value(), SoundSource.BLOCKS, 1, 1);
+            sync();
+            return true;
+        }
+        return false;
     }
 
     public static class AnimationHandler {
@@ -126,9 +162,7 @@ public class RunicMatrixBlockEntity extends SimpleBlockEntity implements Tickabl
                 }
             }
             if (!be.isActivated() && this.activateProgress > 0.0F) {
-                if (this.activateProgress > 0.0F) {
-                    this.activateProgress -= this.activateProgress / 10.0F;
-                }
+                this.activateProgress -= this.activateProgress / 10.0F;
                 if (this.activateProgress < 0.001D) {
                     this.activateProgress = 0.0F;
                 }

@@ -19,6 +19,7 @@ public class ConfigSounds {
     public static final Holder<SoundEvent> JAR_TAPPING = register(Sounds.JAR_TAPPING);
     public static final Holder<SoundEvent> PAPER_RUSTLING = register(Sounds.PAPER_RUSTLING);
     public static final Holder<SoundEvent> KNOB_TWISTING = register(Sounds.KNOB_TWISTING);
+    public static final Holder<SoundEvent> SPARKLE_HUM = register(Sounds.SPARKLE_HUM);
 
     /* -------------------------------------------------------------------------------------------------------------- */
 

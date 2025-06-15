@@ -22,6 +22,7 @@ public class SoundProvider extends SoundDefinitionsProvider {
         registerSoundSet(Sounds.WIND_HOWLING, 2);
 
         registerSound(Sounds.KNOB_TWISTING);
+        registerSound(Sounds.SPARKLE_HUM);
     }
 
     private void registerSoundSet(SoundEvent event, int variants) {
