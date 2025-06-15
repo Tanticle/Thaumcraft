@@ -10,7 +10,7 @@ import net.neoforged.neoforge.common.Tags;
 import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
 import net.neoforged.neoforge.event.level.BlockEvent;
 import tld.unknown.mystery.Thaumcraft;
-import tld.unknown.mystery.api.InfusionEnchantments;
+import tld.unknown.mystery.api.enums.InfusionEnchantments;
 import tld.unknown.mystery.entities.MovingItemEntity;
 import tld.unknown.mystery.registries.ConfigItemComponents;
 import tld.unknown.mystery.util.BlockUtils;

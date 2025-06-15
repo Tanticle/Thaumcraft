@@ -19,7 +19,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 import org.apache.commons.compress.utils.Lists;
 import tld.unknown.mystery.api.IArchitect;
-import tld.unknown.mystery.api.InfusionEnchantments;
+import tld.unknown.mystery.api.enums.InfusionEnchantments;
 import tld.unknown.mystery.api.ThaumcraftMaterials;
 import tld.unknown.mystery.items.components.InfusionEnchantmentComponent;
 import tld.unknown.mystery.registries.ConfigItemComponents;

@@ -21,7 +21,7 @@ import org.jetbrains.annotations.NotNull;
 import tld.unknown.mystery.Thaumcraft;
 import tld.unknown.mystery.api.ThaumcraftData;
 import tld.unknown.mystery.api.capabilities.IResearchCapability;
-import tld.unknown.mystery.attachments.ResearchAttachment;
+import tld.unknown.mystery.data.attachments.ResearchAttachment;
 import tld.unknown.mystery.data.aspects.AspectList;
 import tld.unknown.mystery.data.recipes.AlchemyRecipe;
 import tld.unknown.mystery.registries.ConfigBlockEntities;

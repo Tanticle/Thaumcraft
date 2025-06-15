@@ -7,9 +7,9 @@ import net.neoforged.neoforge.attachment.AttachmentType;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import net.neoforged.neoforge.registries.NeoForgeRegistries;
 import tld.unknown.mystery.Thaumcraft;
-import tld.unknown.mystery.attachments.AuraAttachment;
-import tld.unknown.mystery.attachments.InfusionAttachment;
-import tld.unknown.mystery.attachments.ResearchAttachment;
+import tld.unknown.mystery.data.attachments.AuraAttachment;
+import tld.unknown.mystery.data.attachments.InfusionAttachment;
+import tld.unknown.mystery.data.attachments.ResearchAttachment;
 
 import java.util.HashMap;
 import java.util.function.Supplier;

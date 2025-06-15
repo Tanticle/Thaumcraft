@@ -6,7 +6,7 @@ import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.util.StringRepresentable;
 import net.neoforged.neoforge.network.codec.NeoForgeStreamCodecs;
-import tld.unknown.mystery.api.InfusionEnchantments;
+import tld.unknown.mystery.api.enums.InfusionEnchantments;
 
 import java.util.HashMap;
 import java.util.Map;

@@ -11,9 +11,9 @@ import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import net.neoforged.neoforge.registries.NeoForgeRegistries;
 import tld.unknown.mystery.Thaumcraft;
-import tld.unknown.mystery.loot.conditions.InfusionEnchantmentCondition;
-import tld.unknown.mystery.loot.modifiers.HarvesterModifier;
-import tld.unknown.mystery.loot.modifiers.HomingItemModifier;
+import tld.unknown.mystery.data.loot.conditions.InfusionEnchantmentCondition;
+import tld.unknown.mystery.data.loot.modifiers.HarvesterModifier;
+import tld.unknown.mystery.data.loot.modifiers.HomingItemModifier;
 
 import java.util.function.Supplier;
 

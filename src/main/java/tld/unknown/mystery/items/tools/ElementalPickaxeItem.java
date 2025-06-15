@@ -5,7 +5,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.PickaxeItem;
 import net.minecraft.world.item.Rarity;
-import tld.unknown.mystery.api.InfusionEnchantments;
+import tld.unknown.mystery.api.enums.InfusionEnchantments;
 import tld.unknown.mystery.api.ThaumcraftMaterials;
 import tld.unknown.mystery.items.components.InfusionEnchantmentComponent;
 import tld.unknown.mystery.registries.ConfigItemComponents;

@@ -4,7 +4,7 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.Holder;
 import net.minecraft.util.StringRepresentable;
-import tld.unknown.mystery.attachments.ResearchAttachment;
+import tld.unknown.mystery.data.attachments.ResearchAttachment;
 import tld.unknown.mystery.data.research.ResearchEntry;
 import tld.unknown.mystery.util.BitPacker;
 import tld.unknown.mystery.util.codec.Codecs;

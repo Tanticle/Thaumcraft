@@ -5,7 +5,7 @@ import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.level.ChunkEvent;
 import tld.unknown.mystery.Thaumcraft;
-import tld.unknown.mystery.attachments.AuraAttachment;
+import tld.unknown.mystery.data.attachments.AuraAttachment;
 import tld.unknown.mystery.registries.ConfigDataAttachments;
 
 @EventBusSubscriber(modid = Thaumcraft.MOD_ID, bus = EventBusSubscriber.Bus.GAME)

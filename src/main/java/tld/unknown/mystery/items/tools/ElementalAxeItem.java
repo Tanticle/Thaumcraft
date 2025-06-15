@@ -9,7 +9,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.ItemUseAnimation;
 import net.minecraft.world.item.Rarity;
 import net.minecraft.world.level.Level;
-import tld.unknown.mystery.api.InfusionEnchantments;
+import tld.unknown.mystery.api.enums.InfusionEnchantments;
 import tld.unknown.mystery.api.ThaumcraftMaterials;
 import tld.unknown.mystery.items.components.InfusionEnchantmentComponent;
 import tld.unknown.mystery.registries.ConfigItemComponents;

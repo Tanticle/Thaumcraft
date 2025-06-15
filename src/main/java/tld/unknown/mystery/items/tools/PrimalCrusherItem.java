@@ -9,7 +9,7 @@ import net.minecraft.world.item.DiggerItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.ToolMaterial;
 import net.minecraft.world.level.Level;
-import tld.unknown.mystery.api.InfusionEnchantments;
+import tld.unknown.mystery.api.enums.InfusionEnchantments;
 import tld.unknown.mystery.api.ThaumcraftData;
 import tld.unknown.mystery.api.WarpingGear;
 import tld.unknown.mystery.items.components.InfusionEnchantmentComponent;
