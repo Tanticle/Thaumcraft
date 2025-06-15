@@ -270,6 +270,13 @@ public final class ThaumcraftData {
         public static final ResourceLocation ESSENTIA = Thaumcraft.id("essentia_transfer");
         public static final ResourceLocation AURA = Thaumcraft.id("aura");
         public static final ResourceLocation INFUSION_ENCHANTMENT = Thaumcraft.id("infusion_enchantment");
+        public static final ResourceLocation INFUSION_STABILIZER = Thaumcraft.id("infusion_stabilizer");
+        public static final ResourceLocation INFUSION_PEDESTAL = Thaumcraft.id("infusion_pedestal");
+    }
+
+    public static final class DataMaps {
+
+        public static final ResourceLocation INFUSION_STABILIZER = Thaumcraft.id("infusion_stabilizer");
     }
 
     public static final class Loot {
@@ -285,6 +292,7 @@ public final class ThaumcraftData {
         public static final SoundEvent PAPER_RUSTLING = variable("paper_rustling");
         public static final SoundEvent WIND_HOWLING = variable("wind_howling");
         public static final SoundEvent KNOB_TWISTING = variable("knob_twisting");
+        public static final SoundEvent SPARKLE_HUM = variable("sparkle_hum");
 
         private static SoundEvent fixed(String id, float range) {
             return SoundEvent.createFixedRangeEvent(Thaumcraft.id(id), range);

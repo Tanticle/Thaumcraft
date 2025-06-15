@@ -21,6 +21,7 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import tld.unknown.mystery.api.enums.InfusionAltarTiers;
 import tld.unknown.mystery.blocks.entities.PedestalBlockEntity;
 import tld.unknown.mystery.registries.ConfigBlockEntities;
 import tld.unknown.mystery.util.simple.SimpleBlockMaterials;
@@ -37,9 +38,9 @@ public class PedestalBlock extends SimpleEntityBlock<PedestalBlockEntity> {
     public static final IntegerProperty STABILIZED = IntegerProperty.create("stabilized", 0, 15);
 
     @Getter
-    private final Type type;
+    private final InfusionAltarTiers type;
 
-    public PedestalBlock(Type type, BlockBehaviour.Properties props) {
+    public PedestalBlock(InfusionAltarTiers type, BlockBehaviour.Properties props) {
         super(SimpleBlockMaterials.stone(props), ConfigBlockEntities.PEDESTAL.entityTypeObject());
         this.type = type;
         registerDefaultState(this.getStateDefinition().any()
@@ -99,11 +100,5 @@ public class PedestalBlock extends SimpleEntityBlock<PedestalBlockEntity> {
         }
 
         return InteractionResult.SUCCESS;
-    }
-
-    public enum Type {
-        ARCANE,
-        ANCIENT,
-        ELDRITCH;
     }
 }

@@ -7,11 +7,13 @@ import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
+import tld.unknown.mystery.api.capabilities.IInfusionPedestalCapability;
+import tld.unknown.mystery.api.enums.InfusionAltarTiers;
 import tld.unknown.mystery.blocks.PedestalBlock;
 import tld.unknown.mystery.registries.ConfigBlockEntities;
 import tld.unknown.mystery.util.simple.SimpleBlockEntity;
 
-public class PedestalBlockEntity extends SimpleBlockEntity {
+public class PedestalBlockEntity extends SimpleBlockEntity implements IInfusionPedestalCapability {
 
     @Getter @Setter
     private ItemStack itemStack;
@@ -31,7 +33,19 @@ public class PedestalBlockEntity extends SimpleBlockEntity {
         nbt.put("item", itemStack.saveOptional(pRegistries));
     }
 
-    private PedestalBlock.Type getPedestalType() {
+    @Override
+    public ItemStack getItem() {
+        return itemStack;
+    }
+
+    @Override
+    public InfusionAltarTiers getAltarTier() {
         return ((PedestalBlock)getBlockState().getBlock()).getType();
+    }
+
+    @Override
+    public void consumeItem() {
+        this.itemStack = ItemStack.EMPTY;
+        sync();
     }
 }
