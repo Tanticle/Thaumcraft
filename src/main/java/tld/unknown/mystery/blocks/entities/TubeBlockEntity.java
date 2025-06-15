@@ -212,4 +212,9 @@ public class TubeBlockEntity extends SimpleBlockEntity implements IEssentiaCapab
     public boolean compliesToAspect(ResourceKey<Aspect> aspect, Direction dir) {
         return false;
     }
+
+    @Override
+    public boolean isContainer(Direction dir) {
+        return false;
+    }
 }

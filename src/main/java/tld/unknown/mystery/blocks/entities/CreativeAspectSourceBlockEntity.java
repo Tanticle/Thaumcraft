@@ -99,4 +99,9 @@ public class CreativeAspectSourceBlockEntity extends SimpleBlockEntity implement
     public boolean compliesToAspect(ResourceKey<Aspect> aspect, Direction dir) {
         return aspect.equals(this.aspect);
     }
+
+    @Override
+    public boolean isContainer(Direction dir) {
+        return true;
+    }
 }
