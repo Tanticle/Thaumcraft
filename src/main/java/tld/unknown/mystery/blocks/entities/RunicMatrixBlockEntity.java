@@ -120,6 +120,7 @@ public class RunicMatrixBlockEntity extends SimpleBlockEntity implements Tickabl
     private boolean beginCrafting(Player player) {
         scanEnvironment();
         this.currentRecipe = getCurrentRecipe(player.getCapability(ConfigCapabilities.RESEARCH)).get();
+        return true;
     }
 
     private Optional<RecipeHolder<InfusionRecipe>> getCurrentRecipe(IResearchCapability research) {
