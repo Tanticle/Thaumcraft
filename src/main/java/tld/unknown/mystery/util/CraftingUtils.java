@@ -7,6 +7,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.item.crafting.RecipeInput;
 import net.minecraft.world.level.Level;
+import tld.unknown.mystery.api.ThaumcraftData;
 import tld.unknown.mystery.api.capabilities.IResearchCapability;
 import tld.unknown.mystery.data.aspects.AspectList;
 import tld.unknown.mystery.data.recipes.AlchemyRecipe;
@@ -59,7 +60,7 @@ public final class CraftingUtils {
                 if(!level.getBlockState(pos).is(ConfigBlocks.ARCANE_STONE.block()) || !level.getBlockState(pos.below()).is(ConfigBlocks.ARCANE_STONE.block()))
                     return false;
             else {
-                if(!level.getBlockState(pos.below()).is(ConfigBlocks.INFUSION_PILLAR.block()))
+                if(!level.getBlockState(pos.below()).is(ThaumcraftData.Tags.INFUSION_PILLAR))
                     return false;
             }
         }

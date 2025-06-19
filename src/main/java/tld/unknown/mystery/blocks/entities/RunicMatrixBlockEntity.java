@@ -31,11 +31,9 @@ import tld.unknown.mystery.util.CraftingUtils;
 import tld.unknown.mystery.util.simple.SimpleBlockEntity;
 import tld.unknown.mystery.util.simple.TickableBlockEntity;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
+//TODO: Infusion - Speed and Cost modifiers
 @Getter
 public class RunicMatrixBlockEntity extends SimpleBlockEntity implements TickableBlockEntity {
 
@@ -43,16 +41,22 @@ public class RunicMatrixBlockEntity extends SimpleBlockEntity implements Tickabl
     private static final int RADIUS_BELOW = -7;
     private static final int RADIUS_ABOVE = 3;
 
-    private final AnimationHandler animationHandler;
+    private static final int CYCLE_TIME_DEFAULT = 10;
 
+    private final AnimationHandler animationHandler;
     private MatrixState state;
+
     private RecipeHolder<InfusionRecipe> currentRecipe;
     private AspectList requiredEssentia;
+    private UUID crafingPlayer;
     private List<BlockEntity> itemProviders;
+    private int cycleSpeed;
+    private float costModifier;
 
     public RunicMatrixBlockEntity(BlockPos pPos, BlockState pBlockState) {
         super(ConfigBlockEntities.RUNIC_MATRIX.entityType(), pPos, pBlockState);
         this.state = MatrixState.INACTIVE;
+        this.itemProviders = new ArrayList<>();
         this.animationHandler = new AnimationHandler(this);
     }
 
@@ -100,7 +104,10 @@ public class RunicMatrixBlockEntity extends SimpleBlockEntity implements Tickabl
     private void scanEnvironment() {
         List<BlockPos> stabilityModifiers = new ArrayList<>();
         itemProviders.clear();
+        cycleSpeed = CYCLE_TIME_DEFAULT;
+        costModifier = 1.0F;
 
+        CraftingUtils.verifyInfusionAltarStructure(level, this.getBlockPos(), false);
         for(int x = -RADIUS_HORIZONTAL; x <= RADIUS_HORIZONTAL; x++) {
             for(int z = -RADIUS_HORIZONTAL; z <= RADIUS_HORIZONTAL; z++) {
                 for(int y = RADIUS_BELOW; y <= RADIUS_ABOVE; y++) {
@@ -119,14 +126,23 @@ public class RunicMatrixBlockEntity extends SimpleBlockEntity implements Tickabl
 
     private boolean beginCrafting(Player player) {
         scanEnvironment();
-        this.currentRecipe = getCurrentRecipe(player.getCapability(ConfigCapabilities.RESEARCH)).get();
+        Optional<RecipeHolder<InfusionRecipe>> recipeOptional = getCurrentRecipe(player.getCapability(ConfigCapabilities.RESEARCH));
+        if(recipeOptional.isEmpty()) {
+            this.currentRecipe = null;
+            return false;
+        }
+        this.currentRecipe = recipeOptional.get();
+        this.crafingPlayer = player.getUUID();
+        this.state = MatrixState.CRAFTING;
+        getLevel().playSound(null, getBlockPos(), ConfigSounds.SPARKLE_HUM.value(), SoundSource.BLOCKS, .5F, 1);
+        sync();
         return true;
     }
 
     private Optional<RecipeHolder<InfusionRecipe>> getCurrentRecipe(IResearchCapability research) {
         IInfusionPedestalCapability catalystPedestal = level.getCapability(ConfigCapabilities.INFUSION_PEDESTAL, getBlockPos().below(2));
         if(catalystPedestal == null) {
-            Thaumcraft.error("Infusion crafting failed: Structure is valid but no central pedestal has been found. Please report this.");
+            Thaumcraft.error("Infusion crafting failed: Structure is valid but no central pedestal has been found. Please report this. Found %s", level.getBlockState(getBlockPos().below(2)).getBlock().getName());
             return Optional.empty();
         }
         ItemStack catalyst = catalystPedestal.getItem();
