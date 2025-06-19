@@ -11,5 +11,12 @@ public final class DataMapEntries {
                 Codec.FLOAT.fieldOf("penalty").forGetter(InfusionStabilizerData::stabilizationPenalty)
         ).apply(i, InfusionStabilizerData::new));
     }
+
+    public record InfusionModifierData(float costModifier, int cycleModifier) {
+        public static final Codec<InfusionModifierData> CODEC = RecordCodecBuilder.create(i -> i.group(
+                Codec.FLOAT.fieldOf("costModifier").forGetter(InfusionModifierData::costModifier),
+                Codec.INT.fieldOf("cycleModifier").forGetter(InfusionModifierData::cycleModifier)
+        ).apply(i, InfusionModifierData::new));
+    }
 }
 

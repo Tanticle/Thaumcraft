@@ -21,6 +21,7 @@ public final class ConfigDataMaps {
     /* -------------------------------------------------------------------------------------------------------------- */
 
     public static final DataMapType<Block, DataMapEntries.InfusionStabilizerData> INFUSION_STABILIZER = register(ThaumcraftData.DataMaps.INFUSION_STABILIZER, Registries.BLOCK, DataMapEntries.InfusionStabilizerData.CODEC);
+    public static final DataMapType<Block, DataMapEntries.InfusionModifierData> INFUSION_MODIFIER = register(ThaumcraftData.DataMaps.INFUSION_MODIFIER, Registries.BLOCK, DataMapEntries.InfusionModifierData.CODEC);
 
     /* -------------------------------------------------------------------------------------------------------------- */
 

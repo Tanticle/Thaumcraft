@@ -1,7 +1,6 @@
 package tld.unknown.mystery.api.capabilities;
 
 import net.minecraft.world.item.ItemStack;
-import tld.unknown.mystery.api.enums.InfusionAltarTiers;
 
 /**
  * This Capability is used to signal the Infusion Altar that a block is valid to be considered as a pedestal to draw
@@ -22,8 +21,4 @@ public interface IInfusionPedestalCapability {
      * by the altar, this method should simply remove the displayed item stack from the inventory.
      */
     void consumeItem();
-
-    /** TODO: Docs
-     */
-    InfusionAltarTiers getAltarTier();
 }

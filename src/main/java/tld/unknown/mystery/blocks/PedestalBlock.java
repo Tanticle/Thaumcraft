@@ -1,6 +1,5 @@
 package tld.unknown.mystery.blocks;
 
-import lombok.Getter;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.sounds.SoundEvents;
@@ -21,7 +20,6 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import tld.unknown.mystery.api.enums.InfusionAltarTiers;
 import tld.unknown.mystery.blocks.entities.PedestalBlockEntity;
 import tld.unknown.mystery.registries.ConfigBlockEntities;
 import tld.unknown.mystery.util.simple.SimpleBlockMaterials;
@@ -37,12 +35,8 @@ public class PedestalBlock extends SimpleEntityBlock<PedestalBlockEntity> {
 
     public static final IntegerProperty STABILIZED = IntegerProperty.create("stabilized", 0, 15);
 
-    @Getter
-    private final InfusionAltarTiers type;
-
-    public PedestalBlock(InfusionAltarTiers type, BlockBehaviour.Properties props) {
+    public PedestalBlock(BlockBehaviour.Properties props) {
         super(SimpleBlockMaterials.stone(props), ConfigBlockEntities.PEDESTAL.entityTypeObject());
-        this.type = type;
         registerDefaultState(this.getStateDefinition().any()
                 .setValue(STABILIZED, 0));
     }

@@ -16,7 +16,6 @@ import net.neoforged.neoforge.registries.DeferredBlock;
 import net.neoforged.neoforge.registries.DeferredItem;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import tld.unknown.mystery.Thaumcraft;
-import tld.unknown.mystery.api.enums.InfusionAltarTiers;
 import tld.unknown.mystery.blocks.*;
 import tld.unknown.mystery.blocks.alchemy.CreativeAspectSourceBlock;
 import tld.unknown.mystery.blocks.alchemy.CrucibleBlock;
@@ -52,9 +51,9 @@ public final class ConfigBlocks {
     public static final BlockObject<ArcaneWorkbenchBlock> ARCANE_WORKBENCH = registerBlock(Blocks.ARCANE_WORKBENCH, ArcaneWorkbenchBlock::new, ConfigCreativeTabs.MAIN);
     public static final BlockObject<CrucibleBlock> CRUCIBLE = registerBlock(Blocks.CRUCIBLE, CrucibleBlock::new, ConfigCreativeTabs.MAIN);
     public static final BlockObject<RunicMatrixBlock> RUNIC_MATRIX = registerBlock(Blocks.RUNIC_MATRIX, RunicMatrixBlock::new, ConfigCreativeTabs.MAIN);
-    public static final BlockObject<PedestalBlock> ARCANE_PEDESTAL = registerBlock(Blocks.ARCANE_PEDESTAL, p -> new PedestalBlock(InfusionAltarTiers.NORMAL, p), ConfigCreativeTabs.MAIN);
-    public static final BlockObject<PedestalBlock> ANCIENT_PEDESTAL = registerBlock(Blocks.ANCIENT_PEDESTAL, p -> new PedestalBlock(InfusionAltarTiers.ANCIENT, p), ConfigCreativeTabs.MAIN);
-    public static final BlockObject<PedestalBlock> ELDRITCH_PEDESTAL = registerBlock(Blocks.ELDRITCH_PEDESTAL, p -> new PedestalBlock(InfusionAltarTiers.ELDRITCH, p), ConfigCreativeTabs.MAIN);
+    public static final BlockObject<PedestalBlock> ARCANE_PEDESTAL = registerBlock(Blocks.ARCANE_PEDESTAL, PedestalBlock::new, ConfigCreativeTabs.MAIN);
+    public static final BlockObject<PedestalBlock> ANCIENT_PEDESTAL = registerBlock(Blocks.ANCIENT_PEDESTAL, PedestalBlock::new, ConfigCreativeTabs.MAIN);
+    public static final BlockObject<PedestalBlock> ELDRITCH_PEDESTAL = registerBlock(Blocks.ELDRITCH_PEDESTAL, PedestalBlock::new, ConfigCreativeTabs.MAIN);
     public static final BlockObject<JarBlock> WARDED_JAR = registerBlock(Blocks.WARDED_JAR, p -> new JarBlock(false, p), ConfigCreativeTabs.MAIN);
     public static final BlockObject<JarBlock> VOID_JAR = registerBlock(Blocks.VOID_JAR, p -> new JarBlock(true, p), ConfigCreativeTabs.MAIN);
 

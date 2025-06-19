@@ -189,6 +189,7 @@ public final class ThaumcraftData {
     public static final class Tags {
 
         public static final TagKey<Block> CRUCIBLE_HEATER = BlockTags.create(Thaumcraft.id("crucible_heater"));
+        public static final TagKey<Block> INFUSION_PILLAR = BlockTags.create(Thaumcraft.id("infusion_pillar"));
         public static final TagKey<Block> MINEABLE_WITH_CRUSHER = BlockTags.create(Thaumcraft.id("mineable_with_crusher"));
         public static final TagKey<Block> NOT_MINEABLE_WITH_CRUSHER = BlockTags.create(Thaumcraft.id("mineable_with_crusher"));
     }
@@ -277,6 +278,7 @@ public final class ThaumcraftData {
     public static final class DataMaps {
 
         public static final ResourceLocation INFUSION_STABILIZER = Thaumcraft.id("infusion_stabilizer");
+        public static final ResourceLocation INFUSION_MODIFIER = Thaumcraft.id("infusion_modifier");
     }
 
     public static final class Loot {
