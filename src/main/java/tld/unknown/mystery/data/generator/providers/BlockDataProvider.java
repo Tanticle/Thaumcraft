@@ -50,10 +50,16 @@ public class BlockDataProvider extends ModelProvider {
         this.blocks = blockModels;
         this.items = itemModels;
 
-        registerAxisTexturedBlock(ConfigBlocks.ARCANE_STONE, true);
+        registerAxisTexturedBlock(ConfigBlocks.ARCANE_STONE, false);
         registerStairAndSlab(ConfigBlocks.ARCANE_STONE, ConfigBlocks.ARCANE_STONE_STAIRS, ConfigBlocks.ARCANE_STONE_SLAB, true);
         simpleBlock(ConfigBlocks.ARCANE_STONE_BRICK);
         registerStairAndSlab(ConfigBlocks.ARCANE_STONE_BRICK, ConfigBlocks.ARCANE_STONE_BRICK_STAIRS, ConfigBlocks.ARCANE_STONE_BRICK_SLAB, false);
+        registerAxisTexturedBlock(ConfigBlocks.ANCIENT_STONE, true);
+        registerStairAndSlab(ConfigBlocks.ANCIENT_STONE, ConfigBlocks.ANCIENT_STONE_STAIRS, ConfigBlocks.ANCIENT_STONE_SLAB, true);
+        simpleBlock(ConfigBlocks.ANCIENT_STONE_TILE);
+        registerStairAndSlab(ConfigBlocks.ANCIENT_STONE_TILE, ConfigBlocks.ANCIENT_STONE_TILE_STAIRS, ConfigBlocks.ANCIENT_STONE_TILE_SLAB, false);
+        registerAxisTexturedBlock(ConfigBlocks.ELDRITCH_STONE, false);
+        registerStairAndSlab(ConfigBlocks.ELDRITCH_STONE, ConfigBlocks.ELDRITCH_STONE_STAIRS, ConfigBlocks.ELDRITCH_STONE_SLAB, true);
 
         simpleExistingBlock(ConfigBlocks.CRUCIBLE);
         simpleExistingBlock(ConfigBlocks.ARCANE_WORKBENCH);
@@ -198,22 +204,22 @@ public class BlockDataProvider extends ModelProvider {
         blockParentItem(slab, bottomSlab);
     }
 
-    private void registerAxisTexturedBlock(ConfigBlocks.BlockObject<? extends Block> block, boolean variations) {
+    private void registerAxisTexturedBlock(ConfigBlocks.BlockObject<? extends Block> block, boolean allSides) {
         ResourceLocation id = RegistryUtils.getBlockLocation(block.blockSupplier());
         TextureMapping mapping = new TextureMapping().put(TextureSlot.PARTICLE, id.withSuffix("_0"))
-                .put(TextureSlot.UP, id.withSuffix("_0")).put(TextureSlot.DOWN, id.withSuffix("_0"))
-                .put(TextureSlot.EAST, id.withSuffix("_1")).put(TextureSlot.WEST, id.withSuffix("_1"))
-                .put(TextureSlot.NORTH, id.withSuffix("_2")).put(TextureSlot.SOUTH, id.withSuffix("_2"));
+                .put(TextureSlot.UP, id.withSuffix("_0"))
+                .put(TextureSlot.EAST, id.withSuffix("_1"))
+                .put(TextureSlot.NORTH, id.withSuffix("_2"))
+                .put(TextureSlot.DOWN, id.withSuffix(allSides ? "_3" : "_0"))
+                .put(TextureSlot.WEST, id.withSuffix(allSides ? "_4" : "_1"))
+                .put(TextureSlot.SOUTH, id.withSuffix(allSides ? "_5" : "_2"));
+
         ResourceLocation model = ModelTemplates.CUBE_DIRECTIONAL.create(block.block(), mapping, blocks.modelOutput);
-        if(variations) {
-            Variant standard = Variant.variant().with(VariantProperties.MODEL, model);
-            Variant x = Variant.variant().with(VariantProperties.MODEL, model).with(VariantProperties.X_ROT , VariantProperties.Rotation.R90);
-            Variant y = Variant.variant().with(VariantProperties.MODEL, model).with(VariantProperties.Y_ROT , VariantProperties.Rotation.R90);
-            Variant xy = Variant.variant().with(VariantProperties.MODEL, model).with(VariantProperties.X_ROT , VariantProperties.Rotation.R90).with(VariantProperties.Y_ROT , VariantProperties.Rotation.R90);
-            blocks.blockStateOutput.accept(MultiVariantGenerator.multiVariant(block.block(), standard, x, y, xy));
-        } else {
-            BlockModelGenerators.createSimpleBlock(block.block(), model);
-        }
+        Variant standard = Variant.variant().with(VariantProperties.MODEL, model);
+        Variant x = Variant.variant().with(VariantProperties.MODEL, model).with(VariantProperties.X_ROT , VariantProperties.Rotation.R90);
+        Variant y = Variant.variant().with(VariantProperties.MODEL, model).with(VariantProperties.Y_ROT , VariantProperties.Rotation.R90);
+        Variant xy = Variant.variant().with(VariantProperties.MODEL, model).with(VariantProperties.X_ROT , VariantProperties.Rotation.R90).with(VariantProperties.Y_ROT , VariantProperties.Rotation.R90);
+        blocks.blockStateOutput.accept(MultiVariantGenerator.multiVariant(block.block(), standard, x, y, xy));
         blockParentItem(block, id);
     }
 

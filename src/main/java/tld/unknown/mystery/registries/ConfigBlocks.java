@@ -46,6 +46,15 @@ public final class ConfigBlocks {
     public static final BlockObject<Block> ARCANE_STONE_BRICK = registerBlock(Blocks.ARCANE_STONE_BRICK, props -> new Block(SimpleBlockMaterials.stone(props)), ConfigCreativeTabs.MAIN);
     public static final BlockObject<StairBlock> ARCANE_STONE_BRICK_STAIRS = registerBlock(Blocks.ARCANE_STONE_BRICK_STAIRS, props -> new StairBlock(ARCANE_STONE.block().defaultBlockState(), SimpleBlockMaterials.stone(props)), ConfigCreativeTabs.MAIN);
     public static final BlockObject<SlabBlock> ARCANE_STONE_BRICK_SLAB = registerBlock(Blocks.ARCANE_STONE_BRICK_SLAB, props -> new SlabBlock(SimpleBlockMaterials.stone(props)), ConfigCreativeTabs.MAIN);
+    public static final BlockObject<Block> ANCIENT_STONE = registerBlock(Blocks.ANCIENT_STONE, props -> new Block(SimpleBlockMaterials.stone(props)), ConfigCreativeTabs.MAIN);
+    public static final BlockObject<StairBlock> ANCIENT_STONE_STAIRS = registerBlock(Blocks.ANCIENT_STONE_STAIRS, props -> new StairBlock(ANCIENT_STONE.block().defaultBlockState(), SimpleBlockMaterials.stone(props)), ConfigCreativeTabs.MAIN);
+    public static final BlockObject<SlabBlock> ANCIENT_STONE_SLAB = registerBlock(Blocks.ANCIENT_STONE_SLAB, props -> new SlabBlock(SimpleBlockMaterials.stone(props)), ConfigCreativeTabs.MAIN);
+    public static final BlockObject<Block> ANCIENT_STONE_TILE = registerBlock(Blocks.ANCIENT_STONE_TILE, props -> new Block(SimpleBlockMaterials.stone(props)), ConfigCreativeTabs.MAIN);
+    public static final BlockObject<StairBlock> ANCIENT_STONE_TILE_STAIRS = registerBlock(Blocks.ANCIENT_STONE_TILE_STAIRS, props -> new StairBlock(ANCIENT_STONE_TILE.block().defaultBlockState(), SimpleBlockMaterials.stone(props)), ConfigCreativeTabs.MAIN);
+    public static final BlockObject<SlabBlock> ANCIENT_STONE_TILE_SLAB = registerBlock(Blocks.ANCIENT_STONE_TILE_SLAB, props -> new SlabBlock(SimpleBlockMaterials.stone(props)), ConfigCreativeTabs.MAIN);
+    public static final BlockObject<Block> ELDRITCH_STONE = registerBlock(Blocks.ELDRITCH_STONE, props -> new Block(SimpleBlockMaterials.stone(props)), ConfigCreativeTabs.MAIN);
+    public static final BlockObject<StairBlock> ELDRITCH_STONE_STAIRS = registerBlock(Blocks.ELDRITCH_STONE_STAIRS, props -> new StairBlock(ELDRITCH_STONE.block().defaultBlockState(), SimpleBlockMaterials.stone(props)), ConfigCreativeTabs.MAIN);
+    public static final BlockObject<SlabBlock> ELDRITCH_STONE_SLAB = registerBlock(Blocks.ELDRITCH_STONE_SLAB, props -> new SlabBlock(SimpleBlockMaterials.stone(props)), ConfigCreativeTabs.MAIN);
 
     public static final Map<CrystalBlock.CrystalAspect, BlockObject<CrystalBlock>> CRYSTAL_COLONY = registerEnumBlock(Blocks.CRYSTAL_COLONY, CrystalBlock.CrystalAspect.class, CrystalBlock::new, CrystalBlockItem::new, ConfigCreativeTabs.MAIN);
     public static final BlockObject<ArcaneWorkbenchBlock> ARCANE_WORKBENCH = registerBlock(Blocks.ARCANE_WORKBENCH, ArcaneWorkbenchBlock::new, ConfigCreativeTabs.MAIN);

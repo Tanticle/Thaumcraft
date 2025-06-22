@@ -202,6 +202,15 @@ public final class ThaumcraftData {
         public static final ResourceLocation ARCANE_STONE_BRICK = Thaumcraft.id("arcane_stone_brick");
         public static final ResourceLocation ARCANE_STONE_BRICK_STAIRS = ARCANE_STONE_BRICK.withSuffix("_stairs");
         public static final ResourceLocation ARCANE_STONE_BRICK_SLAB = ARCANE_STONE_BRICK.withSuffix("_slab");
+        public static final ResourceLocation ANCIENT_STONE = Thaumcraft.id("ancient_stone");
+        public static final ResourceLocation ANCIENT_STONE_STAIRS = ANCIENT_STONE.withSuffix("_stairs");
+        public static final ResourceLocation ANCIENT_STONE_SLAB = ANCIENT_STONE.withSuffix("_slab");
+        public static final ResourceLocation ANCIENT_STONE_TILE = Thaumcraft.id("ancient_stone_tile");
+        public static final ResourceLocation ANCIENT_STONE_TILE_STAIRS = ANCIENT_STONE_TILE.withSuffix("_stairs");
+        public static final ResourceLocation ANCIENT_STONE_TILE_SLAB = ANCIENT_STONE_TILE.withSuffix("_slab");
+        public static final ResourceLocation ELDRITCH_STONE = Thaumcraft.id("eldritch_stone");
+        public static final ResourceLocation ELDRITCH_STONE_STAIRS = ELDRITCH_STONE.withSuffix("_stairs");
+        public static final ResourceLocation ELDRITCH_STONE_SLAB = ELDRITCH_STONE.withSuffix("_slab");
 
         public static final ResourceLocation ARCANE_WORKBENCH = Thaumcraft.id("arcane_workbench");
         public static final ResourceLocation ARCANE_PEDESTAL = Thaumcraft.id("pedestal_arcane");
@@ -281,7 +290,6 @@ public final class ThaumcraftData {
     public static final class DataMaps {
 
         public static final ResourceLocation INFUSION_STABILIZER = Thaumcraft.id("infusion_stabilizer");
-        public static final ResourceLocation INFUSION_MODIFIER = Thaumcraft.id("infusion_modifier");
     }
 
     public static final class Loot {
