@@ -174,6 +174,14 @@ public class AspectList implements INBTSerializable<CompoundTag> {
         }
     }
 
+    public AspectList modify(float modifier) {
+        AspectList list = new AspectList();
+        aspects.forEach((key, amount) -> {
+            list.set(key, (short)(amount * modifier));
+        });
+        return list;
+    }
+
     public AspectList clone() {
         return new AspectList(aspects);
     }

@@ -7,6 +7,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
@@ -45,10 +46,11 @@ public class RunicMatrixBlockEntity extends SimpleBlockEntity implements Tickabl
 
     private final AnimationHandler animationHandler;
     private MatrixState state;
+    private AltarTier tier;
 
     private RecipeHolder<InfusionRecipe> currentRecipe;
     private AspectList requiredEssentia;
-    private UUID crafingPlayer;
+    private UUID craftingPlayer;
     private List<BlockEntity> itemProviders;
     private int cycleSpeed;
     private float costModifier;
@@ -56,8 +58,9 @@ public class RunicMatrixBlockEntity extends SimpleBlockEntity implements Tickabl
     public RunicMatrixBlockEntity(BlockPos pPos, BlockState pBlockState) {
         super(ConfigBlockEntities.RUNIC_MATRIX.entityType(), pPos, pBlockState);
         this.state = MatrixState.INACTIVE;
-        this.itemProviders = new ArrayList<>();
+        this.tier = AltarTier.ARCANE;
         this.animationHandler = new AnimationHandler(this);
+        this.itemProviders = new ArrayList<>();
     }
 
     @Override
@@ -101,13 +104,14 @@ public class RunicMatrixBlockEntity extends SimpleBlockEntity implements Tickabl
         return false;
     }
 
-    private void scanEnvironment() {
+    private boolean scanEnvironment() {
         List<BlockPos> stabilityModifiers = new ArrayList<>();
         itemProviders.clear();
         cycleSpeed = CYCLE_TIME_DEFAULT;
         costModifier = 1.0F;
 
-        CraftingUtils.verifyInfusionAltarStructure(level, this.getBlockPos(), false);
+        if(!CraftingUtils.verifyInfusionAltarStructure(level, this.getBlockPos(), false))
+            return false;
         for(int x = -RADIUS_HORIZONTAL; x <= RADIUS_HORIZONTAL; x++) {
             for(int z = -RADIUS_HORIZONTAL; z <= RADIUS_HORIZONTAL; z++) {
                 for(int y = RADIUS_BELOW; y <= RADIUS_ABOVE; y++) {
@@ -122,17 +126,25 @@ public class RunicMatrixBlockEntity extends SimpleBlockEntity implements Tickabl
             }
         }
         //TODO: Infusion - Instability
+        return true;
     }
 
     private boolean beginCrafting(Player player) {
-        scanEnvironment();
-        Optional<RecipeHolder<InfusionRecipe>> recipeOptional = getCurrentRecipe(player.getCapability(ConfigCapabilities.RESEARCH));
-        if(recipeOptional.isEmpty()) {
+        if(!scanEnvironment()) {
+            this.state = MatrixState.IDLE;
             this.currentRecipe = null;
             return false;
         }
+        Optional<RecipeHolder<InfusionRecipe>> recipeOptional = getCurrentRecipe(player.getCapability(ConfigCapabilities.RESEARCH));
+        if(recipeOptional.isEmpty()) {
+            this.state = MatrixState.IDLE;
+            this.currentRecipe = null;
+            return false;
+        }
+
         this.currentRecipe = recipeOptional.get();
-        this.crafingPlayer = player.getUUID();
+        this.requiredEssentia = currentRecipe.value().aspects().modify(this.costModifier);
+        this.craftingPlayer = player.getUUID();
         this.state = MatrixState.CRAFTING;
         getLevel().playSound(null, getBlockPos(), ConfigSounds.SPARKLE_HUM.value(), SoundSource.BLOCKS, .5F, 1);
         sync();
@@ -224,5 +236,17 @@ public class RunicMatrixBlockEntity extends SimpleBlockEntity implements Tickabl
         public static MatrixState fromString(String name) {
             return Arrays.stream(MatrixState.values()).filter(s -> s.getSerializedName().equals(name)).findFirst().orElse(MatrixState.INACTIVE);
         }
+    }
+
+    @Getter
+    @AllArgsConstructor
+    public enum AltarTier {
+        ARCANE(Thaumcraft.id("textures/block/runic_matrix.png"), 0F, 0F, 0),
+        ANCIENT(Thaumcraft.id("textures/block/runic_matrix_ancient.png"), -.1F, -.1F, -1),
+        ELDRITCH(Thaumcraft.id("textures/block/runic_matrix_eldritch.png"), .05F,.2F, -3);
+
+        private final ResourceLocation texture;
+        private float costModifier, stabilityRegen;
+        private int cycleModifier;
     }
 }
