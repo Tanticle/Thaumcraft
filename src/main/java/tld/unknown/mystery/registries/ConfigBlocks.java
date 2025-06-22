@@ -57,6 +57,9 @@ public final class ConfigBlocks {
     public static final BlockObject<JarBlock> WARDED_JAR = registerBlock(Blocks.WARDED_JAR, p -> new JarBlock(false, p), ConfigCreativeTabs.MAIN);
     public static final BlockObject<JarBlock> VOID_JAR = registerBlock(Blocks.VOID_JAR, p -> new JarBlock(true, p), ConfigCreativeTabs.MAIN);
 
+    public static final BlockObject<InfusionModifierBlock> INFUSION_STONE_SPEED = registerBlock(Blocks.INFUSION_STONE_SPEED, p -> new InfusionModifierBlock(p, 0.01F, -1), ConfigCreativeTabs.MAIN);
+    public static final BlockObject<InfusionModifierBlock> INFUSION_STONE_COST = registerBlock(Blocks.INFUSION_STONE_COST, p -> new InfusionModifierBlock(p, -0.02F, 1), ConfigCreativeTabs.MAIN);
+
     public static final BlockObject<TubeBlock> TUBE = registerBlock(Blocks.TUBE, TubeBlock::new, ConfigCreativeTabs.MAIN);
 
     public static final BlockObject<CreativeAspectSourceBlock> CREATIVE_ASPECT_SOURCE = registerBlock(Blocks.CREATIVE_ASPECT_SOURCE, CreativeAspectSourceBlock::new, Rarity.EPIC, ConfigCreativeTabs.MAIN);

@@ -217,6 +217,8 @@ public final class ThaumcraftData {
         public static final ResourceLocation TUBE = Thaumcraft.id("tube");
 
         public static final ResourceLocation CREATIVE_ASPECT_SOURCE = Thaumcraft.id("creative_aspect_source");
+        public static final ResourceLocation INFUSION_STONE_SPEED =  Thaumcraft.id("infusion_stone_speed");
+        public static final ResourceLocation INFUSION_STONE_COST =  Thaumcraft.id("infusion_stone_cost");
 
         public static final ResourceLocation LAMPLIGHT = Thaumcraft.id("lamplight");
         public static final ResourceLocation INFUSION_PILLAR = Thaumcraft.id("infusion_pillar");
@@ -273,6 +275,7 @@ public final class ThaumcraftData {
         public static final ResourceLocation INFUSION_ENCHANTMENT = Thaumcraft.id("infusion_enchantment");
         public static final ResourceLocation INFUSION_STABILIZER = Thaumcraft.id("infusion_stabilizer");
         public static final ResourceLocation INFUSION_PEDESTAL = Thaumcraft.id("infusion_pedestal");
+        public static final ResourceLocation INFUSION_MODIFIER = Thaumcraft.id("infusion_modifier");
     }
 
     public static final class DataMaps {

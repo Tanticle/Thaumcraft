@@ -69,6 +69,9 @@ public class BlockDataProvider extends ModelProvider {
 
         registerEmptyBlock(ConfigBlocks.RUNIC_MATRIX, RegistryUtils.getBlockItemLocation(ConfigBlocks.RUNIC_MATRIX.blockSupplier()));
         registerFakeBlock(ConfigBlocks.LAMPLIGHT);
+
+        simpleBlock(ConfigBlocks.INFUSION_STONE_COST);
+        simpleBlock(ConfigBlocks.INFUSION_STONE_SPEED);
     }
 
     @Override

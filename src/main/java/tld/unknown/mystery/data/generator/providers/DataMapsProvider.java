@@ -24,7 +24,6 @@ public class DataMapsProvider extends DataMapProvider {
                 .add(BlockTags.CANDLES.location(),  new DataMapEntries.InfusionStabilizerData(0.1F, 0.0F), false);
 
         this.builder(ConfigDataMaps.INFUSION_MODIFIER)
-                .add(ThaumcraftData.Blocks.ARCANE_PEDESTAL, new DataMapEntries.InfusionModifierData(0F, 0), false)
                 .add(ThaumcraftData.Blocks.ANCIENT_PEDESTAL, new DataMapEntries.InfusionModifierData(0.0025F, 0), false)
                 .add(ThaumcraftData.Blocks.ELDRITCH_PEDESTAL, new DataMapEntries.InfusionModifierData(-0.01F, 0), false)
                 .build();
