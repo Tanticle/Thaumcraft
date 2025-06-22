@@ -69,7 +69,9 @@ public class BlockDataProvider extends ModelProvider {
 
         registerJars();
         registerAspectSource();
-        registerInfusionPillar();
+        registerInfusionPillar(ConfigBlocks.INFUSION_PILLAR_ARCANE, RegistryUtils.getBlockLocation(ConfigBlocks.ARCANE_STONE.blockSupplier()).withSuffix("_0"));
+        registerInfusionPillar(ConfigBlocks.INFUSION_PILLAR_ANCIENT, RegistryUtils.getBlockLocation(ConfigBlocks.ANCIENT_STONE.blockSupplier()).withSuffix("_0"));
+        registerInfusionPillar(ConfigBlocks.INFUSION_PILLAR_ELDRITCH, RegistryUtils.getBlockLocation(ConfigBlocks.ELDRITCH_STONE.blockSupplier()).withSuffix("_0"));
 
         registerCrystalColonies();
 
@@ -235,18 +237,19 @@ public class BlockDataProvider extends ModelProvider {
             blockParentItem(block, itemModel);
     }
 
-    private void registerInfusionPillar() {
-        DeferredBlock<InfusionPillarBlock> block = ConfigBlocks.INFUSION_PILLAR.blockSupplier();
+    private static final ResourceLocation PILLAR_MODEL = Thaumcraft.id("models/block/infusion_pillar.obj");
+
+    private void registerInfusionPillar(ConfigBlocks.BlockObject<InfusionPillarBlock> block, ResourceLocation particle) {
         ResourceLocation model = TexturedModel.createDefault(
                 b -> new TextureMapping()
                         .put(TextureSlot.ALL, TextureMapping.getBlockTexture(b))
-                        .put(TextureSlot.PARTICLE, TextureMapping.getBlockTexture(ConfigBlocks.ARCANE_STONE_BRICK.block())),
+                        .put(TextureSlot.PARTICLE, particle),
                 ExtendedModelTemplateBuilder.builder()
                     .customLoader(ObjModelBuilder::new, loader -> {
-                        loader.modelLocation(RegistryUtils.getBlockLocation(block).withSuffix(".obj").withPrefix("models/"));
-                    }).requiredTextureSlot(TextureSlot.TEXTURE).requiredTextureSlot(TextureSlot.PARTICLE).build()).create(block.get(), blocks.modelOutput);
+                        loader.modelLocation(PILLAR_MODEL);
+                    }).requiredTextureSlot(TextureSlot.TEXTURE).requiredTextureSlot(TextureSlot.PARTICLE).build()).create(block.block(), blocks.modelOutput);
 
-        MultiVariantGenerator generator = MultiVariantGenerator.multiVariant(block.get());
+        MultiVariantGenerator generator = MultiVariantGenerator.multiVariant(block.block());
         generator.with(PropertyDispatch.property(InfusionPillarBlock.POINTING).generate(dir -> Variant.variant().with(VariantProperties.MODEL, model).with(VariantProperties.Y_ROT, dir.getBlockRotation())));
         blocks.blockStateOutput.accept(generator);
     }

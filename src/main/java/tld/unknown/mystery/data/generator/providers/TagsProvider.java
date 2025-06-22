@@ -20,6 +20,6 @@ public class TagsProvider extends BlockTagsProvider {
     @Override
     protected void addTags(HolderLookup.Provider pProvider) {
         tag(Tags.CRUCIBLE_HEATER).add(Blocks.LAVA, Blocks.MAGMA_BLOCK, Blocks.FIRE, Blocks.SOUL_FIRE, Blocks.CAMPFIRE, Blocks.SOUL_CAMPFIRE);
-        tag(Tags.INFUSION_PILLAR).add(ConfigBlocks.INFUSION_PILLAR.block());
+        tag(Tags.INFUSION_PILLAR).add(ConfigBlocks.INFUSION_PILLAR_ARCANE.block(), ConfigBlocks.INFUSION_PILLAR_ANCIENT.block(), ConfigBlocks.INFUSION_PILLAR_ELDRITCH.block());
     }
 }

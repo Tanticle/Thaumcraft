@@ -230,7 +230,9 @@ public final class ThaumcraftData {
         public static final ResourceLocation INFUSION_STONE_COST =  Thaumcraft.id("infusion_stone_cost");
 
         public static final ResourceLocation LAMPLIGHT = Thaumcraft.id("lamplight");
-        public static final ResourceLocation INFUSION_PILLAR = Thaumcraft.id("infusion_pillar");
+        public static final ResourceLocation INFUSION_PILLAR_ARCANE = Thaumcraft.id("infusion_pillar_arcane");
+        public static final ResourceLocation INFUSION_PILLAR_ANCIENT = Thaumcraft.id("infusion_pillar_ancient");
+        public static final ResourceLocation INFUSION_PILLAR_ELDRITCH = Thaumcraft.id("infusion_pillar_eldritch");
     }
 
     public static final class CreativeTabs {
