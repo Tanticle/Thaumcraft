@@ -4,7 +4,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;
 
 
-public interface InfusionModifierCapability {
+public interface IInfusionModifierCapability {
 
     float getCostModifier(Level level, BlockPos pos);
 

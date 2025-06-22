@@ -20,13 +20,14 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import tld.unknown.mystery.api.capabilities.IInfusionModifierCapability;
 import tld.unknown.mystery.blocks.entities.PedestalBlockEntity;
 import tld.unknown.mystery.registries.ConfigBlockEntities;
 import tld.unknown.mystery.util.simple.SimpleBlockMaterials;
 import tld.unknown.mystery.util.simple.SimpleEntityBlock;
 
 //TODO: Infusion Stabilization
-public class PedestalBlock extends SimpleEntityBlock<PedestalBlockEntity> {
+public class PedestalBlock extends SimpleEntityBlock<PedestalBlockEntity> implements IInfusionModifierCapability {
 
     private static final VoxelShape SHAPE = Shapes.or(
             Block.box(0, 0, 0, 16, 4, 16),
@@ -35,8 +36,11 @@ public class PedestalBlock extends SimpleEntityBlock<PedestalBlockEntity> {
 
     public static final IntegerProperty STABILIZED = IntegerProperty.create("stabilized", 0, 15);
 
-    public PedestalBlock(BlockBehaviour.Properties props) {
+    private final float infusionCostModifier;
+
+    public PedestalBlock(BlockBehaviour.Properties props, float infusionCostModifier) {
         super(SimpleBlockMaterials.stone(props), ConfigBlockEntities.PEDESTAL.entityTypeObject());
+        this.infusionCostModifier = infusionCostModifier;
         registerDefaultState(this.getStateDefinition().any()
                 .setValue(STABILIZED, 0));
     }
@@ -94,5 +98,15 @@ public class PedestalBlock extends SimpleEntityBlock<PedestalBlockEntity> {
         }
 
         return InteractionResult.SUCCESS;
+    }
+
+    @Override
+    public float getCostModifier(Level level, BlockPos pos) {
+        return this.infusionCostModifier;
+    }
+
+    @Override
+    public int getCycleModifier(Level level, BlockPos pos) {
+        return 0;
     }
 }

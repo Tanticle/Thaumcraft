@@ -18,7 +18,7 @@ public class ConfigCapabilities {
     public static final BlockCapability<IEssentiaCapability, Direction> ESSENTIA = BlockCapability.createSided(Capabilities.ESSENTIA, IEssentiaCapability.class);
     public static final BlockCapability<IInfusionStabilizerCapability, Void> INFUSION_STABILIZER = BlockCapability.createVoid(Capabilities.INFUSION_STABILIZER, IInfusionStabilizerCapability.class);
     public static final BlockCapability<IInfusionPedestalCapability, Void> INFUSION_PEDESTAL = BlockCapability.createVoid(Capabilities.INFUSION_PEDESTAL, IInfusionPedestalCapability.class);
-    public static final BlockCapability<InfusionModifierCapability, Void> INFUSION_MODIFIER = BlockCapability.createVoid(Capabilities.INFUSION_MODIFIER, InfusionModifierCapability.class);
+    public static final BlockCapability<IInfusionModifierCapability, Void> INFUSION_MODIFIER = BlockCapability.createVoid(Capabilities.INFUSION_MODIFIER, IInfusionModifierCapability.class);
 
     public static final EntityCapability<IResearchCapability, Void> RESEARCH = EntityCapability.createVoid(Capabilities.RESEARCH, IResearchCapability.class);
 
@@ -28,7 +28,8 @@ public class ConfigCapabilities {
         e.registerBlockEntity(ESSENTIA, ConfigBlockEntities.TUBE.entityType(), (be, side) -> be.getDisabledDirections().contains(side) ? null : be);
         e.registerBlockEntity(ESSENTIA, ConfigBlockEntities.CREATIVE_ASPECT_SOURCE.entityType(), (be, side) -> be);
         e.registerBlockEntity(INFUSION_PEDESTAL, ConfigBlockEntities.PEDESTAL.entityType(), (be, side) -> be);
-        e.registerBlock(INFUSION_MODIFIER, (level, pos, state, be, $) -> (InfusionModifierCapability)state.getBlock(), ConfigBlocks.INFUSION_STONE_SPEED.block(), ConfigBlocks.INFUSION_STONE_COST.block());
+        e.registerBlock(INFUSION_MODIFIER, (level, pos, state, be, $) -> (IInfusionModifierCapability)state.getBlock(), ConfigBlocks.ANCIENT_PEDESTAL.block(), ConfigBlocks.ELDRITCH_PEDESTAL.block());
+        e.registerBlock(INFUSION_MODIFIER, (level, pos, state, be, $) -> (IInfusionModifierCapability)state.getBlock(), ConfigBlocks.INFUSION_STONE_SPEED.block(), ConfigBlocks.INFUSION_STONE_COST.block());
 
         e.registerEntity(RESEARCH, EntityType.PLAYER, (p, x) -> p.getData(ConfigDataAttachments.PLAYER_RESEARCH));
     }
