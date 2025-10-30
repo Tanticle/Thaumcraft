@@ -37,7 +37,7 @@ public class CreativeAspectSourceBlockEntity extends SimpleBlockEntity implement
     @Override
     protected void writeNbt(CompoundTag nbt, HolderLookup.Provider pRegistries) {
         if(aspect != null) {
-            nbt.putString("aspect", aspect.toString());
+            nbt.putString("aspect", aspect.location().toString());
         }
     }
 

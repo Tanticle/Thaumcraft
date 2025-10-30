@@ -38,7 +38,7 @@ import java.util.Optional;
 public class CrucibleBlock extends TickableEntityBlock<CrucibleBlockEntity> {
 
     private static final int SIDE_THICKNESS = 2;
-    private static final int LEG_WIDTH = 5;
+    private static final int LEG_WIDTH = 3;
     private static final int LEG_HEIGHT = 2;
     private static final int LEG_DEPTH = 3;
     private static final int FLOOR_LEVEL = 4;

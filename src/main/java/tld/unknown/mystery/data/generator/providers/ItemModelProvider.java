@@ -10,6 +10,7 @@ import net.minecraft.client.data.models.model.TextureMapping;
 import net.minecraft.core.Holder;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import tld.unknown.mystery.Thaumcraft;
@@ -95,6 +96,11 @@ public class ItemModelProvider extends ModelProvider {
     @Override
     protected Stream<? extends Holder<Block>> getKnownBlocks() {
         return Stream.empty();
+    }
+
+    @Override
+    protected Stream<? extends Holder<Item>> getKnownItems() {
+        return super.getKnownItems().filter(holder -> !(holder.value() instanceof BlockItem));
     }
 
     @Override

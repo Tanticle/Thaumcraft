@@ -1,7 +1,9 @@
 package tld.unknown.mystery.items.blocks;
 
 import lombok.Getter;
+import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
 import tld.unknown.mystery.api.ThaumcraftData;
@@ -30,6 +32,8 @@ public class CrystalBlockItem extends BlockItem implements AspectContainerItem {
     @Override
     public Component getName(ItemStack pStack) {
         Component aspect = Aspect.getName(RegistryUtils.access(), getAspect().getId(), false, true);
+        if(this.aspect == CrystalBlock.CrystalAspect.TAINT)
+            aspect = ((MutableComponent)aspect).withStyle(ChatFormatting.DARK_PURPLE);
         Component text = Component.translatable(String.format("block.%s", ThaumcraftData.Blocks.CRYSTAL_COLONY.toLanguageKey()));
         return Component.empty().append(aspect).append(" ").append(text);
     }

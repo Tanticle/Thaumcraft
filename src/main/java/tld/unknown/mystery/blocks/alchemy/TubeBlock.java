@@ -46,7 +46,7 @@ public class TubeBlock extends DirectionalBlock implements EntityBlock {
     private static final MapCodec<TubeBlock> CODEC = simpleCodec(TubeBlock::new);
 
     public TubeBlock(BlockBehaviour.Properties props) {
-        super(SimpleBlockMaterials.metal(props));
+        super(SimpleBlockMaterials.metal(props).noOcclusion());
 
         registerDefaultState(this.getStateDefinition().any()
                 .setValue(NORTH, false)

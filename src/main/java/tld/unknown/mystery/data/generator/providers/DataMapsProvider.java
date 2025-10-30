@@ -19,7 +19,7 @@ public class DataMapsProvider extends DataMapProvider {
     @Override
     protected void gather(HolderLookup.Provider provider) {
         this.builder(ConfigDataMaps.INFUSION_STABILIZER)
-                .add(Tags.Blocks.SKULLS.location(), new DataMapEntries.InfusionStabilizerData(0.1F, 0.0F), false)
-                .add(BlockTags.CANDLES.location(),  new DataMapEntries.InfusionStabilizerData(0.1F, 0.0F), false);
+                .add(Tags.Blocks.SKULLS, new DataMapEntries.InfusionStabilizerData(0.1F, 0.0F), false)
+                .add(BlockTags.CANDLES,  new DataMapEntries.InfusionStabilizerData(0.1F, 0.0F), false);
     }
 }

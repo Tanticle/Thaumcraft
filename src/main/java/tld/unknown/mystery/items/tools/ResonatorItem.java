@@ -3,6 +3,7 @@ package tld.unknown.mystery.items.tools;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Rarity;
@@ -28,16 +29,15 @@ public class ResonatorItem extends Item {
             RegistryAccess access = pContext.getLevel().registryAccess();
             IEssentiaCapability cap = pContext.getLevel().getCapability(ConfigCapabilities.ESSENTIA, pContext.getClickedPos(), pContext.getClickedFace());
             if(cap != null) {
-                Component suction = Component.translatable(COMPONENT_SUCTION).withStyle(ChatFormatting.DARK_PURPLE)
+                MutableComponent suction = Component.translatable(COMPONENT_SUCTION).withStyle(ChatFormatting.DARK_PURPLE)
                         .append(Component.literal(" - ").withStyle(ChatFormatting.DARK_GRAY))
                         .append(Component.translatable(COMPONENT_SUCTION_VALUE, cap.getSuction(pContext.getClickedFace()), Aspect.getName(pContext.getLevel().registryAccess(), cap.getSuctionType(pContext.getClickedFace()), false, false)).withStyle(ChatFormatting.RESET));
-                pContext.getPlayer().displayClientMessage(suction, true);
                 if(cap.getEssentia(pContext.getClickedFace()) > 0) {
-                    Component content = Component.translatable(COMPONENT_CONTENT).withStyle(ChatFormatting.BLUE)
+                    suction.append(Component.literal(" | ").withStyle(ChatFormatting.DARK_GRAY)).append(Component.translatable(COMPONENT_CONTENT).withStyle(ChatFormatting.BLUE)
                             .append(Component.literal(" - ").withStyle(ChatFormatting.DARK_GRAY))
-                            .append(Component.translatable(COMPONENT_CONTENT_VALUE, cap.getEssentia(pContext.getClickedFace()), Aspect.getName(pContext.getLevel().registryAccess(), cap.getEssentiaType(pContext.getClickedFace()), false, false)));
-                    pContext.getPlayer().displayClientMessage(content, true);
+                            .append(Component.translatable(COMPONENT_CONTENT_VALUE, cap.getEssentia(pContext.getClickedFace()), Aspect.getName(pContext.getLevel().registryAccess(), cap.getEssentiaType(pContext.getClickedFace()), false, false))));
                 }
+                pContext.getPlayer().displayClientMessage(suction, true);
                 return InteractionResult.SUCCESS;
             }
         }

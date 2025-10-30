@@ -26,13 +26,12 @@ import tld.unknown.mystery.blocks.InfusionPillarBlock;
 import tld.unknown.mystery.blocks.alchemy.CreativeAspectSourceBlock;
 import tld.unknown.mystery.blocks.alchemy.JarBlock;
 import tld.unknown.mystery.blocks.alchemy.TubeBlock;
+import tld.unknown.mystery.client.tints.AspectItemTintSource;
 import tld.unknown.mystery.registries.ConfigBlocks;
 import tld.unknown.mystery.util.RegistryUtils;
 
-import java.util.EnumMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 @SuppressWarnings("unchecked")
@@ -98,11 +97,9 @@ public class BlockDataProvider extends ModelProvider {
     private void registerDirectionalMultipart(ConfigBlocks.BlockObject<? extends Block> block, Map<Direction, BooleanProperty> dirProperties, ResourceLocation centerPart, ResourceLocation sidePart, boolean hideCenter) {
         MultiPartGenerator generator = MultiPartGenerator.multiPart(block.block());
         Variant center = Variant.variant().with(VariantProperties.MODEL, centerPart);
-        List<Condition> dirConditions = Lists.newArrayList();
 
         for(Direction dir : Direction.values()) {
             Condition dirCondition = Condition.condition().term(dirProperties.get(dir), true);
-            dirConditions.add(dirCondition);
             MultiPartRotation rot = MultiPartRotation.BY_DIRECTION.get(dir);
             generator.with(dirCondition, Variant.variant()
                     .with(VariantProperties.MODEL, sidePart)
@@ -110,9 +107,9 @@ public class BlockDataProvider extends ModelProvider {
                     .with(VariantProperties.Y_ROT, rot.yRotation));
         }
 
-        if(hideCenter)
-            generator.with(Condition.and(dirConditions.toArray(new Condition[0])), center);
-        else
+        if(hideCenter) {
+            generator.with(Condition.or(Arrays.stream(Direction.values()).map(d -> Condition.condition().term(dirProperties.get(d), false)).toList().toArray(new Condition[0])), center);
+        } else
             generator.with(center);
 
         blocks.blockStateOutput.accept(generator);
@@ -161,7 +158,7 @@ public class BlockDataProvider extends ModelProvider {
                 return variant;
             }));
             blocks.blockStateOutput.accept(generator);
-            items.itemModelOutput.accept(blockObject.item(), ItemModelUtils.plainModel(itemModel));
+            items.itemModelOutput.accept(blockObject.item(), ItemModelUtils.tintedModel(itemModel, new AspectItemTintSource()));
         });
     }
 

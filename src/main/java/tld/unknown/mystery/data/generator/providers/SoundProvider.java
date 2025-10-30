@@ -27,7 +27,7 @@ public class SoundProvider extends SoundDefinitionsProvider {
 
     private void registerSoundSet(SoundEvent event, int variants) {
         SoundDefinition definition = SoundDefinition.definition();
-        definition.subtitle(String.format("sound.%s.%s", event.location().getNamespace(), event.location().getPath().replace("/", ".")));
+        //definition.subtitle(String.format("sound.%s.%s", event.location().getNamespace(), event.location().getPath().replace("/", ".")));
         for(int i = 1; i <= variants; i++) {
             ResourceLocation id = ResourceLocation.fromNamespaceAndPath(event.location().getNamespace(), event.location().getPath() + "/" + i);
             definition.with(SoundDefinition.Sound.sound(id, SoundDefinition.SoundType.SOUND));
@@ -37,7 +37,7 @@ public class SoundProvider extends SoundDefinitionsProvider {
 
     private void registerSound(SoundEvent event) {
         SoundDefinition definition = SoundDefinition.definition();
-        definition.subtitle(String.format("sound.%s.%s", event.location().getNamespace(), event.location().getPath().replace("/", ".")));
+        //definition.subtitle(String.format("sound.%s.%s", event.location().getNamespace(), event.location().getPath().replace("/", ".")));
         definition.with(SoundDefinition.Sound.sound(event.location(), SoundDefinition.SoundType.SOUND));
         add(event, definition);
     }

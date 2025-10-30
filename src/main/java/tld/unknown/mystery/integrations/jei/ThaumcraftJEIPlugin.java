@@ -23,6 +23,7 @@ import tld.unknown.mystery.integrations.jei.category.AspectFromItemStackCategory
 import tld.unknown.mystery.menus.ArcaneWorkbenchMenu;
 import tld.unknown.mystery.registries.ConfigBlocks;
 import tld.unknown.mystery.registries.ConfigDataRegistries;
+import tld.unknown.mystery.registries.ConfigItemComponents;
 import tld.unknown.mystery.registries.ConfigItems;
 
 import java.util.ArrayList;
@@ -50,6 +51,12 @@ public class ThaumcraftJEIPlugin implements IModPlugin {
             ingredients.add(aspectList);
         });
         registration.register(ASPECT_LIST, ingredients, new AspectIngredientHelper(), new AspectIngredientRenderer(), new AspectIngredientCodec());
+    }
+
+    @Override
+    public void registerItemSubtypes(ISubtypeRegistration registration) {
+        registration.registerFromDataComponentTypes(ConfigItems.VIS_CRYSTAL.value(), ConfigItemComponents.ASPECT_HOLDER.value());
+        registration.registerFromDataComponentTypes(ConfigItems.PHIAL.value(), ConfigItemComponents.ASPECT_HOLDER.value());
     }
 
     @Override
