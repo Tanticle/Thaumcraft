@@ -88,48 +88,98 @@ public class ArcaneWorkbenchMenu extends AbstractContainerMenu {
         slotsChanged(craftingSlots);
     }
 
+    private static final int SLOT_RESULT = 15;
+    private static final int SLOT_PLAYER_INV_START = 16;
+    private static final int SLOT_PLAYER_INV_END = 43;
+    private static final int SLOT_HOTBAR_START = 43;
+    private static final int SLOT_HOTBAR_END = 52;
+
     @Override
     public ItemStack quickMoveStack(Player pPlayer, int pIndex) {
         ItemStack quickMovedStack = ItemStack.EMPTY;
         Slot quickMovedSlot = this.slots.get(pIndex);
 
-        if (quickMovedSlot.hasItem()) {
-            ItemStack rawStack = quickMovedSlot.getItem();
-            quickMovedStack = rawStack.copy();
-            if (pIndex == 0) {
-                if (!this.moveItemStackTo(rawStack, 5, 41, true)) {
-                    return ItemStack.EMPTY;
-                }
-
-                this.slots.get(pIndex).onQuickCraft(rawStack, quickMovedStack);
-            } else if (pIndex >= 5 && pIndex < 41) {
-                if (!this.moveItemStackTo(rawStack, 1, 5, false)) {
-                    if (pIndex < 32) {
-                        if (!this.moveItemStackTo(rawStack, 32, 41, false)) {
-                            return ItemStack.EMPTY;
-                        }
-                    } else if (!this.moveItemStackTo(rawStack, 5, 32, false)) {
-                        return ItemStack.EMPTY;
-                    }
-                }
-            } else if (!this.moveItemStackTo(rawStack, 5, 41, false)) {
-                return ItemStack.EMPTY;
-            }
-
-            if (rawStack.isEmpty()) {
-                quickMovedSlot.set(ItemStack.EMPTY);
-            } else {
-                quickMovedSlot.setChanged();
-            }
-
-            if (rawStack.getCount() == quickMovedStack.getCount()) {
-                return ItemStack.EMPTY;
-            }
-
-            quickMovedSlot.onTake(player, rawStack);
+        if (!quickMovedSlot.hasItem()) {
+            return ItemStack.EMPTY;
         }
 
+        ItemStack rawStack = quickMovedSlot.getItem();
+        quickMovedStack = rawStack.copy();
+
+        if (pIndex == SLOT_RESULT) {
+            if (!this.moveItemStackTo(rawStack, SLOT_PLAYER_INV_START, SLOT_HOTBAR_END, true)) {
+                return ItemStack.EMPTY;
+            }
+            quickMovedSlot.onQuickCraft(rawStack, quickMovedStack);
+        } else if (pIndex >= SLOT_CHAOS && pIndex <= SLOT_EARTH) {
+            if (!this.moveItemStackTo(rawStack, SLOT_PLAYER_INV_START, SLOT_HOTBAR_END, false)) {
+                return ItemStack.EMPTY;
+            }
+        } else if (pIndex >= SLOT_GRID_START && pIndex < SLOT_RESULT) {
+            if (!this.moveItemStackTo(rawStack, SLOT_PLAYER_INV_START, SLOT_HOTBAR_END, false)) {
+                return ItemStack.EMPTY;
+            }
+        } else if (pIndex >= SLOT_PLAYER_INV_START && pIndex < SLOT_HOTBAR_END) {
+            if (!tryMoveToMatchingCrystalSlot(rawStack)) {
+                if (!this.moveItemStackTo(rawStack, SLOT_GRID_START, SLOT_RESULT, false)) {
+                    if (pIndex < SLOT_HOTBAR_START) {
+                        if (!this.moveItemStackTo(rawStack, SLOT_HOTBAR_START, SLOT_HOTBAR_END, false)) {
+                            return ItemStack.EMPTY;
+                        }
+                    } else {
+                        if (!this.moveItemStackTo(rawStack, SLOT_PLAYER_INV_START, SLOT_HOTBAR_START, false)) {
+                            return ItemStack.EMPTY;
+                        }
+                    }
+                }
+            }
+        }
+
+        if (rawStack.isEmpty()) {
+            quickMovedSlot.set(ItemStack.EMPTY);
+        } else {
+            quickMovedSlot.setChanged();
+        }
+
+        if (rawStack.getCount() == quickMovedStack.getCount()) {
+            return ItemStack.EMPTY;
+        }
+
+        quickMovedSlot.onTake(player, rawStack);
+
         return quickMovedStack;
+    }
+
+    private boolean tryMoveToMatchingCrystalSlot(ItemStack stack) {
+        if (!(stack.getItem() instanceof AspectContainerItem)) {
+            return false;
+        }
+
+        int[] crystalSlots = {SLOT_CHAOS, SLOT_ORDER, SLOT_WATER, SLOT_AIR, SLOT_FIRE, SLOT_EARTH};
+        for (int slotIndex : crystalSlots) {
+            Slot slot = this.slots.get(slotIndex);
+            if (slot.mayPlace(stack) && !slot.hasItem()) {
+                int transferCount = Math.min(stack.getCount(), slot.getMaxStackSize(stack));
+                ItemStack toPlace = stack.split(transferCount);
+                slot.set(toPlace);
+                return true;
+            } else if (slot.mayPlace(stack) && slot.hasItem()) {
+                ItemStack existing = slot.getItem();
+                if (ItemStack.isSameItemSameComponents(existing, stack)) {
+                    int maxAdd = slot.getMaxStackSize(stack) - existing.getCount();
+                    int toAdd = Math.min(maxAdd, stack.getCount());
+                    if (toAdd > 0) {
+                        existing.grow(toAdd);
+                        stack.shrink(toAdd);
+                        slot.setChanged();
+                        if (stack.isEmpty()) {
+                            return true;
+                        }
+                    }
+                }
+            }
+        }
+        return stack.isEmpty();
     }
 
     @Override
