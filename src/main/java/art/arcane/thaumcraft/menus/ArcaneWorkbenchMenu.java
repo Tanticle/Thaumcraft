@@ -219,8 +219,8 @@ public class ArcaneWorkbenchMenu extends AbstractContainerMenu {
 
     private void populateCrystalSlots() {
         addSlot(new PredicateSlot(this.craftingSlots, SLOT_CHAOS, 57, 81, i -> AspectContainerItem.hasAspect(i, ThaumcraftData.Aspects.CHAOS)));
-        addSlot(new PredicateSlot(this.craftingSlots, SLOT_WATER, 105, 1, i -> AspectContainerItem.hasAspect(i, ThaumcraftData.Aspects.WATER)));
         addSlot(new PredicateSlot(this.craftingSlots, SLOT_ORDER, 105, 59, i -> AspectContainerItem.hasAspect(i, ThaumcraftData.Aspects.ORDER)));
+        addSlot(new PredicateSlot(this.craftingSlots, SLOT_WATER, 105, 1, i -> AspectContainerItem.hasAspect(i, ThaumcraftData.Aspects.WATER)));
         addSlot(new PredicateSlot(this.craftingSlots, SLOT_AIR, 57, -21, i -> AspectContainerItem.hasAspect(i, ThaumcraftData.Aspects.AIR)));
         addSlot(new PredicateSlot(this.craftingSlots, SLOT_FIRE, 10, 1, i -> AspectContainerItem.hasAspect(i, ThaumcraftData.Aspects.FIRE)));
         addSlot(new PredicateSlot(this.craftingSlots, SLOT_EARTH, 10, 59, i -> AspectContainerItem.hasAspect(i, ThaumcraftData.Aspects.EARTH)));

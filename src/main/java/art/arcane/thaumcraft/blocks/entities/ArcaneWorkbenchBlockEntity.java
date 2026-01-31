@@ -3,9 +3,11 @@ package art.arcane.thaumcraft.blocks.entities;
 import lombok.Getter;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
+import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.Tag;
+import net.minecraft.world.ContainerHelper;
 import net.minecraft.world.SimpleContainer;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
 import art.arcane.thaumcraft.menus.ArcaneWorkbenchMenu;
 import art.arcane.thaumcraft.registries.ConfigBlockEntities;
@@ -23,11 +25,19 @@ public class ArcaneWorkbenchBlockEntity extends SimpleBlockEntity {
 
     @Override
     protected void readNbt(CompoundTag nbt, HolderLookup.Provider pRegistries) {
-        this.inventory.fromTag(nbt.getList("Contents", Tag.TAG_COMPOUND), pRegistries);
+        NonNullList<ItemStack> items = NonNullList.withSize(ArcaneWorkbenchMenu.CONTAINER_SIZE, ItemStack.EMPTY);
+        ContainerHelper.loadAllItems(nbt, items, pRegistries);
+        for (int i = 0; i < items.size(); i++) {
+            this.inventory.setItem(i, items.get(i));
+        }
     }
 
     @Override
     protected void writeNbt(CompoundTag nbt, HolderLookup.Provider pRegistries) {
-        nbt.put("Contents", inventory.createTag(pRegistries));
+        NonNullList<ItemStack> items = NonNullList.withSize(ArcaneWorkbenchMenu.CONTAINER_SIZE, ItemStack.EMPTY);
+        for (int i = 0; i < this.inventory.getContainerSize(); i++) {
+            items.set(i, this.inventory.getItem(i));
+        }
+        ContainerHelper.saveAllItems(nbt, items, pRegistries);
     }
 }
