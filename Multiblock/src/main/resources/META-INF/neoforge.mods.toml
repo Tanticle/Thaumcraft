@@ -10,19 +10,7 @@ displayName = "${mod_name}"
 logoFile = "logo.png"
 authors = "${mod_authors}"
 description = '''${mod_description}'''
-
-[[mixins]]
-config="META-INF/thaumcraft.mixins.json"
-
-[[accesstransformers]]
-file = "META-INF/accesstransformer.cfg"
-
-[[dependencies.${mod_id}]]
-modId = "minecraft"
-type = "required"
-versionRange = "${minecraft_version_range}"
-ordering = "NONE"
-side = "BOTH"
+type = "library"
 
 [[dependencies.${mod_id}]]
 modId = "neoforge"
@@ -32,15 +20,8 @@ ordering = "NONE"
 side = "BOTH"
 
 [[dependencies.${mod_id}]]
-modId = "multiblock"
+modId = "minecraft"
 type = "required"
-versionRange = "0.1"
+versionRange = "${minecraft_version_range}"
 ordering = "NONE"
 side = "BOTH"
-
-[[dependencies.${mod_id}]]
-modId = "jei"
-type = "optional"
-versionRange = "1.0-99.0"
-ordering = "AFTER"
-side = "CLIENT"

@@ -1,6 +1,7 @@
 {
   "structure": {
     "bounding_box": [3, 3, 3],
+    "allow_mirror": false,
     "pattern": [
       [
         "NON",
@@ -22,23 +23,17 @@
       "O": { "block": "minecraft:obsidian" },
       "N": { "block": "minecraft:nether_brick" },
       "I": { "block": "minecraft:iron_bars" },
-      "A": { "tag": "internal:any" },
+      "A": { "tag": "multiblock:any" },
       "L": { "block": "minecraft:lava" }
     }
   },
-
-  "controller": {
-    "block_entity": "thaumcraft:infernal_furnace",
-    "position": [1, 1, 1]
-  },
-  "capabilities": [
-    {
-      "position": [0, 1, 1],
-      "capability": "thaumcraft:takes_bellows"
+  "logic": {
+    "trigger": {
+      "item": "minecraft:stick"
     },
-    {
-      "position": [2, 1, 1],
-      "capability": "thaumcraft:takes_bellows"
+    "controller": {
+      "block_entity": "thaumcraft:infernal_furnace",
+      "position": [1, 1, 1]
     }
-  ]
+  }
 }

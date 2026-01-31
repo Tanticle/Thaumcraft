@@ -1,0 +1,77 @@
+plugins {
+    id 'idea'
+    id 'java-library'
+    id 'net.neoforged.moddev' version '2.0.75'
+    id 'io.freefair.lombok' version '8.12'
+}
+
+group = 'tld.unknown'
+version = project.mod_version
+
+java {
+    archivesBaseName = project.mod_id
+    toolchain.languageVersion = JavaLanguageVersion.of(21)
+}
+
+repositories {
+    maven {
+        // location of a maven mirror for JEI files, as a fallback
+        name = "ModMaven"
+        url = "https://modmaven.dev"
+    }
+}
+
+neoForge {
+    version = project.forge_version
+
+    //accessTransformers.from "src/main/resources/META-INF/accesstransformer.cfg"
+    //validateAccessTransformers = true
+
+    runs {
+        configureEach {
+            systemProperty 'terminal.ansi', 'true'
+            systemProperty 'forge.logging.console.level', 'debug'
+        }
+        Client {
+            client()
+        }
+        Server {
+            server()
+        }
+    }
+
+    mods {
+        multiblock {
+            sourceSet sourceSets.main
+        }
+    }
+}
+
+tasks.withType(ProcessResources).configureEach {
+    var replaceProperties = [
+        minecraft_version   : minecraft_version, minecraft_version_range: minecraft_version_range,
+        forge_version       : forge_version, forge_version_range: forge_version_range,
+        loader_version_range: loader_version_range,
+        mod_id              : mod_id, mod_name: mod_name, mod_license: mod_license, mod_version: mod_version,
+        mod_authors         : mod_authors, mod_description: mod_description,
+    ]
+    inputs.properties replaceProperties
+
+    filesMatching(['META-INF/neoforge.mods.toml']) {
+        expand replaceProperties + [project: project]
+    }
+}
+
+jar {
+    manifest {
+        attributes([
+            "Specification-Title"       : project.mod_id,
+            //"Specification-Vendor"    : "mystery authors",
+            "Specification-Version"     : project.mod_version, // We are version 1 of ourselves
+            "Implementation-Title"      : project.mod_id,
+            "Implementation-Version"    : project.jar.archiveVersion,
+            //"Implementation-Vendor"   : "mystery authors",
+            "Implementation-Timestamp"  : new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
+        ])
+    }
+}
