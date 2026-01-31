@@ -1,6 +1,6 @@
 {
   "required": true,
-  "package": "tld.unknown.mystery.extensions.mixins",
+  "package": "art.arcane.thaumcraft.extensions.mixins",
   "compatibilityLevel": "JAVA_21",
   "mixins": [
     "RegistriesDatapackGeneratorMixin"
