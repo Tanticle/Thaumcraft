@@ -107,7 +107,7 @@ public class SilverwoodTrunkPlacer extends TrunkPlacer {
         placeLog(level, blockSetter, random, new BlockPos(x, branchY, z - 2), config);
         placeLog(level, blockSetter, random, new BlockPos(x, branchY, z + 2), config);
 
-        int foliageY = y + height - 2;
+        int foliageY = y + height;
         return List.of(new FoliagePlacer.FoliageAttachment(new BlockPos(x, foliageY, z), 0, false));
     }
 }

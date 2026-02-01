@@ -7,18 +7,25 @@
           "feature": "thaumcraft:silverwood_tree",
           "placement": []
         },
-        "chance": 0.055
+        "chance": 0.20
       },
       {
         "feature": {
           "feature": "thaumcraft:greatwood_tree",
           "placement": []
         },
-        "chance": 0.083
+        "chance": 0.25
+      },
+      {
+        "feature": {
+          "feature": "thaumcraft:big_magic_oak_tree",
+          "placement": []
+        },
+        "chance": 0.35
       }
     ],
     "default": {
-      "feature": "thaumcraft:big_magic_oak_tree",
+      "feature": "minecraft:oak",
       "placement": []
     }
   }
