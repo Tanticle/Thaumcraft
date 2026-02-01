@@ -1,7 +1,8 @@
 package art.arcane.thaumcraft.client.rendering;
 
-import art.arcane.thaumcraft.Thaumcraft;
-import art.arcane.thaumcraft.client.rendering.entity.models.ArmorCultistLeader;
+import art.arcane.thaumcraft.client.rendering.entity.models.ArmorCrimsonLeader;
+import art.arcane.thaumcraft.client.rendering.entity.models.ArmorCrimsonPlate;
+import art.arcane.thaumcraft.client.rendering.entity.models.ArmorCrimsonRobe;
 import art.arcane.thaumcraft.items.FancyArmorItem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.model.HumanoidModel;
@@ -16,23 +17,33 @@ import net.minecraft.world.item.ItemStack;
 
 public class FancyArmorLayer<S extends HumanoidRenderState, M extends HumanoidModel<S>> extends RenderLayer<S, M> {
 
-	private final ArmorCultistLeader<S> modelCrimsonLeader;
+	private final ArmorCrimsonLeader<S> modelCrimsonLeader;
+	private final ArmorCrimsonPlate<S> modelCrimsonPlate;
+	private final ArmorCrimsonRobe<S> modelCrimsonRobe;
 
 	public FancyArmorLayer(RenderLayerParent<S, M> renderer, EntityModelSet modelSet) {
 		super(renderer);
-		this.modelCrimsonLeader = new ArmorCultistLeader<>(modelSet.bakeLayer(ArmorCultistLeader.LAYER_LOCATION));
+		this.modelCrimsonLeader = new ArmorCrimsonLeader<>(modelSet.bakeLayer(ArmorCrimsonLeader.LAYER_LOCATION));
+		this.modelCrimsonPlate = new ArmorCrimsonPlate<>(modelSet.bakeLayer(ArmorCrimsonPlate.LAYER_LOCATION));
+		this.modelCrimsonRobe = new ArmorCrimsonRobe<>(modelSet.bakeLayer(ArmorCrimsonRobe.LAYER_LOCATION));
 	}
 
 	@Override
 	public void render(PoseStack poseStack, MultiBufferSource bufferSource, int packedLight, S renderState, float yRot, float xRot) {
 		updateArmorVisibility(renderState);
 		this.getParentModel().copyPropertiesTo(modelCrimsonLeader);
+		this.getParentModel().copyPropertiesTo(modelCrimsonPlate);
+		this.getParentModel().copyPropertiesTo(modelCrimsonRobe);
 
 		modelCrimsonLeader.render(poseStack, bufferSource, packedLight, OverlayTexture.NO_OVERLAY);
+		modelCrimsonPlate.render(poseStack, bufferSource, packedLight, OverlayTexture.NO_OVERLAY);
+		modelCrimsonRobe.render(poseStack, bufferSource, packedLight, OverlayTexture.NO_OVERLAY);
 	}
 
 	private void updateArmorVisibility(S renderState) {
 		modelCrimsonLeader.setAllVisible(false);
+		modelCrimsonPlate.setAllVisible(false);
+		modelCrimsonRobe.setAllVisible(false);
 		checkArmor(EquipmentSlot.HEAD, renderState.headEquipment);
 		checkArmor(EquipmentSlot.CHEST, renderState.chestEquipment);
 		checkArmor(EquipmentSlot.LEGS, renderState.legsEquipment);
@@ -43,29 +54,10 @@ public class FancyArmorLayer<S extends HumanoidRenderState, M extends HumanoidMo
 		if(itemstack.getItem() instanceof FancyArmorItem f) {
 			FancyArmorItem.ArmorSet set = f.getSet();
 			switch (set) {
-				case CULTIST_LEADER -> {
-					modelCrimsonLeader.setVisible(type);
-					break;
-				}
+				case CRIMSON_LEADER -> modelCrimsonLeader.setVisible(type);
+				case CRIMSON_PLATE -> modelCrimsonPlate.setVisible(type);
+				case CRIMSON_ROBE -> modelCrimsonRobe.setVisible(type);
 			}
-		}
-	}
-
-	private void setPartsVisibility(HumanoidModel<S> model, EquipmentSlot slot) {
-		switch(slot) {
-			case HEAD:
-				model.head.visible = true;
-				model.hat.visible = true;
-				break;
-			case CHEST:
-				model.body.visible = true;
-				model.leftArm.visible = true;
-				model.rightArm.visible = true;
-				break;
-			case LEGS:
-				model.leftLeg.visible = true;
-				model.rightLeg.visible = true;
-				break;
 		}
 	}
 }
