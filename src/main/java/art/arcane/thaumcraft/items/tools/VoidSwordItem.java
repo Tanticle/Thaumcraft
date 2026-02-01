@@ -1,5 +1,7 @@
 package art.arcane.thaumcraft.items.tools;
 
+import art.arcane.thaumcraft.api.components.WarpingComponent;
+import art.arcane.thaumcraft.registries.ConfigItemComponents;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -12,16 +14,15 @@ import net.minecraft.world.item.SwordItem;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 import art.arcane.thaumcraft.api.ThaumcraftMaterials;
-import art.arcane.thaumcraft.api.WarpingGear;
 
 import java.util.List;
 
-public class VoidSwordItem extends SwordItem implements WarpingGear {
+public class VoidSwordItem extends SwordItem {
 
     private static final String COMPONENT_LESSER_SAP = "enchantment.thaumcraft.special.sapless";
 
     public VoidSwordItem(Properties props) {
-        super(ThaumcraftMaterials.Tools.VOID, ThaumcraftMaterials.Tools.VOID.attackDamageBonus(), ThaumcraftMaterials.Tools.VOID.speed(), props);
+        super(ThaumcraftMaterials.Tools.VOID, ThaumcraftMaterials.Tools.VOID.attackDamageBonus(), ThaumcraftMaterials.Tools.VOID.speed(), props.component(ConfigItemComponents.WARPING.value(), new WarpingComponent(1)));
     }
 
     @Override
@@ -43,10 +44,5 @@ public class VoidSwordItem extends SwordItem implements WarpingGear {
     @Override
     public void appendHoverText(ItemStack pStack, TooltipContext pContext, List<Component> pTooltipComponents, TooltipFlag pTooltipFlag) {
         pTooltipComponents.add(Component.translatable(COMPONENT_LESSER_SAP).withStyle(ChatFormatting.GOLD));
-    }
-
-    @Override
-    public int getWarp(ItemStack itemstack, Player player) {
-        return 1;
     }
 }

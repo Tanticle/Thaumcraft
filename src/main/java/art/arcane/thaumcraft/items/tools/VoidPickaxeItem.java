@@ -1,5 +1,7 @@
 package art.arcane.thaumcraft.items.tools;
 
+import art.arcane.thaumcraft.api.components.WarpingComponent;
+import art.arcane.thaumcraft.registries.ConfigItemComponents;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
@@ -9,12 +11,11 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.PickaxeItem;
 import net.minecraft.world.level.Level;
 import art.arcane.thaumcraft.api.ThaumcraftMaterials;
-import art.arcane.thaumcraft.api.WarpingGear;
 
-public class VoidPickaxeItem extends PickaxeItem implements WarpingGear {
+public class VoidPickaxeItem extends PickaxeItem {
 
     public VoidPickaxeItem(Properties props) {
-        super(ThaumcraftMaterials.Tools.VOID, ThaumcraftMaterials.Tools.VOID.attackDamageBonus(), ThaumcraftMaterials.Tools.VOID.speed(), props);
+        super(ThaumcraftMaterials.Tools.VOID, ThaumcraftMaterials.Tools.VOID.attackDamageBonus(), ThaumcraftMaterials.Tools.VOID.speed(), props.component(ConfigItemComponents.WARPING.value(), new WarpingComponent(1)));
     }
 
     @Override
@@ -31,10 +32,5 @@ public class VoidPickaxeItem extends PickaxeItem implements WarpingGear {
             }
         }
         return super.onLeftClickEntity(stack, player, entity);
-    }
-
-    @Override
-    public int getWarp(ItemStack itemstack, Player player) {
-        return 1;
     }
 }
