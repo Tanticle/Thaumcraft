@@ -21,7 +21,7 @@ import org.apache.commons.compress.utils.Lists;
 import art.arcane.thaumcraft.api.IArchitect;
 import art.arcane.thaumcraft.api.enums.InfusionEnchantments;
 import art.arcane.thaumcraft.api.ThaumcraftMaterials;
-import art.arcane.thaumcraft.items.components.InfusionEnchantmentComponent;
+import art.arcane.thaumcraft.api.components.InfusionEnchantmentComponent;
 import art.arcane.thaumcraft.registries.ConfigItemComponents;
 import art.arcane.thaumcraft.util.EntityUtils;
 import art.arcane.thaumcraft.util.ItemUtils;

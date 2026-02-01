@@ -7,7 +7,7 @@ import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.StringRepresentable;
 import net.minecraft.world.item.ItemStack;
-import art.arcane.thaumcraft.items.components.InfusionEnchantmentComponent;
+import art.arcane.thaumcraft.api.components.InfusionEnchantmentComponent;
 import art.arcane.thaumcraft.registries.ConfigItemComponents;
 
 import java.util.Arrays;

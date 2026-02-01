@@ -1,5 +1,7 @@
 package art.arcane.thaumcraft.items.tools;
 
+import art.arcane.thaumcraft.api.components.WarpingComponent;
+import art.arcane.thaumcraft.registries.ConfigItemComponents;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
@@ -13,18 +15,20 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.Level;
 import art.arcane.thaumcraft.api.ThaumcraftData;
-import art.arcane.thaumcraft.api.WarpingGear;
 
 import java.util.List;
 
-public class CrimsonBladeItem extends SwordItem implements WarpingGear {
+public class CrimsonBladeItem extends SwordItem {
 
     private static final String COMPONENT_GREATER_SAP = "enchantment.thaumcraft.special.sapgreat";
 
     private static final ToolMaterial CRIMSON_VOID = new ToolMaterial(BlockTags.INCORRECT_FOR_NETHERITE_TOOL, 200, 8.0F, 3.5F, 20, TagKey.create(Registries.ITEM, ThaumcraftData.Items.INGOT_VOID));
     
     public CrimsonBladeItem(Properties props) {
-        super(CRIMSON_VOID, CRIMSON_VOID.attackDamageBonus(), CRIMSON_VOID.speed(), props.durability(CRIMSON_VOID.durability()).rarity(Rarity.EPIC));
+        super(CRIMSON_VOID, CRIMSON_VOID.attackDamageBonus(), CRIMSON_VOID.speed(), props
+                .durability(CRIMSON_VOID.durability())
+                .rarity(Rarity.EPIC)
+                .component(ConfigItemComponents.WARPING.value(), new WarpingComponent(2)));
     }
 
     @Override
