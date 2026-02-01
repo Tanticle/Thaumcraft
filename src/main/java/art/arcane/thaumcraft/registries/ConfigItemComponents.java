@@ -1,5 +1,7 @@
 package art.arcane.thaumcraft.registries;
 
+import art.arcane.thaumcraft.api.components.VisCostModifierComponent;
+import art.arcane.thaumcraft.api.components.WarpingComponent;
 import com.mojang.serialization.Codec;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Holder;
@@ -14,7 +16,7 @@ import net.neoforged.neoforge.network.codec.NeoForgeStreamCodecs;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import art.arcane.thaumcraft.Thaumcraft;
 import art.arcane.thaumcraft.api.aspects.Aspect;
-import art.arcane.thaumcraft.items.components.InfusionEnchantmentComponent;
+import art.arcane.thaumcraft.api.components.InfusionEnchantmentComponent;
 
 import java.util.UUID;
 
@@ -36,6 +38,9 @@ public class ConfigItemComponents {
     public static final Holder<DataComponentType<UUID>> COLLECTOR_MARKER = marker(ItemComponents.COLLECTOR_MARKER, UUIDUtil.STREAM_CODEC);
 
     public static final Holder<DataComponentType<Direction.Axis>> AXIS = register(ItemComponents.AXIS, Direction.Axis.CODEC, NeoForgeStreamCodecs.enumCodec(Direction.Axis.class));
+
+    public static final Holder<DataComponentType<WarpingComponent>> WARPING = register(ItemComponents.WARPING, WarpingComponent.CODEC, WarpingComponent.STREAM_CODEC);
+    public static final Holder<DataComponentType<VisCostModifierComponent>> VIS_COST_MODIFIER = register(ItemComponents.VIS_COST_MODIFIER, VisCostModifierComponent.CODEC, VisCostModifierComponent.STREAM_CODEC);
 
     /* -------------------------------------------------------------------------------------------------------------- */
 

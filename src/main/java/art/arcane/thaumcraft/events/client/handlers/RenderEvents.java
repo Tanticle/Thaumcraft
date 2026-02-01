@@ -16,7 +16,6 @@ import net.neoforged.neoforge.client.event.RenderLevelStageEvent;
 import net.neoforged.neoforge.client.event.RenderTooltipEvent;
 import org.joml.Matrix4fStack;
 import art.arcane.thaumcraft.Thaumcraft;
-import art.arcane.thaumcraft.api.WarpingGear;
 import art.arcane.thaumcraft.api.aspects.Aspect;
 import art.arcane.thaumcraft.api.aspects.AspectContainerItem;
 import art.arcane.thaumcraft.client.ThaumcraftClient;
@@ -27,11 +26,14 @@ import art.arcane.thaumcraft.registries.ConfigDataRegistries;
 import art.arcane.thaumcraft.registries.ConfigItemComponents;
 import art.arcane.thaumcraft.util.RegistryUtils;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
 @EventBusSubscriber(modid = Thaumcraft.MOD_ID, value = Dist.CLIENT, bus = EventBusSubscriber.Bus.GAME)
 public class RenderEvents {
+
+    private static final String KEY_ROMAN_NUMERAL = "enchantment.level.";
 
     @SubscribeEvent
     public static void onTooltipGather(RenderTooltipEvent.GatherComponents e) {
@@ -41,7 +43,7 @@ public class RenderEvents {
             e.getItemStack().get(ConfigItemComponents.INFUSION_ENCHANTMENT.value()).enchantments().forEach((ench, lvl) -> {
                 MutableComponent comp = ench.getTranslationKey().withStyle(ChatFormatting.GOLD);
                 if(ench.getMaxLevel()> 1)
-                    comp.append(Component.literal(" ")).append(Component.translatable("enchantment.level." + lvl));
+                    comp.append(Component.literal(" ")).append(Component.translatable(KEY_ROMAN_NUMERAL + lvl));
                 components.add(Either.left(comp));
             });
             e.getTooltipElements().addAll(1, components);
@@ -51,8 +53,21 @@ public class RenderEvents {
         if(!aspects.isEmpty())
             e.getTooltipElements().add(Either.right(new AspectTooltip.Data(aspects)));
 
-        if(e.getItemStack().getItem() instanceof WarpingGear w)
-            e.getTooltipElements().add(Either.left(Component.translatable("misc.thaumcraft.tooltip.warping", w.getWarp(e.getItemStack(), Minecraft.getInstance().player)).withStyle(ChatFormatting.DARK_PURPLE)));
+        if(e.getItemStack().has(ConfigItemComponents.WARPING.value())) {
+            String lvl = Component.translatable(KEY_ROMAN_NUMERAL + e.getItemStack().get(ConfigItemComponents.WARPING.value()).level()).getString();
+            e.getTooltipElements().add(Either.left(Component.translatable("misc.thaumcraft.tooltip.warping", lvl).withStyle(ChatFormatting.DARK_PURPLE)));
+        }
+
+        if(e.getItemStack().has(ConfigItemComponents.VIS_COST_MODIFIER.value())) {
+            float modifier = e.getItemStack().get(ConfigItemComponents.VIS_COST_MODIFIER.value()).modifier();
+            String translation = "misc.thaumcraft.tooltip.vis_modifier_" + (modifier <= 0 ? "positive" : "negative");
+            DecimalFormat format = new DecimalFormat();
+            format.setMaximumFractionDigits(2);
+            format.setMinimumFractionDigits(0);
+            e.getTooltipElements().add(Either.left(Component.translatable(translation, format.format(Math.abs(modifier * 100))).withStyle(ChatFormatting.DARK_PURPLE)));
+        }
+
+
         if(e.getItemStack().getItem() instanceof AbstractAspectItem l && l.hasData(e.getItemStack())) {
             Holder<Aspect> aspect = l.getHolder(e.getItemStack());
             Component name = Aspect.getName(RegistryUtils.access(), aspect.getKey(), false, false);

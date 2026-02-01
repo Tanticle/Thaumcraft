@@ -1,4 +1,4 @@
-package art.arcane.thaumcraft.items.components;
+package art.arcane.thaumcraft.api.components;
 
 import com.mojang.serialization.Codec;
 import io.netty.buffer.ByteBuf;

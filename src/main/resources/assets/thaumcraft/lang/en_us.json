@@ -63,6 +63,10 @@
   "item.thaumcraft.ingot_brass": "Brass Ingot",
   "item.thaumcraft.ingot_thaumium": "Thaumium Ingot",
   "item.thaumcraft.ingot_void": "Void Ingot",
+  "item.thaumcraft.crimson_boots": "Crimson Cult Boots",
+  "item.thaumcraft.crimson_leader_helmet": "Crimson Praetor Helm",
+  "item.thaumcraft.crimson_leader_chestplate": "Crimson Praetor Chestplate",
+  "item.thaumcraft.crimson_leader_leggings": "Crimson Praetor Greaves",
 
   "enchantment.thaumcraft.burrowing": "Burrowing",
   "enchantment.thaumcraft.destructive": "Destructive",
@@ -134,7 +138,9 @@
   "msg.thaumcraft.resonator.content": "Contains",
   "msg.thaumcraft.resonator.content.value": "%d %s Essentia",
 
-  "misc.thaumcraft.tooltip.warping": "Warping %d",
+  "misc.thaumcraft.tooltip.warping": "Warping %s",
+  "misc.thaumcraft.tooltip.vis_modifier_positive": "Vis Discount: %.1f%%",
+  "misc.thaumcraft.tooltip.vis_modifier_negative": "Vis Surcharge: %.1f%%",
   "misc.thaumcraft.tooltip.aspect_simple": "%s",
   "misc.thaumcraft.tooltip.aspect_complex": "%dx %s",
 
