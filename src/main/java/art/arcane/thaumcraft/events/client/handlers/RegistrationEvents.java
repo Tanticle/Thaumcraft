@@ -1,8 +1,19 @@
 package art.arcane.thaumcraft.events.client.handlers;
 
 import art.arcane.thaumcraft.client.fx.particles.SmokeSpiralParticle;
+import art.arcane.thaumcraft.client.rendering.FancyArmorLayer;
 import art.arcane.thaumcraft.client.rendering.ber.*;
+import art.arcane.thaumcraft.client.rendering.entity.models.ArmorCultistLeader;
+import net.minecraft.client.model.HumanoidModel;
+import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.ItemEntityRenderer;
+import net.minecraft.client.renderer.entity.LivingEntityRenderer;
+import net.minecraft.client.renderer.entity.layers.RenderLayer;
+import net.minecraft.client.renderer.entity.state.HumanoidRenderState;
+import net.minecraft.client.resources.PlayerSkin;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
@@ -23,6 +34,8 @@ import art.arcane.thaumcraft.registries.ConfigEntities;
 import art.arcane.thaumcraft.registries.ConfigMenus;
 import art.arcane.thaumcraft.registries.ConfigParticles;
 import art.arcane.thaumcraft.util.RegistryUtils;
+
+import java.util.function.Function;
 
 @EventBusSubscriber(modid = Thaumcraft.MOD_ID, value = Dist.CLIENT, bus = EventBusSubscriber.Bus.MOD)
 public class RegistrationEvents {
@@ -64,4 +77,40 @@ public class RegistrationEvents {
     public static void onParticleProvidersRegister(RegisterParticleProvidersEvent e) {
         e.registerSpriteSet(ConfigParticles.SMOKE_SPIRAL.get(), SmokeSpiralParticle.Provider::new);
     }
+
+	@SubscribeEvent
+	public static void onEntityLayerRegister(EntityRenderersEvent.RegisterLayerDefinitions event) {
+		event.registerLayerDefinition(ArmorCultistLeader.LAYER_LOCATION, ArmorCultistLeader::createBodyLayer);
+	}
+
+	@SubscribeEvent
+	public static void onEntityLayerRendererRegister(EntityRenderersEvent.AddLayers event) {
+		addLayerToPlayerSkin(event, r -> new FancyArmorLayer<>(r, event.getEntityModels()));
+
+		addLayerToHumanoid(event, EntityType.ARMOR_STAND, r -> new FancyArmorLayer<>(r, event.getEntityModels()));
+		addLayerToHumanoid(event, EntityType.ZOMBIE, r -> new FancyArmorLayer<>(r, event.getEntityModels()));
+		addLayerToHumanoid(event, EntityType.SKELETON, r -> new FancyArmorLayer<>(r, event.getEntityModels()));
+		addLayerToHumanoid(event, EntityType.HUSK, r -> new FancyArmorLayer<>(r,  event.getEntityModels()));
+		addLayerToHumanoid(event, EntityType.DROWNED, r -> new FancyArmorLayer<>(r,  event.getEntityModels()));
+		addLayerToHumanoid(event, EntityType.STRAY, r -> new FancyArmorLayer<>(r,  event.getEntityModels()));
+	}
+
+
+	@SuppressWarnings({"rawtypes", "unchecked"})
+	private static <E extends Player, S extends HumanoidRenderState, M extends HumanoidModel<S>> void addLayerToPlayerSkin(EntityRenderersEvent.AddLayers event, Function<LivingEntityRenderer<E, S, M>, ? extends RenderLayer<S, M>> factory) {
+		EntityRenderer wide = event.getSkin(PlayerSkin.Model.WIDE);
+		if (wide instanceof LivingEntityRenderer ler)
+			ler.addLayer(factory.apply(ler));
+
+		EntityRenderer slim = event.getSkin(PlayerSkin.Model.SLIM);
+		if (slim instanceof LivingEntityRenderer ler)
+			ler.addLayer(factory.apply(ler));
+	}
+
+	@SuppressWarnings({"rawtypes", "unchecked"})
+	private static <E extends LivingEntity, S extends HumanoidRenderState, M extends HumanoidModel<S>> void addLayerToHumanoid(EntityRenderersEvent.AddLayers event, EntityType<E> entityType, Function<LivingEntityRenderer<E, S, M>, ? extends RenderLayer<S, M>> factory) {
+		EntityRenderer<E, S> renderer = event.getRenderer(entityType);
+		if (renderer instanceof LivingEntityRenderer ler)
+			ler.addLayer(factory.apply(ler));
+	}
 }

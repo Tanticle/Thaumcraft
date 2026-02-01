@@ -25,7 +25,7 @@ import art.arcane.thaumcraft.blocks.InfusionPillarBlock;
 import art.arcane.thaumcraft.blocks.alchemy.CreativeAspectSourceBlock;
 import art.arcane.thaumcraft.blocks.alchemy.JarBlock;
 import art.arcane.thaumcraft.blocks.alchemy.TubeBlock;
-import art.arcane.thaumcraft.blocks.devices.DioptraBlock;
+import art.arcane.thaumcraft.blocks.DioptraBlock;
 import art.arcane.thaumcraft.client.tints.AspectItemTintSource;
 import art.arcane.thaumcraft.registries.ConfigBlocks;
 import art.arcane.thaumcraft.util.RegistryUtils;
@@ -196,17 +196,25 @@ public class BlockDataProvider extends ModelProvider {
         blockParentItem(ConfigBlocks.CREATIVE_ASPECT_SOURCE, ModelLocationUtils.getModelLocation(block, "_empty"));
     }
 
+	private static final ModelTemplate DIOPTRA = ModelTemplates.create("thaumcraft:dioptra", TextureSlot.PARTICLE, TextureSlot.TOP, TextureSlot.BOTTOM, TextureSlot.SIDE);
+
     protected void registerDioptra() {
         Block block = ConfigBlocks.DIOPTRA.block();
+		ResourceLocation texture = TextureMapping.getBlockTexture(block);
         MultiVariantGenerator generator = MultiVariantGenerator.multiVariant(block);
 
         generator.with(PropertyDispatch.property(DioptraBlock.DISPLAY_VIS).generate(displayVis -> {
-            ResourceLocation model = Thaumcraft.id("block/dioptra_" + (displayVis ? "vis" : "flux"));
-            return Variant.variant().with(VariantProperties.MODEL, model);
+			ResourceLocation sideTexture = texture.withSuffix("_side_").withSuffix(displayVis ? "vis" : "flux");
+			TextureMapping mapping = new TextureMapping()
+					.put(TextureSlot.PARTICLE, sideTexture)
+					.put(TextureSlot.SIDE, sideTexture)
+					.put(TextureSlot.TOP, texture.withSuffix("_top"))
+					.put(TextureSlot.BOTTOM, texture.withSuffix("_bottom"));
+            return Variant.variant().with(VariantProperties.MODEL, DIOPTRA.create(ModelLocationUtils.getModelLocation(block, displayVis ? "_vis" : "_flux"), mapping, blocks.modelOutput));
         }));
 
         blocks.blockStateOutput.accept(generator);
-        blockParentItem(ConfigBlocks.DIOPTRA, Thaumcraft.id("block/dioptra_vis"));
+        blockParentItem(ConfigBlocks.DIOPTRA, ModelLocationUtils.getModelLocation(block));
     }
 
     private void simpleExistingBlock(ConfigBlocks.BlockObject<? extends Block> block) {
