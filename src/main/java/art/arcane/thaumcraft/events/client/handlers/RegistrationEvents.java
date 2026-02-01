@@ -1,5 +1,6 @@
 package art.arcane.thaumcraft.events.client.handlers;
 
+import art.arcane.thaumcraft.client.fx.particles.SmokeSpiralParticle;
 import art.arcane.thaumcraft.client.rendering.ber.*;
 import net.minecraft.client.renderer.entity.ItemEntityRenderer;
 import net.neoforged.api.distmarker.Dist;
@@ -9,6 +10,7 @@ import net.neoforged.neoforge.client.event.EntityRenderersEvent;
 import net.neoforged.neoforge.client.event.RegisterClientTooltipComponentFactoriesEvent;
 import net.neoforged.neoforge.client.event.RegisterColorHandlersEvent;
 import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
+import net.neoforged.neoforge.client.event.RegisterParticleProvidersEvent;
 import art.arcane.thaumcraft.Thaumcraft;
 import art.arcane.thaumcraft.api.ThaumcraftData;
 import art.arcane.thaumcraft.client.rendering.ui.AspectTooltip;
@@ -19,6 +21,7 @@ import art.arcane.thaumcraft.registries.ConfigBlocks;
 import art.arcane.thaumcraft.registries.ConfigDataRegistries;
 import art.arcane.thaumcraft.registries.ConfigEntities;
 import art.arcane.thaumcraft.registries.ConfigMenus;
+import art.arcane.thaumcraft.registries.ConfigParticles;
 import art.arcane.thaumcraft.util.RegistryUtils;
 
 @EventBusSubscriber(modid = Thaumcraft.MOD_ID, value = Dist.CLIENT, bus = EventBusSubscriber.Bus.MOD)
@@ -54,5 +57,10 @@ public class RegistrationEvents {
     @SubscribeEvent
     public static void onItemColorTintingRegister(RegisterColorHandlersEvent.ItemTintSources e) {
         e.register(ThaumcraftData.TintSources.ASPECT_ITEM, AspectItemTintSource.CODEC);
+    }
+
+    @SubscribeEvent
+    public static void onParticleProvidersRegister(RegisterParticleProvidersEvent e) {
+        e.registerSpriteSet(ConfigParticles.SMOKE_SPIRAL.get(), SmokeSpiralParticle.Provider::new);
     }
 }

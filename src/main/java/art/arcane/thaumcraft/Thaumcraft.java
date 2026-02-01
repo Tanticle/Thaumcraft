@@ -29,6 +29,7 @@ public final class Thaumcraft {
         ConfigMenus.init(modEventBus);
         ConfigCreativeTabs.init(modEventBus);
         ConfigSounds.init(modEventBus);
+        ConfigParticles.init(modEventBus);
 
         ConfigLoot.init(modEventBus);
     }
