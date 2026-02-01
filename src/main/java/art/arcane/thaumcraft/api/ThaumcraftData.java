@@ -322,6 +322,7 @@ public final class ThaumcraftData {
     public static final class Networking {
         public static final ResourceLocation SYNC_ASPECT_REGISTRY = Thaumcraft.id("sync_aspect_registry");
         public static final ResourceLocation SOUNDING_SCAN = Thaumcraft.id("sounding_scan");
+        public static final ResourceLocation CYCLE_TOOL_MODE = Thaumcraft.id("cycle_tool_mode");
     }
 
     /**
