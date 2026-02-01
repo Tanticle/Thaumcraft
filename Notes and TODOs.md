@@ -21,83 +21,129 @@
 
 ## TODO
 
-### Systems
+### Core Systems
 
-- [X] Aura
-- [X] Flux
-- [ ] Taint Spread
-- [ ] Multiblocks
-- [ ] Golems
-- [ ] Alchemy + Tubing
-- [ ] Research
+- [X] Aura Management (Chunk-based Vis)
+- [X] Flux & Rift Mechanics
+- [ ] Taint Spread & Biome Conversion
+- [ ] Multiblock Structure Logic
+- [ ] Golem Entity & AI
+- [ ] Alchemy (Crucible & Essentia)
+- [ ] Research & Knowledge System
+- [ ] Infusion Crafting System
 
-### API
+### World Generation & Environment
 
-- [ ] Goggle Rendering
-- [ ] Foci System
-- [ ] Configuration UI
+- [ ] Ores (Amber, Cinnabar, Quartz, Crystals)
+- [ ] Trees (Silverwood, Greatwood)
+- [ ] Plants (Cinderpearl, Shimmerleaf, Vishroom)
+- [ ] Fluids (Liquid Death, Purifying Fluid)
+- [ ] Structures (Mounds, Obelisks, Dungeons)
+- [ ] Loot Tables & Dungeon Chests
 
-### Entities
+### Entities & Mobs
 
-- [ ] Crimson Cultists
-- [ ] Other enemies
+- [ ] Ambient (Wisps, Firebats)
+- [ ] Common (Brainy Zombies, Pech, Thaumic Slimes)
+- [ ] Cultists (Knights, Clerics, Praetors)
+- [ ] Eldritch Horrors (Guardians, Crabs, Watchers)
+- [ ] Tainted Creatures
+- [ ] Bosses
+- [ ] Pech Wand
 
-### Items
+### Golems
+
+- [ ] Entity & AI
+- [ ] Golem Press / Crafter
+- [ ] Parts (Heads, Arms, Legs, Materials)
+- [ ] Seals (Control, Collect, etc.)
+- [ ] Golem Bell
+
+### Equipment: Armor
+
+- [ ] Thaumium Armor
+- [X] Void Armor & Robes
+- [ ] Cultist Armor (Robes/Plate/Leader)
+- [ ] Fortress Armor
+- [ ] Goggles of Revealing
+- [ ] Boots of the Traveller
+
+### Equipment: Tools & Weapons
+
+- [X] Elemental Tools * Need to improve VFX
+- [ ] Thaumium Tools
+- [X] Void Tools
+- [ ] Primal Crusher
+- [ ] Crimson Blade
+- [ ] Thaumomomomomometer (Scanning- AND INVENTORY SCANNING)
+- [ ] Sanity Checker
+- [ ] Grapple Gun
+- [ ] Scribing Tools
+
+### Equipment: Casting
+
+- [ ] Caster Gauntlet
+- [ ] Foci System (Mediums + Effects)
+- [ ] Focus Pouch
+
+### Baubles?
+
+- [ ] Vis Amulet
+- [ ] Cloud Ring
+- [ ] Charms (Undying, Verdant, Voidseer)
+- [ ] Curiosity Band
+
+### Alchemy & Consumables
+
+- [ ] Crucible
+- [ ] Arcane Spa & Bath Salts
+- [ ] Sanity Soap
+- [ ] Essentia Smeltery (Smelter + Alembics)
+- [ ] Essentia Transport (Tubes, Valves, Buffers, Filters)
+- [ ] Centrifuge
+- [-] Jars (Normal, Void, Brain)
+- [ ] Alumentum
+- [ ] Causality Collapser
+- [ ] Bottle of Taint
+- [ ] Phials & Labels
+
+### Blocks: Devices & Machines
+
+- [X] Arcane Workbench
+- [ ] Research Table
+- [-] Infusion Altar (Pedestals, Matrix)
+- [X] Dioptra * NEEDS VATUU POLISH FOR RENDERER & BLOCK MODEL
+- [ ] Arcane Levitator
+- [ ] Arcane Ear & Toggle
+- [ ] Arcane Lamp / Lamp of Growth
+- [ ] Infernal Furnace
+- [ ] Mirrors (Magic & Essentia)
+- [ ] Redstone Relay
+- [ ] Hungry Chest
+- [ ] Everfull Urn
+- [ ] Bellows
+- [ ] Vis Battery / Generator
+- [ ] Stabilizers
+- [ ] Flux Condenser
+
+### Blocks: Cosmetic & Building
+
+- [-] Candles (All colors) - (USING VANILLA- Need to add Stability Support)
+- [ ] Banners
+- [ ] Nitor
+- [ ] Paving Stones (Arcane, Barrier, Travel)
+- [ ] Greatwood & Silverwood Planks/Logs
+- [ ] Arcane Stone Blocks (Bricks, Smooth, etc.)
+- [ ] Eldritch Stone
+- [ ] Ancient Stone
+
+### Items & Resources
 
 - [ ] Thaumonomicon
-- [ ] Scanner
-- [ ] Meat Nuggets
-- [ ] Lootbags
-- [ ] Knowledge fragments
+- [ ] Salis Mundus
+- [ ] Loot Bags
+- [ ] Knowledge Fragments
 - [ ] Celestial Notes
-
-### Equipment
-
-- [ ] Armor Tiers
-- [ ] Special Armors
-- [ ] Baubles
-- [ ] Gauntlet
-- [ ] Foci
-- [ ] Sanity Checker
-
-### Tools
-
-- [X] Elemental Tools* Need to improve VFX
-- [ ] Grappler
-- [ ] Soap
-
-### Blocks
-
-- [ ] Magic Mirrors
-- [ ] Brain in a Jar
-- [ ] Redstone Stuff
-- [ ] Hungry Chest
-- [ ] Taint Blocks
-- [ ] Trees
-
-### Machines
-
-- [ ] Arcane Bore
-- [ ] Automatic Crossbow (+ Advanced)
-- [ ] Spa
-- [ ] Essentia Inlet/Outlet
-- [ ] Flux Condenser
-- [ ] Everfull Urn
-- [ ] Arcane Levitator
-- [X] Dioptra * NEEDS VATUU POLISH FOR RENDERER & BLOCK MODEL
-
-### Alchemy Blocks
-
-- [ ] Tubes
-- [ ] Alchemical Constructs
-- [ ] Smelters + Alembic
-
-### Infusion Blocks
-
-- [ ] Candles
-- [ ] Lamps
-- [ ] Stabilizers
-
-### Decorations
-
-- [ ] Banners
+- [ ] Primordial Pearl
+- [ ] Meat Nuggets & Triple Meat Treat
+- [ ] Zombie Brains
