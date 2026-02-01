@@ -11,6 +11,7 @@ import net.minecraft.client.model.geom.builders.*;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.state.HumanoidRenderState;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.EquipmentSlot;
 
 public class ArmorCultistLeader<S extends HumanoidRenderState> extends HumanoidModel<S> {
 
@@ -145,5 +146,31 @@ public class ArmorCultistLeader<S extends HumanoidRenderState> extends HumanoidM
 		ResourceLocation assetId = ThaumcraftMaterials.Armor.CRIMSON_LEADER.assetId().location();
 		ResourceLocation texture = ResourceLocation.fromNamespaceAndPath(assetId.getNamespace(), "textures/entity/equipment/humanoid/" + assetId.getPath() + ".png");
 		renderToBuffer(stack, buffer.getBuffer(renderType(texture)), packedLight, packedOverlay);
+	}
+
+	@Override
+	public void setAllVisible(boolean visible) {
+		super.setAllVisible(visible);
+		this.leggings.visible = visible;
+	}
+
+	public void setVisible(EquipmentSlot slot) {
+		switch(slot) {
+			case HEAD -> {
+				this.head.visible = true;
+				this.hat.visible = true;
+				break;
+			}
+			case CHEST -> {
+				this.body.visible = true;
+				this.leftArm.visible = true;
+				this.rightArm.visible = true;
+			}
+			case LEGS -> {
+				this.leftLeg.visible = true;
+				this.rightLeg.visible = true;
+				this.leggings.visible = true;
+			}
+		}
 	}
 }
