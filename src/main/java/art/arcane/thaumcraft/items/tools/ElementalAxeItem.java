@@ -18,12 +18,12 @@ import net.minecraft.world.item.AxeItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.ItemUseAnimation;
 import net.minecraft.world.item.Rarity;
+import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 
 import java.util.List;
 import java.util.Map;
 
-// TODO: AXE Bubbles look like ass lmao, all jumpy. should be a trail. and magnet should pull UP as well, to properly get blocks stuck (also axe items should float through other blocks.
 public class ElementalAxeItem extends AxeItem {
 
 	private static final int MAX_USE_DURATION = 72000;
@@ -34,6 +34,14 @@ public class ElementalAxeItem extends AxeItem {
 						ConfigItemComponents.INFUSION_ENCHANTMENT.value(), new InfusionEnchantmentComponent(Map.of(
 								InfusionEnchantments.COLLECTOR, (byte) 1,
 								InfusionEnchantments.BURROWING, (byte) 1))));
+	}
+
+	@Override
+	public InteractionResult useOn(UseOnContext context) {
+		if (context.getPlayer() != null && context.getPlayer().isCrouching()) {
+			return super.useOn(context);
+		}
+		return InteractionResult.PASS;
 	}
 
 	@Override
@@ -65,10 +73,13 @@ public class ElementalAxeItem extends AxeItem {
 				d7 /= d9;
 				d8 /= d9;
 				double d10 = 0.4;
+				double upwardLift = 0.15;
 				double vX = Mth.clamp(e.getDeltaMovement().x() - d6 * d10, -0.35D, 0.35D);
-				double vY = Mth.clamp(e.getDeltaMovement().y() - d7 * d10 - 0.1, -0.35D, 0.35D);
+				double vY = Mth.clamp(e.getDeltaMovement().y() - d7 * d10 + upwardLift, -0.35D, 0.5D);
 				double vZ = Mth.clamp(e.getDeltaMovement().z() - d8 * d10, -0.35D, 0.35D);
 				e.setDeltaMovement(vX, vY, vZ);
+				e.setNoGravity(true);
+				e.noPhysics = true;
 				if (pLevel.isClientSide()) {
 					RandomSource rand = pLevel.getRandom();
 					pLevel.addParticle(ParticleTypes.WITCH,

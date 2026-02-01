@@ -19,8 +19,13 @@ public final class ConfigKeybinds {
             KeyConflictContext.IN_GAME, InputConstants.Type.KEYSYM, InputConstants.KEY_M,
             "key.chaumtraft.category.debug");
 
+    public static final KeyMapping CYCLE_TOOL_MODE = new KeyMapping("key.thaumcraft.cycle_tool_mode",
+            KeyConflictContext.IN_GAME, InputConstants.Type.KEYSYM, InputConstants.KEY_G,
+            "key.thaumcraft.category.tools");
+
     @SubscribeEvent
     public static void keyRegisterEvent(RegisterKeyMappingsEvent e) {
+        e.register(CYCLE_TOOL_MODE);
         if(Thaumcraft.isDev())
             registerDebugKeys(e);
     }

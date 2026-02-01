@@ -304,6 +304,7 @@ public final class ThaumcraftData {
         public static final ResourceLocation CONDITION_INFUSION_ENCHANTMENT = Thaumcraft.id("infusion_enchantment");
         public static final ResourceLocation MODIFIER_HOMING_ITEM = Thaumcraft.id("homing_item");
         public static final ResourceLocation MODIFIER_HARVESTER = Thaumcraft.id("harvester_loot");
+        public static final ResourceLocation MODIFIER_REFINING = Thaumcraft.id("refining_loot");
     }
 
     public static final class Sounds {
@@ -325,6 +326,8 @@ public final class ThaumcraftData {
 
     public static final class Networking {
         public static final ResourceLocation SYNC_ASPECT_REGISTRY = Thaumcraft.id("sync_aspect_registry");
+        public static final ResourceLocation SOUNDING_SCAN = Thaumcraft.id("sounding_scan");
+        public static final ResourceLocation CYCLE_TOOL_MODE = Thaumcraft.id("cycle_tool_mode");
     }
 
     /**

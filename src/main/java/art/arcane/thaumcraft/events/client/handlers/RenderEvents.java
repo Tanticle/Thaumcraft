@@ -4,6 +4,7 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.datafixers.util.Either;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.core.Holder;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.FormattedText;
@@ -12,11 +13,14 @@ import net.minecraft.world.inventory.tooltip.TooltipComponent;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.neoforge.client.event.ClientTickEvent;
 import net.neoforged.neoforge.client.event.RenderLevelStageEvent;
 import net.neoforged.neoforge.client.event.RenderTooltipEvent;
 import org.joml.Matrix4fStack;
 import art.arcane.thaumcraft.Thaumcraft;
 import art.arcane.thaumcraft.api.aspects.Aspect;
+import art.arcane.thaumcraft.client.fx.ArchitectBlockRenderer;
+import art.arcane.thaumcraft.client.fx.OreScanRenderer;
 import art.arcane.thaumcraft.api.aspects.AspectContainerItem;
 import art.arcane.thaumcraft.client.ThaumcraftClient;
 import art.arcane.thaumcraft.client.rendering.ui.AspectTooltip;
@@ -85,12 +89,22 @@ public class RenderEvents {
             Matrix4fStack matrix4fstack = RenderSystem.getModelViewStack();
             matrix4fstack.pushMatrix();
             matrix4fstack.mul(e.getModelViewMatrix());
-            //RenderSystem.applyModelViewMatrix();
             e.getPoseStack().pushPose();
             ThaumcraftClient.TUBE_DEBUG_RENDERER.render(e.getPoseStack(), Minecraft.getInstance().renderBuffers().bufferSource(), e.getCamera().getPosition().x, e.getCamera().getPosition().y, e.getCamera().getPosition().z);
             e.getPoseStack().popPose();
             matrix4fstack.popMatrix();
-            //RenderSystem.applyModelViewMatrix();
         }
+
+        if (e.getStage() == RenderLevelStageEvent.Stage.AFTER_PARTICLES) {
+            MultiBufferSource.BufferSource bufferSource = Minecraft.getInstance().renderBuffers().bufferSource();
+            OreScanRenderer.render(e.getPoseStack(), e.getCamera(), bufferSource, e.getPartialTick().getGameTimeDeltaPartialTick(true));
+            ArchitectBlockRenderer.render(e.getPoseStack(), e.getCamera(), bufferSource);
+            bufferSource.endBatch();
+        }
+    }
+
+    @SubscribeEvent
+    public static void onClientTick(ClientTickEvent.Post e) {
+        OreScanRenderer.tick();
     }
 }

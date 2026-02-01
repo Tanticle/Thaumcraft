@@ -88,4 +88,17 @@ public final class BlockUtils {
         }
         return false;
     }
+
+    public static boolean harvestBlock(Level world, Player player, BlockPos pos) {
+        if (world instanceof ServerLevel) {
+            BlockState state = world.getBlockState(pos);
+            if (state.isAir()) {
+                return false;
+            }
+            Block block = state.getBlock();
+            block.playerDestroy(world, player, pos, state, world.getBlockEntity(pos), player.getMainHandItem());
+            return world.destroyBlock(pos, false, player);
+        }
+        return false;
+    }
 }
