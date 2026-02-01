@@ -15,5 +15,5 @@ public class FancyArmorItem extends ArmorItem {
 		this.set = set;
 	}
 
-	public enum ArmorSet { CRIMSON_LEADER, CRIMSON_PLATE }
+	public enum ArmorSet { CRIMSON_LEADER, CRIMSON_PLATE, CRIMSON_ROBE }
 }

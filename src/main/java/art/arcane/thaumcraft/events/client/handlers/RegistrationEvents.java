@@ -7,6 +7,7 @@ import art.arcane.thaumcraft.client.rendering.FancyArmorLayer;
 import art.arcane.thaumcraft.client.rendering.ber.*;
 import art.arcane.thaumcraft.client.rendering.entity.models.ArmorCrimsonLeader;
 import art.arcane.thaumcraft.client.rendering.entity.models.ArmorCrimsonPlate;
+import art.arcane.thaumcraft.client.rendering.entity.models.ArmorCrimsonRobe;
 import art.arcane.thaumcraft.client.rendering.ui.AspectTooltip;
 import art.arcane.thaumcraft.client.screens.ArcaneWorkbenchScreen;
 import art.arcane.thaumcraft.client.tints.AspectItemTintSource;
@@ -82,6 +83,7 @@ public class RegistrationEvents {
 	public static void onEntityLayerRegister(EntityRenderersEvent.RegisterLayerDefinitions event) {
 		event.registerLayerDefinition(ArmorCrimsonLeader.LAYER_LOCATION, ArmorCrimsonLeader::createBodyLayer);
 		event.registerLayerDefinition(ArmorCrimsonPlate.LAYER_LOCATION, ArmorCrimsonPlate::createBodyLayer);
+		event.registerLayerDefinition(ArmorCrimsonRobe.LAYER_LOCATION, ArmorCrimsonRobe::createBodyLayer);
 	}
 
 	@SubscribeEvent

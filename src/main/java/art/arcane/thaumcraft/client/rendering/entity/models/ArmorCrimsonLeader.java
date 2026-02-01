@@ -159,7 +159,6 @@ public class ArmorCrimsonLeader<S extends HumanoidRenderState> extends HumanoidM
 			case HEAD -> {
 				this.head.visible = true;
 				this.hat.visible = true;
-				break;
 			}
 			case CHEST -> {
 				this.body.visible = true;

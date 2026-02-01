@@ -122,7 +122,6 @@ public class ArmorCrimsonPlate<S extends HumanoidRenderState> extends HumanoidMo
 			case HEAD -> {
 				this.head.visible = true;
 				this.hat.visible = true;
-				break;
 			}
 			case CHEST -> {
 				this.body.visible = true;
