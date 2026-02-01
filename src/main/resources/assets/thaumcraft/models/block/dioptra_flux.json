@@ -1,0 +1,9 @@
+{
+    "parent": "thaumcraft:block/dioptra",
+    "textures": {
+        "particle": "thaumcraft:block/dioptra_flux",
+        "side": "thaumcraft:block/dioptra_flux",
+        "top": "thaumcraft:block/dioptra_top",
+        "bottom": "thaumcraft:block/dioptra_bottom"
+    }
+}
