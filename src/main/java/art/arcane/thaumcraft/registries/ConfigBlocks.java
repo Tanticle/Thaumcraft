@@ -81,6 +81,13 @@ public final class ConfigBlocks {
 
     public static final BlockObject<DioptraBlock> DIOPTRA = registerBlock(Blocks.DIOPTRA, DioptraBlock::new, ConfigCreativeTabs.MAIN);
 
+    public static final BlockObject<Block> ORE_AMBER = registerBlock(Blocks.ORE_AMBER, props -> new Block(SimpleBlockMaterials.stone(props).strength(3.0F, 3.0F)), ConfigCreativeTabs.MAIN);
+    public static final BlockObject<Block> ORE_CINNABAR = registerBlock(Blocks.ORE_CINNABAR, props -> new Block(SimpleBlockMaterials.stone(props).strength(3.0F, 3.0F)), ConfigCreativeTabs.MAIN);
+    public static final BlockObject<Block> ORE_QUARTZ = registerBlock(Blocks.ORE_QUARTZ, props -> new Block(SimpleBlockMaterials.stone(props).strength(3.0F, 3.0F)), ConfigCreativeTabs.MAIN);
+    public static final BlockObject<Block> DEEPSLATE_ORE_AMBER = registerBlock(Blocks.DEEPSLATE_ORE_AMBER, props -> new Block(SimpleBlockMaterials.stone(props).strength(4.5F, 3.0F).sound(net.minecraft.world.level.block.SoundType.DEEPSLATE)), ConfigCreativeTabs.MAIN);
+    public static final BlockObject<Block> DEEPSLATE_ORE_CINNABAR = registerBlock(Blocks.DEEPSLATE_ORE_CINNABAR, props -> new Block(SimpleBlockMaterials.stone(props).strength(4.5F, 3.0F).sound(net.minecraft.world.level.block.SoundType.DEEPSLATE)), ConfigCreativeTabs.MAIN);
+    public static final BlockObject<Block> DEEPSLATE_ORE_QUARTZ = registerBlock(Blocks.DEEPSLATE_ORE_QUARTZ, props -> new Block(SimpleBlockMaterials.stone(props).strength(4.5F, 3.0F).sound(net.minecraft.world.level.block.SoundType.DEEPSLATE)), ConfigCreativeTabs.MAIN);
+
     /* -------------------------------------------------------------------------------------------------------------- */
 
     public static void init(IEventBus bus) {

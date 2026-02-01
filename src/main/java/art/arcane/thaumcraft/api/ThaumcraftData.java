@@ -144,6 +144,9 @@ public final class ThaumcraftData {
         public static final ResourceLocation INGOT_VOID = Thaumcraft.id("ingot_void");
         public static final ResourceLocation INGOT_BRASS = Thaumcraft.id("ingot_brass");
 
+        public static final ResourceLocation RAW_AMBER = Thaumcraft.id("raw_amber");
+        public static final ResourceLocation RAW_CINNABAR = Thaumcraft.id("raw_cinnabar");
+
         public static final ResourceLocation UPGRADE_SPEED = Thaumcraft.id("upgrade_speed");
         public static final ResourceLocation UPGRADE_CAPACITY = Thaumcraft.id("upgrade_capacity");
         public static final ResourceLocation UPGRADE_RAGE = Thaumcraft.id("upgrade_rage");
@@ -239,6 +242,13 @@ public final class ThaumcraftData {
         public static final ResourceLocation INFUSION_PILLAR_ELDRITCH = Thaumcraft.id("infusion_pillar_eldritch");
 
         public static final ResourceLocation DIOPTRA = Thaumcraft.id("dioptra");
+
+        public static final ResourceLocation ORE_AMBER = Thaumcraft.id("ore_amber");
+        public static final ResourceLocation ORE_CINNABAR = Thaumcraft.id("ore_cinnabar");
+        public static final ResourceLocation ORE_QUARTZ = Thaumcraft.id("ore_quartz");
+        public static final ResourceLocation DEEPSLATE_ORE_AMBER = Thaumcraft.id("deepslate_ore_amber");
+        public static final ResourceLocation DEEPSLATE_ORE_CINNABAR = Thaumcraft.id("deepslate_ore_cinnabar");
+        public static final ResourceLocation DEEPSLATE_ORE_QUARTZ = Thaumcraft.id("deepslate_ore_quartz");
     }
 
     public static final class CreativeTabs {

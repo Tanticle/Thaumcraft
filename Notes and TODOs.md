@@ -24,126 +24,235 @@
 ### Core Systems
 
 - [X] Aura Management (Chunk-based Vis)
-- [X] Flux & Rift Mechanics
-- [ ] Taint Spread & Biome Conversion
+- [X] Flux & Rift Mechanics (Rifts, Flux events)
+- [ ] **Taint System**
+    - [ ] Spread Logic
+    - [ ] Biome Conversion
+    - [ ] Flux Goo
+    - [ ] Taint Fibres
+    - [ ] Taint Logs
+    - [ ] Taint Blocks (Crust, Soil, etc.)
+    - [ ] Taint Features (Geysers, Tendrils)
 - [ ] Multiblock Structure Logic
-- [ ] Golem Entity & AI
-- [ ] Alchemy (Crucible & Essentia)
-- [ ] Research & Knowledge System
-- [ ] Infusion Crafting System
+- [ ] Alchemy (Crucible crafting & Essentia distillation)
+- [ ] **Research System**
+    - [ ] Theorycrafting minigame
+    - [ ] Knowledge types (Observations, Theories)
+    - [ ] Scanning mechanics
+- [ ] **Infusion Crafting**
+    - [ ] Stability mechanics
+    - [ ] Instability events
+- [ ] **Effects & Potions**
+    - [ ] Warp (Temporary, Permanent, Sticky)
+    - [ ] Warp Ward
+    - [ ] Sun Scorned
+    - [ ] Blurred Vision
+    - [ ] Thaumarhia
+    - [ ] Unnatural Hunger
+    - [ ] Death Gaze
+    - [ ] Infectious Vis Exhaustion
 
 ### World Generation & Environment
 
-- [ ] Ores (Amber, Cinnabar, Quartz, Crystals)
-- [ ] Trees (Silverwood, Greatwood)
-- [ ] Plants (Cinderpearl, Shimmerleaf, Vishroom)
-- [ ] Fluids (Liquid Death, Purifying Fluid)
-- [ ] Structures (Mounds, Obelisks, Dungeons)
-- [ ] Loot Tables & Dungeon Chests
+- [-] **Ores**
+    - [ ] Add Cinnibar, Amber, and Quarts Textures & Raw Variants of Cinn/Amber
+    - [X] All 3 Ores Generate
+    - [ ] Elemental Crystals (Air, Fire, Water, Earth, Order, Entropy) in caves
+- [ ] **Trees**
+    - [ ] Greatwood (Logs, Leaves, Saplings)
+    - [ ] Silverwood (Logs, Leaves, Saplings)
+- [ ] **Plants**
+    - [ ] Cinderpearl
+    - [ ] Shimmerleaf
+    - [ ] Vishroom
+- [ ] **Fluids**
+    - [ ] Liquid Death
+    - [ ] Purifying Fluid
+- [ ] **Structures**
+    - [ ] Hilltop Mounds
+    - [ ] Obelisks (Eldritch/Crimson)
+    - [ ] Wisp Nests
+- [ ] Loot Tables (Dungeon chests, Pech trades)
 
 ### Entities & Mobs
 
-- [ ] Ambient (Wisps, Firebats)
-- [ ] Common (Brainy Zombies, Pech, Thaumic Slimes)
-- [ ] Cultists (Knights, Clerics, Praetors)
-- [ ] Eldritch Horrors (Guardians, Crabs, Watchers)
-- [ ] Tainted Creatures
-- [ ] Bosses
-- [ ] Pech Wand
+- [ ] **Ambient**
+    - [ ] Wisps
+    - [ ] Firebats
+- [ ] **Common**
+    - [ ] Brainy Zombies (Normal & Giant)
+    - [ ] Pech (Forager, Hunter, Mage)
+    - [ ] Thaumic Slimes
+- [ ] **Cultists**
+    - [ ] Crimson Knights
+    - [ ] Crimson Clerics
+    - [ ] Crimson Praetors
+- [ ] **Eldritch**
+    - [ ] Eldritch Guardians
+    - [ ] Eldritch Crabs
+    - [ ] Eldritch Watchers
+    - [ ] Mind Spiders
+- [ ] **Tained**
+    - [ ] Taint Crawlers
+    - [ ] Taint Swarms
+    - [ ] Taintacles (Normal & Giant)
+- [ ] **Bosses**
+    - [ ] The Taintaculus?
+    - [ ] Crimson Portal logic
 
 ### Golems
 
-- [ ] Entity & AI
-- [ ] Golem Press / Crafter
-- [ ] Parts (Heads, Arms, Legs, Materials)
-- [ ] Seals (Control, Collect, etc.)
-- [ ] Golem Bell
+- [ ] **Entity & AI**
+    - [ ] Pathfinding & Task handling
+    - [ ] Interaction properties
+- [ ] **Crafting**
+    - [ ] Golem Press
+    - [ ] Golem Bell
+- [ ] **Parts**
+    - [ ] Materials (Wood, Iron, Brass, Thaumium, Void, etc.)
+    - [ ] Heads (Smart, Perceptive, etc.)
+    - [ ] Arms (Claws, Grippers, Breakers, Darts)
+    - [ ] Legs (Walker, Roller, Levitation, Climber)
+    - [ ] Add-ons
+- [ ] **Seals (Task definitions)**
+    - [ ] Pickup & Pickup Advanced
+    - [ ] Store & Stock
+    - [ ] Empty & Empty Advanced
+    - [ ] Fill & Fill Advanced
+    - [ ] Provide
+    - [ ] Harvest
+    - [ ] Guard & Guard Advanced
+    - [ ] Butcher
+    - [ ] Breaker & Breaker Advanced
+    - [ ] Lumber
+    - [ ] Use
+    - [ ] Heart (Seal connection logic)
 
 ### Equipment: Armor
 
 - [ ] Thaumium Armor
-- [X] Void Armor & Robes
-- [ ] Cultist Armor (Robes/Plate/Leader)
-- [ ] Fortress Armor
-- [ ] Goggles of Revealing
-- [ ] Boots of the Traveller
+- [ ] Void Armor & Robes
+- [ ] Cultist Armor (Robes, Plate, Leader)
+- [ ] Fortress Armor (Helm upgrades: Masks)
+- [ ] Goggles of Revealing (HUD overlay)
+- [ ] Boots of the Traveller (Jump/Speed boost)
 
 ### Equipment: Tools & Weapons
 
 - [X] Elemental Tools * Need to improve VFX
-- [ ] Thaumium Tools
-- [X] Void Tools
+- [ ] Thaumium Tools (Axe, Hoe, Pick, Shovel, Sword)
+- [X] Void Tools (Regeneration logic)
 - [ ] Primal Crusher
 - [ ] Crimson Blade
-- [ ] Thaumomomomomometer (Scanning- AND INVENTORY SCANNING)
+- [ ] Thaumometer (Scanning logic)
 - [ ] Sanity Checker
 - [ ] Grapple Gun
-- [ ] Scribing Tools
+- [ ] Scribing Tools (Research table usage)
 
-### Equipment: Casting
+### Equipment: Casting (Auromancy)
 
-- [ ] Caster Gauntlet
-- [ ] Foci System (Mediums + Effects)
-- [ ] Focus Pouch
+- [ ] **Caster Gauntlet**
+- [ ] **Focus Pouch**
+- [ ] **Foci System**
+    - [ ] **Mediums**
+        - [ ] Touch
+        - [ ] Bolt
+        - [ ] Projectile
+        - [ ] Cloud
+        - [ ] Mine
+        - [ ] Spellbat
+        - [ ] Plan
+    - [ ] **Effects**
+        - [ ] Fire
+        - [ ] Frost
+        - [ ] Air
+        - [ ] Earth
+        - [ ] Break
+        - [ ] Exchange
+        - [ ] Heal
+        - [ ] Curse
+        - [ ] Rift
+        - [ ] Flux
+    - [ ] **Modifiers**
+        - [ ] Scatter
+        - [ ] Split Target
+        - [ ] Split Trajectory
 
-### Baubles?
+### Baubles???
 
-- [ ] Vis Amulet
-- [ ] Cloud Ring
-- [ ] Charms (Undying, Verdant, Voidseer)
+- [ ] Vis Amulet (Vis recharge)
+- [ ] Cloud Ring (Flight/Fall protect)
+- [ ] Charm of Undying
+- [ ] Verdant Charm (lifegiver/sustainer)
+- [ ] Voidseer Charm
 - [ ] Curiosity Band
 
 ### Alchemy & Consumables
 
-- [ ] Crucible
-- [ ] Arcane Spa & Bath Salts
-- [ ] Sanity Soap
-- [ ] Essentia Smeltery (Smelter + Alembics)
-- [ ] Essentia Transport (Tubes, Valves, Buffers, Filters)
-- [ ] Centrifuge
-- [-] Jars (Normal, Void, Brain)
-- [ ] Alumentum
-- [ ] Causality Collapser
-- [ ] Bottle of Taint
-- [ ] Phials & Labels
+- [ ] **Blocks**
+    - [-] Crucible (Crafting logic)
+    - [ ] Arcane Spa
+    - [ ] Essentia Smelter (Basic & Thaumium)
+    - [ ] Arcane Alembics
+    - [ ] Centrifuge
+- [ ] **Essentia Transport**
+    - [ ] Tubes (Normal, Valve, Filter, Buffer, Restricted, Oneway)
+    - [-] Jars (Warded, Void, Brain)
+    - [ ] Labels
+- [ ] **Items**
+    - [ ] Phials (Essentia filling)
+    - [ ] Alumentum
+    - [ ] Bath Salts
+    - [ ] Sanity Soap
+    - [ ] Bottle of Taint
+    - [ ] Causality Collapser
+    - [ ] Meat Nuggets & Triple Meat Treat
+    - [ ] Zombie Brains (Consumable)
 
 ### Blocks: Devices & Machines
 
-- [X] Arcane Workbench
-- [ ] Research Table
-- [-] Infusion Altar (Pedestals, Matrix)
-- [X] Dioptra * NEEDS VATUU POLISH FOR RENDERER & BLOCK MODEL
-- [ ] Arcane Levitator
-- [ ] Arcane Ear & Toggle
-- [ ] Arcane Lamp / Lamp of Growth
-- [ ] Infernal Furnace
-- [ ] Mirrors (Magic & Essentia)
-- [ ] Redstone Relay
-- [ ] Hungry Chest
-- [ ] Everfull Urn
-- [ ] Bellows
-- [ ] Vis Battery / Generator
-- [ ] Stabilizers
-- [ ] Flux Condenser
+- [ ] **Research**
+    - [ ] Research Table
+    - [ ] Brain in a Jar
+- [ ] **Crafting**
+    - [X] Arcane Workbench
+    - [ ] Focal Manipulator (Focus crafting)
+    - [ ] Infusion Altar (Pillars, Pedestals, Matrix)
+    - [ ] Stabilizers
+- [ ] **Utility**
+    - [X] Dioptra * NEEDS VATUU POLISH FOR RENDERER & BLOCK MODEL
+    - [ ] Arcane Levitator
+    - [ ] Arcane Ear & Toggle
+    - [ ] Arcane Lamp / Lamp of Growth / Lamp of Fertility
+    - [ ] Infernal Furnace
+    - [ ] Mirrors (Magic Hand Mirror link, Essentia Mirrors)
+    - [ ] Redstone Relay
+    - [ ] Hungry Chest
+    - [ ] Everfull Urn
+    - [ ] Arcane Bellows
+    - [ ] Vis Battery
+    - [ ] Vis Generator
+    - [ ] Flux Condenser / Lattice
 
 ### Blocks: Cosmetic & Building
 
-- [-] Candles (All colors) - (USING VANILLA- Need to add Stability Support)
-- [ ] Banners
-- [ ] Nitor
+- [ ] Candles (16 colors)
+- [ ] Banners (TC specific)
+- [ ] Nitor (Light source)
 - [ ] Paving Stones (Arcane, Barrier, Travel)
-- [ ] Greatwood & Silverwood Planks/Logs
-- [ ] Arcane Stone Blocks (Bricks, Smooth, etc.)
+- [ ] Planks & Logs (Greatwood, Silverwood)
+- [ ] Arcane Stone Blocks (Bricks, Smooth, Pillars)
 - [ ] Eldritch Stone
 - [ ] Ancient Stone
+- [ ] Pedestals (Ancient, Eldritch)
 
 ### Items & Resources
 
 - [ ] Thaumonomicon
 - [ ] Salis Mundus
-- [ ] Loot Bags
+- [ ] Loot Bags (Common, Uncommon, Rare)
 - [ ] Knowledge Fragments
 - [ ] Celestial Notes
 - [ ] Primordial Pearl
-- [ ] Meat Nuggets & Triple Meat Treat
-- [ ] Zombie Brains
+- [ ] Magic Dust
+- [ ] Crystal Essence

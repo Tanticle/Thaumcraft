@@ -38,7 +38,8 @@ public class ItemModelProvider extends ModelProvider {
         simpleItem(ConfigItems.JAR_BRACE, "alchemy");
 
         // Resources
-        batchItems("resources", ConfigItems.INGOT_BRASS, ConfigItems.INGOT_THAUMIUM, ConfigItems.INGOT_VOID);
+        batchItems("resources", ConfigItems.INGOT_BRASS, ConfigItems.INGOT_THAUMIUM, ConfigItems.INGOT_VOID,
+                ConfigItems.RAW_AMBER, ConfigItems.RAW_CINNABAR);
 
         tintableAspectItem(ConfigItems.VIS_CRYSTAL, "resources");
         tintableAspect2LayerItem(ConfigItems.PHIAL, "resources");

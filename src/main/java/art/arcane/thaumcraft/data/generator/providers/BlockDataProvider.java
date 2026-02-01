@@ -80,6 +80,13 @@ public class BlockDataProvider extends ModelProvider {
         simpleBlock(ConfigBlocks.INFUSION_STONE_SPEED);
 
         registerDioptra();
+
+        simpleBlock(ConfigBlocks.ORE_AMBER);
+        simpleBlock(ConfigBlocks.ORE_CINNABAR);
+        simpleBlock(ConfigBlocks.ORE_QUARTZ);
+        simpleBlockWithTexture(ConfigBlocks.DEEPSLATE_ORE_AMBER, Thaumcraft.id("block/ore_amber"));
+        simpleBlockWithTexture(ConfigBlocks.DEEPSLATE_ORE_CINNABAR, Thaumcraft.id("block/ore_cinnabar"));
+        simpleBlockWithTexture(ConfigBlocks.DEEPSLATE_ORE_QUARTZ, Thaumcraft.id("block/ore_quartz"));
     }
 
     @Override
@@ -93,6 +100,14 @@ public class BlockDataProvider extends ModelProvider {
         TexturedModel.Provider model = TexturedModel.createDefault(b -> mapping, ModelTemplates.CUBE_ALL);
         blocks.createTrivialBlock(block.block(), model);
         blockParentItem(block, id);
+    }
+
+    public void simpleBlockWithTexture(ConfigBlocks.BlockObject<? extends Block> block, ResourceLocation texture) {
+        TextureMapping mapping = new TextureMapping().put(TextureSlot.ALL, texture).put(TextureSlot.PARTICLE, texture);
+        ResourceLocation modelLocation = RegistryUtils.getBlockLocation(block.blockSupplier());
+        ResourceLocation model = ModelTemplates.CUBE_ALL.create(block.block(), mapping, blocks.modelOutput);
+        blocks.blockStateOutput.accept(MultiVariantGenerator.multiVariant(block.block(), Variant.variant().with(VariantProperties.MODEL, model)));
+        blockParentItem(block, model);
     }
 
     private void registerDirectionalMultipart(ConfigBlocks.BlockObject<? extends Block> block, Map<Direction, BooleanProperty> dirProperties, ResourceLocation centerPart, ResourceLocation sidePart, boolean hideCenter) {
