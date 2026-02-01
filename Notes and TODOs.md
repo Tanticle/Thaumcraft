@@ -22,8 +22,9 @@
 ## TODO
 
 ### Systems
-- [ ] Aura
-- [ ] Flux
+
+- [X] Aura
+- [X] Flux
 - [ ] Taint Spread
 - [ ] Multiblocks
 - [ ] Golems
@@ -31,15 +32,18 @@
 - [ ] Research
 
 ### API
+
 - [ ] Goggle Rendering
 - [ ] Foci System
 - [ ] Configuration UI
 
 ### Entities
+
 - [ ] Crimson Cultists
 - [ ] Other enemies
 
 ### Items
+
 - [ ] Thaumonomicon
 - [ ] Scanner
 - [ ] Meat Nuggets
@@ -48,6 +52,7 @@
 - [ ] Celestial Notes
 
 ### Equipment
+
 - [ ] Armor Tiers
 - [ ] Special Armors
 - [ ] Baubles
@@ -56,11 +61,13 @@
 - [ ] Sanity Checker
 
 ### Tools
-- [ ] Elemental Tools
+
+- [X] Elemental Tools* Need to improve VFX
 - [ ] Grappler
 - [ ] Soap
 
 ### Blocks
+
 - [ ] Magic Mirrors
 - [ ] Brain in a Jar
 - [ ] Redstone Stuff
@@ -69,6 +76,7 @@
 - [ ] Trees
 
 ### Machines
+
 - [ ] Arcane Bore
 - [ ] Automatic Crossbow (+ Advanced)
 - [ ] Spa
@@ -76,17 +84,20 @@
 - [ ] Flux Condenser
 - [ ] Everfull Urn
 - [ ] Arcane Levitator
-- [ ] Dioptra
+- [X] Dioptra * NEEDS VATUU POLISH FOR RENDERER & BLOCK MODEL
 
 ### Alchemy Blocks
+
 - [ ] Tubes
 - [ ] Alchemical Constructs
 - [ ] Smelters + Alembic
 
 ### Infusion Blocks
+
 - [ ] Candles
 - [ ] Lamps
 - [ ] Stabilizers
 
 ### Decorations
+
 - [ ] Banners
