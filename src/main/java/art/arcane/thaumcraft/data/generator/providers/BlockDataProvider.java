@@ -25,6 +25,7 @@ import art.arcane.thaumcraft.blocks.InfusionPillarBlock;
 import art.arcane.thaumcraft.blocks.alchemy.CreativeAspectSourceBlock;
 import art.arcane.thaumcraft.blocks.alchemy.JarBlock;
 import art.arcane.thaumcraft.blocks.alchemy.TubeBlock;
+import art.arcane.thaumcraft.blocks.devices.DioptraBlock;
 import art.arcane.thaumcraft.client.tints.AspectItemTintSource;
 import art.arcane.thaumcraft.registries.ConfigBlocks;
 import art.arcane.thaumcraft.util.RegistryUtils;
@@ -77,6 +78,8 @@ public class BlockDataProvider extends ModelProvider {
 
         simpleBlock(ConfigBlocks.INFUSION_STONE_COST);
         simpleBlock(ConfigBlocks.INFUSION_STONE_SPEED);
+
+        registerDioptra();
     }
 
     @Override
@@ -176,6 +179,19 @@ public class BlockDataProvider extends ModelProvider {
 
         blocks.blockStateOutput.accept(generator);
         blockParentItem(ConfigBlocks.CREATIVE_ASPECT_SOURCE, ModelLocationUtils.getModelLocation(block, "_empty"));
+    }
+
+    protected void registerDioptra() {
+        Block block = ConfigBlocks.DIOPTRA.block();
+        MultiVariantGenerator generator = MultiVariantGenerator.multiVariant(block);
+
+        generator.with(PropertyDispatch.property(DioptraBlock.DISPLAY_VIS).generate(displayVis -> {
+            ResourceLocation model = Thaumcraft.id("block/dioptra_" + (displayVis ? "vis" : "flux"));
+            return Variant.variant().with(VariantProperties.MODEL, model);
+        }));
+
+        blocks.blockStateOutput.accept(generator);
+        blockParentItem(ConfigBlocks.DIOPTRA, Thaumcraft.id("block/dioptra_vis"));
     }
 
     private void simpleExistingBlock(ConfigBlocks.BlockObject<? extends Block> block) {

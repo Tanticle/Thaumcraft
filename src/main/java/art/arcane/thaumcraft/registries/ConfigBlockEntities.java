@@ -1,6 +1,13 @@
 package art.arcane.thaumcraft.registries;
 
-import art.arcane.thaumcraft.blocks.entities.*;
+import art.arcane.thaumcraft.blocks.entities.ArcaneWorkbenchBlockEntity;
+import art.arcane.thaumcraft.blocks.entities.CreativeAspectSourceBlockEntity;
+import art.arcane.thaumcraft.blocks.entities.CrucibleBlockEntity;
+import art.arcane.thaumcraft.blocks.entities.DioptraBlockEntity;
+import art.arcane.thaumcraft.blocks.entities.JarBlockEntity;
+import art.arcane.thaumcraft.blocks.entities.PedestalBlockEntity;
+import art.arcane.thaumcraft.blocks.entities.RunicMatrixBlockEntity;
+import art.arcane.thaumcraft.blocks.entities.TubeBlockEntity;
 import lombok.RequiredArgsConstructor;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
@@ -49,6 +56,10 @@ public final class ConfigBlockEntities {
     public static final BlockEntityObject<CreativeAspectSourceBlockEntity> CREATIVE_ASPECT_SOURCE = register(BlockEntities.CREATIVE_ASPECT_SOURCE,
             CreativeAspectSourceBlockEntity::new,
             ConfigBlocks.CREATIVE_ASPECT_SOURCE);
+
+    public static final BlockEntityObject<DioptraBlockEntity> DIOPTRA = register(BlockEntities.DIOPTRA,
+            DioptraBlockEntity::new,
+            ConfigBlocks.DIOPTRA);
 
     /* -------------------------------------------------------------------------------------------------------------- */
 

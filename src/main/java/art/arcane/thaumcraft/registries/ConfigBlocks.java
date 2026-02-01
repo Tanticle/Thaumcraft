@@ -21,6 +21,7 @@ import art.arcane.thaumcraft.blocks.alchemy.CreativeAspectSourceBlock;
 import art.arcane.thaumcraft.blocks.alchemy.CrucibleBlock;
 import art.arcane.thaumcraft.blocks.alchemy.JarBlock;
 import art.arcane.thaumcraft.blocks.alchemy.TubeBlock;
+import art.arcane.thaumcraft.blocks.devices.DioptraBlock;
 import art.arcane.thaumcraft.items.blocks.CrystalBlockItem;
 import art.arcane.thaumcraft.util.simple.SimpleBlockMaterials;
 import art.arcane.thaumcraft.util.simple.SimpleCreativeTab;
@@ -77,6 +78,8 @@ public final class ConfigBlocks {
     public static final BlockObject<InfusionPillarBlock> INFUSION_PILLAR_ARCANE = registerBlock(Blocks.INFUSION_PILLAR_ARCANE, InfusionPillarBlock::new, ConfigCreativeTabs.MAIN);
     public static final BlockObject<InfusionPillarBlock> INFUSION_PILLAR_ANCIENT = registerBlock(Blocks.INFUSION_PILLAR_ANCIENT, InfusionPillarBlock::new, ConfigCreativeTabs.MAIN);
     public static final BlockObject<InfusionPillarBlock> INFUSION_PILLAR_ELDRITCH = registerBlock(Blocks.INFUSION_PILLAR_ELDRITCH, InfusionPillarBlock::new, ConfigCreativeTabs.MAIN);
+
+    public static final BlockObject<DioptraBlock> DIOPTRA = registerBlock(Blocks.DIOPTRA, DioptraBlock::new, ConfigCreativeTabs.MAIN);
 
     /* -------------------------------------------------------------------------------------------------------------- */
 

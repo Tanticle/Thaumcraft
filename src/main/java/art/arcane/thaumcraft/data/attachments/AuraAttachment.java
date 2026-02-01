@@ -22,42 +22,59 @@ import art.arcane.thaumcraft.registries.ConfigDataRegistries;
 import java.util.Optional;
 
 @Getter
-@AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class AuraAttachment {
 
     private static final String NBT_BASE = "Base";
     private static final String NBT_VIS = "Vis";
     private static final String NBT_FLUX = "Flux";
 
-    public static final short MAX_AURA = 500;
+    public static final short MAX_AURA = 512;
 
     private short baseVis;
     @Setter
     private float vis, flux;
 
-    public AuraAttachment(short baseVis) {
+    public AuraAttachment(short baseVis, float vis, float flux) {
         this.baseVis = baseVis;
-        this.vis = baseVis;
-        this.flux = 0;
+        this.vis = vis;
+        this.flux = flux;
     }
+
+    public AuraAttachment(short baseVis) {
+        this(baseVis, baseVis, 0);
+    }
+
+    private static final float DEFAULT_AURA_LEVEL = 0.5F;
+    private static final Direction[] HORIZONTAL_DIRECTIONS = {Direction.NORTH, Direction.SOUTH, Direction.EAST, Direction.WEST};
 
     public AuraAttachment(ChunkAccess access, RandomSource random) {
         Vec3i chunkPos = new Vec3i(access.getPos().x, access.getHeight(), access.getPos().z);
-        float value = getBiomeAuraBase(access.getLevel().registryAccess(), access.getNoiseBiome(chunkPos.getX(), chunkPos.getY(), chunkPos.getZ()));
-        for(Direction dir : Direction.values()) {
+        RegistryAccess registryAccess = access.getLevel().registryAccess();
+        float value = getBiomeAuraBase(registryAccess, access.getNoiseBiome(chunkPos.getX(), chunkPos.getY(), chunkPos.getZ()));
+        for (Direction dir : HORIZONTAL_DIRECTIONS) {
             Vec3i offset = chunkPos.offset(dir.getUnitVec3i());
-            value += getBiomeAuraBase(access.getLevel().registryAccess(), access.getNoiseBiome(offset.getX(), offset.getY(), offset.getZ()));
+            value += getBiomeAuraBase(registryAccess, access.getNoiseBiome(offset.getX(), offset.getY(), offset.getZ()));
         }
         value /= 5.0F;
-        this.baseVis = (short)Math.clamp( value * MAX_AURA * (float)((1.0F + random.nextGaussian()) * 0.1F), 0, MAX_AURA);
+        float noise = 1.0F + (float)(random.nextGaussian() * 0.1);
+        this.baseVis = (short)Math.clamp(value * MAX_AURA * noise, 0, MAX_AURA);
         this.vis = this.baseVis;
         this.flux = 0;
     }
 
     public static float getBiomeAuraBase(RegistryAccess access, Holder<Biome> biome) {
-        Optional<ResourceKey<Biome>> key = biome.unwrapKey();
-        ResourceKey<AuraBiomeInfo> auraBiome = ResourceKey.create(ThaumcraftData.Registries.AURA_BIOME_INFO, key.get().location());
-        return key.map(biomeResourceKey -> ConfigDataRegistries.AURA_BIOME_INFO.get(access, auraBiome).auraLevel()).orElse(0F);
+        try {
+            Optional<ResourceKey<Biome>> key = biome.unwrapKey();
+            if (key.isEmpty()) {
+                return DEFAULT_AURA_LEVEL;
+            }
+            ResourceKey<AuraBiomeInfo> auraBiome = ResourceKey.create(ThaumcraftData.Registries.AURA_BIOME_INFO, key.get().location());
+            AuraBiomeInfo info = ConfigDataRegistries.AURA_BIOME_INFO.get(access, auraBiome);
+            float level = info != null ? info.auraLevel() : DEFAULT_AURA_LEVEL;
+            return level > 0.01f ? level : DEFAULT_AURA_LEVEL;
+        } catch (Exception e) {
+            return DEFAULT_AURA_LEVEL;
+        }
     }
 
     public static final Codec<AuraAttachment> CODEC = RecordCodecBuilder.create(i -> i.group(

@@ -44,6 +44,7 @@ public class RegistrationEvents {
         e.registerBlockEntityRenderer(ConfigBlockEntities.PEDESTAL.entityType(), PedestalBER::new);
         e.registerBlockEntityRenderer(ConfigBlockEntities.CREATIVE_ASPECT_SOURCE.entityType(), CreativeAspectSourceBER::new);
         e.registerBlockEntityRenderer(ConfigBlockEntities.JAR.entityType(), JarBER::new);
+        e.registerBlockEntityRenderer(ConfigBlockEntities.DIOPTRA.entityType(), DioptraBER::new);
 
         //e.registerEntityRenderer(ConfigEntities.LIVING_TRUNK.entityType(), TrunkEntityRenderer::new);
         e.registerEntityRenderer(ConfigEntities.MOVING_ITEM.entityType(), ItemEntityRenderer::new);

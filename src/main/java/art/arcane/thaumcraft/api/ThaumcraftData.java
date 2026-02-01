@@ -237,6 +237,8 @@ public final class ThaumcraftData {
         public static final ResourceLocation INFUSION_PILLAR_ARCANE = Thaumcraft.id("infusion_pillar_arcane");
         public static final ResourceLocation INFUSION_PILLAR_ANCIENT = Thaumcraft.id("infusion_pillar_ancient");
         public static final ResourceLocation INFUSION_PILLAR_ELDRITCH = Thaumcraft.id("infusion_pillar_eldritch");
+
+        public static final ResourceLocation DIOPTRA = Thaumcraft.id("dioptra");
     }
 
     public static final class CreativeTabs {
@@ -252,6 +254,7 @@ public final class ThaumcraftData {
         public static final ResourceLocation JAR = Thaumcraft.id("jar");
         public static final ResourceLocation TUBE = Blocks.TUBE;
         public static final ResourceLocation CREATIVE_ASPECT_SOURCE = Blocks.CREATIVE_ASPECT_SOURCE;
+        public static final ResourceLocation DIOPTRA = Blocks.DIOPTRA;
     }
 
     public static final class Entities {
