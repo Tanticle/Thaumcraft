@@ -20,6 +20,7 @@ import org.joml.Matrix4fStack;
 import art.arcane.thaumcraft.Thaumcraft;
 import art.arcane.thaumcraft.api.WarpingGear;
 import art.arcane.thaumcraft.api.aspects.Aspect;
+import art.arcane.thaumcraft.client.fx.ArchitectBlockRenderer;
 import art.arcane.thaumcraft.client.fx.OreScanRenderer;
 import art.arcane.thaumcraft.api.aspects.AspectContainerItem;
 import art.arcane.thaumcraft.client.ThaumcraftClient;
@@ -82,6 +83,7 @@ public class RenderEvents {
         if (e.getStage() == RenderLevelStageEvent.Stage.AFTER_PARTICLES) {
             MultiBufferSource.BufferSource bufferSource = Minecraft.getInstance().renderBuffers().bufferSource();
             OreScanRenderer.render(e.getPoseStack(), e.getCamera(), bufferSource, e.getPartialTick().getGameTimeDeltaPartialTick(true));
+            ArchitectBlockRenderer.render(e.getPoseStack(), e.getCamera(), bufferSource);
             bufferSource.endBatch();
         }
     }

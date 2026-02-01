@@ -1,14 +1,19 @@
 package art.arcane.thaumcraft.networking;
 
+import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
 import net.neoforged.neoforge.network.registration.PayloadRegistrar;
 import art.arcane.thaumcraft.Thaumcraft;
 import art.arcane.thaumcraft.client.fx.OreScanHandler;
+import art.arcane.thaumcraft.items.tools.ElementalShovelItem;
 import art.arcane.thaumcraft.networking.packets.ClientboundAspectRegistrySyncPacket;
 import art.arcane.thaumcraft.networking.packets.ClientboundSoundingPacket;
+import art.arcane.thaumcraft.networking.packets.ServerboundCycleToolModePacket;
 import art.arcane.thaumcraft.registries.ConfigDataRegistries;
 
 @EventBusSubscriber(modid = Thaumcraft.MOD_ID, bus = EventBusSubscriber.Bus.MOD)
@@ -29,6 +34,22 @@ public class ThaumcraftNetworking {
 
         registrar.playToClient(ClientboundSoundingPacket.TYPE, ClientboundSoundingPacket.STREAM_CODEC, (data, ctx) -> {
             ctx.enqueueWork(() -> OreScanHandler.handleSoundingScan(data.origin(), data.level()));
+        });
+
+        registrar.playToServer(ServerboundCycleToolModePacket.TYPE, ServerboundCycleToolModePacket.STREAM_CODEC, (data, ctx) -> {
+            ctx.enqueueWork(() -> {
+                Player player = ctx.player();
+                ItemStack held = player.getMainHandItem();
+                if (held.getItem() instanceof ElementalShovelItem) {
+                    Direction.Axis current = ElementalShovelItem.getOrientation(held);
+                    Direction.Axis next = switch (current) {
+                        case X -> Direction.Axis.Y;
+                        case Y -> Direction.Axis.Z;
+                        case Z -> Direction.Axis.X;
+                    };
+                    ElementalShovelItem.setOrientation(held, next);
+                }
+            });
         });
     }
 }
