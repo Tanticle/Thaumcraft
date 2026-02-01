@@ -39,5 +39,93 @@ public class TagsProvider extends BlockTagsProvider {
                 ConfigBlocks.DEEPSLATE_ORE_CINNABAR.block(),
                 ConfigBlocks.DEEPSLATE_ORE_QUARTZ.block()
         );
+
+        tag(BlockTags.LOGS_THAT_BURN).add(
+                ConfigBlocks.SILVERWOOD_LOG.block(),
+                ConfigBlocks.SILVERWOOD_WOOD.block(),
+                ConfigBlocks.STRIPPED_SILVERWOOD_LOG.block(),
+                ConfigBlocks.STRIPPED_SILVERWOOD_WOOD.block()
+        );
+        tag(BlockTags.LOGS).add(
+                ConfigBlocks.SILVERWOOD_LOG.block(),
+                ConfigBlocks.SILVERWOOD_WOOD.block(),
+                ConfigBlocks.STRIPPED_SILVERWOOD_LOG.block(),
+                ConfigBlocks.STRIPPED_SILVERWOOD_WOOD.block()
+        );
+        tag(BlockTags.MINEABLE_WITH_AXE).add(
+                ConfigBlocks.SILVERWOOD_LOG.block(),
+                ConfigBlocks.SILVERWOOD_WOOD.block(),
+                ConfigBlocks.STRIPPED_SILVERWOOD_LOG.block(),
+                ConfigBlocks.STRIPPED_SILVERWOOD_WOOD.block(),
+                ConfigBlocks.SILVERWOOD_PLANKS.block(),
+                ConfigBlocks.SILVERWOOD_STAIRS.block(),
+                ConfigBlocks.SILVERWOOD_SLAB.block(),
+                ConfigBlocks.SILVERWOOD_FENCE.block(),
+                ConfigBlocks.SILVERWOOD_FENCE_GATE.block(),
+                ConfigBlocks.SILVERWOOD_DOOR.block(),
+                ConfigBlocks.SILVERWOOD_TRAPDOOR.block(),
+                ConfigBlocks.SILVERWOOD_BUTTON.block(),
+                ConfigBlocks.SILVERWOOD_PRESSURE_PLATE.block()
+        );
+
+        tag(BlockTags.LEAVES).add(ConfigBlocks.SILVERWOOD_LEAVES.block());
+        tag(BlockTags.MINEABLE_WITH_HOE).add(ConfigBlocks.SILVERWOOD_LEAVES.block());
+
+        tag(BlockTags.SAPLINGS).add(ConfigBlocks.SILVERWOOD_SAPLING.block());
+
+        tag(BlockTags.PLANKS).add(ConfigBlocks.SILVERWOOD_PLANKS.block());
+
+        tag(BlockTags.WOODEN_STAIRS).add(ConfigBlocks.SILVERWOOD_STAIRS.block());
+        tag(BlockTags.WOODEN_SLABS).add(ConfigBlocks.SILVERWOOD_SLAB.block());
+        tag(BlockTags.WOODEN_FENCES).add(ConfigBlocks.SILVERWOOD_FENCE.block());
+        tag(BlockTags.FENCE_GATES).add(ConfigBlocks.SILVERWOOD_FENCE_GATE.block());
+        tag(BlockTags.WOODEN_DOORS).add(ConfigBlocks.SILVERWOOD_DOOR.block());
+        tag(BlockTags.WOODEN_TRAPDOORS).add(ConfigBlocks.SILVERWOOD_TRAPDOOR.block());
+        tag(BlockTags.WOODEN_BUTTONS).add(ConfigBlocks.SILVERWOOD_BUTTON.block());
+        tag(BlockTags.WOODEN_PRESSURE_PLATES).add(ConfigBlocks.SILVERWOOD_PRESSURE_PLATE.block());
+
+        tag(BlockTags.LOGS_THAT_BURN).add(
+                ConfigBlocks.GREATWOOD_LOG.block(),
+                ConfigBlocks.GREATWOOD_WOOD.block(),
+                ConfigBlocks.STRIPPED_GREATWOOD_LOG.block(),
+                ConfigBlocks.STRIPPED_GREATWOOD_WOOD.block()
+        );
+        tag(BlockTags.LOGS).add(
+                ConfigBlocks.GREATWOOD_LOG.block(),
+                ConfigBlocks.GREATWOOD_WOOD.block(),
+                ConfigBlocks.STRIPPED_GREATWOOD_LOG.block(),
+                ConfigBlocks.STRIPPED_GREATWOOD_WOOD.block()
+        );
+        tag(BlockTags.MINEABLE_WITH_AXE).add(
+                ConfigBlocks.GREATWOOD_LOG.block(),
+                ConfigBlocks.GREATWOOD_WOOD.block(),
+                ConfigBlocks.STRIPPED_GREATWOOD_LOG.block(),
+                ConfigBlocks.STRIPPED_GREATWOOD_WOOD.block(),
+                ConfigBlocks.GREATWOOD_PLANKS.block(),
+                ConfigBlocks.GREATWOOD_STAIRS.block(),
+                ConfigBlocks.GREATWOOD_SLAB.block(),
+                ConfigBlocks.GREATWOOD_FENCE.block(),
+                ConfigBlocks.GREATWOOD_FENCE_GATE.block(),
+                ConfigBlocks.GREATWOOD_DOOR.block(),
+                ConfigBlocks.GREATWOOD_TRAPDOOR.block(),
+                ConfigBlocks.GREATWOOD_BUTTON.block(),
+                ConfigBlocks.GREATWOOD_PRESSURE_PLATE.block()
+        );
+
+        tag(BlockTags.LEAVES).add(ConfigBlocks.GREATWOOD_LEAVES.block());
+        tag(BlockTags.MINEABLE_WITH_HOE).add(ConfigBlocks.GREATWOOD_LEAVES.block());
+
+        tag(BlockTags.SAPLINGS).add(ConfigBlocks.GREATWOOD_SAPLING.block());
+
+        tag(BlockTags.PLANKS).add(ConfigBlocks.GREATWOOD_PLANKS.block());
+
+        tag(BlockTags.WOODEN_STAIRS).add(ConfigBlocks.GREATWOOD_STAIRS.block());
+        tag(BlockTags.WOODEN_SLABS).add(ConfigBlocks.GREATWOOD_SLAB.block());
+        tag(BlockTags.WOODEN_FENCES).add(ConfigBlocks.GREATWOOD_FENCE.block());
+        tag(BlockTags.FENCE_GATES).add(ConfigBlocks.GREATWOOD_FENCE_GATE.block());
+        tag(BlockTags.WOODEN_DOORS).add(ConfigBlocks.GREATWOOD_DOOR.block());
+        tag(BlockTags.WOODEN_TRAPDOORS).add(ConfigBlocks.GREATWOOD_TRAPDOOR.block());
+        tag(BlockTags.WOODEN_BUTTONS).add(ConfigBlocks.GREATWOOD_BUTTON.block());
+        tag(BlockTags.WOODEN_PRESSURE_PLATES).add(ConfigBlocks.GREATWOOD_PRESSURE_PLATE.block());
     }
 }

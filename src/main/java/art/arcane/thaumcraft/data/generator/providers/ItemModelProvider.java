@@ -38,8 +38,9 @@ public class ItemModelProvider extends ModelProvider {
         simpleItem(ConfigItems.JAR_BRACE, "alchemy");
 
         // Resources
-        batchItems("resources", ConfigItems.INGOT_BRASS, ConfigItems.INGOT_THAUMIUM, ConfigItems.INGOT_VOID,
-                ConfigItems.RAW_AMBER, ConfigItems.RAW_CINNABAR);
+        batchItems("resources", ConfigItems.INGOT_BRASS, ConfigItems.INGOT_THAUMIUM, ConfigItems.INGOT_VOID);
+        simpleItemWithTexture(ConfigItems.RAW_AMBER, ResourceLocation.fromNamespaceAndPath("new_thaumcraft", "item/resources/raw_amber"));
+        simpleItemWithTexture(ConfigItems.RAW_CINNABAR, ResourceLocation.fromNamespaceAndPath("new_thaumcraft", "item/resources/raw_cinnabar"));
 
         tintableAspectItem(ConfigItems.VIS_CRYSTAL, "resources");
         tintableAspect2LayerItem(ConfigItems.PHIAL, "resources");
@@ -61,6 +62,12 @@ public class ItemModelProvider extends ModelProvider {
     protected void simpleItem(Holder<? extends Item> item, String... parentFolder) {
         ResourceLocation location = RegistryUtils.getItemLocation(item, parentFolder);
         ResourceLocation model = ModelTemplates.FLAT_ITEM.create(location, TextureMapping.layer0(location), items.modelOutput);
+        items.itemModelOutput.accept(item.value(), ItemModelUtils.plainModel(model));
+    }
+
+    protected void simpleItemWithTexture(Holder<? extends Item> item, ResourceLocation texture) {
+        ResourceLocation location = RegistryUtils.getItemLocation(item);
+        ResourceLocation model = ModelTemplates.FLAT_ITEM.create(location, TextureMapping.layer0(texture), items.modelOutput);
         items.itemModelOutput.accept(item.value(), ItemModelUtils.plainModel(model));
     }
 

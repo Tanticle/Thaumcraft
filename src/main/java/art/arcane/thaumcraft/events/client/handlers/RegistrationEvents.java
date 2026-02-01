@@ -2,6 +2,7 @@ package art.arcane.thaumcraft.events.client.handlers;
 
 import art.arcane.thaumcraft.client.fx.particles.SmokeSpiralParticle;
 import art.arcane.thaumcraft.client.rendering.ber.*;
+import net.minecraft.client.renderer.BiomeColors;
 import net.minecraft.client.renderer.entity.ItemEntityRenderer;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -53,6 +54,13 @@ public class RegistrationEvents {
     @SubscribeEvent
     public static void onBlockColorTintingRegister(RegisterColorHandlersEvent.Block e) {
         ConfigBlocks.CRYSTAL_COLONY.forEach((aspect, block) -> e.register((bs, level, pos, tintIndex) -> ConfigDataRegistries.ASPECTS.get(RegistryUtils.access(), aspect.getId()).colour().argb32(true), block.block()));
+
+        e.register((state, level, pos, tintIndex) -> {
+            if (level != null && pos != null) {
+                return BiomeColors.getAverageFoliageColor(level, pos);
+            }
+            return 0x48B518;
+        }, ConfigBlocks.GREATWOOD_LEAVES.block());
     }
 
     @SubscribeEvent

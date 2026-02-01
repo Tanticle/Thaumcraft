@@ -13,8 +13,10 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.RotatedPillarBlock;
 import net.minecraft.world.level.block.SlabBlock;
 import net.minecraft.world.level.block.StairBlock;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.neoforged.neoforge.client.model.generators.loaders.ObjModelBuilder;
 import net.neoforged.neoforge.client.model.generators.template.ExtendedModelTemplateBuilder;
@@ -87,6 +89,187 @@ public class BlockDataProvider extends ModelProvider {
         simpleBlockWithTexture(ConfigBlocks.DEEPSLATE_ORE_AMBER, Thaumcraft.id("block/ore_amber"));
         simpleBlockWithTexture(ConfigBlocks.DEEPSLATE_ORE_CINNABAR, Thaumcraft.id("block/ore_cinnabar"));
         simpleBlockWithTexture(ConfigBlocks.DEEPSLATE_ORE_QUARTZ, Thaumcraft.id("block/ore_quartz"));
+
+        registerSilverwoodTree();
+        registerGreatwoodTree();
+
+        registerCrossBlock(ConfigBlocks.VISHROOM);
+    }
+
+    private void registerGreatwoodTree() {
+        registerLogBlock(ConfigBlocks.GREATWOOD_LOG);
+        registerLogBlock(ConfigBlocks.GREATWOOD_WOOD);
+        registerLogBlock(ConfigBlocks.STRIPPED_GREATWOOD_LOG);
+        registerLogBlock(ConfigBlocks.STRIPPED_GREATWOOD_WOOD);
+
+        registerLeavesBlock(ConfigBlocks.GREATWOOD_LEAVES);
+        registerCrossBlockWithTexture(ConfigBlocks.GREATWOOD_SAPLING, ResourceLocation.fromNamespaceAndPath("new_thaumcraft", "block/sapling_greatwood"));
+
+        simpleBlock(ConfigBlocks.GREATWOOD_PLANKS);
+        registerWoodStairAndSlab(ConfigBlocks.GREATWOOD_PLANKS, ConfigBlocks.GREATWOOD_STAIRS, ConfigBlocks.GREATWOOD_SLAB);
+        registerFenceBlock(ConfigBlocks.GREATWOOD_FENCE, ConfigBlocks.GREATWOOD_PLANKS);
+        registerFenceGateBlock(ConfigBlocks.GREATWOOD_FENCE_GATE, ConfigBlocks.GREATWOOD_PLANKS);
+        registerDoorBlock(ConfigBlocks.GREATWOOD_DOOR);
+        registerTrapdoorBlock(ConfigBlocks.GREATWOOD_TRAPDOOR);
+        registerButtonBlock(ConfigBlocks.GREATWOOD_BUTTON, ConfigBlocks.GREATWOOD_PLANKS);
+        registerPressurePlateBlock(ConfigBlocks.GREATWOOD_PRESSURE_PLATE, ConfigBlocks.GREATWOOD_PLANKS);
+    }
+
+    private void registerSilverwoodTree() {
+        registerLogBlock(ConfigBlocks.SILVERWOOD_LOG);
+        registerLogBlock(ConfigBlocks.SILVERWOOD_WOOD);
+        registerLogBlock(ConfigBlocks.STRIPPED_SILVERWOOD_LOG);
+        registerLogBlock(ConfigBlocks.STRIPPED_SILVERWOOD_WOOD);
+
+        registerLeavesBlock(ConfigBlocks.SILVERWOOD_LEAVES);
+        registerCrossBlockWithTexture(ConfigBlocks.SILVERWOOD_SAPLING, ResourceLocation.fromNamespaceAndPath("new_thaumcraft", "block/sapling_silverwood"));
+
+        simpleBlock(ConfigBlocks.SILVERWOOD_PLANKS);
+        registerWoodStairAndSlab(ConfigBlocks.SILVERWOOD_PLANKS, ConfigBlocks.SILVERWOOD_STAIRS, ConfigBlocks.SILVERWOOD_SLAB);
+        registerFenceBlock(ConfigBlocks.SILVERWOOD_FENCE, ConfigBlocks.SILVERWOOD_PLANKS);
+        registerFenceGateBlock(ConfigBlocks.SILVERWOOD_FENCE_GATE, ConfigBlocks.SILVERWOOD_PLANKS);
+        registerDoorBlock(ConfigBlocks.SILVERWOOD_DOOR);
+        registerTrapdoorBlock(ConfigBlocks.SILVERWOOD_TRAPDOOR);
+        registerButtonBlock(ConfigBlocks.SILVERWOOD_BUTTON, ConfigBlocks.SILVERWOOD_PLANKS);
+        registerPressurePlateBlock(ConfigBlocks.SILVERWOOD_PRESSURE_PLATE, ConfigBlocks.SILVERWOOD_PLANKS);
+    }
+
+    private void registerLogBlock(ConfigBlocks.BlockObject<? extends RotatedPillarBlock> block) {
+        ResourceLocation id = RegistryUtils.getBlockLocation(block.blockSupplier());
+        TextureMapping mapping = new TextureMapping()
+                .put(TextureSlot.SIDE, id)
+                .put(TextureSlot.END, id.withSuffix("_top"))
+                .put(TextureSlot.PARTICLE, id);
+        ResourceLocation model = ModelTemplates.CUBE_COLUMN.create(block.block(), mapping, blocks.modelOutput);
+        ResourceLocation horizontalModel = ModelTemplates.CUBE_COLUMN_HORIZONTAL.create(block.block(), mapping, blocks.modelOutput);
+
+        blocks.blockStateOutput.accept(MultiVariantGenerator.multiVariant(block.block())
+                .with(PropertyDispatch.property(BlockStateProperties.AXIS).generate(axis -> switch (axis) {
+                    case Y -> Variant.variant().with(VariantProperties.MODEL, model);
+                    case Z -> Variant.variant().with(VariantProperties.MODEL, horizontalModel).with(VariantProperties.X_ROT, VariantProperties.Rotation.R90);
+                    case X -> Variant.variant().with(VariantProperties.MODEL, horizontalModel).with(VariantProperties.X_ROT, VariantProperties.Rotation.R90).with(VariantProperties.Y_ROT, VariantProperties.Rotation.R90);
+                })));
+        blockParentItem(block, model);
+    }
+
+    private void registerLeavesBlock(ConfigBlocks.BlockObject<? extends Block> block) {
+        ResourceLocation id = RegistryUtils.getBlockLocation(block.blockSupplier());
+        TextureMapping mapping = new TextureMapping().put(TextureSlot.ALL, id).put(TextureSlot.PARTICLE, id);
+        ModelTemplate leavesTemplate = ExtendedModelTemplateBuilder.builder()
+                .parent(ResourceLocation.withDefaultNamespace("block/leaves"))
+                .renderType("minecraft:cutout_mipped")
+                .requiredTextureSlot(TextureSlot.ALL)
+                .build();
+        ResourceLocation model = leavesTemplate.create(block.block(), mapping, blocks.modelOutput);
+        blocks.blockStateOutput.accept(MultiVariantGenerator.multiVariant(block.block(), Variant.variant().with(VariantProperties.MODEL, model)));
+        blockParentItem(block, model);
+    }
+
+    private void registerCrossBlock(ConfigBlocks.BlockObject<? extends Block> block) {
+        ResourceLocation id = RegistryUtils.getBlockLocation(block.blockSupplier());
+        registerCrossBlockWithTexture(block, id);
+    }
+
+    private void registerCrossBlockWithTexture(ConfigBlocks.BlockObject<? extends Block> block, ResourceLocation texture) {
+        ResourceLocation id = RegistryUtils.getBlockLocation(block.blockSupplier());
+        TextureMapping mapping = new TextureMapping().put(TextureSlot.CROSS, texture);
+        ModelTemplate crossTemplate = ExtendedModelTemplateBuilder.builder()
+                .parent(ResourceLocation.withDefaultNamespace("block/cross"))
+                .renderType("minecraft:cutout")
+                .requiredTextureSlot(TextureSlot.CROSS)
+                .build();
+        ResourceLocation model = crossTemplate.create(block.block(), mapping, blocks.modelOutput);
+        blocks.blockStateOutput.accept(MultiVariantGenerator.multiVariant(block.block(), Variant.variant().with(VariantProperties.MODEL, model)));
+        ResourceLocation itemTexture = id.withPath(p -> "item/" + p.substring(p.lastIndexOf('/') + 1));
+        ResourceLocation itemModel = ModelTemplates.FLAT_ITEM.create(itemTexture, TextureMapping.layer0(texture), items.modelOutput);
+        items.itemModelOutput.accept(block.item(), ItemModelUtils.plainModel(itemModel));
+    }
+
+    private void registerWoodStairAndSlab(ConfigBlocks.BlockObject<? extends Block> planks, ConfigBlocks.BlockObject<? extends StairBlock> stairs, ConfigBlocks.BlockObject<? extends SlabBlock> slab) {
+        ResourceLocation texture = RegistryUtils.getBlockLocation(planks.blockSupplier());
+        TextureMapping mapping = new TextureMapping()
+                .put(TextureSlot.PARTICLE, texture)
+                .put(TextureSlot.BOTTOM, texture)
+                .put(TextureSlot.TOP, texture)
+                .put(TextureSlot.SIDE, texture);
+        ResourceLocation stairsStraight = ModelTemplates.STAIRS_STRAIGHT.create(stairs.block(), mapping, blocks.modelOutput);
+        ResourceLocation innerStairs = ModelTemplates.STAIRS_INNER.create(stairs.block(), mapping, blocks.modelOutput);
+        ResourceLocation outerStairs = ModelTemplates.STAIRS_OUTER.create(stairs.block(), mapping, blocks.modelOutput);
+        blocks.blockStateOutput.accept(BlockModelGenerators.createStairs(stairs.block(), innerStairs, stairsStraight, outerStairs));
+        ResourceLocation bottomSlab = ModelTemplates.SLAB_BOTTOM.create(slab.block(), mapping, blocks.modelOutput);
+        ResourceLocation topSlab = ModelTemplates.SLAB_TOP.create(slab.block(), mapping, blocks.modelOutput);
+        blocks.blockStateOutput.accept(BlockModelGenerators.createSlab(slab.block(), bottomSlab, topSlab, RegistryUtils.getBlockLocation(planks.blockSupplier())));
+        blockParentItem(stairs, stairsStraight);
+        blockParentItem(slab, bottomSlab);
+    }
+
+    private void registerFenceBlock(ConfigBlocks.BlockObject<? extends Block> fence, ConfigBlocks.BlockObject<? extends Block> planks) {
+        ResourceLocation texture = RegistryUtils.getBlockLocation(planks.blockSupplier());
+        TextureMapping mapping = TextureMapping.defaultTexture(texture);
+        ResourceLocation post = ModelTemplates.FENCE_POST.create(fence.block(), mapping, blocks.modelOutput);
+        ResourceLocation side = ModelTemplates.FENCE_SIDE.create(fence.block(), mapping, blocks.modelOutput);
+        blocks.blockStateOutput.accept(BlockModelGenerators.createFence(fence.block(), post, side));
+        ResourceLocation inventory = ModelTemplates.FENCE_INVENTORY.create(fence.block(), mapping, blocks.modelOutput);
+        blockParentItem(fence, inventory);
+    }
+
+    private void registerFenceGateBlock(ConfigBlocks.BlockObject<? extends Block> gate, ConfigBlocks.BlockObject<? extends Block> planks) {
+        ResourceLocation texture = RegistryUtils.getBlockLocation(planks.blockSupplier());
+        TextureMapping mapping = TextureMapping.defaultTexture(texture);
+        ResourceLocation open = ModelTemplates.FENCE_GATE_OPEN.create(gate.block(), mapping, blocks.modelOutput);
+        ResourceLocation closed = ModelTemplates.FENCE_GATE_CLOSED.create(gate.block(), mapping, blocks.modelOutput);
+        ResourceLocation wallOpen = ModelTemplates.FENCE_GATE_WALL_OPEN.create(gate.block(), mapping, blocks.modelOutput);
+        ResourceLocation wallClosed = ModelTemplates.FENCE_GATE_WALL_CLOSED.create(gate.block(), mapping, blocks.modelOutput);
+        blocks.blockStateOutput.accept(BlockModelGenerators.createFenceGate(gate.block(), open, closed, wallOpen, wallClosed, true));
+        blockParentItem(gate, closed);
+    }
+
+    private void registerDoorBlock(ConfigBlocks.BlockObject<? extends Block> door) {
+        ResourceLocation id = RegistryUtils.getBlockLocation(door.blockSupplier());
+        TextureMapping mapping = new TextureMapping()
+                .put(TextureSlot.TOP, id.withSuffix("_top"))
+                .put(TextureSlot.BOTTOM, id.withSuffix("_bottom"));
+        ResourceLocation bottomLeft = ModelTemplates.DOOR_BOTTOM_LEFT.create(door.block(), mapping, blocks.modelOutput);
+        ResourceLocation bottomLeftOpen = ModelTemplates.DOOR_BOTTOM_LEFT_OPEN.create(door.block(), mapping, blocks.modelOutput);
+        ResourceLocation bottomRight = ModelTemplates.DOOR_BOTTOM_RIGHT.create(door.block(), mapping, blocks.modelOutput);
+        ResourceLocation bottomRightOpen = ModelTemplates.DOOR_BOTTOM_RIGHT_OPEN.create(door.block(), mapping, blocks.modelOutput);
+        ResourceLocation topLeft = ModelTemplates.DOOR_TOP_LEFT.create(door.block(), mapping, blocks.modelOutput);
+        ResourceLocation topLeftOpen = ModelTemplates.DOOR_TOP_LEFT_OPEN.create(door.block(), mapping, blocks.modelOutput);
+        ResourceLocation topRight = ModelTemplates.DOOR_TOP_RIGHT.create(door.block(), mapping, blocks.modelOutput);
+        ResourceLocation topRightOpen = ModelTemplates.DOOR_TOP_RIGHT_OPEN.create(door.block(), mapping, blocks.modelOutput);
+        blocks.blockStateOutput.accept(BlockModelGenerators.createDoor(door.block(), bottomLeft, bottomLeftOpen, bottomRight, bottomRightOpen, topLeft, topLeftOpen, topRight, topRightOpen));
+        ResourceLocation itemTexture = id.withPath(p -> "item/" + p.substring(p.lastIndexOf('/') + 1));
+        ResourceLocation itemModel = ModelTemplates.FLAT_ITEM.create(itemTexture, TextureMapping.layer0(itemTexture), items.modelOutput);
+        items.itemModelOutput.accept(door.item(), ItemModelUtils.plainModel(itemModel));
+    }
+
+    private void registerTrapdoorBlock(ConfigBlocks.BlockObject<? extends Block> trapdoor) {
+        ResourceLocation id = RegistryUtils.getBlockLocation(trapdoor.blockSupplier());
+        TextureMapping mapping = TextureMapping.defaultTexture(id);
+        ResourceLocation bottom = ModelTemplates.ORIENTABLE_TRAPDOOR_BOTTOM.create(trapdoor.block(), mapping, blocks.modelOutput);
+        ResourceLocation top = ModelTemplates.ORIENTABLE_TRAPDOOR_TOP.create(trapdoor.block(), mapping, blocks.modelOutput);
+        ResourceLocation open = ModelTemplates.ORIENTABLE_TRAPDOOR_OPEN.create(trapdoor.block(), mapping, blocks.modelOutput);
+        blocks.blockStateOutput.accept(BlockModelGenerators.createOrientableTrapdoor(trapdoor.block(), top, bottom, open));
+        blockParentItem(trapdoor, bottom);
+    }
+
+    private void registerButtonBlock(ConfigBlocks.BlockObject<? extends Block> button, ConfigBlocks.BlockObject<? extends Block> planks) {
+        ResourceLocation texture = RegistryUtils.getBlockLocation(planks.blockSupplier());
+        TextureMapping mapping = TextureMapping.defaultTexture(texture);
+        ResourceLocation unpressed = ModelTemplates.BUTTON.create(button.block(), mapping, blocks.modelOutput);
+        ResourceLocation pressed = ModelTemplates.BUTTON_PRESSED.create(button.block(), mapping, blocks.modelOutput);
+        blocks.blockStateOutput.accept(BlockModelGenerators.createButton(button.block(), unpressed, pressed));
+        ResourceLocation inventory = ModelTemplates.BUTTON_INVENTORY.create(button.block(), mapping, blocks.modelOutput);
+        blockParentItem(button, inventory);
+    }
+
+    private void registerPressurePlateBlock(ConfigBlocks.BlockObject<? extends Block> plate, ConfigBlocks.BlockObject<? extends Block> planks) {
+        ResourceLocation texture = RegistryUtils.getBlockLocation(planks.blockSupplier());
+        TextureMapping mapping = TextureMapping.defaultTexture(texture);
+        ResourceLocation up = ModelTemplates.PRESSURE_PLATE_UP.create(plate.block(), mapping, blocks.modelOutput);
+        ResourceLocation down = ModelTemplates.PRESSURE_PLATE_DOWN.create(plate.block(), mapping, blocks.modelOutput);
+        blocks.blockStateOutput.accept(BlockModelGenerators.createPressurePlate(plate.block(), up, down));
+        blockParentItem(plate, up);
     }
 
     @Override

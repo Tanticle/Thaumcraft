@@ -249,6 +249,41 @@ public final class ThaumcraftData {
         public static final ResourceLocation DEEPSLATE_ORE_AMBER = Thaumcraft.id("deepslate_ore_amber");
         public static final ResourceLocation DEEPSLATE_ORE_CINNABAR = Thaumcraft.id("deepslate_ore_cinnabar");
         public static final ResourceLocation DEEPSLATE_ORE_QUARTZ = Thaumcraft.id("deepslate_ore_quartz");
+
+        public static final ResourceLocation SILVERWOOD_LOG = Thaumcraft.id("silverwood_log");
+        public static final ResourceLocation SILVERWOOD_WOOD = Thaumcraft.id("silverwood_wood");
+        public static final ResourceLocation STRIPPED_SILVERWOOD_LOG = Thaumcraft.id("stripped_silverwood_log");
+        public static final ResourceLocation STRIPPED_SILVERWOOD_WOOD = Thaumcraft.id("stripped_silverwood_wood");
+        public static final ResourceLocation SILVERWOOD_LEAVES = Thaumcraft.id("silverwood_leaves");
+        public static final ResourceLocation SILVERWOOD_SAPLING = Thaumcraft.id("silverwood_sapling");
+        public static final ResourceLocation SILVERWOOD_PLANKS = Thaumcraft.id("silverwood_planks");
+        public static final ResourceLocation SILVERWOOD_STAIRS = Thaumcraft.id("silverwood_stairs");
+        public static final ResourceLocation SILVERWOOD_SLAB = Thaumcraft.id("silverwood_slab");
+        public static final ResourceLocation SILVERWOOD_FENCE = Thaumcraft.id("silverwood_fence");
+        public static final ResourceLocation SILVERWOOD_FENCE_GATE = Thaumcraft.id("silverwood_fence_gate");
+        public static final ResourceLocation SILVERWOOD_DOOR = Thaumcraft.id("silverwood_door");
+        public static final ResourceLocation SILVERWOOD_TRAPDOOR = Thaumcraft.id("silverwood_trapdoor");
+        public static final ResourceLocation SILVERWOOD_BUTTON = Thaumcraft.id("silverwood_button");
+        public static final ResourceLocation SILVERWOOD_PRESSURE_PLATE = Thaumcraft.id("silverwood_pressure_plate");
+
+        public static final ResourceLocation GREATWOOD_LOG = Thaumcraft.id("greatwood_log");
+        public static final ResourceLocation GREATWOOD_WOOD = Thaumcraft.id("greatwood_wood");
+        public static final ResourceLocation STRIPPED_GREATWOOD_LOG = Thaumcraft.id("stripped_greatwood_log");
+        public static final ResourceLocation STRIPPED_GREATWOOD_WOOD = Thaumcraft.id("stripped_greatwood_wood");
+        public static final ResourceLocation GREATWOOD_LEAVES = Thaumcraft.id("greatwood_leaves");
+        public static final ResourceLocation GREATWOOD_SAPLING = Thaumcraft.id("greatwood_sapling");
+        public static final ResourceLocation GREATWOOD_PLANKS = Thaumcraft.id("greatwood_planks");
+        public static final ResourceLocation GREATWOOD_STAIRS = Thaumcraft.id("greatwood_stairs");
+        public static final ResourceLocation GREATWOOD_SLAB = Thaumcraft.id("greatwood_slab");
+        public static final ResourceLocation GREATWOOD_FENCE = Thaumcraft.id("greatwood_fence");
+        public static final ResourceLocation GREATWOOD_FENCE_GATE = Thaumcraft.id("greatwood_fence_gate");
+        public static final ResourceLocation GREATWOOD_DOOR = Thaumcraft.id("greatwood_door");
+        public static final ResourceLocation GREATWOOD_TRAPDOOR = Thaumcraft.id("greatwood_trapdoor");
+        public static final ResourceLocation GREATWOOD_BUTTON = Thaumcraft.id("greatwood_button");
+        public static final ResourceLocation GREATWOOD_PRESSURE_PLATE = Thaumcraft.id("greatwood_pressure_plate");
+
+        public static final ResourceLocation GRASS_AMBIENT = Thaumcraft.id("grass_ambient");
+        public static final ResourceLocation VISHROOM = Thaumcraft.id("vishroom");
     }
 
     public static final class CreativeTabs {

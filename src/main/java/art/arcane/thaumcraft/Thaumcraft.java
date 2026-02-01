@@ -1,6 +1,7 @@
 package art.arcane.thaumcraft;
 
 import art.arcane.thaumcraft.registries.*;
+import art.arcane.thaumcraft.world.tree.ConfigTreeFeatures;
 import com.mojang.logging.LogUtils;
 import net.minecraft.resources.ResourceLocation;
 import net.neoforged.bus.api.IEventBus;
@@ -32,6 +33,7 @@ public final class Thaumcraft {
         ConfigParticles.init(modEventBus);
 
         ConfigLoot.init(modEventBus);
+        ConfigTreeFeatures.init(modEventBus);
     }
 
     public static boolean isDev() {

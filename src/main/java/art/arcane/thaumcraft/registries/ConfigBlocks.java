@@ -1,6 +1,14 @@
 package art.arcane.thaumcraft.registries;
 
 import art.arcane.thaumcraft.blocks.*;
+import art.arcane.thaumcraft.blocks.world.GrassAmbientBlock;
+import art.arcane.thaumcraft.blocks.world.GreatwoodLeavesBlock;
+import art.arcane.thaumcraft.blocks.world.GreatwoodLogBlock;
+import art.arcane.thaumcraft.blocks.world.GreatwoodSaplingBlock;
+import art.arcane.thaumcraft.blocks.world.SilverwoodLeavesBlock;
+import art.arcane.thaumcraft.blocks.world.SilverwoodLogBlock;
+import art.arcane.thaumcraft.blocks.world.SilverwoodSaplingBlock;
+import art.arcane.thaumcraft.blocks.world.VishroomBlock;
 import lombok.RequiredArgsConstructor;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
@@ -8,10 +16,19 @@ import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Rarity;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.ButtonBlock;
+import net.minecraft.world.level.block.DoorBlock;
+import net.minecraft.world.level.block.FenceBlock;
+import net.minecraft.world.level.block.FenceGateBlock;
+import net.minecraft.world.level.block.PressurePlateBlock;
+import net.minecraft.world.level.block.RotatedPillarBlock;
 import net.minecraft.world.level.block.SlabBlock;
 import net.minecraft.world.level.block.StairBlock;
+import net.minecraft.world.level.block.TrapDoorBlock;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.block.state.properties.BlockSetType;
+import net.minecraft.world.level.block.state.properties.WoodType;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredBlock;
 import net.neoforged.neoforge.registries.DeferredItem;
@@ -88,7 +105,49 @@ public final class ConfigBlocks {
     public static final BlockObject<Block> DEEPSLATE_ORE_CINNABAR = registerBlock(Blocks.DEEPSLATE_ORE_CINNABAR, props -> new Block(SimpleBlockMaterials.stone(props).strength(4.5F, 3.0F).sound(net.minecraft.world.level.block.SoundType.DEEPSLATE)), ConfigCreativeTabs.MAIN);
     public static final BlockObject<Block> DEEPSLATE_ORE_QUARTZ = registerBlock(Blocks.DEEPSLATE_ORE_QUARTZ, props -> new Block(SimpleBlockMaterials.stone(props).strength(4.5F, 3.0F).sound(net.minecraft.world.level.block.SoundType.DEEPSLATE)), ConfigCreativeTabs.MAIN);
 
+    public static final BlockObject<SilverwoodLogBlock> SILVERWOOD_LOG = registerBlock(Blocks.SILVERWOOD_LOG, SilverwoodLogBlock::new, ConfigCreativeTabs.MAIN);
+    public static final BlockObject<RotatedPillarBlock> SILVERWOOD_WOOD = registerBlock(Blocks.SILVERWOOD_WOOD, props -> new RotatedPillarBlock(silverwoodWoodProps(props)), ConfigCreativeTabs.MAIN);
+    public static final BlockObject<RotatedPillarBlock> STRIPPED_SILVERWOOD_LOG = registerBlock(Blocks.STRIPPED_SILVERWOOD_LOG, props -> new RotatedPillarBlock(silverwoodWoodProps(props)), ConfigCreativeTabs.MAIN);
+    public static final BlockObject<RotatedPillarBlock> STRIPPED_SILVERWOOD_WOOD = registerBlock(Blocks.STRIPPED_SILVERWOOD_WOOD, props -> new RotatedPillarBlock(silverwoodWoodProps(props)), ConfigCreativeTabs.MAIN);
+    public static final BlockObject<SilverwoodLeavesBlock> SILVERWOOD_LEAVES = registerBlock(Blocks.SILVERWOOD_LEAVES, SilverwoodLeavesBlock::new, ConfigCreativeTabs.MAIN);
+    public static final BlockObject<SilverwoodSaplingBlock> SILVERWOOD_SAPLING = registerBlock(Blocks.SILVERWOOD_SAPLING, SilverwoodSaplingBlock::new, ConfigCreativeTabs.MAIN);
+    public static final BlockObject<Block> SILVERWOOD_PLANKS = registerBlock(Blocks.SILVERWOOD_PLANKS, props -> new Block(silverwoodWoodProps(props)), ConfigCreativeTabs.MAIN);
+    public static final BlockObject<StairBlock> SILVERWOOD_STAIRS = registerBlock(Blocks.SILVERWOOD_STAIRS, props -> new StairBlock(SILVERWOOD_PLANKS.block().defaultBlockState(), silverwoodWoodProps(props)), ConfigCreativeTabs.MAIN);
+    public static final BlockObject<SlabBlock> SILVERWOOD_SLAB = registerBlock(Blocks.SILVERWOOD_SLAB, props -> new SlabBlock(silverwoodWoodProps(props)), ConfigCreativeTabs.MAIN);
+    public static final BlockObject<FenceBlock> SILVERWOOD_FENCE = registerBlock(Blocks.SILVERWOOD_FENCE, props -> new FenceBlock(silverwoodWoodProps(props)), ConfigCreativeTabs.MAIN);
+    public static final BlockObject<FenceGateBlock> SILVERWOOD_FENCE_GATE = registerBlock(Blocks.SILVERWOOD_FENCE_GATE, props -> new FenceGateBlock(WoodType.OAK, silverwoodWoodProps(props)), ConfigCreativeTabs.MAIN);
+    public static final BlockObject<DoorBlock> SILVERWOOD_DOOR = registerBlock(Blocks.SILVERWOOD_DOOR, props -> new DoorBlock(BlockSetType.OAK, silverwoodWoodProps(props).noOcclusion()), ConfigCreativeTabs.MAIN);
+    public static final BlockObject<TrapDoorBlock> SILVERWOOD_TRAPDOOR = registerBlock(Blocks.SILVERWOOD_TRAPDOOR, props -> new TrapDoorBlock(BlockSetType.OAK, silverwoodWoodProps(props).noOcclusion()), ConfigCreativeTabs.MAIN);
+    public static final BlockObject<ButtonBlock> SILVERWOOD_BUTTON = registerBlock(Blocks.SILVERWOOD_BUTTON, props -> new ButtonBlock(BlockSetType.OAK, 30, silverwoodWoodProps(props).noCollission()), ConfigCreativeTabs.MAIN);
+    public static final BlockObject<PressurePlateBlock> SILVERWOOD_PRESSURE_PLATE = registerBlock(Blocks.SILVERWOOD_PRESSURE_PLATE, props -> new PressurePlateBlock(BlockSetType.OAK, silverwoodWoodProps(props)), ConfigCreativeTabs.MAIN);
+
+    public static final BlockObject<GreatwoodLogBlock> GREATWOOD_LOG = registerBlock(Blocks.GREATWOOD_LOG, GreatwoodLogBlock::new, ConfigCreativeTabs.MAIN);
+    public static final BlockObject<RotatedPillarBlock> GREATWOOD_WOOD = registerBlock(Blocks.GREATWOOD_WOOD, props -> new RotatedPillarBlock(greatwoodWoodProps(props)), ConfigCreativeTabs.MAIN);
+    public static final BlockObject<RotatedPillarBlock> STRIPPED_GREATWOOD_LOG = registerBlock(Blocks.STRIPPED_GREATWOOD_LOG, props -> new RotatedPillarBlock(greatwoodWoodProps(props)), ConfigCreativeTabs.MAIN);
+    public static final BlockObject<RotatedPillarBlock> STRIPPED_GREATWOOD_WOOD = registerBlock(Blocks.STRIPPED_GREATWOOD_WOOD, props -> new RotatedPillarBlock(greatwoodWoodProps(props)), ConfigCreativeTabs.MAIN);
+    public static final BlockObject<GreatwoodLeavesBlock> GREATWOOD_LEAVES = registerBlock(Blocks.GREATWOOD_LEAVES, GreatwoodLeavesBlock::new, ConfigCreativeTabs.MAIN);
+    public static final BlockObject<GreatwoodSaplingBlock> GREATWOOD_SAPLING = registerBlock(Blocks.GREATWOOD_SAPLING, GreatwoodSaplingBlock::new, ConfigCreativeTabs.MAIN);
+    public static final BlockObject<Block> GREATWOOD_PLANKS = registerBlock(Blocks.GREATWOOD_PLANKS, props -> new Block(greatwoodWoodProps(props)), ConfigCreativeTabs.MAIN);
+    public static final BlockObject<StairBlock> GREATWOOD_STAIRS = registerBlock(Blocks.GREATWOOD_STAIRS, props -> new StairBlock(GREATWOOD_PLANKS.block().defaultBlockState(), greatwoodWoodProps(props)), ConfigCreativeTabs.MAIN);
+    public static final BlockObject<SlabBlock> GREATWOOD_SLAB = registerBlock(Blocks.GREATWOOD_SLAB, props -> new SlabBlock(greatwoodWoodProps(props)), ConfigCreativeTabs.MAIN);
+    public static final BlockObject<FenceBlock> GREATWOOD_FENCE = registerBlock(Blocks.GREATWOOD_FENCE, props -> new FenceBlock(greatwoodWoodProps(props)), ConfigCreativeTabs.MAIN);
+    public static final BlockObject<FenceGateBlock> GREATWOOD_FENCE_GATE = registerBlock(Blocks.GREATWOOD_FENCE_GATE, props -> new FenceGateBlock(WoodType.OAK, greatwoodWoodProps(props)), ConfigCreativeTabs.MAIN);
+    public static final BlockObject<DoorBlock> GREATWOOD_DOOR = registerBlock(Blocks.GREATWOOD_DOOR, props -> new DoorBlock(BlockSetType.OAK, greatwoodWoodProps(props).noOcclusion()), ConfigCreativeTabs.MAIN);
+    public static final BlockObject<TrapDoorBlock> GREATWOOD_TRAPDOOR = registerBlock(Blocks.GREATWOOD_TRAPDOOR, props -> new TrapDoorBlock(BlockSetType.OAK, greatwoodWoodProps(props).noOcclusion()), ConfigCreativeTabs.MAIN);
+    public static final BlockObject<ButtonBlock> GREATWOOD_BUTTON = registerBlock(Blocks.GREATWOOD_BUTTON, props -> new ButtonBlock(BlockSetType.OAK, 30, greatwoodWoodProps(props).noCollission()), ConfigCreativeTabs.MAIN);
+    public static final BlockObject<PressurePlateBlock> GREATWOOD_PRESSURE_PLATE = registerBlock(Blocks.GREATWOOD_PRESSURE_PLATE, props -> new PressurePlateBlock(BlockSetType.OAK, greatwoodWoodProps(props)), ConfigCreativeTabs.MAIN);
+
+    public static final BlockObject<VishroomBlock> VISHROOM = registerBlock(Blocks.VISHROOM, VishroomBlock::new, ConfigCreativeTabs.MAIN);
+
     /* -------------------------------------------------------------------------------------------------------------- */
+
+    private static BlockBehaviour.Properties silverwoodWoodProps(BlockBehaviour.Properties props) {
+        return SimpleBlockMaterials.wood(props).strength(2.0F, 3.0F);
+    }
+
+    private static BlockBehaviour.Properties greatwoodWoodProps(BlockBehaviour.Properties props) {
+        return SimpleBlockMaterials.wood(props).strength(2.0F, 3.0F);
+    }
 
     public static void init(IEventBus bus) {
         REGISTRY_BLOCKS.register(bus);

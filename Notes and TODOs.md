@@ -55,12 +55,13 @@
 ### World Generation & Environment
 
 - [-] **Ores**
-    - [ ] Add Cinnibar, Amber, and Quarts Textures & Raw Variants of Cinn/Amber
+    - [X] Add Cinnabar, Amber, and Quarts Textures & Raw Variants of Cinn/Amber
     - [X] All 3 Ores Generate
     - [ ] Elemental Crystals (Air, Fire, Water, Earth, Order, Entropy) in caves
-- [ ] **Trees**
-    - [ ] Greatwood (Logs, Leaves, Saplings)
-    - [ ] Silverwood (Logs, Leaves, Saplings)
+- [X] **Trees**
+    - [X] Greatwood (Logs, Leaves, Saplings, Planks, Stairs, Slabs, Fences, etc.)
+    - [X] Silverwood (Logs, Leaves, Saplings, Planks, Stairs, Slabs, Fences, etc.)
+    - [ ] **NOTE: Door and Wood Type textures need redesign**
 - [ ] **Plants**
     - [ ] Cinderpearl
     - [ ] Shimmerleaf
@@ -72,6 +73,17 @@
     - [ ] Hilltop Mounds
     - [ ] Obelisks (Eldritch/Crimson)
     - [ ] Wisp Nests
+- [ ] **Biomes**
+    - [ ] Magic Forest
+        - [ ] Biome registration & colors (grass, foliage, water)
+        - [ ] Tree generation (Greatwood 1/12, Silverwood 1/18, Big Magic Trees)
+        - [ ] Ambient grass blocks
+        - [ ] Vishroom placement (adjacent to logs)
+        - [ ] Cinderpearl placement
+        - [ ] Shimmerleaf placement
+        - [ ] Mob spawns (Pech, Wisp, Witch, Vex)
+        - [ ] Big mushroom generation
+        - [ ] Config options (weight, enable/disable)
 - [ ] Loot Tables (Dungeon chests, Pech trades)
 
 ### Entities & Mobs
@@ -240,7 +252,7 @@
 - [ ] Banners (TC specific)
 - [ ] Nitor (Light source)
 - [ ] Paving Stones (Arcane, Barrier, Travel)
-- [ ] Planks & Logs (Greatwood, Silverwood)
+- [X] Planks & Logs (Greatwood, Silverwood) - **Doors/Wood types need redesign**
 - [ ] Arcane Stone Blocks (Bricks, Smooth, Pillars)
 - [ ] Eldritch Stone
 - [ ] Ancient Stone
