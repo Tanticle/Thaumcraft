@@ -82,8 +82,8 @@ public final class ConfigItems {
     public static final DeferredItem<VisCrystalItem> VIS_CRYSTAL = registerItem(Items.VIS_CRYSTAL, VisCrystalItem::new, ConfigCreativeTabs.MAIN);
 
     // Raw Ores
-    public static final DeferredItem<Item> RAW_AMBER = registerSimple(Items.RAW_AMBER, ConfigCreativeTabs.MAIN);
-    public static final DeferredItem<Item> RAW_CINNABAR = registerSimple(Items.RAW_CINNABAR, ConfigCreativeTabs.MAIN);
+    public static final DeferredItem<Item> AMBER = registerSimple(Items.AMBER, ConfigCreativeTabs.MAIN);
+    public static final DeferredItem<Item> CINNABAR = registerSimple(Items.CINNABAR, ConfigCreativeTabs.MAIN);
 
     /* -------------------------------------------------------------------------------------------------------------- */
 

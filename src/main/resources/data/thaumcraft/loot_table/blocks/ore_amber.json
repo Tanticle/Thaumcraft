@@ -26,7 +26,7 @@
             },
             {
               "type": "minecraft:item",
-              "name": "thaumcraft:raw_amber",
+              "name": "thaumcraft:amber",
               "functions": [
                 {
                   "function": "minecraft:apply_bonus",

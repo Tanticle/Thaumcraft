@@ -144,8 +144,8 @@ public final class ThaumcraftData {
         public static final ResourceLocation INGOT_VOID = Thaumcraft.id("ingot_void");
         public static final ResourceLocation INGOT_BRASS = Thaumcraft.id("ingot_brass");
 
-        public static final ResourceLocation RAW_AMBER = Thaumcraft.id("raw_amber");
-        public static final ResourceLocation RAW_CINNABAR = Thaumcraft.id("raw_cinnabar");
+        public static final ResourceLocation AMBER = Thaumcraft.id("amber");
+        public static final ResourceLocation CINNABAR = Thaumcraft.id("cinnabar");
 
         public static final ResourceLocation UPGRADE_SPEED = Thaumcraft.id("upgrade_speed");
         public static final ResourceLocation UPGRADE_CAPACITY = Thaumcraft.id("upgrade_capacity");

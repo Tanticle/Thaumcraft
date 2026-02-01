@@ -26,7 +26,7 @@
             },
             {
               "type": "minecraft:item",
-              "name": "thaumcraft:raw_cinnabar",
+              "name": "thaumcraft:cinnabar",
               "functions": [
                 {
                   "function": "minecraft:set_count",

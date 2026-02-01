@@ -115,7 +115,7 @@ public class BlockDataProvider extends ModelProvider {
         registerLogBlock(ConfigBlocks.STRIPPED_GREATWOOD_WOOD);
 
         registerLeavesBlock(ConfigBlocks.GREATWOOD_LEAVES);
-        registerCrossBlockWithTexture(ConfigBlocks.GREATWOOD_SAPLING, ResourceLocation.fromNamespaceAndPath("new_thaumcraft", "block/sapling_greatwood"));
+		registerCrossBlock(ConfigBlocks.GREATWOOD_SAPLING);
 
         simpleBlock(ConfigBlocks.GREATWOOD_PLANKS);
         registerWoodStairAndSlab(ConfigBlocks.GREATWOOD_PLANKS, ConfigBlocks.GREATWOOD_STAIRS, ConfigBlocks.GREATWOOD_SLAB);
@@ -134,7 +134,7 @@ public class BlockDataProvider extends ModelProvider {
         registerLogBlock(ConfigBlocks.STRIPPED_SILVERWOOD_WOOD);
 
         registerLeavesBlock(ConfigBlocks.SILVERWOOD_LEAVES);
-        registerCrossBlockWithTexture(ConfigBlocks.SILVERWOOD_SAPLING, ResourceLocation.fromNamespaceAndPath("new_thaumcraft", "block/sapling_silverwood"));
+		registerCrossBlock(ConfigBlocks.SILVERWOOD_SAPLING);
 
         simpleBlock(ConfigBlocks.SILVERWOOD_PLANKS);
         registerWoodStairAndSlab(ConfigBlocks.SILVERWOOD_PLANKS, ConfigBlocks.SILVERWOOD_STAIRS, ConfigBlocks.SILVERWOOD_SLAB);
