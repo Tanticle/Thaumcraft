@@ -33,7 +33,7 @@ import net.neoforged.neoforge.network.PacketDistributor;
 import art.arcane.thaumcraft.Thaumcraft;
 import art.arcane.thaumcraft.api.enums.InfusionEnchantments;
 import art.arcane.thaumcraft.entities.MovingItemEntity;
-import art.arcane.thaumcraft.items.components.InfusionEnchantmentComponent;
+import art.arcane.thaumcraft.api.components.InfusionEnchantmentComponent;
 import art.arcane.thaumcraft.networking.packets.ClientboundSoundingPacket;
 import art.arcane.thaumcraft.registries.ConfigItemComponents;
 import art.arcane.thaumcraft.registries.ConfigSounds;

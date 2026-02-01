@@ -18,7 +18,7 @@ import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
 import net.neoforged.neoforge.common.loot.IGlobalLootModifier;
 import net.neoforged.neoforge.common.loot.LootModifier;
 import art.arcane.thaumcraft.api.enums.InfusionEnchantments;
-import art.arcane.thaumcraft.items.components.InfusionEnchantmentComponent;
+import art.arcane.thaumcraft.api.components.InfusionEnchantmentComponent;
 import art.arcane.thaumcraft.registries.ConfigItemComponents;
 
 import java.util.Optional;

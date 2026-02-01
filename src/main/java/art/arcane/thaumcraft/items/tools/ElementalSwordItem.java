@@ -1,5 +1,6 @@
 package art.arcane.thaumcraft.items.tools;
 
+import art.arcane.thaumcraft.client.fx.particles.SmokeSpiralParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
@@ -14,7 +15,6 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import art.arcane.thaumcraft.api.enums.InfusionEnchantments;
 import art.arcane.thaumcraft.api.ThaumcraftMaterials;
-import art.arcane.thaumcraft.api.components.InfusionEnchantmentComponent;
 import art.arcane.thaumcraft.api.components.InfusionEnchantmentComponent;
 import art.arcane.thaumcraft.registries.ConfigItemComponents;
 import art.arcane.thaumcraft.registries.ConfigSounds;
