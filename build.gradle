@@ -24,6 +24,14 @@ repositories {
         name = "ModMaven"
         url = "https://modmaven.dev"
     }
+    maven {
+        name = "Modrinth"
+        url = "https://api.modrinth.com/maven"
+    }
+    maven {
+        name = "Curse Maven"
+        url = "https://cursemaven.com"
+    }
 }
 
 dependencies {
@@ -33,6 +41,8 @@ dependencies {
     runtimeOnly("mezz.jei:jei-${minecraft_version}-neoforge:${jei_version}")
 
     implementation project(":Multiblock")
+
+    implementation("curse.maven:terrablender-neoforge-940057:6055021")
 }
 
 neoForge {

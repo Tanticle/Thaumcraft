@@ -21,6 +21,8 @@ public class AuraBiomeProvider extends SimpleDataProvider<AuraBiomeInfo> {
     public void createEntries() {
         unknown();
 
+        biome(ResourceKey.create(net.minecraft.core.registries.Registries.BIOME, Thaumcraft.id("magical_forest")), 0.75F, ThaumcraftData.Aspects.MAGIC);
+
         biome(Biomes.OCEAN, 0.33F, ThaumcraftData.Aspects.WATER);
         biome(Biomes.DEEP_OCEAN, 0.33F, ThaumcraftData.Aspects.WATER);
         biome(Biomes.COLD_OCEAN, 0.30F, ThaumcraftData.Aspects.WATER);

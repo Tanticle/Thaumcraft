@@ -138,6 +138,7 @@ public final class ConfigBlocks {
     public static final BlockObject<PressurePlateBlock> GREATWOOD_PRESSURE_PLATE = registerBlock(Blocks.GREATWOOD_PRESSURE_PLATE, props -> new PressurePlateBlock(BlockSetType.OAK, greatwoodWoodProps(props)), ConfigCreativeTabs.MAIN);
 
     public static final BlockObject<VishroomBlock> VISHROOM = registerBlock(Blocks.VISHROOM, VishroomBlock::new, ConfigCreativeTabs.MAIN);
+    public static final BlockObject<GrassAmbientBlock> GRASS_AMBIENT = registerBlock(Blocks.GRASS_AMBIENT, GrassAmbientBlock::new, ConfigCreativeTabs.MAIN);
 
     /* -------------------------------------------------------------------------------------------------------------- */
 

@@ -1,5 +1,6 @@
 package art.arcane.thaumcraft.blocks.world;
 
+import art.arcane.thaumcraft.registries.ConfigBlocks;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.util.Mth;
@@ -37,13 +38,12 @@ public class GrassAmbientBlock extends GrassBlock {
             int z = Mth.randomBetweenInclusive(random, -8, 8);
             BlockPos targetPos = pos.offset(x, 5, z);
 
-            for (int q = 0; q < 10 && targetPos.getY() > 50 && !level.getBlockState(targetPos).is(Blocks.GRASS_BLOCK); q++) {
+            for (int q = 0; q < 10 && targetPos.getY() > 50 && !isGrassType(level.getBlockState(targetPos)); q++) {
                 targetPos = targetPos.below();
             }
 
-            if (level.getBlockState(targetPos).is(Blocks.GRASS_BLOCK)) {
+            if (isGrassType(level.getBlockState(targetPos))) {
                 BlockPos particlePos = targetPos.above();
-                // TODO: Replace with custom wispy mote particle when implemented
                 level.addParticle(
                         ParticleTypes.END_ROD,
                         particlePos.getX() + random.nextDouble(),
@@ -55,5 +55,9 @@ public class GrassAmbientBlock extends GrassBlock {
                 );
             }
         }
+    }
+
+    private boolean isGrassType(BlockState state) {
+        return state.is(Blocks.GRASS_BLOCK) || state.is(ConfigBlocks.GRASS_AMBIENT.block());
     }
 }

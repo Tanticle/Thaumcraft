@@ -1,11 +1,15 @@
 package art.arcane.thaumcraft;
 
+import art.arcane.thaumcraft.config.ThaumcraftConfig;
 import art.arcane.thaumcraft.registries.*;
+import art.arcane.thaumcraft.world.ThaumcraftBiomes;
 import art.arcane.thaumcraft.world.tree.ConfigTreeFeatures;
 import com.mojang.logging.LogUtils;
 import net.minecraft.resources.ResourceLocation;
 import net.neoforged.bus.api.IEventBus;
+import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.common.Mod;
+import net.neoforged.fml.config.ModConfig;
 import net.neoforged.fml.loading.FMLLoader;
 import org.slf4j.Logger;
 
@@ -19,7 +23,9 @@ public final class Thaumcraft {
         return ResourceLocation.tryBuild(MOD_ID, value);
     }
 
-    public Thaumcraft(IEventBus modEventBus) {
+    public Thaumcraft(IEventBus modEventBus, ModContainer modContainer) {
+        modContainer.registerConfig(ModConfig.Type.COMMON, ThaumcraftConfig.SPEC);
+
         ConfigDataAttachments.init(modEventBus);
         ConfigItemComponents.init(modEventBus);
         ConfigItems.init(modEventBus);
@@ -34,6 +40,8 @@ public final class Thaumcraft {
 
         ConfigLoot.init(modEventBus);
         ConfigTreeFeatures.init(modEventBus);
+
+        ThaumcraftBiomes.init(modEventBus);
     }
 
     public static boolean isDev() {

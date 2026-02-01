@@ -65,7 +65,7 @@
 - [ ] **Plants**
     - [ ] Cinderpearl
     - [ ] Shimmerleaf
-    - [ ] Vishroom
+    - [X] Vishroom
 - [ ] **Fluids**
     - [ ] Liquid Death
     - [ ] Purifying Fluid

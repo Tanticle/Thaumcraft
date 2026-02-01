@@ -93,7 +93,19 @@ public class BlockDataProvider extends ModelProvider {
         registerSilverwoodTree();
         registerGreatwoodTree();
 
-        registerCrossBlock(ConfigBlocks.VISHROOM);
+        registerCrossBlockWithTexture(ConfigBlocks.VISHROOM, ResourceLocation.fromNamespaceAndPath("new_thaumcraft", "block/vishroom"));
+
+        registerGrassAmbientBlock();
+    }
+
+    private void registerGrassAmbientBlock() {
+        ResourceLocation grassModel = ResourceLocation.withDefaultNamespace("block/grass_block");
+        blocks.blockStateOutput.accept(MultiVariantGenerator.multiVariant(ConfigBlocks.GRASS_AMBIENT.block(),
+                Variant.variant().with(VariantProperties.MODEL, grassModel),
+                Variant.variant().with(VariantProperties.MODEL, grassModel).with(VariantProperties.Y_ROT, VariantProperties.Rotation.R90),
+                Variant.variant().with(VariantProperties.MODEL, grassModel).with(VariantProperties.Y_ROT, VariantProperties.Rotation.R180),
+                Variant.variant().with(VariantProperties.MODEL, grassModel).with(VariantProperties.Y_ROT, VariantProperties.Rotation.R270)));
+        blockParentItem(ConfigBlocks.GRASS_AMBIENT, grassModel);
     }
 
     private void registerGreatwoodTree() {
