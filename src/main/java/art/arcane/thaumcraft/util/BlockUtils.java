@@ -1,63 +1,91 @@
 package art.arcane.thaumcraft.util;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 
 public final class BlockUtils {
 
+    private static BlockPos lastPos;
+    private static double lastDistance;
+    private static BlockPos originPos;
+
     public static boolean breakFurthestBlock(Level world, BlockPos pos, BlockState block, Player player) {
-        /*BlockUtils.lastPos = new BlockPos(pos);
-        BlockUtils.lastdistance = 0.0;
+        originPos = pos;
+        lastPos = pos;
+        lastDistance = 0.0;
         int reach = block.is(BlockTags.LOGS) ? 2 : 1;
         findBlocks(world, pos, block, reach);
-        boolean worked = harvestBlockSkipCheck(world, player, BlockUtils.lastPos);
-        world.markAndNotifyBlock(pos, world.getChunkFromBlockCoords(pos), block, block, 3);
-        if (worked && Utils.isWoodLog(world, pos)) {
-            world.markAndNotifyBlock(pos, world.getChunkFromBlockCoords(pos), block, block, 3);
+
+        boolean worked = harvestBlockSkipCheck(world, player, lastPos);
+
+        if (worked && block.is(BlockTags.LOGS)) {
             for (int xx = -3; xx <= 3; ++xx) {
                 for (int yy = -3; yy <= 3; ++yy) {
                     for (int zz = -3; zz <= 3; ++zz) {
-                        world.scheduleUpdate(BlockUtils.lastPos.add(xx, yy, zz), world.getBlockState(BlockUtils.lastPos.add(xx, yy, zz)).getBlock(), 50 + world.rand.nextInt(75));
+                        BlockPos schedulePos = lastPos.offset(xx, yy, zz);
+                        BlockState stateAt = world.getBlockState(schedulePos);
+                        if (!stateAt.isAir()) {
+                            world.scheduleTick(schedulePos, stateAt.getBlock(), 50 + world.getRandom().nextInt(75));
+                        }
                     }
                 }
             }
         }
-        return worked;*/
-        return false;
+        return worked;
     }
 
     public static void findBlocks(Level world, BlockPos pos, BlockState block, int reach) {
-        /*BlockPos lastPos = BlockPos.ZERO;
-        for (int xx = -reach; xx <= reach; ++xx) {
-            for (int yy = reach; yy >= -reach; --yy) {
+        for (int yy = reach; yy >= -reach; --yy) {
+            for (int xx = -reach; xx <= reach; ++xx) {
                 for (int zz = -reach; zz <= reach; ++zz) {
-                    if (Math.abs(BlockUtils.lastPos.getX() + xx - pos.getX()) > 24) {
-                        return;
+                    BlockPos checkPos = lastPos.offset(xx, yy, zz);
+
+                    if (Math.abs(checkPos.getX() - originPos.getX()) > 24) {
+                        continue;
                     }
-                    if (Math.abs(BlockUtils.lastPos.getY() + yy - pos.getY()) > 48) {
-                        return;
+                    if (Math.abs(checkPos.getY() - originPos.getY()) > 48) {
+                        continue;
                     }
-                    if (Math.abs(BlockUtils.lastPos.getZ() + zz - pos.getZ()) > 24) {
-                        return;
+                    if (Math.abs(checkPos.getZ() - originPos.getZ()) > 24) {
+                        continue;
                     }
-                    IBlockState bs = world.getBlockState(BlockUtils.lastPos.add(xx, yy, zz));
-                    boolean same = bs.getBlock() == block.getBlock() && bs.getBlock().damageDropped(bs) == block.getBlock().damageDropped(block);
-                    if (same && bs.getBlock().getBlockHardness(bs, world, BlockUtils.lastPos.add(xx, yy, zz)) >= 0.0f) {
-                        double xd = BlockUtils.lastPos.getX() + xx - pos.getX();
-                        double yd = BlockUtils.lastPos.getY() + yy - pos.getY();
-                        double zd = BlockUtils.lastPos.getZ() + zz - pos.getZ();
+
+                    BlockState bs = world.getBlockState(checkPos);
+                    boolean same = bs.is(block.getBlock());
+
+                    if (same && bs.getDestroySpeed(world, checkPos) >= 0.0f) {
+                        double xd = checkPos.getX() - originPos.getX();
+                        double yd = checkPos.getY() - originPos.getY();
+                        double zd = checkPos.getZ() - originPos.getZ();
                         double d = xd * xd + yd * yd + zd * zd;
-                        if (d > BlockUtils.lastdistance) {
-                            BlockUtils.lastdistance = d;
-                            BlockUtils.lastPos = BlockUtils.lastPos.add(xx, yy, zz);
+
+                        if (d > lastDistance) {
+                            lastDistance = d;
+                            lastPos = checkPos;
                             findBlocks(world, pos, block, reach);
                             return;
                         }
                     }
                 }
             }
-        }*/
+        }
+    }
+
+    private static boolean harvestBlockSkipCheck(Level world, Player player, BlockPos pos) {
+        if (world instanceof ServerLevel serverLevel) {
+            BlockState state = world.getBlockState(pos);
+            if (state.isAir()) {
+                return false;
+            }
+            Block block = state.getBlock();
+            block.playerDestroy(world, player, pos, state, world.getBlockEntity(pos), player.getMainHandItem());
+            return world.destroyBlock(pos, false, player);
+        }
+        return false;
     }
 }

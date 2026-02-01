@@ -1,6 +1,7 @@
 package art.arcane.thaumcraft.events.client.handlers;
 
 import art.arcane.thaumcraft.client.rendering.ber.*;
+import net.minecraft.client.renderer.entity.ItemEntityRenderer;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
@@ -16,6 +17,7 @@ import art.arcane.thaumcraft.client.tints.AspectItemTintSource;
 import art.arcane.thaumcraft.registries.ConfigBlockEntities;
 import art.arcane.thaumcraft.registries.ConfigBlocks;
 import art.arcane.thaumcraft.registries.ConfigDataRegistries;
+import art.arcane.thaumcraft.registries.ConfigEntities;
 import art.arcane.thaumcraft.registries.ConfigMenus;
 import art.arcane.thaumcraft.util.RegistryUtils;
 
@@ -41,6 +43,7 @@ public class RegistrationEvents {
         e.registerBlockEntityRenderer(ConfigBlockEntities.JAR.entityType(), JarBER::new);
 
         //e.registerEntityRenderer(ConfigEntities.LIVING_TRUNK.entityType(), TrunkEntityRenderer::new);
+        e.registerEntityRenderer(ConfigEntities.MOVING_ITEM.entityType(), ItemEntityRenderer::new);
     }
 
     @SubscribeEvent

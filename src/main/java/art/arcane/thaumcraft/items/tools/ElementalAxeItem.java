@@ -1,9 +1,14 @@
 package art.arcane.thaumcraft.items.tools;
 
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.util.Mth;
+import net.minecraft.util.RandomSource;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.AxeItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.ItemUseAnimation;
@@ -27,8 +32,13 @@ public class ElementalAxeItem extends AxeItem {
                 props.rarity(Rarity.RARE).component(
                         ConfigItemComponents.INFUSION_ENCHANTMENT.value(), new InfusionEnchantmentComponent(Map.of(
                                 InfusionEnchantments.COLLECTOR, (byte)1,
-                                InfusionEnchantments.BURROWING, (byte)1,
-                                InfusionEnchantments.HARVESTER, (byte)5))));
+                                InfusionEnchantments.BURROWING, (byte)1))));
+    }
+
+    @Override
+    public InteractionResult use(Level level, Player player, InteractionHand hand) {
+        player.startUsingItem(hand);
+        return InteractionResult.CONSUME;
     }
 
     @Override
@@ -43,7 +53,7 @@ public class ElementalAxeItem extends AxeItem {
 
     @Override
     public void onUseTick(Level pLevel, LivingEntity pLivingEntity, ItemStack pStack, int pRemainingUseDuration) {
-        List<Entity> stuff = EntityUtils.getEntitiesInRange(pLivingEntity.level(), pLivingEntity.position(), 10.0F, pLivingEntity, EntityType.ITEM);
+        List<Entity> stuff = EntityUtils.getEntitiesInRange(pLivingEntity.level(), pLivingEntity.position(), 15.0F, pLivingEntity, EntityType.ITEM);
         stuff.forEach(e -> {
             if (e.isAlive()) {
                 double d6 = e.getX() - pLivingEntity.getX();
@@ -53,18 +63,20 @@ public class ElementalAxeItem extends AxeItem {
                 d6 /= d9;
                 d7 /= d9;
                 d8 /= d9;
-                double d10 = 0.3;
-                double vX = Mth.clamp(e.getDeltaMovement().x() - d6 * d10, -0.25D, 0.25D);
-                double vY = Mth.clamp(e.getDeltaMovement().y() - d7 * d10 - 0.1, -0.25D, 0.25D);
-                double vZ = Mth.clamp(e.getDeltaMovement().z() - d8 * d10, -0.25D, 0.25D);
+                double d10 = 0.4;
+                double vX = Mth.clamp(e.getDeltaMovement().x() - d6 * d10, -0.35D, 0.35D);
+                double vY = Mth.clamp(e.getDeltaMovement().y() - d7 * d10 - 0.1, -0.35D, 0.35D);
+                double vZ = Mth.clamp(e.getDeltaMovement().z() - d8 * d10, -0.35D, 0.35D);
                 e.setDeltaMovement(vX, vY, vZ);
                 if(pLevel.isClientSide()) {
-                    //TODO: P
-                    /*FXDispatcher.INSTANCE.crucibleBubble(
-                            (float)e.getX() + (pLevel.getRandom().nextFloat() - pLevel.getRandom().nextFloat()) * 0.2f,
-                            (float)e.getEyeY() + (pLevel.getRandom().nextFloat() - pLevel.getRandom().nextFloat()) * 0.2f,
-                            (float)e.getZ() + (pLevel.getRandom().nextFloat() - pLevel.getRandom().nextFloat()) * 0.2f,
-                            0.33f, 0.33f, 1.0f);*/
+                    RandomSource rand = pLevel.getRandom();
+                    pLevel.addParticle(ParticleTypes.WITCH,
+                            e.getX() + (rand.nextFloat() - rand.nextFloat()) * 0.3f,
+                            e.getY() + rand.nextFloat() * 0.5f,
+                            e.getZ() + (rand.nextFloat() - rand.nextFloat()) * 0.3f,
+                            (rand.nextFloat() - 0.5f) * 0.1f,
+                            rand.nextFloat() * 0.05f,
+                            (rand.nextFloat() - 0.5f) * 0.1f);
                 }
             }
         });

@@ -1,46 +1,50 @@
-# Important Cleanup TODOs
+# Thaumcraft - Notes & TODO
 
-- Item Components and the Simple(Block)MetaItem system
-  - This system seems to be more or less redundant now. Either rewrite them to make more sense, or just get rid of 'em.
-- Standardize and cleanup translations.
+---
 
-# Bugs
- - Rendering just doesn't?
- - Pedestals run pickup logic when the internal item stack is empty.
- - The entirety of the arcane workbench menu.
-# Notes
+## Bugs
 
-- The Forge OBJ loader is weird. When using blockbench, UVs are flipped verticially and offset by .5 on the X and Z axis.
+- Rendering isn't working (BERs not showing)
+- Pedestals run pickup logic when their slot is empty
+- Arcane workbench menu needs a rewrite
 
-# TODO
+## Cleanup
 
-- [ ] Configuration UI
+- **Simple(Block)MetaItem system** - Feels redundant now, either rewrite or remove
+- **Translations** - Standardize and clean up lang keys
 
-## Systems
+## Notes
+
+- Forge OBJ loader quirk: Blockbench exports have UVs flipped vertically and offset by 0.5 on X/Z
+
+---
+
+## TODO
+
+### Systems
 - [ ] Aura
 - [ ] Flux
 - [ ] Taint Spread
 - [ ] Multiblocks
 - [ ] Golems
-- [ ] Alchemy
-  - [ ] Tubing
+- [ ] Alchemy + Tubing
 - [ ] Research
-## API
 
+### API
 - [ ] Goggle Rendering
 - [ ] Foci System
+- [ ] Configuration UI
 
-## Entities
-- [ ] Enemies
-  - [ ] Crimson Cultists
-- [ ]
+### Entities
+- [ ] Crimson Cultists
+- [ ] Other enemies
 
-## Items
+### Items
 - [ ] Thaumonomicon
 - [ ] Scanner
 - [ ] Meat Nuggets
 - [ ] Lootbags
-- [ ] Knowledge
+- [ ] Knowledge fragments
 - [ ] Celestial Notes
 
 ### Equipment
@@ -56,14 +60,12 @@
 - [ ] Grappler
 - [ ] Soap
 
-## Blocks
-
+### Blocks
 - [ ] Magic Mirrors
 - [ ] Brain in a Jar
 - [ ] Redstone Stuff
 - [ ] Hungry Chest
 - [ ] Taint Blocks
-
 - [ ] Trees
 
 ### Machines
@@ -73,16 +75,16 @@
 - [ ] Essentia Inlet/Outlet
 - [ ] Flux Condenser
 - [ ] Everfull Urn
-- [ ] Arcade Levitator
+- [ ] Arcane Levitator
 - [ ] Dioptra
 
-### Alchemy
+### Alchemy Blocks
 - [ ] Tubes
 - [ ] Alchemical Constructs
 - [ ] Smelters + Alembic
 
-### Infusions
-- [ ] Candles?
+### Infusion Blocks
+- [ ] Candles
 - [ ] Lamps
 - [ ] Stabilizers
 

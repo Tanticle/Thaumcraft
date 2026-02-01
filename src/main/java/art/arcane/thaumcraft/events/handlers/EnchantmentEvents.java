@@ -25,7 +25,7 @@ public class EnchantmentEvents {
                 if(e.getPlayer().hasCorrectToolForDrops(e.getState(), e.getPlayer().level(), e.getPos()) && !e.getPlayer().isCrouching()) {
                     if(e.getState().is(Tags.Blocks.ORES) || e.getState().is(BlockTags.LOGS)) {
                         e.setCanceled(true);
-                        if(!e.getPlayer().isCreative())
+                        if(!e.getPlayer().isCreative() && e.getLevel().getRandom().nextFloat() < 0.5f)
                             e.getPlayer().getMainHandItem().setDamageValue(e.getPlayer().getMainHandItem().getDamageValue() + 1);
                         BlockUtils.breakFurthestBlock(e.getPlayer().level(), e.getPos(), e.getState(), e.getPlayer());
                     }
