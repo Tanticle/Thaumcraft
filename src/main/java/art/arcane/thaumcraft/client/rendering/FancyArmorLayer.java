@@ -44,7 +44,7 @@ public class FancyArmorLayer<S extends HumanoidRenderState, M extends HumanoidMo
 			FancyArmorItem.ArmorSet set = f.getSet();
 			switch (set) {
 				case CULTIST_LEADER -> {
-					setPartsVisibility(modelCrimsonLeader, type);
+					modelCrimsonLeader.setVisible(type);
 					break;
 				}
 			}
