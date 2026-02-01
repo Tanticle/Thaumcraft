@@ -75,15 +75,15 @@
     - [ ] Wisp Nests
 - [ ] **Biomes**
     - [ ] Magic Forest
-        - [ ] Biome registration & colors (grass, foliage, water)
-        - [ ] Tree generation (Greatwood 1/12, Silverwood 1/18, Big Magic Trees)
-        - [ ] Ambient grass blocks
-        - [ ] Vishroom placement (adjacent to logs)
+        - [X] Biome registration & colors (grass, foliage, water)
+        - [X] Tree generation (Greatwood 1/12, Silverwood 1/18, Big Magic Trees)
+        - [~] Ambient grass blocks - REPLACE THIS WITH AMBIENT PARTICLES
+        - [~] Vishroom placement - Looks bad
         - [ ] Cinderpearl placement
         - [ ] Shimmerleaf placement
         - [ ] Mob spawns (Pech, Wisp, Witch, Vex)
-        - [ ] Big mushroom generation
-        - [ ] Config options (weight, enable/disable)
+        - [X] Big mushroom generation
+        - [X] Config options (weight, enable/disable)
 - [ ] Loot Tables (Dungeon chests, Pech trades)
 
 ### Entities & Mobs
