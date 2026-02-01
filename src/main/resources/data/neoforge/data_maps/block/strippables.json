@@ -1,0 +1,16 @@
+{
+  "values": {
+    "thaumcraft:silverwood_log": {
+      "stripped_block": "thaumcraft:stripped_silverwood_log"
+    },
+    "thaumcraft:silverwood_wood": {
+      "stripped_block": "thaumcraft:stripped_silverwood_wood"
+    },
+    "thaumcraft:greatwood_log": {
+      "stripped_block": "thaumcraft:stripped_greatwood_log"
+    },
+    "thaumcraft:greatwood_wood": {
+      "stripped_block": "thaumcraft:stripped_greatwood_wood"
+    }
+  }
+}
