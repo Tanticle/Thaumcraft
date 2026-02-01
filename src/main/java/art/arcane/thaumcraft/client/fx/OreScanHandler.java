@@ -50,6 +50,7 @@ public class OreScanHandler {
         if (state.is(Tags.Blocks.ORES_COAL)) return 0x363636;
         if (state.is(Tags.Blocks.ORES_COPPER)) return 0xB87333;
         if (state.is(Tags.Blocks.ORES_QUARTZ)) return 0xFFFFE0;
+        if (state.is(Tags.Blocks.ORES_NETHERITE_SCRAP)) return 0x654321;
         return 0xC0C0C0;
     }
 }
