@@ -144,12 +144,13 @@
 
 - [ ] Thaumium Armor
 - [ ] Void Armor & Robes
-- [ ] Cultist Armor (Robes, Plate, Leader)
+- [x] Cultist Armor (Robes, Plate, Leader)
+  - [ ] Better System for 3D Armor
+  - [ ] Cloth Flaps
 - [ ] Fortress Armor (Helm upgrades: Masks)
 - [ ] Goggles of Revealing (HUD overlay)
 - [ ] Boots of the Traveller (Jump/Speed boost)
 
-- [ ] Better System for 3D Armor
 
 ### Equipment: Tools & Weapons
 
@@ -255,10 +256,12 @@
 - [ ] Nitor (Light source)
 - [ ] Paving Stones (Arcane, Barrier, Travel)
 - [X] Planks & Logs (Greatwood, Silverwood) - **Doors/Wood types need redesign**
-- [ ] Arcane Stone Blocks (Bricks, Smooth, Pillars)
+- [X] Arcane Stone Blocks (Bricks, Smooth, Pillars)
 - [ ] Eldritch Stone
 - [ ] Ancient Stone
-- [ ] Pedestals (Ancient, Eldritch)
+- [X] Pedestals (Ancient, Eldritch)
+  - [ ] Stabilization
+  - [ ] Viewmodels
 
 ### Items & Resources
 

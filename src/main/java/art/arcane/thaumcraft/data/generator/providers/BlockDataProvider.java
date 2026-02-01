@@ -93,7 +93,7 @@ public class BlockDataProvider extends ModelProvider {
         registerSilverwoodTree();
         registerGreatwoodTree();
 
-        registerCrossBlockWithTexture(ConfigBlocks.VISHROOM, ResourceLocation.fromNamespaceAndPath("new_thaumcraft", "block/vishroom"));
+		registerCrossBlock(ConfigBlocks.VISHROOM);
 
         registerGrassAmbientBlock();
     }
