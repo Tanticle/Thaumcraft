@@ -10,7 +10,7 @@ import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.util.Mth;
 import org.joml.Matrix4f;
-import art.arcane.thaumcraft.blocks.devices.DioptraBlock;
+import art.arcane.thaumcraft.blocks.DioptraBlock;
 import art.arcane.thaumcraft.blocks.entities.DioptraBlockEntity;
 import art.arcane.thaumcraft.util.simple.SimpleBER;
 

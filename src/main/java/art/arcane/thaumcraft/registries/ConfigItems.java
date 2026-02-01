@@ -2,6 +2,7 @@ package art.arcane.thaumcraft.registries;
 
 import art.arcane.thaumcraft.api.components.VisCostModifierComponent;
 import art.arcane.thaumcraft.api.components.WarpingComponent;
+import art.arcane.thaumcraft.items.FancyArmorItem;
 import art.arcane.thaumcraft.items.tools.*;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.*;
@@ -64,7 +65,7 @@ public final class ConfigItems {
                     .component(ConfigItemComponents.WARPING.value(), new WarpingComponent(1))
                     .component(ConfigItemComponents.VIS_COST_MODIFIER.value(), new VisCostModifierComponent(-0.01F))),
             ConfigCreativeTabs.MAIN);
-    public static final ArmorSet ARMOR_CRIMSON_LEADER = registerArmorSet(ThaumcraftMaterials.Armor.CRIMSON_LEADER, true, p -> p.rarity(Rarity.RARE), ConfigCreativeTabs.MAIN);
+    public static final ArmorSet ARMOR_CRIMSON_LEADER = registerArmorSet(ThaumcraftMaterials.Armor.CRIMSON_LEADER, FancyArmorItem.ArmorSet.CULTIST_LEADER, true, p -> p.rarity(Rarity.RARE), ConfigCreativeTabs.MAIN);
 
     // Resources
     public static final DeferredItem<Item> INGOT_THAUMIUM = registerSimple(Items.INGOT_THAUMIUM, ConfigCreativeTabs.MAIN);
@@ -106,15 +107,16 @@ public final class ConfigItems {
     }
 
     private static ArmorSet registerArmorSet(ArmorMaterial material,
+											 FancyArmorItem.ArmorSet armorSet,
                                              boolean skipBoots,
                                              UnaryOperator<Item.Properties> itemProperties,
                                              SimpleCreativeTab tab) {
-        DeferredItem<ArmorItem> head = registerItem(material.assetId().location().withSuffix("_helmet"), p -> new ArmorItem(material, ArmorType.HELMET,  itemProperties.apply(p)), tab);
-        DeferredItem<ArmorItem> chest = registerItem(material.assetId().location().withSuffix("_chestplate"), p -> new ArmorItem(material, ArmorType.CHESTPLATE,  itemProperties.apply(p)),tab);
-        DeferredItem<ArmorItem> leggings = registerItem(material.assetId().location().withSuffix("_leggings"), p -> new ArmorItem(material, ArmorType.LEGGINGS,  itemProperties.apply(p)),tab);
+        DeferredItem<ArmorItem> head = registerItem(material.assetId().location().withSuffix("_helmet"), p -> new FancyArmorItem(armorSet, material, ArmorType.HELMET,  itemProperties.apply(p)), tab);
+        DeferredItem<ArmorItem> chest = registerItem(material.assetId().location().withSuffix("_chestplate"), p -> new FancyArmorItem(armorSet, material, ArmorType.CHESTPLATE,  itemProperties.apply(p)),tab);
+        DeferredItem<ArmorItem> leggings = registerItem(material.assetId().location().withSuffix("_leggings"), p -> new FancyArmorItem(armorSet, material, ArmorType.LEGGINGS,  itemProperties.apply(p)),tab);
         if(!skipBoots) {
             //TODO: Dirty Hack, find a better way to do this
-            DeferredItem<ArmorItem> boots = registerItem (material.assetId().location().withSuffix("_boots"), p -> new ArmorItem(material, ArmorType.BOOTS,  itemProperties.apply(p)), tab);
+            DeferredItem<ArmorItem> boots = registerItem (material.assetId().location().withSuffix("_boots"), p -> new FancyArmorItem(armorSet, material, ArmorType.BOOTS,  itemProperties.apply(p)), tab);
             return new ArmorSet(head, chest, leggings, boots);
         }
 ;       return new ArmorSet(head, chest, leggings, null);

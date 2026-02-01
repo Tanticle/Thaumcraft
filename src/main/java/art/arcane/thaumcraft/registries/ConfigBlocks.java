@@ -38,7 +38,7 @@ import art.arcane.thaumcraft.blocks.alchemy.CreativeAspectSourceBlock;
 import art.arcane.thaumcraft.blocks.alchemy.CrucibleBlock;
 import art.arcane.thaumcraft.blocks.alchemy.JarBlock;
 import art.arcane.thaumcraft.blocks.alchemy.TubeBlock;
-import art.arcane.thaumcraft.blocks.devices.DioptraBlock;
+import art.arcane.thaumcraft.blocks.DioptraBlock;
 import art.arcane.thaumcraft.items.blocks.CrystalBlockItem;
 import art.arcane.thaumcraft.util.simple.SimpleBlockMaterials;
 import art.arcane.thaumcraft.util.simple.SimpleCreativeTab;

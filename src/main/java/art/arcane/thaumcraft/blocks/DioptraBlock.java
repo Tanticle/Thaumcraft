@@ -1,4 +1,4 @@
-package art.arcane.thaumcraft.blocks.devices;
+package art.arcane.thaumcraft.blocks;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.InteractionResult;
@@ -11,7 +11,9 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.shapes.BooleanOp;
 import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import art.arcane.thaumcraft.blocks.entities.DioptraBlockEntity;
 import art.arcane.thaumcraft.registries.ConfigBlockEntities;
@@ -22,7 +24,7 @@ public class DioptraBlock extends TickableEntityBlock<DioptraBlockEntity> {
 
     public static final BooleanProperty DISPLAY_VIS = BooleanProperty.create("display_vis");
 
-    private static final VoxelShape SHAPE = Block.box(0, 0, 0, 16, 12, 16);
+    private static final VoxelShape SHAPE = Shapes.join(Shapes.block(), Shapes.box(2, 14, 2, 14, 16, 14), BooleanOp.ONLY_FIRST);
 
     public DioptraBlock(BlockBehaviour.Properties props) {
         super(SimpleBlockMaterials.metal(props), ConfigBlockEntities.DIOPTRA.entityTypeObject());
