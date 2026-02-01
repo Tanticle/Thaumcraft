@@ -13,9 +13,9 @@ import net.minecraft.client.renderer.entity.state.HumanoidRenderState;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EquipmentSlot;
 
-public class ArmorCultistLeader<S extends HumanoidRenderState> extends HumanoidModel<S> {
+public class ArmorCrimsonLeader<S extends HumanoidRenderState> extends HumanoidModel<S> {
 
-	public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(Thaumcraft.id("armor_cultist_leader"), "main");
+	public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(Thaumcraft.id("armor_crimson_leader"), "main");
 
 	private final ModelPart collar;
 	private final ModelPart cloak;;
@@ -27,7 +27,7 @@ public class ArmorCultistLeader<S extends HumanoidRenderState> extends HumanoidM
 	private final ModelPart cloth_r;
 	private final ModelPart leggings;
 
-	public ArmorCultistLeader(ModelPart root) {
+	public ArmorCrimsonLeader(ModelPart root) {
 		super(root);
 		this.collar = this.body.getChild("collar");
 		this.cloak = this.body.getChild("cloak");

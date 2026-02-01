@@ -65,7 +65,8 @@ public final class ConfigItems {
                     .component(ConfigItemComponents.WARPING.value(), new WarpingComponent(1))
                     .component(ConfigItemComponents.VIS_COST_MODIFIER.value(), new VisCostModifierComponent(-0.01F))),
             ConfigCreativeTabs.MAIN);
-    public static final ArmorSet ARMOR_CRIMSON_LEADER = registerArmorSet(ThaumcraftMaterials.Armor.CRIMSON_LEADER, FancyArmorItem.ArmorSet.CULTIST_LEADER, true, p -> p.rarity(Rarity.RARE), ConfigCreativeTabs.MAIN);
+    public static final ArmorSet ARMOR_CRIMSON_LEADER = registerArmorSet(ThaumcraftMaterials.Armor.CRIMSON_LEADER, FancyArmorItem.ArmorSet.CRIMSON_LEADER, true, p -> p.rarity(Rarity.RARE), ConfigCreativeTabs.MAIN);
+    public static final ArmorSet ARMOR_CRIMSON_PLATE = registerArmorSet(ThaumcraftMaterials.Armor.CRIMSON_PLATE, FancyArmorItem.ArmorSet.CRIMSON_PLATE, true, p -> p.rarity(Rarity.RARE), ConfigCreativeTabs.MAIN);
 
     // Resources
     public static final DeferredItem<Item> INGOT_THAUMIUM = registerSimple(Items.INGOT_THAUMIUM, ConfigCreativeTabs.MAIN);

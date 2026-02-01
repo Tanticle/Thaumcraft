@@ -57,6 +57,7 @@ public class ItemModelProvider extends ModelProvider {
         // Armor
         simpleItem(ConfigItems.ARMOR_CRIMSON_BOOTS, "armor");
         armorSet(ConfigItems.ARMOR_CRIMSON_LEADER, true);
+        armorSet(ConfigItems.ARMOR_CRIMSON_PLATE, true);
     }
 
     protected void simpleItem(Holder<? extends Item> item, String... parentFolder) {

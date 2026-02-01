@@ -149,6 +149,8 @@
 - [ ] Goggles of Revealing (HUD overlay)
 - [ ] Boots of the Traveller (Jump/Speed boost)
 
+- [ ] Better System for 3D Armor
+
 ### Equipment: Tools & Weapons
 
 - [X] Elemental Tools * Need to improve VFX
