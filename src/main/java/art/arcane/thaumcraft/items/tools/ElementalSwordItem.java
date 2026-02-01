@@ -2,15 +2,19 @@ package art.arcane.thaumcraft.items.tools;
 
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.util.Mth;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.SwordItem;
+import net.minecraft.world.item.ItemUseAnimation;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import art.arcane.thaumcraft.api.enums.InfusionEnchantments;
 import art.arcane.thaumcraft.api.ThaumcraftMaterials;
+import art.arcane.thaumcraft.client.fx.particles.SmokeSpiralParticleOptions;
 import art.arcane.thaumcraft.items.components.InfusionEnchantmentComponent;
 import art.arcane.thaumcraft.registries.ConfigItemComponents;
 import art.arcane.thaumcraft.registries.ConfigSounds;
@@ -34,6 +38,17 @@ public class ElementalSwordItem extends SwordItem {
     }
 
     @Override
+    public InteractionResult use(Level level, Player player, InteractionHand hand) {
+        player.startUsingItem(hand);
+        return InteractionResult.CONSUME;
+    }
+
+    @Override
+    public ItemUseAnimation getUseAnimation(ItemStack stack) {
+        return ItemUseAnimation.NONE;
+    }
+
+    @Override
     public void onUseTick(Level pLevel, LivingEntity pLivingEntity, ItemStack pStack, int pRemainingUseDuration) {
         super.onUseTick(pLevel, pLivingEntity, pStack, pRemainingUseDuration);
         int ticks = getUseDuration(pStack, pLivingEntity) - pRemainingUseDuration;
@@ -45,11 +60,12 @@ public class ElementalSwordItem extends SwordItem {
         vY += 0.08F;
         if (vY > 0.5)
             vY = 0.2F;
+        pLivingEntity.setDeltaMovement(pLivingEntity.getDeltaMovement().x(), vY, pLivingEntity.getDeltaMovement().z());
         /*if (pLivingEntity instanceof ServerPlayer p) { TODO: Is this still necessary?
             p.connection.aboveGroundTickCount = 0;
         }*/
         pLevel.getEntities(pLivingEntity, pLivingEntity.getBoundingBox().inflate(2.5, 2.5, 2.5)).forEach(entity -> {
-            if(!(entity instanceof Player) && entity instanceof LivingEntity e && e.isAlive() && !pLivingEntity.hasPassenger(e)) {
+            if(!(entity instanceof Player) && entity instanceof LivingEntity e && e.isAlive() && pLivingEntity.getVehicle() != e) {
                 double distance = pLivingEntity.position().distanceTo(e.position()) + 0.1D;
                 Vec3 r = e.position().subtract(pLivingEntity.position());
                 e.addDeltaMovement(new Vec3(r.x() / 2.5D / distance, r.y() / 2.5D / distance, r.z() / 2.5D / distance));
@@ -59,8 +75,15 @@ public class ElementalSwordItem extends SwordItem {
             int miny = (int)(pLivingEntity.getBoundingBox().minY - 2.0);
             if (pLivingEntity.onGround())
                 miny = Mth.floor(pLivingEntity.getBoundingBox().minY);
-            for (int a = 0; a < 5; ++a) { }
-                //TODO: Items - Particles FXDispatcher.INSTANCE.smokeSpiral(pLivingEntity.getX(), pLivingEntity.getBoundingBox().minY + pLivingEntity.getEyeHeight() / 2.0f, pLivingEntity.getZ(), 1.5f, pLevel.getRandom().nextInt(360), miny, 14540253);
+            for (int a = 0; a < 5; ++a) {
+                pLevel.addParticle(
+                        new SmokeSpiralParticleOptions(1.5f, pLevel.getRandom().nextInt(360), miny, 0xDDDDDD),
+                        pLivingEntity.getX(),
+                        pLivingEntity.getBoundingBox().minY + pLivingEntity.getEyeHeight() / 2.0f,
+                        pLivingEntity.getZ(),
+                        0, 0, 0
+                );
+            }
             if (pLivingEntity.onGround()) {
                 float r2 = pLevel.getRandom().nextFloat() * 360.0f;
                 float mx = -Mth.sin(r2 / 180.0f * 3.1415927f) / 5.0f;
