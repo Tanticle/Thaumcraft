@@ -14,6 +14,7 @@ import art.arcane.thaumcraft.Thaumcraft;
 import art.arcane.thaumcraft.data.loot.conditions.InfusionEnchantmentCondition;
 import art.arcane.thaumcraft.data.loot.modifiers.HarvesterModifier;
 import art.arcane.thaumcraft.data.loot.modifiers.HomingItemModifier;
+import art.arcane.thaumcraft.data.loot.modifiers.RefiningModifier;
 
 import java.util.function.Supplier;
 
@@ -28,6 +29,7 @@ public final class ConfigLoot {
 
     public static final DeferredHolder<MapCodec<? extends IGlobalLootModifier>, MapCodec<HomingItemModifier>> MODIFIER_HOMING_ITEM = modifier(Loot.MODIFIER_HOMING_ITEM, () -> HomingItemModifier.CODEC);
     public static final DeferredHolder<MapCodec<? extends IGlobalLootModifier>, MapCodec<HarvesterModifier>> MODIFIER_HARVESTER = modifier(Loot.MODIFIER_HARVESTER, () -> HarvesterModifier.CODEC);
+    public static final DeferredHolder<MapCodec<? extends IGlobalLootModifier>, MapCodec<RefiningModifier>> MODIFIER_REFINING = modifier(Loot.MODIFIER_REFINING, () -> RefiningModifier.CODEC);
 
     public static void init(IEventBus bus) {
         REGISTRY_CONDITION.register(bus);

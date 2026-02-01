@@ -1,17 +1,27 @@
 package art.arcane.thaumcraft.events.handlers;
 
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.common.Tags;
 import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
+import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
 import net.neoforged.neoforge.event.level.BlockEvent;
+import net.neoforged.neoforge.network.PacketDistributor;
 import art.arcane.thaumcraft.Thaumcraft;
 import art.arcane.thaumcraft.api.enums.InfusionEnchantments;
 import art.arcane.thaumcraft.entities.MovingItemEntity;
+import art.arcane.thaumcraft.items.components.InfusionEnchantmentComponent;
+import art.arcane.thaumcraft.networking.packets.ClientboundSoundingPacket;
 import art.arcane.thaumcraft.registries.ConfigItemComponents;
 import art.arcane.thaumcraft.util.BlockUtils;
 
@@ -44,5 +54,37 @@ public class EnchantmentEvents {
             entity.kill((ServerLevel)e.getLevel());
             e.getLevel().addFreshEntity(movingEntity);
         }
+    }
+
+    @SubscribeEvent
+    public static void onRightClickBlock(PlayerInteractEvent.RightClickBlock event) {
+        if (event.getLevel().isClientSide()) return;
+        handleSoundingUse(event.getEntity(), event.getPos());
+    }
+
+    @SubscribeEvent
+    public static void onRightClickItem(PlayerInteractEvent.RightClickItem event) {
+        if (event.getLevel().isClientSide()) return;
+        handleSoundingUse(event.getEntity(), event.getEntity().blockPosition());
+    }
+
+    private static void handleSoundingUse(Player player, net.minecraft.core.BlockPos pos) {
+        if (!player.isCrouching()) return;
+
+        ItemStack tool = player.getMainHandItem();
+        if (!InfusionEnchantments.hasEnchantment(tool, InfusionEnchantments.SOUNDING)) return;
+
+        InfusionEnchantmentComponent comp = tool.get(ConfigItemComponents.INFUSION_ENCHANTMENT.value());
+        int level = comp.enchantments().get(InfusionEnchantments.SOUNDING);
+
+        if (!player.isCreative()) {
+            tool.hurtAndBreak(5, player, EquipmentSlot.MAINHAND);
+        }
+
+        player.level().playSound(null, pos,
+            SoundEvents.ENCHANTMENT_TABLE_USE, SoundSource.BLOCKS, 0.2f, 0.3f);
+
+        PacketDistributor.sendToPlayer((ServerPlayer) player,
+            new ClientboundSoundingPacket(pos, level));
     }
 }

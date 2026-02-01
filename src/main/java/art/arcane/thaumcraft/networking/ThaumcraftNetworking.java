@@ -6,7 +6,9 @@ import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
 import net.neoforged.neoforge.network.registration.PayloadRegistrar;
 import art.arcane.thaumcraft.Thaumcraft;
+import art.arcane.thaumcraft.client.fx.OreScanHandler;
 import art.arcane.thaumcraft.networking.packets.ClientboundAspectRegistrySyncPacket;
+import art.arcane.thaumcraft.networking.packets.ClientboundSoundingPacket;
 import art.arcane.thaumcraft.registries.ConfigDataRegistries;
 
 @EventBusSubscriber(modid = Thaumcraft.MOD_ID, bus = EventBusSubscriber.Bus.MOD)
@@ -23,6 +25,10 @@ public class ThaumcraftNetworking {
                 ctx.disconnect(Component.translatable("network.thaumcraft.aspect_registry_disconnect"));
                 return null;
             });
+        });
+
+        registrar.playToClient(ClientboundSoundingPacket.TYPE, ClientboundSoundingPacket.STREAM_CODEC, (data, ctx) -> {
+            ctx.enqueueWork(() -> OreScanHandler.handleSoundingScan(data.origin(), data.level()));
         });
     }
 }

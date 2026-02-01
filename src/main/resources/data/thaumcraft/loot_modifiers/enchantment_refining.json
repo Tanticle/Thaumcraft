@@ -1,0 +1,9 @@
+{
+  "type": "thaumcraft:refining_loot",
+  "conditions": [
+    {
+      "condition": "thaumcraft:infusion_enchantment",
+      "enchantment": "thaumcraft:refining"
+    }
+  ]
+}
