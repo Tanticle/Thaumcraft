@@ -18,6 +18,7 @@ import net.minecraft.world.item.AxeItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.ItemUseAnimation;
 import net.minecraft.world.item.Rarity;
+import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 
 import java.util.List;
@@ -33,6 +34,14 @@ public class ElementalAxeItem extends AxeItem {
 						ConfigItemComponents.INFUSION_ENCHANTMENT.value(), new InfusionEnchantmentComponent(Map.of(
 								InfusionEnchantments.COLLECTOR, (byte) 1,
 								InfusionEnchantments.BURROWING, (byte) 1))));
+	}
+
+	@Override
+	public InteractionResult useOn(UseOnContext context) {
+		if (context.getPlayer() != null && context.getPlayer().isCrouching()) {
+			return super.useOn(context);
+		}
+		return InteractionResult.PASS;
 	}
 
 	@Override
