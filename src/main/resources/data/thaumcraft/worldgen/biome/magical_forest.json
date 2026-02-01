@@ -22,12 +22,11 @@
     [],
     [],
     [],
-    [
-      "thaumcraft:magical_forest_mossy_rock"
-    ],
+    [],
     [],
     [],
     [
+      "thaumcraft:magical_forest_mossy_rock",
       "thaumcraft:magical_forest_trees",
       "thaumcraft:magical_forest_grass",
       "thaumcraft:magic_forest_ambient_grass",

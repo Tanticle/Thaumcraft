@@ -65,7 +65,7 @@ public class SilverwoodFoliagePlacer extends FoliagePlacer {
 
     @Override
     public int foliageHeight(RandomSource random, int height, TreeConfiguration config) {
-        return 0;
+        return 8 + random.nextInt(3);
     }
 
     @Override
