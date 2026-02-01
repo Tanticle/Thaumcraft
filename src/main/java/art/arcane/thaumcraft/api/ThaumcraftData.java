@@ -123,6 +123,8 @@ public final class ThaumcraftData {
         public static final ResourceLocation CRYSTAL_ASPECT = Thaumcraft.id("crystal_aspect");
         public static final ResourceLocation COLLECTOR_MARKER = Thaumcraft.id("collector_marker");
         public static final ResourceLocation AXIS = Thaumcraft.id("axis");
+        public static final ResourceLocation WARPING = Thaumcraft.id("warping");
+        public static final ResourceLocation VIS_COST_MODIFIER = Thaumcraft.id("vis_cost_modifier");
     }
 
     /**
@@ -167,6 +169,8 @@ public final class ThaumcraftData {
         public static final ResourceLocation THAUMIUM_PICKAXE = Thaumcraft.id("thaumium_pickaxe");
         public static final ResourceLocation THAUMIUM_SHOVEL = Thaumcraft.id("thaumium_shovel");
         public static final ResourceLocation THAUMIUM_SWORD = Thaumcraft.id("thaumium_sword");
+        // Armor
+        public static final ResourceLocation CRIMSON_BOOTS = Thaumcraft.id("crimson_boots");
     }
 
     public static final class Enchantments {
@@ -269,6 +273,7 @@ public final class ThaumcraftData {
         public static final ResourceKey<EquipmentAsset> CRIMSON_PLATE = key("crimson_plate");
         public static final ResourceKey<EquipmentAsset> CRIMSON_ROBE = key("crimson_robe");
         public static final ResourceKey<EquipmentAsset> CRIMSON_LEADER = key("crimson_leader");
+        public static final ResourceKey<EquipmentAsset> CRIMSON_BOOTS = key("crimson_boots");
 
         private static ResourceKey<EquipmentAsset> key(String id) {
             return ResourceKey.create(EquipmentAssets.ROOT_ID, Thaumcraft.id(id));

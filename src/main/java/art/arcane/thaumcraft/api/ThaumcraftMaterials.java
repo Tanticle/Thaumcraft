@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.BlockTags;
+import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.ToolMaterial;
 import net.minecraft.world.item.equipment.ArmorMaterial;
@@ -61,6 +62,14 @@ public final class ThaumcraftMaterials {
 				TagKey.create(Registries.ITEM, Items.INGOT_THAUMIUM),
 				ArmorTypes.FORTRESS);
 
+        public static final ArmorMaterial CRIMSON_BOOTS = new ArmorMaterial(
+                15,
+                defenseValues(2, 6, 5, 2),
+                9, SoundEvents.ARMOR_EQUIP_IRON,
+                0.0F, 0.0F,
+                ItemTags.REPAIRS_IRON_ARMOR,
+                ArmorTypes.CRIMSON_BOOTS);
+
 		public static final ArmorMaterial CRIMSON_PLATE = new ArmorMaterial(
 				255,
 				defenseValues(2, 5, 6, 2),
@@ -69,7 +78,7 @@ public final class ThaumcraftMaterials {
 				TagKey.create(Registries.ITEM, Items.INGOT_THAUMIUM),
 				ArmorTypes.CRIMSON_PLATE);
 
-		public static final ArmorMaterial CULTIST_ROBE = new ArmorMaterial(
+		public static final ArmorMaterial CRIMSON_ROBE = new ArmorMaterial(
 				255,
 				defenseValues(2, 4, 5, 2),
 				13, SoundEvents.ARMOR_EQUIP_CHAIN,
@@ -77,7 +86,7 @@ public final class ThaumcraftMaterials {
 				TagKey.create(Registries.ITEM, Items.INGOT_THAUMIUM),
 				ArmorTypes.CRIMSON_ROBE);
 
-		public static final ArmorMaterial CULTIST_LEADER = new ArmorMaterial(
+		public static final ArmorMaterial CRIMSON_LEADER = new ArmorMaterial(
 				255,
 				defenseValues(3, 6, 7, 3),
 				20, SoundEvents.ARMOR_EQUIP_IRON,

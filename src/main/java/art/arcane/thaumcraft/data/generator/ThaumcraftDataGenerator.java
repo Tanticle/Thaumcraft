@@ -35,5 +35,6 @@ public final class ThaumcraftDataGenerator {
         dataGen.addProvider(true, new DataMapsProvider(dataGen.getPackOutput(), e.getLookupProvider()));
 
         dataGen.addProvider(true, new SoundProvider(dataGen.getPackOutput()));
+        dataGen.addProvider(true, new EquipmentInfoProvider(dataGen.getPackOutput()));
     }
 }

@@ -51,6 +51,10 @@ public class ItemModelProvider extends ModelProvider {
                 ConfigItems.CRIMSON_BLADE, ConfigItems.PRIMAL_CRUSHER);
         batchItems("tools",
                 ConfigItems.ESSENTIA_RESONATOR, ConfigItems.SANITY_CHECKER, ConfigItems.SCRIBING_TOOLS);
+
+        // Armor
+        simpleItem(ConfigItems.ARMOR_CRIMSON_BOOTS, "armor");
+        armorSet(ConfigItems.ARMOR_CRIMSON_LEADER, true);
     }
 
     protected void simpleItem(Holder<? extends Item> item, String... parentFolder) {
@@ -91,6 +95,12 @@ public class ItemModelProvider extends ModelProvider {
                 ItemModelUtils.tintedModel(filledModel, new Constant(0xFFFFFFFF), new AspectItemTintSource()),
                 ItemModelUtils.plainModel(emptyModel)
         ));
+    }
+
+    protected void armorSet(ConfigItems.ArmorSet armorSet, boolean skipBoots) {
+        batchItems("armor", armorSet.head(), armorSet.chest(), armorSet.legs());
+        if(!skipBoots)
+            simpleItem(armorSet.boots(), "armor");
     }
 
     @Override
