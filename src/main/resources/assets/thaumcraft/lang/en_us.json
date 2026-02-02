@@ -33,6 +33,7 @@
   "block.thaumcraft.pedestal_ancient": "Ancient Pedestal",
   "block.thaumcraft.pedestal_eldritch": "Eldritch Pedestal",
   "block.thaumcraft.dioptra": "Dioptra",
+  "block.thaumcraft.levitator": "Arcane Levitator",
   "block.thaumcraft.ore_amber": "Amber Bearing Stone",
   "block.thaumcraft.ore_cinnabar": "Cinnabar Ore",
   "block.thaumcraft.ore_quartz": "Quartz Ore",
@@ -203,5 +204,7 @@
 
   "network.thaumcraft.aspect_registry_disconnect": "Unable to synchronize Aspect Registry! Check the log for more information.",
 
-  "thaumcraft.jei.category.aspect_from_item_stack": "Aspect from Item Stack"
+  "thaumcraft.jei.category.aspect_from_item_stack": "Aspect from Item Stack",
+
+  "tc.levitator": "Range: %d blocks | Cost: %s vis/entity/tick"
 }

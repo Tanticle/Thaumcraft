@@ -259,6 +259,7 @@ public final class ThaumcraftData {
         public static final ResourceLocation INFUSION_PILLAR_ELDRITCH = Thaumcraft.id("infusion_pillar_eldritch");
 
         public static final ResourceLocation DIOPTRA = Thaumcraft.id("dioptra");
+        public static final ResourceLocation LEVITATOR = Thaumcraft.id("levitator");
 
         public static final ResourceLocation ORE_AMBER = Thaumcraft.id("ore_amber");
         public static final ResourceLocation ORE_CINNABAR = Thaumcraft.id("ore_cinnabar");
@@ -318,6 +319,7 @@ public final class ThaumcraftData {
         public static final ResourceLocation TUBE = Blocks.TUBE;
         public static final ResourceLocation CREATIVE_ASPECT_SOURCE = Blocks.CREATIVE_ASPECT_SOURCE;
         public static final ResourceLocation DIOPTRA = Blocks.DIOPTRA;
+        public static final ResourceLocation LEVITATOR = Blocks.LEVITATOR;
     }
 
     public static final class Entities {

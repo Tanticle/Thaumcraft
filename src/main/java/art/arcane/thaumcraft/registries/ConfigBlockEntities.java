@@ -5,6 +5,7 @@ import art.arcane.thaumcraft.blocks.entities.CreativeAspectSourceBlockEntity;
 import art.arcane.thaumcraft.blocks.entities.CrucibleBlockEntity;
 import art.arcane.thaumcraft.blocks.entities.DioptraBlockEntity;
 import art.arcane.thaumcraft.blocks.entities.JarBlockEntity;
+import art.arcane.thaumcraft.blocks.entities.LevitatorBlockEntity;
 import art.arcane.thaumcraft.blocks.entities.PedestalBlockEntity;
 import art.arcane.thaumcraft.blocks.entities.RunicMatrixBlockEntity;
 import art.arcane.thaumcraft.blocks.entities.TubeBlockEntity;
@@ -60,6 +61,10 @@ public final class ConfigBlockEntities {
     public static final BlockEntityObject<DioptraBlockEntity> DIOPTRA = register(BlockEntities.DIOPTRA,
             DioptraBlockEntity::new,
             ConfigBlocks.DIOPTRA);
+
+    public static final BlockEntityObject<LevitatorBlockEntity> LEVITATOR = register(BlockEntities.LEVITATOR,
+            LevitatorBlockEntity::new,
+            ConfigBlocks.LEVITATOR);
 
     /* -------------------------------------------------------------------------------------------------------------- */
 

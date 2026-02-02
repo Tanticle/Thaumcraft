@@ -1,7 +1,15 @@
 package art.arcane.thaumcraft.registries;
 
 import art.arcane.thaumcraft.Thaumcraft;
-import art.arcane.thaumcraft.blocks.*;
+import art.arcane.thaumcraft.blocks.ArcaneWorkbenchBlock;
+import art.arcane.thaumcraft.blocks.CrystalBlock;
+import art.arcane.thaumcraft.blocks.DioptraBlock;
+import art.arcane.thaumcraft.blocks.InfusionModifierBlock;
+import art.arcane.thaumcraft.blocks.InfusionPillarBlock;
+import art.arcane.thaumcraft.blocks.LamplightBlock;
+import art.arcane.thaumcraft.blocks.LevitatorBlock;
+import art.arcane.thaumcraft.blocks.PedestalBlock;
+import art.arcane.thaumcraft.blocks.RunicMatrixBlock;
 import art.arcane.thaumcraft.blocks.alchemy.CreativeAspectSourceBlock;
 import art.arcane.thaumcraft.blocks.alchemy.CrucibleBlock;
 import art.arcane.thaumcraft.blocks.alchemy.JarBlock;
@@ -75,6 +83,7 @@ public final class ConfigBlocks {
 	public static final BlockObject<InfusionPillarBlock> INFUSION_PILLAR_ANCIENT = registerBlock(Blocks.INFUSION_PILLAR_ANCIENT, InfusionPillarBlock::new, ConfigCreativeTabs.MAIN);
 	public static final BlockObject<InfusionPillarBlock> INFUSION_PILLAR_ELDRITCH = registerBlock(Blocks.INFUSION_PILLAR_ELDRITCH, InfusionPillarBlock::new, ConfigCreativeTabs.MAIN);
 	public static final BlockObject<DioptraBlock> DIOPTRA = registerBlock(Blocks.DIOPTRA, DioptraBlock::new, ConfigCreativeTabs.MAIN);
+	public static final BlockObject<LevitatorBlock> LEVITATOR = registerBlock(Blocks.LEVITATOR, LevitatorBlock::new, ConfigCreativeTabs.MAIN);
 	public static final BlockObject<Block> ORE_AMBER = registerBlock(Blocks.ORE_AMBER, props -> new Block(SimpleBlockMaterials.stone(props).strength(3.0F, 3.0F)), ConfigCreativeTabs.MAIN);
 	public static final BlockObject<Block> ORE_CINNABAR = registerBlock(Blocks.ORE_CINNABAR, props -> new Block(SimpleBlockMaterials.stone(props).strength(3.0F, 3.0F)), ConfigCreativeTabs.MAIN);
 	public static final BlockObject<Block> ORE_QUARTZ = registerBlock(Blocks.ORE_QUARTZ, props -> new Block(SimpleBlockMaterials.stone(props).strength(3.0F, 3.0F)), ConfigCreativeTabs.MAIN);
