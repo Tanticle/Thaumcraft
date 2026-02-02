@@ -1,5 +1,9 @@
 package art.arcane.thaumcraft.items.resources;
 
+import art.arcane.thaumcraft.data.recipes.SalisMundusRecipe;
+import art.arcane.thaumcraft.networking.packets.ClientboundBamfEffectPacket;
+import art.arcane.thaumcraft.util.CraftingUtils;
+import art.arcane.thaumcraft.util.ScheduledServerTask;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
@@ -10,16 +14,20 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.context.UseOnContext;
+import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.network.PacketDistributor;
-import art.arcane.thaumcraft.api.crafting.DustTrigger;
 import art.arcane.thaumcraft.networking.packets.ClientboundSalisMundusEffectPacket;
 import art.arcane.thaumcraft.util.EntityUtils;
 
-import java.util.List;
+import java.util.Collections;
+import java.util.Optional;
 
 public class SalisMundusItem extends Item {
+
+	private static final int CONVERSION_DELAY = 50;
 
     public SalisMundusItem(Properties props) {
         super(props.rarity(Rarity.UNCOMMON));
@@ -32,6 +40,7 @@ public class SalisMundusItem extends Item {
         BlockPos pos = context.getClickedPos();
         Direction face = context.getClickedFace();
         InteractionHand hand = context.getHand();
+		BlockState state = level.getBlockState(pos);
 
         if (player == null) {
             return InteractionResult.PASS;
@@ -45,37 +54,42 @@ public class SalisMundusItem extends Item {
             return InteractionResult.PASS;
         }
 
-        for (DustTrigger trigger : DustTrigger.TRIGGERS) {
-            DustTrigger.Placement placement = trigger.getValidTarget(level, player, pos, face);
-            if (placement != null) {
-                player.swing(hand);
+		if(level instanceof ServerLevel serverLevel) {
+			Optional<RecipeHolder<SalisMundusRecipe>> recipe = CraftingUtils.findSalisMundusRecipe(serverLevel, state);
+			if(recipe.isPresent()) {
+				player.swing(hand);
 
-                if (!player.getAbilities().instabuild) {
-                    stack.shrink(1);
-                }
+				if (!player.getAbilities().instabuild) {
+					stack.shrink(1);
+				}
 
-                trigger.execute(level, player, pos, placement, face);
+				ScheduledServerTask.schedule(serverLevel, CONVERSION_DELAY, () -> {
+					level.setBlockAndUpdate(pos, recipe.get().value().output().defaultBlockState());
+					PacketDistributor.sendToPlayersNear(
+							serverLevel,
+							null,
+							pos.getX() + 0.5,
+							pos.getY() + 0.5,
+							pos.getZ() + 0.5,
+							64.0,
+							new ClientboundBamfEffectPacket(pos, 0x8019CC, true, true)
+					);
+				});
 
-                if (level instanceof ServerLevel serverLevel) {
-                    List<BlockPos> sparklePositions = trigger.sparkle(level, player, pos, placement);
-                    Vec3 hitPos = context.getClickLocation();
-                    Vec3 handPos = EntityUtils.getHandPosition(player, hand);
-
-                    PacketDistributor.sendToPlayersNear(
-                            serverLevel,
-                            null,
-                            pos.getX() + 0.5,
-                            pos.getY() + 0.5,
-                            pos.getZ() + 0.5,
-                            64.0,
-                            new ClientboundSalisMundusEffectPacket(pos, hitPos, handPos, sparklePositions)
-                    );
-                }
-
-                return InteractionResult.SUCCESS;
-            }
-        }
-
-        return InteractionResult.PASS;
+				Vec3 hitPos = context.getClickLocation();
+				Vec3 handPos = EntityUtils.getHandPosition(player, hand);
+				PacketDistributor.sendToPlayersNear(
+						serverLevel,
+						null,
+						pos.getX() + 0.5,
+						pos.getY() + 0.5,
+						pos.getZ() + 0.5,
+						64.0,
+						new ClientboundSalisMundusEffectPacket(pos, hitPos, handPos, Collections.singletonList(pos))
+				);
+				return InteractionResult.SUCCESS;
+			}
+		}
+		return InteractionResult.PASS;
     }
 }

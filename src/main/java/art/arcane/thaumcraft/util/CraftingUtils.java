@@ -1,5 +1,6 @@
 package art.arcane.thaumcraft.util;
 
+import art.arcane.thaumcraft.data.recipes.SalisMundusRecipe;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Vec3i;
 import net.minecraft.server.level.ServerLevel;
@@ -16,6 +17,8 @@ import art.arcane.thaumcraft.data.recipes.InfusionRecipe;
 import art.arcane.thaumcraft.registries.ConfigBlocks;
 import art.arcane.thaumcraft.registries.ConfigCapabilities;
 import art.arcane.thaumcraft.registries.ConfigRecipeTypes;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockState;
 
 import java.util.Optional;
 
@@ -39,6 +42,12 @@ public final class CraftingUtils {
                 .filter(holder -> holder.value().matches(input, p))
                 .findFirst();
     }
+
+	public static Optional<RecipeHolder<SalisMundusRecipe>> findSalisMundusRecipe(ServerLevel p, BlockState input) {
+		return p.recipeAccess().recipeMap().byType(ConfigRecipeTypes.SALIS_MUNDUS.type()).stream()
+				.filter(holder -> holder.value().matches(new SalisMundusRecipe.Input(input.getBlock()), p))
+				.findFirst();
+	}
 
     private static final Vec3i[] PILLAR_OFFSET = new Vec3i[]{
             new Vec3i(-1, -1, -1),
