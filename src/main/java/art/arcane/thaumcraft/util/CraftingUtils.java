@@ -51,13 +51,7 @@ public final class CraftingUtils {
 				.findFirst();
 	}
 
-	public static boolean isValidSalisMundusInput(ServerLevel level, Block block) {
-		return level.recipeAccess().recipeMap()
-				.byType(ConfigRecipeTypes.SALIS_MUNDUS.type()).stream()
-				.anyMatch(holder -> holder.value().input() == block);
-	}
-
-	public static boolean isValidSalisMundusInputClient(Block block) {
+	public static boolean hasSalisMundusRecipeClient(Block block) {
 		MinecraftServer server = Minecraft.getInstance().getSingleplayerServer();
 		if (server != null) {
 			return server.getRecipeManager().recipeMap()

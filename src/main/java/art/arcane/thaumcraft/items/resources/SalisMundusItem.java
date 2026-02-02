@@ -55,14 +55,8 @@ public class SalisMundusItem extends Item {
             return InteractionResult.PASS;
         }
 
-		if (level instanceof ServerLevel serverLevel) {
-			if (!CraftingUtils.isValidSalisMundusInput(serverLevel, state.getBlock())) {
-				return InteractionResult.PASS;
-			}
-		} else {
-			if (!CraftingUtils.isValidSalisMundusInputClient(state.getBlock())) {
-				return InteractionResult.PASS;
-			}
+		if (level.isClientSide() && !CraftingUtils.hasSalisMundusRecipeClient(state.getBlock())) {
+			return InteractionResult.PASS;
 		}
 
 		if (level instanceof ServerLevel serverLevel) {
