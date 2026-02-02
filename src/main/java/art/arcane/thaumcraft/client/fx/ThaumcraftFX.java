@@ -67,6 +67,26 @@ public final class ThaumcraftFX {
         );
 
         Vec3 hitPos = data.hitPos();
+
+        for (int i = 0; i < 12; i++) {
+            float r = 1.0f;
+            float g = Mth.randomBetween(random, 189f / 255f, 1.0f);
+            float b = Mth.randomBetween(random, 64f / 255f, 1.0f);
+
+            double vx = random.nextGaussian() * 0.08;
+            double vy = random.nextGaussian() * 0.08 + 0.05;
+            double vz = random.nextGaussian() * 0.08;
+
+            drawSimpleSparkle(
+                    random,
+                    hitPos.x, hitPos.y, hitPos.z,
+                    vx, vy, vz,
+                    0.6f, r, g, b,
+                    0,
+                    0.9f, 0.3f, 12
+            );
+        }
+
         List<BlockPos> sparklePositions = data.sparklePositions();
         for (BlockPos sparklePos : sparklePositions) {
             drawBlockSparkles(sparklePos, hitPos);

@@ -2,7 +2,9 @@ package art.arcane.thaumcraft.items.resources;
 
 import art.arcane.thaumcraft.data.recipes.SalisMundusRecipe;
 import art.arcane.thaumcraft.networking.packets.ClientboundBamfEffectPacket;
+import art.arcane.thaumcraft.networking.packets.ClientboundSalisMundusEffectPacket;
 import art.arcane.thaumcraft.util.CraftingUtils;
+import art.arcane.thaumcraft.util.EntityUtils;
 import art.arcane.thaumcraft.util.ScheduledServerTask;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -16,11 +18,10 @@ import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.network.PacketDistributor;
-import art.arcane.thaumcraft.networking.packets.ClientboundSalisMundusEffectPacket;
-import art.arcane.thaumcraft.util.EntityUtils;
 
 import java.util.Collections;
 import java.util.Optional;
@@ -54,30 +55,33 @@ public class SalisMundusItem extends Item {
             return InteractionResult.PASS;
         }
 
-		if(level instanceof ServerLevel serverLevel) {
+		if (level instanceof ServerLevel serverLevel) {
+			if (!CraftingUtils.isValidSalisMundusInput(serverLevel, state.getBlock())) {
+				return InteractionResult.PASS;
+			}
+		} else {
+			if (!CraftingUtils.isValidSalisMundusInputClient(state.getBlock())) {
+				return InteractionResult.PASS;
+			}
+		}
+
+		if (level instanceof ServerLevel serverLevel) {
 			Optional<RecipeHolder<SalisMundusRecipe>> recipe = CraftingUtils.findSalisMundusRecipe(serverLevel, state);
-			if(recipe.isPresent()) {
-				player.swing(hand);
+			if (recipe.isEmpty()) {
+				return InteractionResult.PASS;
+			}
 
-				if (!player.getAbilities().instabuild) {
-					stack.shrink(1);
+			Block expectedInput = recipe.get().value().input();
+
+			if (!player.getAbilities().instabuild) {
+				stack.shrink(1);
+			}
+
+			ScheduledServerTask.schedule(serverLevel, CONVERSION_DELAY, () -> {
+				if (level.getBlockState(pos).getBlock() != expectedInput) {
+					return;
 				}
-
-				ScheduledServerTask.schedule(serverLevel, CONVERSION_DELAY, () -> {
-					level.setBlockAndUpdate(pos, recipe.get().value().output().defaultBlockState());
-					PacketDistributor.sendToPlayersNear(
-							serverLevel,
-							null,
-							pos.getX() + 0.5,
-							pos.getY() + 0.5,
-							pos.getZ() + 0.5,
-							64.0,
-							new ClientboundBamfEffectPacket(pos, 0x8019CC, true, true)
-					);
-				});
-
-				Vec3 hitPos = context.getClickLocation();
-				Vec3 handPos = EntityUtils.getHandPosition(player, hand);
+				level.setBlockAndUpdate(pos, recipe.get().value().output().defaultBlockState());
 				PacketDistributor.sendToPlayersNear(
 						serverLevel,
 						null,
@@ -85,11 +89,23 @@ public class SalisMundusItem extends Item {
 						pos.getY() + 0.5,
 						pos.getZ() + 0.5,
 						64.0,
-						new ClientboundSalisMundusEffectPacket(pos, hitPos, handPos, Collections.singletonList(pos))
+						new ClientboundBamfEffectPacket(pos, 0x8019CC, true, true)
 				);
-				return InteractionResult.SUCCESS;
-			}
+			});
+
+			Vec3 hitPos = context.getClickLocation();
+			Vec3 handPos = EntityUtils.getHandPosition(player, hand);
+			PacketDistributor.sendToPlayersNear(
+					serverLevel,
+					null,
+					pos.getX() + 0.5,
+					pos.getY() + 0.5,
+					pos.getZ() + 0.5,
+					64.0,
+					new ClientboundSalisMundusEffectPacket(pos, hitPos, handPos, Collections.singletonList(pos))
+			);
 		}
-		return InteractionResult.PASS;
+
+		return InteractionResult.SUCCESS;
     }
 }

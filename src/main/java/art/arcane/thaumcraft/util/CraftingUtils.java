@@ -17,6 +17,8 @@ import art.arcane.thaumcraft.data.recipes.InfusionRecipe;
 import art.arcane.thaumcraft.registries.ConfigBlocks;
 import art.arcane.thaumcraft.registries.ConfigCapabilities;
 import art.arcane.thaumcraft.registries.ConfigRecipeTypes;
+import net.minecraft.client.Minecraft;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 
@@ -48,6 +50,23 @@ public final class CraftingUtils {
 				.filter(holder -> holder.value().matches(new SalisMundusRecipe.Input(input.getBlock()), p))
 				.findFirst();
 	}
+
+	public static boolean isValidSalisMundusInput(ServerLevel level, Block block) {
+		return level.recipeAccess().recipeMap()
+				.byType(ConfigRecipeTypes.SALIS_MUNDUS.type()).stream()
+				.anyMatch(holder -> holder.value().input() == block);
+	}
+
+	public static boolean isValidSalisMundusInputClient(Block block) {
+		MinecraftServer server = Minecraft.getInstance().getSingleplayerServer();
+		if (server != null) {
+			return server.getRecipeManager().recipeMap()
+					.byType(ConfigRecipeTypes.SALIS_MUNDUS.type()).stream()
+					.anyMatch(holder -> holder.value().input() == block);
+		}
+		return true;
+	}
+
 
     private static final Vec3i[] PILLAR_OFFSET = new Vec3i[]{
             new Vec3i(-1, -1, -1),
