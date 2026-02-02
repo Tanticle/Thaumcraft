@@ -154,14 +154,14 @@
 ### Equipment: Tools & Weapons
 
 - [X] Elemental Tools * Need to improve VFX
-- [ ] Thaumium Tools (Axe, Hoe, Pick, Shovel, Sword)
+- [X] Thaumium Tools (Axe, Hoe, Pick, Shovel, Sword)
 - [X] Void Tools (Regeneration logic)
-- [ ] Primal Crusher
-- [ ] Crimson Blade
+- [X] Primal Crusher
+- [X] Crimson Blade
 - [ ] Thaumometer (Scanning logic)
-- [ ] Sanity Checker
+- [X] Sanity Checker
 - [ ] Grapple Gun
-- [ ] Scribing Tools (Research table usage)
+- [X] Scribing Tools (Research table usage)
 
 ### Equipment: Casting (Auromancy)
 
@@ -214,7 +214,7 @@
     - [-] Jars (Warded, Void, Brain)
     - [ ] Labels
 - [ ] **Items**
-    - [ ] Phials (Essentia filling)
+    - [X] Phials (Essentia filling)
     - [ ] Alumentum
     - [ ] Bath Salts
     - [ ] Sanity Soap
@@ -250,15 +250,18 @@
 
 ### Blocks: Cosmetic & Building
 
-- [?] Candles (16 colors)
+- [ ] Candles (16 colors)
 - [ ] Banners (TC specific)
-- [ ] Nitor (Light source)
+- [ ] Nitor (8 colors, floating light)
+- [ ] Metal Storage Blocks (Thaumium, Brass, Void)
+- [ ] Translucent Glass (Beacon base, decorative)
 - [ ] Paving Stones (Arcane, Barrier, Travel)
+- [ ] Pillar Block (Directional decorative)
 - [X] Planks & Logs (Greatwood, Silverwood) - **Doors/Wood types need redesign**
 - [X] Arcane Stone Blocks (Bricks, Smooth, Pillars)
-- [ ] Eldritch Stone
-- [ ] Ancient Stone
-- [X] Pedestals (Ancient, Eldritch)
+- [X] Eldritch Stone (+ Stairs, Slabs)
+- [X] Ancient Stone (+ Tile, Stairs, Slabs)
+- [X] Pedestals (Ancient, Eldritch, Arcane)
     - [ ] Stabilization
     - [ ] Viewmodels
 
@@ -266,7 +269,7 @@
 
 - [ ] Thaumonomicon
 - [X] Salis Mundus
-- [ ] Loot Bags (Common, Uncommon, Rare)
+- [X] Loot Bags (Common, Uncommon, Rare)
 - [ ] Knowledge Fragments
 - [ ] Celestial Notes
 - [ ] Primordial Pearl
