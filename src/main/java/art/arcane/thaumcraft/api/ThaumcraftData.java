@@ -74,6 +74,7 @@ public final class ThaumcraftData {
         public static final class Alchemy {
 
             public static final ResourceKey<Recipe<?>> DEBUG = key("debug");
+            public static final ResourceKey<Recipe<?>> TALLOW = key("tallow");
 
             private static ResourceKey<Recipe<?>> key(String id) {
                 return ResourceKey.create(net.minecraft.core.registries.Registries.RECIPE, Thaumcraft.id(id));
@@ -175,6 +176,7 @@ public final class ThaumcraftData {
 
         public static final ResourceLocation FILTER = Thaumcraft.id("filter");
         public static final ResourceLocation FABRIC = Thaumcraft.id("fabric");
+        public static final ResourceLocation TALLOW = Thaumcraft.id("tallow");
 
         public static final ResourceLocation UPGRADE_SPEED = Thaumcraft.id("upgrade_speed");
         public static final ResourceLocation UPGRADE_CAPACITY = Thaumcraft.id("upgrade_capacity");

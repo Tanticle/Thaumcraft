@@ -1,6 +1,7 @@
 package art.arcane.thaumcraft.data.generator.providers.recipes;
 
 import com.google.gson.JsonElement;
+import art.arcane.thaumcraft.registries.ConfigItems;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
@@ -30,6 +31,11 @@ public class AlchemyProvider extends CodecDataProvider<AlchemyRecipe> {
                 Ingredient.of(Items.STICK),
                 new AspectList().add(ThaumcraftData.Aspects.WATER, 5).add(ThaumcraftData.Aspects.EARTH, 5),
                 new ItemStack(Items.DIAMOND));
+
+        recipe(Recipes.Alchemy.TALLOW.location(),
+                Ingredient.of(Items.ROTTEN_FLESH),
+                new AspectList().add(ThaumcraftData.Aspects.FIRE, 1),
+                new ItemStack(ConfigItems.TALLOW.get()));
     }
 
     @Override
