@@ -29,7 +29,8 @@ public class TagsProvider extends BlockTagsProvider {
                 ConfigBlocks.ORE_QUARTZ.block(),
                 ConfigBlocks.DEEPSLATE_ORE_AMBER.block(),
                 ConfigBlocks.DEEPSLATE_ORE_CINNABAR.block(),
-                ConfigBlocks.DEEPSLATE_ORE_QUARTZ.block()
+                ConfigBlocks.DEEPSLATE_ORE_QUARTZ.block(),
+                ConfigBlocks.LEVITATOR.block()
         );
         tag(BlockTags.NEEDS_STONE_TOOL).add(
                 ConfigBlocks.ORE_AMBER.block(),

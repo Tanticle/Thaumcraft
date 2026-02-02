@@ -91,6 +91,23 @@ public final class ConfigItems {
     // Raw Ores
     public static final DeferredItem<Item> AMBER = registerSimple(Items.AMBER, ConfigCreativeTabs.MAIN);
     public static final DeferredItem<Item> CINNABAR = registerSimple(Items.CINNABAR, ConfigCreativeTabs.MAIN);
+    public static final DeferredItem<Item> QUICKSILVER = registerSimple(Items.QUICKSILVER, ConfigCreativeTabs.MAIN);
+
+    // Plates
+    public static final DeferredItem<Item> PLATE_BRASS = registerSimple(Items.PLATE_BRASS, ConfigCreativeTabs.MAIN);
+    public static final DeferredItem<Item> PLATE_IRON = registerSimple(Items.PLATE_IRON, ConfigCreativeTabs.MAIN);
+    public static final DeferredItem<Item> PLATE_THAUMIUM = registerSimple(Items.PLATE_THAUMIUM, ConfigCreativeTabs.MAIN);
+    public static final DeferredItem<Item> PLATE_VOID = registerSimple(Items.PLATE_VOID, ConfigCreativeTabs.MAIN);
+
+    // Nuggets
+    public static final DeferredItem<Item> NUGGET_BRASS = registerSimple(Items.NUGGET_BRASS, ConfigCreativeTabs.MAIN);
+    public static final DeferredItem<Item> NUGGET_QUICKSILVER = registerSimple(Items.NUGGET_QUICKSILVER, ConfigCreativeTabs.MAIN);
+    public static final DeferredItem<Item> NUGGET_THAUMIUM = registerSimple(Items.NUGGET_THAUMIUM, ConfigCreativeTabs.MAIN);
+    public static final DeferredItem<Item> NUGGET_VOID = registerSimple(Items.NUGGET_VOID, ConfigCreativeTabs.MAIN);
+
+    // Crafting Components
+    public static final DeferredItem<Item> FILTER = registerSimple(Items.FILTER, ConfigCreativeTabs.MAIN);
+    public static final DeferredItem<Item> FABRIC = registerSimple(Items.FABRIC, ConfigCreativeTabs.MAIN);
 
     /* -------------------------------------------------------------------------------------------------------------- */
 

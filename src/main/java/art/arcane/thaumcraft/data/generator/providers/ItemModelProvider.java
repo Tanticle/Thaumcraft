@@ -38,7 +38,16 @@ public class ItemModelProvider extends ModelProvider {
         simpleItem(ConfigItems.JAR_BRACE, "alchemy");
 
         // Resources
-        batchItems("resources", ConfigItems.INGOT_BRASS, ConfigItems.INGOT_THAUMIUM, ConfigItems.INGOT_VOID, ConfigItems.AMBER, ConfigItems.CINNABAR, ConfigItems.SALIS_MUNDUS);
+        batchItems("resources", ConfigItems.INGOT_BRASS, ConfigItems.INGOT_THAUMIUM, ConfigItems.INGOT_VOID, ConfigItems.AMBER, ConfigItems.CINNABAR, ConfigItems.QUICKSILVER, ConfigItems.SALIS_MUNDUS);
+
+        // Plates
+        batchItems("resources", ConfigItems.PLATE_BRASS, ConfigItems.PLATE_IRON, ConfigItems.PLATE_THAUMIUM, ConfigItems.PLATE_VOID);
+
+        // Nuggets
+        batchItems("resources", ConfigItems.NUGGET_BRASS, ConfigItems.NUGGET_QUICKSILVER, ConfigItems.NUGGET_THAUMIUM, ConfigItems.NUGGET_VOID);
+
+        // Crafting Components
+        batchItems("resources", ConfigItems.FILTER, ConfigItems.FABRIC);
         simpleItem(ConfigItems.LOOT_BAG_COMMON);
         simpleItem(ConfigItems.LOOT_BAG_UNCOMMON);
         simpleItem(ConfigItems.LOOT_BAG_RARE);

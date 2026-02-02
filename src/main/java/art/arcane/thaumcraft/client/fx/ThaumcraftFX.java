@@ -381,6 +381,33 @@ public final class ThaumcraftFX {
         return (dx + dy + dz) / 3.0;
     }
 
+    public static void drawLevitatorParticle(double x, double y, double z, double vx, double vy, double vz) {
+        Minecraft mc = Minecraft.getInstance();
+        ClientLevel level = mc.level;
+        if (level == null) return;
+
+        RandomSource random = level.random;
+        int age = 100 + random.nextInt(50);
+        float[] alphaKeys = new float[]{0.3f, 0.0f};
+        float[] scaleKeys = new float[]{2.0f, 5.0f};
+
+        FXGenericParticle particle = new FXGenericParticle(
+                level, x, y, z, vx, vy, vz,
+                age,
+                0.5f, 0.5f, 0.2f,
+                0.5f, 0.5f, 0.2f,
+                alphaKeys, scaleKeys,
+                16,
+                512, 16, 1, true,
+                0.0f, 1.0f,
+                random.nextFloat() * (random.nextBoolean() ? -1.0f : 1.0f),
+                0.0f, 0.0f, 0.0f,
+                0.0f, 0.0f
+        );
+
+        ThaumcraftParticleRenderer.addParticle(particle);
+    }
+
     public record Wind(float x, float z) {}
 
     private static Wind getWind(ClientLevel level, double windFactor) {

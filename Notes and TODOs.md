@@ -235,7 +235,7 @@
     - [ ] Stabilizers
 - [ ] **Utility**
     - [X] Dioptra * NEEDS VATUU POLISH FOR RENDERER & BLOCK MODEL
-    - [ ] Arcane Levitator
+    - [X] Arcane Levitator
     - [ ] Arcane Ear & Toggle
     - [ ] Arcane Lamp / Lamp of Growth / Lamp of Fertility
     - [ ] Infernal Furnace

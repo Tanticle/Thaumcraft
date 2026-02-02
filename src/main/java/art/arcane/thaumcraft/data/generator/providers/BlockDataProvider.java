@@ -28,6 +28,7 @@ import art.arcane.thaumcraft.blocks.alchemy.CreativeAspectSourceBlock;
 import art.arcane.thaumcraft.blocks.alchemy.JarBlock;
 import art.arcane.thaumcraft.blocks.alchemy.TubeBlock;
 import art.arcane.thaumcraft.blocks.DioptraBlock;
+import art.arcane.thaumcraft.blocks.LevitatorBlock;
 import art.arcane.thaumcraft.client.tints.AspectItemTintSource;
 import art.arcane.thaumcraft.registries.ConfigBlocks;
 import art.arcane.thaumcraft.util.RegistryUtils;
@@ -82,6 +83,7 @@ public class BlockDataProvider extends ModelProvider {
         simpleBlock(ConfigBlocks.INFUSION_STONE_SPEED);
 
         registerDioptra();
+        registerLevitator();
 
         simpleBlock(ConfigBlocks.ORE_AMBER);
         simpleBlock(ConfigBlocks.ORE_CINNABAR);
@@ -387,6 +389,48 @@ public class BlockDataProvider extends ModelProvider {
 
         blocks.blockStateOutput.accept(generator);
         blockParentItem(ConfigBlocks.DIOPTRA, ModelLocationUtils.getModelLocation(block));
+    }
+
+    private static final ModelTemplate LEVITATOR = ModelTemplates.create("thaumcraft:levitator", TextureSlot.PARTICLE, TextureSlot.TOP, TextureSlot.BOTTOM, TextureSlot.SIDE);
+
+    protected void registerLevitator() {
+        Block block = ConfigBlocks.LEVITATOR.block();
+        ResourceLocation texture = TextureMapping.getBlockTexture(block);
+
+        Map<Direction, VariantProperties.Rotation> xRotations = new EnumMap<>(Direction.class);
+        xRotations.put(Direction.UP, VariantProperties.Rotation.R0);
+        xRotations.put(Direction.DOWN, VariantProperties.Rotation.R180);
+        xRotations.put(Direction.NORTH, VariantProperties.Rotation.R90);
+        xRotations.put(Direction.SOUTH, VariantProperties.Rotation.R270);
+        xRotations.put(Direction.EAST, VariantProperties.Rotation.R90);
+        xRotations.put(Direction.WEST, VariantProperties.Rotation.R90);
+
+        Map<Direction, VariantProperties.Rotation> yRotations = new EnumMap<>(Direction.class);
+        yRotations.put(Direction.UP, VariantProperties.Rotation.R0);
+        yRotations.put(Direction.DOWN, VariantProperties.Rotation.R0);
+        yRotations.put(Direction.NORTH, VariantProperties.Rotation.R0);
+        yRotations.put(Direction.SOUTH, VariantProperties.Rotation.R180);
+        yRotations.put(Direction.EAST, VariantProperties.Rotation.R90);
+        yRotations.put(Direction.WEST, VariantProperties.Rotation.R270);
+
+        MultiVariantGenerator generator = MultiVariantGenerator.multiVariant(block);
+        generator.with(PropertyDispatch.properties(LevitatorBlock.FACING, LevitatorBlock.ENABLED).generate((facing, enabled) -> {
+            ResourceLocation sideTexture = texture.withSuffix("_side_").withSuffix(enabled ? "on" : "off");
+            ResourceLocation topTexture = texture.withSuffix("_top_").withSuffix(enabled ? "on" : "off");
+            TextureMapping mapping = new TextureMapping()
+                    .put(TextureSlot.PARTICLE, sideTexture)
+                    .put(TextureSlot.SIDE, sideTexture)
+                    .put(TextureSlot.TOP, topTexture)
+                    .put(TextureSlot.BOTTOM, texture.withSuffix("_bottom"));
+            String suffix = "_" + facing.getSerializedName() + (enabled ? "_on" : "_off");
+            return Variant.variant()
+                    .with(VariantProperties.MODEL, LEVITATOR.create(ModelLocationUtils.getModelLocation(block, suffix), mapping, blocks.modelOutput))
+                    .with(VariantProperties.X_ROT, xRotations.get(facing))
+                    .with(VariantProperties.Y_ROT, yRotations.get(facing));
+        }));
+
+        blocks.blockStateOutput.accept(generator);
+        blockParentItem(ConfigBlocks.LEVITATOR, ModelLocationUtils.getModelLocation(block, "_up_on"));
     }
 
     private void simpleExistingBlock(ConfigBlocks.BlockObject<? extends Block> block) {

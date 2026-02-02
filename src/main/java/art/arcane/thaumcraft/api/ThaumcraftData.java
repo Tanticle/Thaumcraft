@@ -161,6 +161,20 @@ public final class ThaumcraftData {
 
         public static final ResourceLocation AMBER = Thaumcraft.id("amber");
         public static final ResourceLocation CINNABAR = Thaumcraft.id("cinnabar");
+        public static final ResourceLocation QUICKSILVER = Thaumcraft.id("quicksilver");
+
+        public static final ResourceLocation PLATE_BRASS = Thaumcraft.id("plate_brass");
+        public static final ResourceLocation PLATE_IRON = Thaumcraft.id("plate_iron");
+        public static final ResourceLocation PLATE_THAUMIUM = Thaumcraft.id("plate_thaumium");
+        public static final ResourceLocation PLATE_VOID = Thaumcraft.id("plate_void");
+
+        public static final ResourceLocation NUGGET_BRASS = Thaumcraft.id("nugget_brass");
+        public static final ResourceLocation NUGGET_QUICKSILVER = Thaumcraft.id("nugget_quicksilver");
+        public static final ResourceLocation NUGGET_THAUMIUM = Thaumcraft.id("nugget_thaumium");
+        public static final ResourceLocation NUGGET_VOID = Thaumcraft.id("nugget_void");
+
+        public static final ResourceLocation FILTER = Thaumcraft.id("filter");
+        public static final ResourceLocation FABRIC = Thaumcraft.id("fabric");
 
         public static final ResourceLocation UPGRADE_SPEED = Thaumcraft.id("upgrade_speed");
         public static final ResourceLocation UPGRADE_CAPACITY = Thaumcraft.id("upgrade_capacity");
@@ -259,6 +273,7 @@ public final class ThaumcraftData {
         public static final ResourceLocation INFUSION_PILLAR_ELDRITCH = Thaumcraft.id("infusion_pillar_eldritch");
 
         public static final ResourceLocation DIOPTRA = Thaumcraft.id("dioptra");
+        public static final ResourceLocation LEVITATOR = Thaumcraft.id("levitator");
 
         public static final ResourceLocation ORE_AMBER = Thaumcraft.id("ore_amber");
         public static final ResourceLocation ORE_CINNABAR = Thaumcraft.id("ore_cinnabar");
@@ -318,6 +333,7 @@ public final class ThaumcraftData {
         public static final ResourceLocation TUBE = Blocks.TUBE;
         public static final ResourceLocation CREATIVE_ASPECT_SOURCE = Blocks.CREATIVE_ASPECT_SOURCE;
         public static final ResourceLocation DIOPTRA = Blocks.DIOPTRA;
+        public static final ResourceLocation LEVITATOR = Blocks.LEVITATOR;
     }
 
     public static final class Entities {

@@ -33,6 +33,7 @@
   "block.thaumcraft.pedestal_ancient": "Ancient Pedestal",
   "block.thaumcraft.pedestal_eldritch": "Eldritch Pedestal",
   "block.thaumcraft.dioptra": "Dioptra",
+  "block.thaumcraft.levitator": "Arcane Levitator",
   "block.thaumcraft.ore_amber": "Amber Bearing Stone",
   "block.thaumcraft.ore_cinnabar": "Cinnabar Ore",
   "block.thaumcraft.ore_quartz": "Quartz Ore",
@@ -106,10 +107,21 @@
   "item.thaumcraft.phial.has_aspect": "Phial of %s Essentia",
   "item.thaumcraft.vis_crystal.has_aspect": "%s Vis Crystal",
   "item.thaumcraft.ingot_brass": "Brass Ingot",
-  "item.thaumcraft.amber": "Amber",
-  "item.thaumcraft.cinnabar": "Cinnabar",
   "item.thaumcraft.ingot_thaumium": "Thaumium Ingot",
   "item.thaumcraft.ingot_void": "Void Ingot",
+  "item.thaumcraft.amber": "Amber",
+  "item.thaumcraft.cinnabar": "Cinnabar",
+  "item.thaumcraft.quicksilver": "Quicksilver",
+  "item.thaumcraft.plate_brass": "Brass Plate",
+  "item.thaumcraft.plate_iron": "Iron Plate",
+  "item.thaumcraft.plate_thaumium": "Thaumium Plate",
+  "item.thaumcraft.plate_void": "Void Plate",
+  "item.thaumcraft.nugget_brass": "Brass Nugget",
+  "item.thaumcraft.nugget_quicksilver": "Quicksilver Drop",
+  "item.thaumcraft.nugget_thaumium": "Thaumium Nugget",
+  "item.thaumcraft.nugget_void": "Void Nugget",
+  "item.thaumcraft.filter": "Enchanted Filter",
+  "item.thaumcraft.fabric": "Enchanted Fabric",
   "item.thaumcraft.crimson_leader_helmet": "Crimson Praetor Helm",
   "item.thaumcraft.crimson_leader_chestplate": "Crimson Praetor Chestplate",
   "item.thaumcraft.crimson_leader_leggings": "Crimson Praetor Greaves",
@@ -203,5 +215,7 @@
 
   "network.thaumcraft.aspect_registry_disconnect": "Unable to synchronize Aspect Registry! Check the log for more information.",
 
-  "thaumcraft.jei.category.aspect_from_item_stack": "Aspect from Item Stack"
+  "thaumcraft.jei.category.aspect_from_item_stack": "Aspect from Item Stack",
+
+  "tc.levitator": "Range: %d blocks | Cost: %s vis/entity/tick"
 }
