@@ -45,6 +45,5 @@ public final class ThaumcraftDataGenerator {
 
         dataGen.addProvider(true, new SoundProvider(dataGen.getPackOutput()));
         dataGen.addProvider(true, new EquipmentInfoProvider(dataGen.getPackOutput()));
-        dataGen.addProvider(true, new ThaumcraftLanguageProvider(dataGen.getPackOutput()));
     }
 }
