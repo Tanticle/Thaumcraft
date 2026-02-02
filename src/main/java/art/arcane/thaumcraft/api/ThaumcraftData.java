@@ -151,6 +151,10 @@ public final class ThaumcraftData {
         public static final ResourceLocation PHIAL = Thaumcraft.id("phial");
         public static final ResourceLocation VIS_CRYSTAL = Thaumcraft.id("vis_crystal");
 
+        public static final ResourceLocation LOOT_BAG_COMMON = Thaumcraft.id("loot_bag_common");
+        public static final ResourceLocation LOOT_BAG_UNCOMMON = Thaumcraft.id("loot_bag_uncommon");
+        public static final ResourceLocation LOOT_BAG_RARE = Thaumcraft.id("loot_bag_rare");
+
         public static final ResourceLocation INGOT_THAUMIUM = Thaumcraft.id("ingot_thaumium");
         public static final ResourceLocation INGOT_VOID = Thaumcraft.id("ingot_void");
         public static final ResourceLocation INGOT_BRASS = Thaumcraft.id("ingot_brass");
@@ -363,10 +367,18 @@ public final class ThaumcraftData {
 
     public static final class Loot {
 
+        public static final ResourceKey<net.minecraft.world.level.storage.loot.LootTable> TABLE_LOOT_BAG_COMMON = key("loot_bags/common");
+        public static final ResourceKey<net.minecraft.world.level.storage.loot.LootTable> TABLE_LOOT_BAG_UNCOMMON = key("loot_bags/uncommon");
+        public static final ResourceKey<net.minecraft.world.level.storage.loot.LootTable> TABLE_LOOT_BAG_RARE = key("loot_bags/rare");
+
         public static final ResourceLocation CONDITION_INFUSION_ENCHANTMENT = Thaumcraft.id("infusion_enchantment");
         public static final ResourceLocation MODIFIER_HOMING_ITEM = Thaumcraft.id("homing_item");
         public static final ResourceLocation MODIFIER_HARVESTER = Thaumcraft.id("harvester_loot");
         public static final ResourceLocation MODIFIER_REFINING = Thaumcraft.id("refining_loot");
+
+        private static ResourceKey<net.minecraft.world.level.storage.loot.LootTable> key(String id) {
+            return ResourceKey.create(net.minecraft.core.registries.Registries.LOOT_TABLE, Thaumcraft.id(id));
+        }
     }
 
     public static final class Sounds {
@@ -378,6 +390,7 @@ public final class ThaumcraftData {
         public static final SoundEvent SPARKLE_HUM = variable("sparkle_hum");
         public static final SoundEvent DUST = variable("dust");
         public static final SoundEvent POOF = variable("poof");
+        public static final SoundEvent COINS = variable("coins");
 
         private static SoundEvent fixed(String id, float range) {
             return SoundEvent.createFixedRangeEvent(Thaumcraft.id(id), range);

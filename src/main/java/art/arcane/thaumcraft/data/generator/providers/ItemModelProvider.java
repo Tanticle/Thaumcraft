@@ -39,6 +39,9 @@ public class ItemModelProvider extends ModelProvider {
 
         // Resources
         batchItems("resources", ConfigItems.INGOT_BRASS, ConfigItems.INGOT_THAUMIUM, ConfigItems.INGOT_VOID, ConfigItems.AMBER, ConfigItems.CINNABAR, ConfigItems.SALIS_MUNDUS);
+        simpleItem(ConfigItems.LOOT_BAG_COMMON);
+        simpleItem(ConfigItems.LOOT_BAG_UNCOMMON);
+        simpleItem(ConfigItems.LOOT_BAG_RARE);
 
         tintableAspectItem(ConfigItems.VIS_CRYSTAL, "resources");
         tintableAspect2LayerItem(ConfigItems.PHIAL, "resources");

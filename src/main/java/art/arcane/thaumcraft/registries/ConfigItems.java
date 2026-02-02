@@ -14,6 +14,7 @@ import net.neoforged.neoforge.registries.DeferredRegister;
 import art.arcane.thaumcraft.Thaumcraft;
 import art.arcane.thaumcraft.api.ThaumcraftMaterials;
 import art.arcane.thaumcraft.items.resources.JarLabelItem;
+import art.arcane.thaumcraft.items.resources.LootBagItem;
 import art.arcane.thaumcraft.items.resources.PhialItem;
 import art.arcane.thaumcraft.items.resources.SalisMundusItem;
 import art.arcane.thaumcraft.items.resources.VisCrystalItem;
@@ -82,6 +83,10 @@ public final class ConfigItems {
     public static final DeferredItem<PhialItem> PHIAL = registerItem(Items.PHIAL, PhialItem::new, ConfigCreativeTabs.MAIN);
     public static final DeferredItem<VisCrystalItem> VIS_CRYSTAL = registerItem(Items.VIS_CRYSTAL, VisCrystalItem::new, ConfigCreativeTabs.MAIN);
     public static final DeferredItem<SalisMundusItem> SALIS_MUNDUS = registerItem(Items.SALIS_MUNDUS, SalisMundusItem::new, ConfigCreativeTabs.MAIN);
+
+    public static final DeferredItem<LootBagItem> LOOT_BAG_COMMON = registerItem(Items.LOOT_BAG_COMMON, p -> new LootBagItem(art.arcane.thaumcraft.api.ThaumcraftData.Loot.TABLE_LOOT_BAG_COMMON, p.rarity(Rarity.COMMON)), ConfigCreativeTabs.MAIN);
+    public static final DeferredItem<LootBagItem> LOOT_BAG_UNCOMMON = registerItem(Items.LOOT_BAG_UNCOMMON, p -> new LootBagItem(art.arcane.thaumcraft.api.ThaumcraftData.Loot.TABLE_LOOT_BAG_UNCOMMON, p.rarity(Rarity.UNCOMMON)), ConfigCreativeTabs.MAIN);
+    public static final DeferredItem<LootBagItem> LOOT_BAG_RARE = registerItem(Items.LOOT_BAG_RARE, p -> new LootBagItem(art.arcane.thaumcraft.api.ThaumcraftData.Loot.TABLE_LOOT_BAG_RARE, p.rarity(Rarity.RARE)), ConfigCreativeTabs.MAIN);
 
     // Raw Ores
     public static final DeferredItem<Item> AMBER = registerSimple(Items.AMBER, ConfigCreativeTabs.MAIN);
