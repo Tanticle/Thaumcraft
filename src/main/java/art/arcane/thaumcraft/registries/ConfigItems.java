@@ -15,6 +15,7 @@ import art.arcane.thaumcraft.Thaumcraft;
 import art.arcane.thaumcraft.api.ThaumcraftMaterials;
 import art.arcane.thaumcraft.items.resources.JarLabelItem;
 import art.arcane.thaumcraft.items.resources.PhialItem;
+import art.arcane.thaumcraft.items.resources.SalisMundusItem;
 import art.arcane.thaumcraft.items.resources.VisCrystalItem;
 import art.arcane.thaumcraft.util.simple.SimpleCreativeTab;
 
@@ -80,6 +81,7 @@ public final class ConfigItems {
     public static final DeferredItem<Item> INGOT_BRASS = registerSimple(Items.INGOT_BRASS, ConfigCreativeTabs.MAIN);
     public static final DeferredItem<PhialItem> PHIAL = registerItem(Items.PHIAL, PhialItem::new, ConfigCreativeTabs.MAIN);
     public static final DeferredItem<VisCrystalItem> VIS_CRYSTAL = registerItem(Items.VIS_CRYSTAL, VisCrystalItem::new, ConfigCreativeTabs.MAIN);
+    public static final DeferredItem<SalisMundusItem> SALIS_MUNDUS = registerItem(Items.SALIS_MUNDUS, SalisMundusItem::new, ConfigCreativeTabs.MAIN);
 
     // Raw Ores
     public static final DeferredItem<Item> AMBER = registerSimple(Items.AMBER, ConfigCreativeTabs.MAIN);

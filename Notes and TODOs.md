@@ -62,9 +62,9 @@
     - [X] Greatwood (Logs, Leaves, Saplings, Planks, Stairs, Slabs, Fences, etc.)
     - [X] Silverwood (Logs, Leaves, Saplings, Planks, Stairs, Slabs, Fences, etc.)
     - [ ] **NOTE: Door and Wood Type textures need redesign**
-- [ ] **Plants**
-    - [ ] Cinderpearl
-    - [ ] Shimmerleaf
+- [X] **Plants**
+    - [X] Cinderpearl
+    - [X] Shimmerleaf
     - [X] Vishroom
 - [ ] **Fluids**
     - [ ] Liquid Death
@@ -73,14 +73,14 @@
     - [ ] Hilltop Mounds
     - [ ] Obelisks (Eldritch/Crimson)
     - [ ] Wisp Nests
-- [ ] **Biomes**
-    - [ ] Magic Forest
+- [~] **Biomes**
+    - [~] Magic Forest
         - [X] Biome registration & colors (grass, foliage, water)
         - [X] Tree generation (Greatwood 1/12, Silverwood 1/18, Big Magic Trees)
-        - [~] Ambient grass blocks - REPLACE THIS WITH AMBIENT PARTICLES
-        - [~] Vishroom placement - Looks bad
-        - [ ] Cinderpearl placement
-        - [ ] Shimmerleaf placement
+        - [X] Ambient grass blocks - REPLACE THIS WITH AMBIENT PARTICLES
+        - [X] Vishroom placement - Looks bad
+        - [X] Cinderpearl placement
+        - [X] Shimmerleaf placement
         - [ ] Mob spawns (Pech, Wisp, Witch, Vex)
         - [X] Big mushroom generation
         - [X] Config options (weight, enable/disable)
@@ -145,12 +145,11 @@
 - [ ] Thaumium Armor
 - [ ] Void Armor & Robes
 - [x] Cultist Armor (Robes, Plate, Leader)
-  - [ ] Better System for 3D Armor
-  - [ ] Cloth Flaps
+    - [ ] Better System for 3D Armor
+    - [ ] Cloth Flaps
 - [ ] Fortress Armor (Helm upgrades: Masks)
 - [ ] Goggles of Revealing (HUD overlay)
 - [ ] Boots of the Traveller (Jump/Speed boost)
-
 
 ### Equipment: Tools & Weapons
 
@@ -251,7 +250,7 @@
 
 ### Blocks: Cosmetic & Building
 
-- [ ] Candles (16 colors)
+- [?] Candles (16 colors)
 - [ ] Banners (TC specific)
 - [ ] Nitor (Light source)
 - [ ] Paving Stones (Arcane, Barrier, Travel)
@@ -260,13 +259,13 @@
 - [ ] Eldritch Stone
 - [ ] Ancient Stone
 - [X] Pedestals (Ancient, Eldritch)
-  - [ ] Stabilization
-  - [ ] Viewmodels
+    - [ ] Stabilization
+    - [ ] Viewmodels
 
 ### Items & Resources
 
 - [ ] Thaumonomicon
-- [ ] Salis Mundus
+- [~] Salis Mundus
 - [ ] Loot Bags (Common, Uncommon, Rare)
 - [ ] Knowledge Fragments
 - [ ] Celestial Notes

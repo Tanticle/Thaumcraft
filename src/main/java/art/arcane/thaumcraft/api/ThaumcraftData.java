@@ -174,6 +174,8 @@ public final class ThaumcraftData {
         public static final ResourceLocation THAUMIUM_SWORD = Thaumcraft.id("thaumium_sword");
         // Armor
         public static final ResourceLocation CRIMSON_BOOTS = Thaumcraft.id("crimson_boots");
+
+        public static final ResourceLocation SALIS_MUNDUS = Thaumcraft.id("salis_mundus");
     }
 
     public static final class Enchantments {
@@ -363,6 +365,8 @@ public final class ThaumcraftData {
         public static final SoundEvent WIND_HOWLING = variable("wind_howling");
         public static final SoundEvent KNOB_TWISTING = variable("knob_twisting");
         public static final SoundEvent SPARKLE_HUM = variable("sparkle_hum");
+        public static final SoundEvent DUST = variable("dust");
+        public static final SoundEvent POOF = variable("poof");
 
         private static SoundEvent fixed(String id, float range) {
             return SoundEvent.createFixedRangeEvent(Thaumcraft.id(id), range);
@@ -377,6 +381,8 @@ public final class ThaumcraftData {
         public static final ResourceLocation SYNC_ASPECT_REGISTRY = Thaumcraft.id("sync_aspect_registry");
         public static final ResourceLocation SOUNDING_SCAN = Thaumcraft.id("sounding_scan");
         public static final ResourceLocation CYCLE_TOOL_MODE = Thaumcraft.id("cycle_tool_mode");
+        public static final ResourceLocation SALIS_MUNDUS_EFFECT = Thaumcraft.id("salis_mundus_effect");
+        public static final ResourceLocation BAMF_EFFECT = Thaumcraft.id("bamf_effect");
     }
 
     /**

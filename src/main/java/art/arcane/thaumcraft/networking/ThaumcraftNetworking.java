@@ -10,8 +10,11 @@ import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
 import net.neoforged.neoforge.network.registration.PayloadRegistrar;
 import art.arcane.thaumcraft.Thaumcraft;
 import art.arcane.thaumcraft.client.fx.OreScanHandler;
+import art.arcane.thaumcraft.client.fx.ThaumcraftFX;
 import art.arcane.thaumcraft.items.tools.ElementalShovelItem;
 import art.arcane.thaumcraft.networking.packets.ClientboundAspectRegistrySyncPacket;
+import art.arcane.thaumcraft.networking.packets.ClientboundBamfEffectPacket;
+import art.arcane.thaumcraft.networking.packets.ClientboundSalisMundusEffectPacket;
 import art.arcane.thaumcraft.networking.packets.ClientboundSoundingPacket;
 import art.arcane.thaumcraft.networking.packets.ServerboundCycleToolModePacket;
 import art.arcane.thaumcraft.registries.ConfigDataRegistries;
@@ -34,6 +37,14 @@ public class ThaumcraftNetworking {
 
         registrar.playToClient(ClientboundSoundingPacket.TYPE, ClientboundSoundingPacket.STREAM_CODEC, (data, ctx) -> {
             ctx.enqueueWork(() -> OreScanHandler.handleSoundingScan(data.origin(), data.level()));
+        });
+
+        registrar.playToClient(ClientboundSalisMundusEffectPacket.TYPE, ClientboundSalisMundusEffectPacket.STREAM_CODEC, (data, ctx) -> {
+            ctx.enqueueWork(() -> ThaumcraftFX.drawSalisMundusSparkles(data));
+        });
+
+        registrar.playToClient(ClientboundBamfEffectPacket.TYPE, ClientboundBamfEffectPacket.STREAM_CODEC, (data, ctx) -> {
+            ctx.enqueueWork(() -> ThaumcraftFX.drawBamf(data));
         });
 
         registrar.playToServer(ServerboundCycleToolModePacket.TYPE, ServerboundCycleToolModePacket.STREAM_CODEC, (data, ctx) -> {

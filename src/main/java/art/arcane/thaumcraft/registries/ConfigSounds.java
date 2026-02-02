@@ -20,6 +20,8 @@ public class ConfigSounds {
     public static final Holder<SoundEvent> PAPER_RUSTLING = register(Sounds.PAPER_RUSTLING);
     public static final Holder<SoundEvent> KNOB_TWISTING = register(Sounds.KNOB_TWISTING);
     public static final Holder<SoundEvent> SPARKLE_HUM = register(Sounds.SPARKLE_HUM);
+    public static final Holder<SoundEvent> DUST = register(Sounds.DUST);
+    public static final Holder<SoundEvent> POOF = register(Sounds.POOF);
 
     /* -------------------------------------------------------------------------------------------------------------- */
 

@@ -17,7 +17,7 @@ import org.slf4j.Logger;
 public final class Thaumcraft {
 
     public static final String MOD_ID = "thaumcraft";
-    private static final Logger LOGGER = LogUtils.getLogger();
+    public static final Logger LOGGER = LogUtils.getLogger();
 
     public static ResourceLocation id(String value) {
         return ResourceLocation.tryBuild(MOD_ID, value);

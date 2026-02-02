@@ -3,8 +3,10 @@ package art.arcane.thaumcraft.util;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.util.Mth;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
@@ -48,5 +50,28 @@ public final class EntityUtils {
         float f8 = f3 * f5;
         Vec3 vec3d2 = vec3d.add(f7 * range, f6 * range, f8 * range);
         return worldIn.clip(new ClipContext(vec3d, vec3d2, ClipContext.Block.OUTLINE, useLiquids ? ClipContext.Fluid.ANY : ClipContext.Fluid.NONE, entityIn));
+    }
+
+    public static Vec3 getHandPosition(LivingEntity entity, InteractionHand hand) {
+        float yaw = entity.getYRot() * Mth.DEG_TO_RAD;
+        float pitch = entity.getXRot() * Mth.DEG_TO_RAD;
+
+        double handOffset = hand == InteractionHand.MAIN_HAND ? -0.4 : 0.4;
+        if (entity.getMainArm() == net.minecraft.world.entity.HumanoidArm.LEFT) {
+            handOffset = -handOffset;
+        }
+
+        double sideX = -Mth.sin(yaw) * handOffset;
+        double sideZ = Mth.cos(yaw) * handOffset;
+
+        double forwardX = -Mth.sin(yaw) * Mth.cos(pitch) * 0.5;
+        double forwardY = -Mth.sin(pitch) * 0.5;
+        double forwardZ = Mth.cos(yaw) * Mth.cos(pitch) * 0.5;
+
+        double x = entity.getX() + sideX + forwardX;
+        double y = entity.getY() + entity.getEyeHeight() - 0.2 + forwardY;
+        double z = entity.getZ() + sideZ + forwardZ;
+
+        return new Vec3(x, y, z);
     }
 }
