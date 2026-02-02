@@ -21,7 +21,7 @@ public abstract class SimpleBER<T extends BlockEntity> implements BlockEntityRen
 
         stack.translate(.5D, .5D + y, .5D);
         stack.mulPose(context.getEntityRenderer().cameraOrientation());
-        stack.scale(-.025F, -.025F, .025F);
+        stack.scale(.025F, -.025F, .025F);
 
         int bgColor = (int)(Minecraft.getInstance().options.getBackgroundOpacity(0.25F) * 255.0F) << 24;
         Matrix4f matrix4f = stack.last().pose();
