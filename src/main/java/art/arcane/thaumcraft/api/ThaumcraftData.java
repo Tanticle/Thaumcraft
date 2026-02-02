@@ -54,6 +54,7 @@ public final class ThaumcraftData {
             public static final ResourceKey<RecipeType<?>> ARCANE_CRAFTING = key("arcane_crafting");
             public static final ResourceKey<RecipeType<?>> ALCHEMY = key("alchemy");
             public static final ResourceKey<RecipeType<?>> INFUSION = key("infusion");
+            public static final ResourceKey<RecipeType<?>> SALIS_MUNDUS = key("salis_mundus");
 
             private static <T extends Recipe<?>> ResourceKey<RecipeType<?>> key(String id) {
                 return ResourceKey.create(net.minecraft.core.registries.Registries.RECIPE_TYPE, Thaumcraft.id(id));
@@ -82,6 +83,16 @@ public final class ThaumcraftData {
         public static final class Infusion {
 
             public static final ResourceKey<Recipe<?>> DEBUG = key("debug");
+
+            private static ResourceKey<Recipe<?>> key(String id) {
+                return ResourceKey.create(net.minecraft.core.registries.Registries.RECIPE, Thaumcraft.id(id));
+            }
+        }
+
+        public static final class SalisMundus {
+
+            public static final ResourceKey<Recipe<?>> ARCANE_WORKBENCH = key("arcane_workbench");
+            public static final ResourceKey<Recipe<?>> CRUCIBLE = key("crucible");
 
             private static ResourceKey<Recipe<?>> key(String id) {
                 return ResourceKey.create(net.minecraft.core.registries.Registries.RECIPE, Thaumcraft.id(id));

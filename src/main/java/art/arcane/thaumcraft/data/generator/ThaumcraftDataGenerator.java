@@ -12,6 +12,7 @@ import art.arcane.thaumcraft.Thaumcraft;
 import art.arcane.thaumcraft.data.generator.providers.recipes.AlchemyProvider;
 import art.arcane.thaumcraft.data.generator.providers.recipes.ArcaneCraftingProvider;
 import art.arcane.thaumcraft.data.generator.providers.recipes.InfusionProvider;
+import art.arcane.thaumcraft.data.generator.providers.recipes.SalisMundusRecipeProvider;
 
 @EventBusSubscriber(modid = Thaumcraft.MOD_ID, bus = EventBusSubscriber.Bus.MOD)
 public final class ThaumcraftDataGenerator {
@@ -34,6 +35,7 @@ public final class ThaumcraftDataGenerator {
         dataGen.addProvider(true, (DataProvider.Factory<DataProvider>) ArcaneCraftingProvider::new);
         dataGen.addProvider(true, (DataProvider.Factory<DataProvider>) AlchemyProvider::new);
         dataGen.addProvider(true, (DataProvider.Factory<DataProvider>) InfusionProvider::new);
+        dataGen.addProvider(true, (DataProvider.Factory<DataProvider>) SalisMundusRecipeProvider::new);
 
         dataGen.addProvider(true, new BlockDataProvider(dataGen.getPackOutput()));
         dataGen.addProvider(true, new ItemModelProvider(dataGen.getPackOutput()));

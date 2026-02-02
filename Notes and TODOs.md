@@ -265,7 +265,7 @@
 ### Items & Resources
 
 - [ ] Thaumonomicon
-- [~] Salis Mundus
+- [X] Salis Mundus
 - [ ] Loot Bags (Common, Uncommon, Rare)
 - [ ] Knowledge Fragments
 - [ ] Celestial Notes
