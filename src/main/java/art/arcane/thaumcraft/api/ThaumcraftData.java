@@ -282,8 +282,9 @@ public final class ThaumcraftData {
         public static final ResourceLocation GREATWOOD_BUTTON = Thaumcraft.id("greatwood_button");
         public static final ResourceLocation GREATWOOD_PRESSURE_PLATE = Thaumcraft.id("greatwood_pressure_plate");
 
-        public static final ResourceLocation GRASS_AMBIENT = Thaumcraft.id("grass_ambient");
         public static final ResourceLocation VISHROOM = Thaumcraft.id("vishroom");
+        public static final ResourceLocation CINDERPEARL = Thaumcraft.id("cinderpearl");
+        public static final ResourceLocation SHIMMERLEAF = Thaumcraft.id("shimmerleaf");
     }
 
     public static final class CreativeTabs {

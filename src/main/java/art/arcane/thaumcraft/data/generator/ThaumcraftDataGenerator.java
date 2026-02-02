@@ -2,6 +2,7 @@ package art.arcane.thaumcraft.data.generator;
 
 import art.arcane.thaumcraft.data.generator.providers.*;
 import net.minecraft.core.RegistrySetBuilder;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.DataProvider;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -19,6 +20,11 @@ public final class ThaumcraftDataGenerator {
     public static void gatherData(GatherDataEvent.Client e) {
         DataGenerator dataGen = e.getGenerator();
         RegistrySetBuilder builder = new RegistrySetBuilder();
+
+        builder.add(Registries.CONFIGURED_FEATURE, WorldgenProvider.ConfiguredFeatures::bootstrap);
+        builder.add(Registries.PLACED_FEATURE, WorldgenProvider.PlacedFeatures::bootstrap);
+        builder.add(Registries.BIOME, BiomeProvider::bootstrap);
+
         dataGen.addProvider(true, new ResearchCategoryProvider(builder).build(e));
         dataGen.addProvider(true, new ResearchEntryProvider(builder).build(e));
         dataGen.addProvider(true, new AspectProvider(builder).build(e));

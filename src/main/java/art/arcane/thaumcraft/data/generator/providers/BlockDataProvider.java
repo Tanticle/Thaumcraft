@@ -86,26 +86,16 @@ public class BlockDataProvider extends ModelProvider {
         simpleBlock(ConfigBlocks.ORE_AMBER);
         simpleBlock(ConfigBlocks.ORE_CINNABAR);
         simpleBlock(ConfigBlocks.ORE_QUARTZ);
-        simpleBlockWithTexture(ConfigBlocks.DEEPSLATE_ORE_AMBER, Thaumcraft.id("block/ore_amber"));
-        simpleBlockWithTexture(ConfigBlocks.DEEPSLATE_ORE_CINNABAR, Thaumcraft.id("block/ore_cinnabar"));
-        simpleBlockWithTexture(ConfigBlocks.DEEPSLATE_ORE_QUARTZ, Thaumcraft.id("block/ore_quartz"));
+        simpleBlock(ConfigBlocks.DEEPSLATE_ORE_AMBER);
+        simpleBlock(ConfigBlocks.DEEPSLATE_ORE_CINNABAR);
+        simpleBlock(ConfigBlocks.DEEPSLATE_ORE_QUARTZ);
 
         registerSilverwoodTree();
         registerGreatwoodTree();
 
-		registerCrossBlock(ConfigBlocks.VISHROOM);
-
-        registerGrassAmbientBlock();
-    }
-
-    private void registerGrassAmbientBlock() {
-        ResourceLocation grassModel = ResourceLocation.withDefaultNamespace("block/grass_block");
-        blocks.blockStateOutput.accept(MultiVariantGenerator.multiVariant(ConfigBlocks.GRASS_AMBIENT.block(),
-                Variant.variant().with(VariantProperties.MODEL, grassModel),
-                Variant.variant().with(VariantProperties.MODEL, grassModel).with(VariantProperties.Y_ROT, VariantProperties.Rotation.R90),
-                Variant.variant().with(VariantProperties.MODEL, grassModel).with(VariantProperties.Y_ROT, VariantProperties.Rotation.R180),
-                Variant.variant().with(VariantProperties.MODEL, grassModel).with(VariantProperties.Y_ROT, VariantProperties.Rotation.R270)));
-        blockParentItem(ConfigBlocks.GRASS_AMBIENT, grassModel);
+        registerCrossBlock(ConfigBlocks.VISHROOM);
+        registerCrossBlock(ConfigBlocks.CINDERPEARL);
+        registerCrossBlock(ConfigBlocks.SHIMMERLEAF);
     }
 
     private void registerGreatwoodTree() {
@@ -179,12 +169,7 @@ public class BlockDataProvider extends ModelProvider {
 
     private void registerCrossBlock(ConfigBlocks.BlockObject<? extends Block> block) {
         ResourceLocation id = RegistryUtils.getBlockLocation(block.blockSupplier());
-        registerCrossBlockWithTexture(block, id);
-    }
-
-    private void registerCrossBlockWithTexture(ConfigBlocks.BlockObject<? extends Block> block, ResourceLocation texture) {
-        ResourceLocation id = RegistryUtils.getBlockLocation(block.blockSupplier());
-        TextureMapping mapping = new TextureMapping().put(TextureSlot.CROSS, texture);
+        TextureMapping mapping = new TextureMapping().put(TextureSlot.CROSS, id);
         ModelTemplate crossTemplate = ExtendedModelTemplateBuilder.builder()
                 .parent(ResourceLocation.withDefaultNamespace("block/cross"))
                 .renderType("minecraft:cutout")
@@ -193,7 +178,7 @@ public class BlockDataProvider extends ModelProvider {
         ResourceLocation model = crossTemplate.create(block.block(), mapping, blocks.modelOutput);
         blocks.blockStateOutput.accept(MultiVariantGenerator.multiVariant(block.block(), Variant.variant().with(VariantProperties.MODEL, model)));
         ResourceLocation itemTexture = id.withPath(p -> "item/" + p.substring(p.lastIndexOf('/') + 1));
-        ResourceLocation itemModel = ModelTemplates.FLAT_ITEM.create(itemTexture, TextureMapping.layer0(texture), items.modelOutput);
+        ResourceLocation itemModel = ModelTemplates.FLAT_ITEM.create(itemTexture, TextureMapping.layer0(id), items.modelOutput);
         items.itemModelOutput.accept(block.item(), ItemModelUtils.plainModel(itemModel));
     }
 
@@ -295,14 +280,6 @@ public class BlockDataProvider extends ModelProvider {
         TexturedModel.Provider model = TexturedModel.createDefault(b -> mapping, ModelTemplates.CUBE_ALL);
         blocks.createTrivialBlock(block.block(), model);
         blockParentItem(block, id);
-    }
-
-    public void simpleBlockWithTexture(ConfigBlocks.BlockObject<? extends Block> block, ResourceLocation texture) {
-        TextureMapping mapping = new TextureMapping().put(TextureSlot.ALL, texture).put(TextureSlot.PARTICLE, texture);
-        ResourceLocation modelLocation = RegistryUtils.getBlockLocation(block.blockSupplier());
-        ResourceLocation model = ModelTemplates.CUBE_ALL.create(block.block(), mapping, blocks.modelOutput);
-        blocks.blockStateOutput.accept(MultiVariantGenerator.multiVariant(block.block(), Variant.variant().with(VariantProperties.MODEL, model)));
-        blockParentItem(block, model);
     }
 
     private void registerDirectionalMultipart(ConfigBlocks.BlockObject<? extends Block> block, Map<Direction, BooleanProperty> dirProperties, ResourceLocation centerPart, ResourceLocation sidePart, boolean hideCenter) {

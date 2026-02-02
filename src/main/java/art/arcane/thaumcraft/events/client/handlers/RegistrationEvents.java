@@ -71,22 +71,6 @@ public class RegistrationEvents {
 			}
 			return 0x48B518;
 		}, ConfigBlocks.GREATWOOD_LEAVES.block());
-
-		e.register((state, level, pos, tintIndex) -> {
-			if (level != null && pos != null) {
-				if (level instanceof Level worldLevel) {
-					Holder<Biome> biome = worldLevel.getBiome(pos);
-					if (biome.is(Thaumcraft.id("magical_forest"))) {
-						if (ThaumcraftConfig.BLUE_BIOME.get()) {
-							return 0x66AACC;
-						}
-						return 0x55FF81;
-					}
-				}
-				return BiomeColors.getAverageGrassColor(level, pos);
-			}
-			return 0x79C05A;
-		}, ConfigBlocks.GRASS_AMBIENT.block());
 	}
 
 	@SubscribeEvent
