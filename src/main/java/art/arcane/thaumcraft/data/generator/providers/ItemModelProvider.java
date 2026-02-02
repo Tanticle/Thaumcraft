@@ -47,7 +47,7 @@ public class ItemModelProvider extends ModelProvider {
         batchItems("resources", ConfigItems.NUGGET_BRASS, ConfigItems.NUGGET_QUICKSILVER, ConfigItems.NUGGET_THAUMIUM, ConfigItems.NUGGET_VOID);
 
         // Crafting Components
-        batchItems("resources", ConfigItems.FILTER, ConfigItems.FABRIC, ConfigItems.TALLOW);
+        batchItems("resources", ConfigItems.FILTER, ConfigItems.FABRIC, ConfigItems.TALLOW, ConfigItems.ALUMENTUM);
         simpleItem(ConfigItems.LOOT_BAG_COMMON);
         simpleItem(ConfigItems.LOOT_BAG_UNCOMMON);
         simpleItem(ConfigItems.LOOT_BAG_RARE);

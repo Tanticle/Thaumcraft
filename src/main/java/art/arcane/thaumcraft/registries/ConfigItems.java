@@ -109,6 +109,7 @@ public final class ConfigItems {
     public static final DeferredItem<Item> FILTER = registerSimple(Items.FILTER, ConfigCreativeTabs.MAIN);
     public static final DeferredItem<Item> FABRIC = registerSimple(Items.FABRIC, ConfigCreativeTabs.MAIN);
     public static final DeferredItem<Item> TALLOW = registerSimple(Items.TALLOW, ConfigCreativeTabs.MAIN);
+    public static final DeferredItem<Item> ALUMENTUM = registerSimple(Items.ALUMENTUM, ConfigCreativeTabs.MAIN);
 
     /* -------------------------------------------------------------------------------------------------------------- */
 

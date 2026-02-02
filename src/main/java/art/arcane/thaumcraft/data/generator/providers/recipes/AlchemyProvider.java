@@ -36,6 +36,26 @@ public class AlchemyProvider extends CodecDataProvider<AlchemyRecipe> {
                 Ingredient.of(Items.ROTTEN_FLESH),
                 new AspectList().add(ThaumcraftData.Aspects.FIRE, 1),
                 new ItemStack(ConfigItems.TALLOW.get()));
+
+        recipe(Recipes.Alchemy.BRASS_INGOT.location(),
+                Ingredient.of(Items.IRON_INGOT),
+                new AspectList().add(ThaumcraftData.Aspects.TOOL, 5),
+                new ItemStack(ConfigItems.INGOT_BRASS.get()));
+
+        recipe(Recipes.Alchemy.THAUMIUM_INGOT.location(),
+                Ingredient.of(Items.IRON_INGOT),
+                new AspectList().add(ThaumcraftData.Aspects.MAGIC, 5).add(ThaumcraftData.Aspects.EARTH, 5),
+                new ItemStack(ConfigItems.INGOT_THAUMIUM.get()));
+
+        recipe(Recipes.Alchemy.LEATHER.location(),
+                Ingredient.of(Items.ROTTEN_FLESH),
+                new AspectList().add(ThaumcraftData.Aspects.AIR, 3).add(ThaumcraftData.Aspects.CREATURE, 3),
+                new ItemStack(Items.LEATHER));
+
+        recipe(Recipes.Alchemy.ALUMENTUM.location(),
+                Ingredient.of(Items.COAL),
+                new AspectList().add(ThaumcraftData.Aspects.POWER, 10).add(ThaumcraftData.Aspects.FIRE, 10).add(ThaumcraftData.Aspects.CHAOS, 5),
+                new ItemStack(ConfigItems.ALUMENTUM.get()));
     }
 
     @Override
