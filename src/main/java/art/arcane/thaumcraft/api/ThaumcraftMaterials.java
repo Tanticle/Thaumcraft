@@ -30,6 +30,14 @@ public final class ThaumcraftMaterials {
 					ArmorType.BOOTS, boots);
 		}
 
+		public static final ArmorMaterial THAUMATURGE = new ArmorMaterial(
+				25,
+				defenseValues(1, 3, 2, 1),
+				25, SoundEvents.ARMOR_EQUIP_LEATHER,
+				1.0F, 0.0F,
+				TagKey.create(Registries.ITEM, Items.FABRIC),
+				ArmorTypes.THAUMATURGE);
+
 		public static final ArmorMaterial THAUMIUM = new ArmorMaterial(
 				255,
 				defenseValues(2, 5, 6, 2),

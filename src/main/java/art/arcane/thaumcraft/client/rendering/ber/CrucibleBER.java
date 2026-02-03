@@ -39,7 +39,6 @@ public class CrucibleBER extends SimpleBER<CrucibleBlockEntity> {
             FluidStack fluid = pBlockEntity.getFluidInTank(0);
             TextureAtlasSprite sprite = RenderHelper.getFluidSprite(fluid);
             pPoseStack.translate(0, FLUID_START + (FLUID_HEIGHT * fluidHeight) + (ASPECT_HEIGHT * aspectHeight) + (fluidHeight + aspectHeight >= 2 ? 0.0001 : 0), 0);
-            RenderSystem.setShaderTexture(0, TextureAtlas.LOCATION_BLOCKS);
             RenderHelper.drawFace(Direction.UP,
                     pBufferSource.getBuffer(RenderType.translucent()), pPoseStack.last().pose(),
                     new Vector3f(0, 0, 0), new Vector3f(1, 0, 1), RenderHelper.getFluidTint(fluid),
