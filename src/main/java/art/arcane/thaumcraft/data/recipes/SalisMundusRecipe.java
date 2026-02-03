@@ -44,7 +44,13 @@ public record SalisMundusRecipe(
 
     @Override
     public boolean matches(Input input, Level level) {
-        return input.block() == this.input;
+        if (input.block() == this.input) {
+            return true;
+        }
+        if (this.input.builtInRegistryHolder().is(net.minecraft.tags.BlockTags.CAULDRONS)) {
+            return input.block().builtInRegistryHolder().is(net.minecraft.tags.BlockTags.CAULDRONS);
+        }
+        return false;
     }
 
     @Override

@@ -1,6 +1,7 @@
 package art.arcane.thaumcraft.data.generator.providers.recipes;
 
 import com.google.gson.JsonElement;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
 import net.minecraft.world.level.block.Blocks;
 import art.arcane.thaumcraft.api.ThaumcraftData;
@@ -15,7 +16,7 @@ public class SalisMundusRecipeProvider extends CodecDataProvider<SalisMundusReci
     }
 
     @Override
-    protected void createEntries() {
+    protected void createEntries(HolderLookup.Provider registries) {
         register(ThaumcraftData.Recipes.SalisMundus.ARCANE_WORKBENCH.location(),
                 new SalisMundusRecipe.Builder(Blocks.CRAFTING_TABLE, ConfigBlocks.ARCANE_WORKBENCH.block())
                         .requiresResearch(ThaumcraftData.ResearchEntries.UNLOCK_ARTIFICE)

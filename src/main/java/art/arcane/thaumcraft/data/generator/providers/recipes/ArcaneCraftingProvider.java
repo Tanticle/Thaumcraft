@@ -1,6 +1,7 @@
 package art.arcane.thaumcraft.data.generator.providers.recipes;
 
 import com.google.gson.JsonElement;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -20,7 +21,7 @@ public class ArcaneCraftingProvider extends CodecDataProvider<ArcaneCraftingReci
     }
 
     @Override
-    protected void createEntries() {
+    protected void createEntries(HolderLookup.Provider registries) {
         register(ThaumcraftData.Recipes.ArcaneCrafting.DEBUG.location(), new ArcaneCraftingRecipe.Builder(new ItemStack(Items.DIAMOND, 2))
                 .setPattern(
                         "#+#",

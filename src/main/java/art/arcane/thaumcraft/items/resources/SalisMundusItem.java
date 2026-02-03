@@ -66,14 +66,18 @@ public class SalisMundusItem extends Item {
 			}
 
 			Block expectedInput = recipe.get().value().input();
+			boolean inputIsCauldron = expectedInput.builtInRegistryHolder().is(net.minecraft.tags.BlockTags.CAULDRONS);
 
 			if (!player.getAbilities().instabuild) {
 				stack.shrink(1);
 			}
 
 			ScheduledServerTask.schedule(serverLevel, CONVERSION_DELAY, () -> {
-				if (level.getBlockState(pos).getBlock() != expectedInput) {
-					return;
+				Block currentBlock = level.getBlockState(pos).getBlock();
+				if (currentBlock != expectedInput) {
+					if (!inputIsCauldron || !currentBlock.builtInRegistryHolder().is(net.minecraft.tags.BlockTags.CAULDRONS)) {
+						return;
+					}
 				}
 				level.setBlockAndUpdate(pos, recipe.get().value().output().defaultBlockState());
 				PacketDistributor.sendToPlayersNear(

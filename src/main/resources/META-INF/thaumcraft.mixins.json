@@ -5,7 +5,9 @@
   "mixins": [
     "RegistriesDatapackGeneratorMixin"
   ],
-  "client": [],
+  "client": [
+    "BubbleColumnUpParticleMixin"
+  ],
   "injectors": {
     "defaultRequire": 1
   },

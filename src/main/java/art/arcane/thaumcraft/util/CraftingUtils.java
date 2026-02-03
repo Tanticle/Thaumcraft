@@ -56,7 +56,14 @@ public final class CraftingUtils {
 		if (server != null) {
 			return server.getRecipeManager().recipeMap()
 					.byType(ConfigRecipeTypes.SALIS_MUNDUS.type()).stream()
-					.anyMatch(holder -> holder.value().input() == block);
+					.anyMatch(holder -> {
+						Block input = holder.value().input();
+						if (input == block) return true;
+						if (input.builtInRegistryHolder().is(net.minecraft.tags.BlockTags.CAULDRONS)) {
+							return block.builtInRegistryHolder().is(net.minecraft.tags.BlockTags.CAULDRONS);
+						}
+						return false;
+					});
 		}
 		return true;
 	}

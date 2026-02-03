@@ -29,12 +29,14 @@ public final class ThaumcraftDataGenerator {
 
         dataGen.addProvider(true, new ResearchCategoryProvider(builder).build(e));
         dataGen.addProvider(true, new ResearchEntryProvider(builder).build(e));
-        dataGen.addProvider(true, new AspectProvider(builder).build(e));
+        var aspectProvider = new AspectProvider(builder).build(e);
+        dataGen.addProvider(true, aspectProvider);
         dataGen.addProvider(true, new AspectRegistryProvider(e));
         dataGen.addProvider(true, new AuraBiomeProvider(builder).build(e));
 
+        var combinedLookup = aspectProvider.getRegistryProvider();
         dataGen.addProvider(true, (DataProvider.Factory<DataProvider>) ArcaneCraftingProvider::new);
-        dataGen.addProvider(true, (DataProvider.Factory<DataProvider>) AlchemyProvider::new);
+        dataGen.addProvider(true, (DataProvider.Factory<DataProvider>) output -> new AlchemyProvider(output, combinedLookup));
         dataGen.addProvider(true, (DataProvider.Factory<DataProvider>) InfusionProvider::new);
         dataGen.addProvider(true, (DataProvider.Factory<DataProvider>) SalisMundusRecipeProvider::new);
         dataGen.addProvider(true, new VanillaRecipeProvider.Runner(dataGen.getPackOutput(), e.getLookupProvider()));

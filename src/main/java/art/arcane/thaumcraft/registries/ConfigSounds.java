@@ -23,6 +23,8 @@ public class ConfigSounds {
     public static final Holder<SoundEvent> DUST = register(Sounds.DUST);
     public static final Holder<SoundEvent> POOF = register(Sounds.POOF);
     public static final Holder<SoundEvent> COINS = register(Sounds.COINS);
+    public static final Holder<SoundEvent> BUBBLE = register(Sounds.BUBBLE);
+    public static final Holder<SoundEvent> SPILL = register(Sounds.SPILL);
 
     /* -------------------------------------------------------------------------------------------------------------- */
 

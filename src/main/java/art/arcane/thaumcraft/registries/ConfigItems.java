@@ -113,6 +113,7 @@ public final class ConfigItems {
     public static final DeferredItem<Item> NUGGET_QUICKSILVER = registerSimple(Items.NUGGET_QUICKSILVER, ConfigCreativeTabs.MAIN);
     public static final DeferredItem<Item> NUGGET_THAUMIUM = registerSimple(Items.NUGGET_THAUMIUM, ConfigCreativeTabs.MAIN);
     public static final DeferredItem<Item> NUGGET_VOID = registerSimple(Items.NUGGET_VOID, ConfigCreativeTabs.MAIN);
+    public static final DeferredItem<Item> NUGGET_QUARTZ = registerSimple(Items.NUGGET_QUARTZ, ConfigCreativeTabs.MAIN);
 
     // Crafting Components
     public static final DeferredItem<Item> FILTER = registerSimple(Items.FILTER, ConfigCreativeTabs.MAIN);

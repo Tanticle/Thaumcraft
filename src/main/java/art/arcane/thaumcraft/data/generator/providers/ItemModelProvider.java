@@ -48,7 +48,7 @@ public class ItemModelProvider extends ModelProvider {
         batchItems("resources", ConfigItems.PLATE_BRASS, ConfigItems.PLATE_IRON, ConfigItems.PLATE_THAUMIUM, ConfigItems.PLATE_VOID);
 
         // Nuggets
-        batchItems("resources", ConfigItems.NUGGET_BRASS, ConfigItems.NUGGET_QUICKSILVER, ConfigItems.NUGGET_THAUMIUM, ConfigItems.NUGGET_VOID);
+        batchItems("resources", ConfigItems.NUGGET_BRASS, ConfigItems.NUGGET_QUICKSILVER, ConfigItems.NUGGET_THAUMIUM, ConfigItems.NUGGET_VOID, ConfigItems.NUGGET_QUARTZ);
 
         // Crafting Components
         batchItems("resources", ConfigItems.FILTER, ConfigItems.FABRIC, ConfigItems.TALLOW, ConfigItems.ALUMENTUM);
