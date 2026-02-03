@@ -144,6 +144,7 @@
 
 - [ ] Thaumium Armor
 - [ ] Void Armor & Robes
+- [x] Thaumaturge's Armor
 - [x] Cultist Armor (Robes, Plate, Leader)
     - [ ] Better System for 3D Armor
     - [ ] Cloth Flaps
