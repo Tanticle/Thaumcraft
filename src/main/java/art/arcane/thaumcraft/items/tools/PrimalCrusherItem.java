@@ -1,11 +1,9 @@
 package art.arcane.thaumcraft.items.tools;
 
-import art.arcane.thaumcraft.api.components.WarpingComponent;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.DiggerItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.ToolMaterial;
@@ -27,7 +25,7 @@ public class PrimalCrusherItem extends DiggerItem {
                         ConfigItemComponents.INFUSION_ENCHANTMENT.value(), new InfusionEnchantmentComponent(Map.of(
                                 InfusionEnchantments.REFINING, (byte)1,
                                 InfusionEnchantments.DESTRUCTIVE, (byte)1)))
-                        .component(ConfigItemComponents.WARPING.value(), new WarpingComponent(2)));
+                        .component(ConfigItemComponents.WARPING.value(), 2));
     }
 
     //TODO: Maybe - if not in tags, take default break time from block state

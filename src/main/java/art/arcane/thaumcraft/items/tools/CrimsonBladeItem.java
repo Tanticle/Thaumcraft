@@ -1,6 +1,5 @@
 package art.arcane.thaumcraft.items.tools;
 
-import art.arcane.thaumcraft.api.components.WarpingComponent;
 import art.arcane.thaumcraft.registries.ConfigItemComponents;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.registries.Registries;
@@ -28,7 +27,7 @@ public class CrimsonBladeItem extends SwordItem {
         super(CRIMSON_VOID, CRIMSON_VOID.attackDamageBonus(), CRIMSON_VOID.speed(), props
                 .durability(CRIMSON_VOID.durability())
                 .rarity(Rarity.EPIC)
-                .component(ConfigItemComponents.WARPING.value(), new WarpingComponent(2)));
+                .component(ConfigItemComponents.WARPING.value(), 2));
     }
 
     @Override

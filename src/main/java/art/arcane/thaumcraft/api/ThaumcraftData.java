@@ -5,8 +5,10 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.tags.BlockTags;
+import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.item.equipment.EquipmentAsset;
@@ -155,6 +157,9 @@ public final class ThaumcraftData {
         public static final ResourceLocation AXIS = Thaumcraft.id("axis");
         public static final ResourceLocation WARPING = Thaumcraft.id("warping");
         public static final ResourceLocation VIS_COST_MODIFIER = Thaumcraft.id("vis_cost_modifier");
+        public static final ResourceLocation VIS_CHARGE_MAX = Thaumcraft.id("vis_charge_max");
+        public static final ResourceLocation VIS_CHARGE = Thaumcraft.id("vis_charge");
+        public static final ResourceLocation TIMER = Thaumcraft.id("timer");
     }
 
     /**
@@ -225,6 +230,7 @@ public final class ThaumcraftData {
         public static final ResourceLocation THAUMIUM_SWORD = Thaumcraft.id("thaumium_sword");
         // Armor
         public static final ResourceLocation CRIMSON_BOOTS = Thaumcraft.id("crimson_boots");
+        public static final ResourceLocation TRAVELLER_BOOTS = Thaumcraft.id("traveller_boots");
 
         public static final ResourceLocation SALIS_MUNDUS = Thaumcraft.id("salis_mundus");
     }
@@ -379,6 +385,7 @@ public final class ThaumcraftData {
         public static final ResourceKey<EquipmentAsset> CRIMSON_ROBE = key("crimson_robe");
         public static final ResourceKey<EquipmentAsset> CRIMSON_LEADER = key("crimson_leader");
         public static final ResourceKey<EquipmentAsset> CRIMSON_BOOTS = key("crimson_boots");
+        public static final ResourceKey<EquipmentAsset> TRAVELLER = key("traveller_boots");
 
         private static ResourceKey<EquipmentAsset> key(String id) {
             return ResourceKey.create(EquipmentAssets.ROOT_ID, Thaumcraft.id(id));

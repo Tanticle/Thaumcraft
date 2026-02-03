@@ -1,6 +1,5 @@
 package art.arcane.thaumcraft.items.tools;
 
-import art.arcane.thaumcraft.api.components.WarpingComponent;
 import art.arcane.thaumcraft.registries.ConfigItemComponents;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
@@ -15,7 +14,7 @@ import art.arcane.thaumcraft.api.ThaumcraftMaterials;
 public class VoidPickaxeItem extends PickaxeItem {
 
     public VoidPickaxeItem(Properties props) {
-        super(ThaumcraftMaterials.Tools.VOID, ThaumcraftMaterials.Tools.VOID.attackDamageBonus(), ThaumcraftMaterials.Tools.VOID.speed(), props.component(ConfigItemComponents.WARPING.value(), new WarpingComponent(1)));
+        super(ThaumcraftMaterials.Tools.VOID, ThaumcraftMaterials.Tools.VOID.attackDamageBonus(), ThaumcraftMaterials.Tools.VOID.speed(), props.component(ConfigItemComponents.WARPING.value(), 1));
     }
 
     @Override

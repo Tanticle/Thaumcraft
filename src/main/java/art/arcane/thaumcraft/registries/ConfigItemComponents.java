@@ -1,7 +1,5 @@
 package art.arcane.thaumcraft.registries;
 
-import art.arcane.thaumcraft.api.components.VisCostModifierComponent;
-import art.arcane.thaumcraft.api.components.WarpingComponent;
 import com.mojang.serialization.Codec;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Holder;
@@ -9,8 +7,10 @@ import net.minecraft.core.UUIDUtil;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.ExtraCodecs;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.network.codec.NeoForgeStreamCodecs;
 import net.neoforged.neoforge.registries.DeferredRegister;
@@ -39,8 +39,13 @@ public class ConfigItemComponents {
 
     public static final Holder<DataComponentType<Direction.Axis>> AXIS = register(ItemComponents.AXIS, Direction.Axis.CODEC, NeoForgeStreamCodecs.enumCodec(Direction.Axis.class));
 
-    public static final Holder<DataComponentType<WarpingComponent>> WARPING = register(ItemComponents.WARPING, WarpingComponent.CODEC, WarpingComponent.STREAM_CODEC);
-    public static final Holder<DataComponentType<VisCostModifierComponent>> VIS_COST_MODIFIER = register(ItemComponents.VIS_COST_MODIFIER, VisCostModifierComponent.CODEC, VisCostModifierComponent.STREAM_CODEC);
+    public static final Holder<DataComponentType<Integer>> WARPING = register(ItemComponents.WARPING, ExtraCodecs.POSITIVE_INT, ByteBufCodecs.VAR_INT);
+    public static final Holder<DataComponentType<Float>> VIS_COST_MODIFIER = register(ItemComponents.VIS_COST_MODIFIER, Codec.FLOAT, ByteBufCodecs.FLOAT);
+
+	public static final Holder<DataComponentType<Integer>> VIS_CHARGE_MAX = register(ItemComponents.VIS_CHARGE_MAX, ExtraCodecs.POSITIVE_INT, ByteBufCodecs.VAR_INT);
+	public static final Holder<DataComponentType<Integer>> VIS_CHARGE = register(ItemComponents.VIS_CHARGE, ExtraCodecs.NON_NEGATIVE_INT, ByteBufCodecs.VAR_INT);
+
+	public static final Holder<DataComponentType<Integer>> TIMER = register(ItemComponents.TIMER, ExtraCodecs.NON_NEGATIVE_INT, ByteBufCodecs.VAR_INT);
 
     /* -------------------------------------------------------------------------------------------------------------- */
 

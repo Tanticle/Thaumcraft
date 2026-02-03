@@ -31,6 +31,15 @@ public class EquipmentInfoProvider extends EquipmentAssetProvider {
                                         Optional.empty(),
                                         false)).build());
 
+		output.accept(ThaumcraftMaterials.Armor.TRAVELLER.assetId(),
+				EquipmentClientInfo.builder()
+						.addLayers(
+								EquipmentClientInfo.LayerType.HUMANOID,
+								new EquipmentClientInfo.Layer(
+										ThaumcraftMaterials.Armor.TRAVELLER.assetId().location(),
+										Optional.empty(),
+										false)).build());
+
 		output.accept(ThaumcraftMaterials.Armor.THAUMATURGE.assetId(),
 				EquipmentClientInfo.builder()
 						.addLayers(

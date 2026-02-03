@@ -69,10 +69,12 @@ public class ItemModelProvider extends ModelProvider {
                 ConfigItems.ESSENTIA_RESONATOR, ConfigItems.SANITY_CHECKER, ConfigItems.SCRIBING_TOOLS);
 
         // Armor
-        simpleItem(ConfigItems.ARMOR_CRIMSON_BOOTS, "armor");
         armorSet(ConfigItems.ARMOR_CRIMSON_LEADER);
         armorSet(ConfigItems.ARMOR_CRIMSON_PLATE);
         armorSet(ConfigItems.ARMOR_CRIMSON_ROBE);
+
+		simpleItem(ConfigItems.ARMOR_CRIMSON_BOOTS, "armor");
+		simpleItem(ConfigItems.ARMOR_TRAVELLER_BOOTS, "armor");
 
 		tintableItem2Layer(ConfigItems.ARMOR_THAUMATURGE_CHEST, () -> new Dye(EquipmentInfoProvider.COLOUR_THAUMATURGE), "armor");
 		tintableItem2Layer(ConfigItems.ARMOR_THAUMATURGE_PANTS, () -> new Dye(EquipmentInfoProvider.COLOUR_THAUMATURGE), "armor");

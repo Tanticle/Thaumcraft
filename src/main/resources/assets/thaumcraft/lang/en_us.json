@@ -135,6 +135,7 @@
   "item.thaumcraft.crimson_robe_chestplate": "Crimson Cult Robe",
   "item.thaumcraft.crimson_robe_leggings": "Crimson Cult Leggings",
   "item.thaumcraft.crimson_boots": "Crimson Cult Boots",
+  "item.thaumcraft.traveller_boots": "Boots of the Traveller",
   "item.thaumcraft.thaumaturge_chestplate": "Thaumaturge's Robe",
   "item.thaumcraft.thaumaturge_leggings": "Thaumaturge's Leggings",
   "item.thaumcraft.thaumaturge_boots": "Thaumaturge's Boots",
@@ -224,6 +225,7 @@
   "misc.thaumcraft.tooltip.warping": "Warping %s",
   "misc.thaumcraft.tooltip.vis_modifier_positive": "Vis Discount: %.1f%%",
   "misc.thaumcraft.tooltip.vis_modifier_negative": "Vis Surcharge: %.1f%%",
+  "misc.thaumcraft.tooltip.vis_charge": "Vis Charge: %d",
   "misc.thaumcraft.tooltip.aspect_simple": "%s",
   "misc.thaumcraft.tooltip.aspect_complex": "%dx %s",
 

@@ -1,6 +1,5 @@
 package art.arcane.thaumcraft.items.tools;
 
-import art.arcane.thaumcraft.api.components.WarpingComponent;
 import art.arcane.thaumcraft.registries.ConfigItemComponents;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
@@ -22,7 +21,7 @@ public class VoidSwordItem extends SwordItem {
     private static final String COMPONENT_LESSER_SAP = "enchantment.thaumcraft.special.sapless";
 
     public VoidSwordItem(Properties props) {
-        super(ThaumcraftMaterials.Tools.VOID, ThaumcraftMaterials.Tools.VOID.attackDamageBonus(), ThaumcraftMaterials.Tools.VOID.speed(), props.component(ConfigItemComponents.WARPING.value(), new WarpingComponent(1)));
+        super(ThaumcraftMaterials.Tools.VOID, ThaumcraftMaterials.Tools.VOID.attackDamageBonus(), ThaumcraftMaterials.Tools.VOID.speed(), props.component(ConfigItemComponents.WARPING.value(), 1));
     }
 
     @Override

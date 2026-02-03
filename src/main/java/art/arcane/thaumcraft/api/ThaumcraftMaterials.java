@@ -78,6 +78,14 @@ public final class ThaumcraftMaterials {
                 ItemTags.REPAIRS_IRON_ARMOR,
                 ArmorTypes.CRIMSON_BOOTS);
 
+		public static final ArmorMaterial TRAVELLER = new ArmorMaterial(
+				25,
+				defenseValues(1, 1, 1, 1),
+				25, SoundEvents.ARMOR_EQUIP_LEATHER,
+				1.0F, 0.0F,
+				TagKey.create(Registries.ITEM, Items.FABRIC),
+				ArmorTypes.TRAVELLER);
+
 		public static final ArmorMaterial CRIMSON_PLATE = new ArmorMaterial(
 				255,
 				defenseValues(2, 5, 6, 2),

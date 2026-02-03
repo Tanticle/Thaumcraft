@@ -1,5 +1,6 @@
 package art.arcane.thaumcraft.events.client.handlers;
 
+import art.arcane.thaumcraft.items.VisChargeItem;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.datafixers.util.Either;
 import net.minecraft.ChatFormatting;
@@ -58,18 +59,23 @@ public class RenderEvents {
             e.getTooltipElements().add(Either.right(new AspectTooltip.Data(aspects)));
 
         if(e.getItemStack().has(ConfigItemComponents.WARPING.value())) {
-            String lvl = Component.translatable(KEY_ROMAN_NUMERAL + e.getItemStack().get(ConfigItemComponents.WARPING.value()).level()).getString();
+            String lvl = Component.translatable(KEY_ROMAN_NUMERAL + e.getItemStack().get(ConfigItemComponents.WARPING.value())).getString();
             e.getTooltipElements().add(Either.left(Component.translatable("misc.thaumcraft.tooltip.warping", lvl).withStyle(ChatFormatting.DARK_PURPLE)));
         }
 
         if(e.getItemStack().has(ConfigItemComponents.VIS_COST_MODIFIER.value())) {
-            float modifier = e.getItemStack().get(ConfigItemComponents.VIS_COST_MODIFIER.value()).modifier();
+            float modifier = e.getItemStack().get(ConfigItemComponents.VIS_COST_MODIFIER.value());
             String translation = "misc.thaumcraft.tooltip.vis_modifier_" + (modifier <= 0 ? "positive" : "negative");
             DecimalFormat format = new DecimalFormat();
             format.setMaximumFractionDigits(2);
             format.setMinimumFractionDigits(0);
             e.getTooltipElements().add(Either.left(Component.translatable(translation, format.format(Math.abs(modifier * 100))).withStyle(ChatFormatting.DARK_PURPLE)));
         }
+
+		if(e.getItemStack().getItem() instanceof VisChargeItem i) {
+			int charge = i.getCharge(e.getItemStack());
+			e.getTooltipElements().add(Either.left(Component.translatable("misc.thaumcraft.tooltip.vis_charge",charge).withStyle(ChatFormatting.YELLOW)));
+		}
 
 
         if(e.getItemStack().getItem() instanceof AbstractAspectItem l && l.hasData(e.getItemStack())) {

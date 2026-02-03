@@ -1,9 +1,9 @@
 package art.arcane.thaumcraft.registries;
 
-import art.arcane.thaumcraft.api.components.VisCostModifierComponent;
-import art.arcane.thaumcraft.api.components.WarpingComponent;
 import art.arcane.thaumcraft.items.FancyArmorItem;
+import art.arcane.thaumcraft.items.VisChargeItem;
 import art.arcane.thaumcraft.items.tools.*;
+import art.arcane.thaumcraft.items.vis.BootsTravellerItem;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.*;
 import net.minecraft.world.item.equipment.ArmorMaterial;
@@ -64,16 +64,18 @@ public final class ConfigItems {
     // Armors
     public static final DeferredItem<ArmorItem> ARMOR_CRIMSON_BOOTS = registerItem(Items.CRIMSON_BOOTS, p -> new ArmorItem(ThaumcraftMaterials.Armor.CRIMSON_BOOTS, ArmorType.BOOTS,
             p.rarity(Rarity.UNCOMMON)
-                    .component(ConfigItemComponents.WARPING.value(), new WarpingComponent(1))
-                    .component(ConfigItemComponents.VIS_COST_MODIFIER.value(), new VisCostModifierComponent(-0.01F))),
+                    .component(ConfigItemComponents.WARPING.value(), 1)
+                    .component(ConfigItemComponents.VIS_COST_MODIFIER.value(), -0.01F)),
             ConfigCreativeTabs.MAIN);
 
+	public static final DeferredItem<VisChargeItem> ARMOR_TRAVELLER_BOOTS = registerItem(Items.TRAVELLER_BOOTS, p -> new BootsTravellerItem(p.rarity(Rarity.RARE)), ConfigCreativeTabs.MAIN);
+
 	public static final DeferredItem<ArmorItem> ARMOR_THAUMATURGE_CHEST = registerArmorItem(ThaumcraftMaterials.Armor.THAUMATURGE, ArmorType.CHESTPLATE, p ->
-			p.rarity(Rarity.UNCOMMON).component(ConfigItemComponents.VIS_COST_MODIFIER.value(), new VisCostModifierComponent(-0.03F)), ConfigCreativeTabs.MAIN);
+			p.rarity(Rarity.UNCOMMON).component(ConfigItemComponents.VIS_COST_MODIFIER.value(), -0.03F), ConfigCreativeTabs.MAIN);
 	public static final DeferredItem<ArmorItem> ARMOR_THAUMATURGE_PANTS = registerArmorItem(ThaumcraftMaterials.Armor.THAUMATURGE, ArmorType.LEGGINGS, p ->
-			p.rarity(Rarity.UNCOMMON).component(ConfigItemComponents.VIS_COST_MODIFIER.value(), new VisCostModifierComponent(-0.03F)), ConfigCreativeTabs.MAIN);
+			p.rarity(Rarity.UNCOMMON).component(ConfigItemComponents.VIS_COST_MODIFIER.value(), -0.03F), ConfigCreativeTabs.MAIN);
 	public static final DeferredItem<ArmorItem> ARMOR_THAUMATURGE_BOOTS = registerArmorItem(ThaumcraftMaterials.Armor.THAUMATURGE, ArmorType.BOOTS, p ->
-			p.rarity(Rarity.UNCOMMON).component(ConfigItemComponents.VIS_COST_MODIFIER.value(), new VisCostModifierComponent(-0.02F)), ConfigCreativeTabs.MAIN);
+			p.rarity(Rarity.UNCOMMON).component(ConfigItemComponents.VIS_COST_MODIFIER.value(), -0.02F), ConfigCreativeTabs.MAIN);
 
 	public static final DeferredItem<ArmorItem> ARMOR_THAUMIUM_HELMET = registerArmorItem(ThaumcraftMaterials.Armor.THAUMIUM, ArmorType.HELMET, p -> p.rarity(Rarity.UNCOMMON), ConfigCreativeTabs.MAIN);
 	public static final DeferredItem<ArmorItem> ARMOR_THAUMIUM_CHEST = registerArmorItem(ThaumcraftMaterials.Armor.THAUMIUM, ArmorType.CHESTPLATE, p -> p.rarity(Rarity.UNCOMMON), ConfigCreativeTabs.MAIN);
@@ -81,20 +83,19 @@ public final class ConfigItems {
 	public static final DeferredItem<ArmorItem> ARMOR_THAUMIUM_BOOTS = registerArmorItem(ThaumcraftMaterials.Armor.THAUMIUM, ArmorType.BOOTS, p -> p.rarity(Rarity.UNCOMMON), ConfigCreativeTabs.MAIN);
 
 	public static final DeferredItem<ArmorItem> ARMOR_VOID_HELMET = registerArmorItem(ThaumcraftMaterials.Armor.VOID_METAL, ArmorType.HELMET, p ->
-			p.rarity(Rarity.UNCOMMON).component(ConfigItemComponents.WARPING.value(), new WarpingComponent(1)), ConfigCreativeTabs.MAIN);
+			p.rarity(Rarity.UNCOMMON).component(ConfigItemComponents.WARPING.value(), 1), ConfigCreativeTabs.MAIN);
 	public static final DeferredItem<ArmorItem> ARMOR_VOID_CHEST = registerArmorItem(ThaumcraftMaterials.Armor.VOID_METAL, ArmorType.CHESTPLATE, p ->
-			p.rarity(Rarity.UNCOMMON).component(ConfigItemComponents.WARPING.value(), new WarpingComponent(1)), ConfigCreativeTabs.MAIN);
+			p.rarity(Rarity.UNCOMMON).component(ConfigItemComponents.WARPING.value(), 1), ConfigCreativeTabs.MAIN);
 	public static final DeferredItem<ArmorItem> ARMOR_VOID_PANTS = registerArmorItem(ThaumcraftMaterials.Armor.VOID_METAL, ArmorType.LEGGINGS, p ->
-			p.rarity(Rarity.UNCOMMON).component(ConfigItemComponents.WARPING.value(), new WarpingComponent(1)), ConfigCreativeTabs.MAIN);
+			p.rarity(Rarity.UNCOMMON).component(ConfigItemComponents.WARPING.value(), 1), ConfigCreativeTabs.MAIN);
 	public static final DeferredItem<ArmorItem> ARMOR_VOID_BOOTS = registerArmorItem(ThaumcraftMaterials.Armor.VOID_METAL, ArmorType.BOOTS, p ->
-			p.rarity(Rarity.UNCOMMON).component(ConfigItemComponents.WARPING.value(), new WarpingComponent(1)), ConfigCreativeTabs.MAIN);
-
+			p.rarity(Rarity.UNCOMMON).component(ConfigItemComponents.WARPING.value(), 1), ConfigCreativeTabs.MAIN);
 
 
 	public static final FancyArmorSet ARMOR_CRIMSON_ROBE = registerFancyArmorSet(ThaumcraftMaterials.Armor.CRIMSON_ROBE, FancyArmorItem.ArmorSet.CRIMSON_ROBE, p ->
 			p.rarity(Rarity.UNCOMMON)
-					.component(ConfigItemComponents.WARPING.value(), new WarpingComponent(1))
-					.component(ConfigItemComponents.VIS_COST_MODIFIER.value(), new VisCostModifierComponent(-0.01F)),
+					.component(ConfigItemComponents.WARPING.value(), 1)
+					.component(ConfigItemComponents.VIS_COST_MODIFIER.value(), -0.01F),
 			ConfigCreativeTabs.MAIN);
     public static final FancyArmorSet ARMOR_CRIMSON_LEADER = registerFancyArmorSet(ThaumcraftMaterials.Armor.CRIMSON_LEADER, FancyArmorItem.ArmorSet.CRIMSON_LEADER, p -> p.rarity(Rarity.RARE), ConfigCreativeTabs.MAIN);
     public static final FancyArmorSet ARMOR_CRIMSON_PLATE = registerFancyArmorSet(ThaumcraftMaterials.Armor.CRIMSON_PLATE, FancyArmorItem.ArmorSet.CRIMSON_PLATE, p -> p.rarity(Rarity.UNCOMMON), ConfigCreativeTabs.MAIN);
