@@ -63,7 +63,7 @@ public class FallbackHolder<T> implements Holder<T> {
 
     @Override
     public Either<ResourceKey<T>, T> unwrap() {
-        return Either.right(value);
+        return Either.left(key);
     }
 
     @Override
@@ -73,11 +73,23 @@ public class FallbackHolder<T> implements Holder<T> {
 
     @Override
     public Kind kind() {
-        return Kind.DIRECT;
+        return Kind.REFERENCE;
     }
 
     @Override
     public boolean canSerializeIn(HolderOwner<T> pOwner) {
-        return false;
+        return true;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Holder<?> other)) return false;
+        return other.unwrapKey().map(k -> k.equals(key)).orElse(false);
+    }
+
+    @Override
+    public int hashCode() {
+        return key.hashCode();
     }
 }

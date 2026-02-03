@@ -34,7 +34,18 @@
     - [ ] Taint Blocks (Crust, Soil, etc.)
     - [ ] Taint Features (Geysers, Tendrils)
 - [ ] Multiblock Structure Logic
-- [ ] Alchemy (Crucible crafting & Essentia distillation)
+- [-] **Alchemy**
+    - [X] Crucible Block & Block Entity &Crucible Recipe System
+    - [X] Hedge Alchemy Recipes (tallow, leather, gunpowder x2, slime x2, glowstone x2, dye x2, clay, string, cobweb,
+      lava all work)
+    - [X] Metallurgy Recipes (brass ingot, thaumium ingot)
+    - [X] Vis Crystal Recipes
+    - [X] Alumentum Recipe
+    - [ ] Essentia Distillation (Smelter, Alembic)
+    - [ ] Void Ingot Recipe (needs void seed item)
+    - [ ] Nitor Recipe (needs nitor block)
+    - [ ] Metal Purification (cluster items needed)
+    - [ ] Advanced Alchemy (Bath Salts, Sanity Soap, Liquid Death, Bottled Taint)
 - [ ] **Research System**
     - [ ] Theorycrafting minigame
     - [ ] Knowledge types (Observations, Theories)
@@ -203,19 +214,23 @@
 
 ### Alchemy & Consumables
 
-- [ ] **Blocks**
+- [-] **Blocks**
     - [-] Crucible (Crafting logic)
     - [ ] Arcane Spa
     - [ ] Essentia Smelter (Basic & Thaumium)
     - [ ] Arcane Alembics
     - [ ] Centrifuge
 - [ ] **Essentia Transport**
-    - [ ] Tubes (Normal, Valve, Filter, Buffer, Restricted, Oneway)
-    - [-] Jars (Warded, Void, Brain)
+    - [X] Tubes
+    - [ ] Tube Variants (Valve, Filter, Buffer, Restricted, Oneway)
     - [ ] Labels
-- [ ] **Items**
-    - [X] Phials (Essentia filling)
-    - [ ] Alumentum
+    - [ ] Brain Jar
+- [-] **Items**
+    - [X] Phials
+    - [X] Vis Crystals
+    - [X] Quartz Sliver - for making the crystals and all that
+    - [X] Alumentum
+    - [X] Tallow
     - [ ] Bath Salts
     - [ ] Sanity Soap
     - [ ] Bottle of Taint
@@ -270,6 +285,14 @@
 - [ ] Thaumonomicon
 - [X] Salis Mundus
 - [X] Loot Bags (Common, Uncommon, Rare)
+- [X] Vis Crystals (All 6 primals + Taint, tintable item)
+- [X] Quartz Sliver (Catalyst for vis crystal crafting)
+- [X] Metal Ingots (Brass, Thaumium, Void)
+- [X] Metal Nuggets (Brass, Thaumium, Void, Quicksilver, Quartz)
+- [X] Metal Plates (Brass, Iron, Thaumium, Void)
+- [X] Raw Ores (Amber, Cinnabar, Quicksilver)
+- [ ] Metal Clusters (Iron, Gold, Copper, Cinnabar - for purification)
+- [ ] Void Seed
 - [ ] Knowledge Fragments
 - [ ] Celestial Notes
 - [ ] Primordial Pearl

@@ -74,11 +74,25 @@ public final class ThaumcraftData {
         public static final class Alchemy {
 
             public static final ResourceKey<Recipe<?>> DEBUG = key("debug");
-            public static final ResourceKey<Recipe<?>> TALLOW = key("tallow");
-            public static final ResourceKey<Recipe<?>> BRASS_INGOT = key("brass_ingot");
-            public static final ResourceKey<Recipe<?>> THAUMIUM_INGOT = key("thaumium_ingot");
-            public static final ResourceKey<Recipe<?>> LEATHER = key("leather");
             public static final ResourceKey<Recipe<?>> ALUMENTUM = key("alumentum");
+            public static final ResourceKey<Recipe<?>> BRASSINGOT = key("brassingot");
+            public static final ResourceKey<Recipe<?>> THAUMIUMINGOT = key("thaumiumingot");
+            public static final ResourceKey<Recipe<?>> HEDGE_TALLOW = key("hedge_tallow");
+            public static final ResourceKey<Recipe<?>> HEDGE_LEATHER = key("hedge_leather");
+            public static final ResourceKey<Recipe<?>> HEDGE_GUNPOWDER = key("hedge_gunpowder");
+            public static final ResourceKey<Recipe<?>> HEDGE_SLIME = key("hedge_slime");
+            public static final ResourceKey<Recipe<?>> HEDGE_GLOWSTONE = key("hedge_glowstone");
+            public static final ResourceKey<Recipe<?>> HEDGE_DYE = key("hedge_dye");
+            public static final ResourceKey<Recipe<?>> HEDGE_CLAY = key("hedge_clay");
+            public static final ResourceKey<Recipe<?>> HEDGE_STRING = key("hedge_string");
+            public static final ResourceKey<Recipe<?>> HEDGE_WEB = key("hedge_web");
+            public static final ResourceKey<Recipe<?>> HEDGE_LAVA = key("hedge_lava");
+            public static final ResourceKey<Recipe<?>> VIS_CRYSTAL_AER = key("vis_crystal_aer");
+            public static final ResourceKey<Recipe<?>> VIS_CRYSTAL_TERRA = key("vis_crystal_terra");
+            public static final ResourceKey<Recipe<?>> VIS_CRYSTAL_IGNIS = key("vis_crystal_ignis");
+            public static final ResourceKey<Recipe<?>> VIS_CRYSTAL_AQUA = key("vis_crystal_aqua");
+            public static final ResourceKey<Recipe<?>> VIS_CRYSTAL_ORDO = key("vis_crystal_ordo");
+            public static final ResourceKey<Recipe<?>> VIS_CRYSTAL_PERDITIO = key("vis_crystal_perditio");
 
             private static ResourceKey<Recipe<?>> key(String id) {
                 return ResourceKey.create(net.minecraft.core.registries.Registries.RECIPE, Thaumcraft.id(id));
@@ -177,6 +191,7 @@ public final class ThaumcraftData {
         public static final ResourceLocation NUGGET_QUICKSILVER = Thaumcraft.id("nugget_quicksilver");
         public static final ResourceLocation NUGGET_THAUMIUM = Thaumcraft.id("nugget_thaumium");
         public static final ResourceLocation NUGGET_VOID = Thaumcraft.id("nugget_void");
+        public static final ResourceLocation NUGGET_QUARTZ = Thaumcraft.id("nugget_quartz");
 
         public static final ResourceLocation FILTER = Thaumcraft.id("filter");
         public static final ResourceLocation FABRIC = Thaumcraft.id("fabric");

@@ -1,6 +1,7 @@
 package art.arcane.thaumcraft.data.generator.providers.recipes;
 
 import com.google.gson.JsonElement;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -17,7 +18,7 @@ public class InfusionProvider extends CodecDataProvider<InfusionRecipe> {
     }
 
     @Override
-    protected void createEntries() {
+    protected void createEntries(HolderLookup.Provider registries) {
         register(Infusion.DEBUG.location(), new InfusionRecipe.Builder(new ItemStack(Items.DIAMOND), Items.IRON_INGOT)
                 .addComponent(Items.GOLD_INGOT).addComponent(Items.GOLD_INGOT).addComponent(Items.REDSTONE)
                 .setEssentia(ThaumcraftData.Aspects.CRYSTAL, 50)
