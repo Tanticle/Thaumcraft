@@ -205,10 +205,10 @@ public final class ThaumcraftFX {
         }
 
         RandomSource random = level.random;
-        BlockPos pos = data.pos();
-        double x = pos.getX() + 0.5;
-        double y = pos.getY() + 0.5;
-        double z = pos.getZ() + 0.5;
+        Vec3 pos = data.pos();
+        double x = pos.x();
+        double y = pos.y();
+        double z = pos.z();
 
         int color = data.color();
         float r = ((color >> 16) & 0xFF) / 255.0f;

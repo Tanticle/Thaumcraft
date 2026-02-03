@@ -415,6 +415,8 @@ public final class ThaumcraftData {
         public static final SoundEvent DUST = variable("dust");
         public static final SoundEvent POOF = variable("poof");
         public static final SoundEvent COINS = variable("coins");
+        public static final SoundEvent BUBBLE = variable("bubble");
+        public static final SoundEvent SPILL = variable("spill");
 
         private static SoundEvent fixed(String id, float range) {
             return SoundEvent.createFixedRangeEvent(Thaumcraft.id(id), range);

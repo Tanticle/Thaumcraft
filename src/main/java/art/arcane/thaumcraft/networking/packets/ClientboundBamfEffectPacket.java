@@ -5,18 +5,23 @@ import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
+import net.minecraft.world.phys.Vec3;
 import art.arcane.thaumcraft.api.ThaumcraftData;
 
 public record ClientboundBamfEffectPacket(
-        BlockPos pos,
+        Vec3 pos,
         int color,
         boolean playSound,
         boolean flair
 ) implements CustomPacketPayload {
 
+    public ClientboundBamfEffectPacket(BlockPos blockPos, int color, boolean playSound, boolean flair) {
+        this(Vec3.atCenterOf(blockPos), color, playSound, flair);
+    }
+
     public static final StreamCodec<FriendlyByteBuf, ClientboundBamfEffectPacket> STREAM_CODEC =
             StreamCodec.composite(
-                    BlockPos.STREAM_CODEC, ClientboundBamfEffectPacket::pos,
+                    ByteBufCodecs.fromCodec(Vec3.CODEC), ClientboundBamfEffectPacket::pos,
                     ByteBufCodecs.VAR_INT, ClientboundBamfEffectPacket::color,
                     ByteBufCodecs.BOOL, ClientboundBamfEffectPacket::playSound,
                     ByteBufCodecs.BOOL, ClientboundBamfEffectPacket::flair,
