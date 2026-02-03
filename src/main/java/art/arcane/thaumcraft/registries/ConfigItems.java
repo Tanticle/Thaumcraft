@@ -67,13 +67,22 @@ public final class ConfigItems {
                     .component(ConfigItemComponents.WARPING.value(), new WarpingComponent(1))
                     .component(ConfigItemComponents.VIS_COST_MODIFIER.value(), new VisCostModifierComponent(-0.01F))),
             ConfigCreativeTabs.MAIN);
-	public static final ArmorSet ARMOR_CRIMSON_ROBE = registerArmorSet(ThaumcraftMaterials.Armor.CRIMSON_ROBE, FancyArmorItem.ArmorSet.CRIMSON_ROBE, true, p ->
+
+	public static final DeferredItem<ArmorItem> ARMOR_THAUMATURGE_CHEST = registerArmorItem(ThaumcraftMaterials.Armor.THAUMATURGE, ArmorType.CHESTPLATE, p ->
+			p.rarity(Rarity.UNCOMMON).component(ConfigItemComponents.VIS_COST_MODIFIER.value(), new VisCostModifierComponent(-0.03F)), ConfigCreativeTabs.MAIN);
+	public static final DeferredItem<ArmorItem> ARMOR_THAUMATURGE_PANTS = registerArmorItem(ThaumcraftMaterials.Armor.THAUMATURGE, ArmorType.LEGGINGS, p ->
+			p.rarity(Rarity.UNCOMMON).component(ConfigItemComponents.VIS_COST_MODIFIER.value(), new VisCostModifierComponent(-0.03F)), ConfigCreativeTabs.MAIN);
+	public static final DeferredItem<ArmorItem> ARMOR_THAUMATURGE_BOOTS = registerArmorItem(ThaumcraftMaterials.Armor.THAUMATURGE, ArmorType.BOOTS, p ->
+			p.rarity(Rarity.UNCOMMON).component(ConfigItemComponents.VIS_COST_MODIFIER.value(), new VisCostModifierComponent(-0.02F)), ConfigCreativeTabs.MAIN);
+
+
+	public static final FancyArmorSet ARMOR_CRIMSON_ROBE = registerFancyArmorSet(ThaumcraftMaterials.Armor.CRIMSON_ROBE, FancyArmorItem.ArmorSet.CRIMSON_ROBE, p ->
 			p.rarity(Rarity.UNCOMMON)
 					.component(ConfigItemComponents.WARPING.value(), new WarpingComponent(1))
 					.component(ConfigItemComponents.VIS_COST_MODIFIER.value(), new VisCostModifierComponent(-0.01F)),
 			ConfigCreativeTabs.MAIN);
-    public static final ArmorSet ARMOR_CRIMSON_LEADER = registerArmorSet(ThaumcraftMaterials.Armor.CRIMSON_LEADER, FancyArmorItem.ArmorSet.CRIMSON_LEADER, true, p -> p.rarity(Rarity.RARE), ConfigCreativeTabs.MAIN);
-    public static final ArmorSet ARMOR_CRIMSON_PLATE = registerArmorSet(ThaumcraftMaterials.Armor.CRIMSON_PLATE, FancyArmorItem.ArmorSet.CRIMSON_PLATE, true, p -> p.rarity(Rarity.UNCOMMON), ConfigCreativeTabs.MAIN);
+    public static final FancyArmorSet ARMOR_CRIMSON_LEADER = registerFancyArmorSet(ThaumcraftMaterials.Armor.CRIMSON_LEADER, FancyArmorItem.ArmorSet.CRIMSON_LEADER, p -> p.rarity(Rarity.RARE), ConfigCreativeTabs.MAIN);
+    public static final FancyArmorSet ARMOR_CRIMSON_PLATE = registerFancyArmorSet(ThaumcraftMaterials.Armor.CRIMSON_PLATE, FancyArmorItem.ArmorSet.CRIMSON_PLATE, p -> p.rarity(Rarity.UNCOMMON), ConfigCreativeTabs.MAIN);
 
 
     // Resources
@@ -139,25 +148,22 @@ public final class ConfigItems {
         return obj;
     }
 
-    private static ArmorSet registerArmorSet(ArmorMaterial material,
-											 FancyArmorItem.ArmorSet armorSet,
-                                             boolean skipBoots,
-                                             UnaryOperator<Item.Properties> itemProperties,
-                                             SimpleCreativeTab tab) {
+	private static DeferredItem<ArmorItem> registerArmorItem(ArmorMaterial material, ArmorType type, UnaryOperator<Item.Properties> itemProperties, SimpleCreativeTab tab) {
+		return registerItem(material.assetId().location().withSuffix("_" + type.getName()), p -> new ArmorItem(material, type, itemProperties.apply(p)), tab);
+	}
+
+    private static FancyArmorSet registerFancyArmorSet(ArmorMaterial material,
+													   FancyArmorItem.ArmorSet armorSet,
+													   UnaryOperator<Item.Properties> itemProperties,
+													   SimpleCreativeTab tab) {
         DeferredItem<ArmorItem> head = registerItem(material.assetId().location().withSuffix("_helmet"), p -> new FancyArmorItem(armorSet, material, ArmorType.HELMET,  itemProperties.apply(p)), tab);
         DeferredItem<ArmorItem> chest = registerItem(material.assetId().location().withSuffix("_chestplate"), p -> new FancyArmorItem(armorSet, material, ArmorType.CHESTPLATE,  itemProperties.apply(p)),tab);
         DeferredItem<ArmorItem> leggings = registerItem(material.assetId().location().withSuffix("_leggings"), p -> new FancyArmorItem(armorSet, material, ArmorType.LEGGINGS,  itemProperties.apply(p)),tab);
-        if(!skipBoots) {
-            //TODO: Dirty Hack, find a better way to do this
-            DeferredItem<ArmorItem> boots = registerItem (material.assetId().location().withSuffix("_boots"), p -> new FancyArmorItem(armorSet, material, ArmorType.BOOTS,  itemProperties.apply(p)), tab);
-            return new ArmorSet(head, chest, leggings, boots);
-        }
-;       return new ArmorSet(head, chest, leggings, null);
+;       return new FancyArmorSet(head, chest, leggings);
     }
 
-    public record ArmorSet(
+    public record FancyArmorSet(
             DeferredItem<ArmorItem> head,
             DeferredItem<ArmorItem> chest,
-            DeferredItem<ArmorItem> legs,
-            DeferredItem<ArmorItem> boots) { }
+            DeferredItem<ArmorItem> legs) { }
 }

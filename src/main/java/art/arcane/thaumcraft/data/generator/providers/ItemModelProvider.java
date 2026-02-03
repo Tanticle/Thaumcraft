@@ -1,6 +1,9 @@
 package art.arcane.thaumcraft.data.generator.providers;
 
+import art.arcane.thaumcraft.util.Colour;
 import net.minecraft.client.color.item.Constant;
+import net.minecraft.client.color.item.Dye;
+import net.minecraft.client.color.item.ItemTintSource;
 import net.minecraft.client.data.models.BlockModelGenerators;
 import net.minecraft.client.data.models.ItemModelGenerators;
 import net.minecraft.client.data.models.ModelProvider;
@@ -19,6 +22,7 @@ import art.arcane.thaumcraft.items.ItemModelProperties;
 import art.arcane.thaumcraft.registries.ConfigItems;
 import art.arcane.thaumcraft.util.RegistryUtils;
 
+import java.util.function.Supplier;
 import java.util.stream.Stream;
 
 
@@ -34,7 +38,7 @@ public class ItemModelProvider extends ModelProvider {
     protected void registerModels(BlockModelGenerators blockModels, ItemModelGenerators itemModels) {
         items = itemModels;
 
-        tintableAspect2LayerItem(ConfigItems.JAR_LABEL, "alchemy");
+        phialItem(ConfigItems.JAR_LABEL, "alchemy");
         simpleItem(ConfigItems.JAR_BRACE, "alchemy");
 
         // Resources
@@ -53,7 +57,7 @@ public class ItemModelProvider extends ModelProvider {
         simpleItem(ConfigItems.LOOT_BAG_RARE);
 
         tintableAspectItem(ConfigItems.VIS_CRYSTAL, "resources");
-        tintableAspect2LayerItem(ConfigItems.PHIAL, "resources");
+        phialItem(ConfigItems.PHIAL, "resources");
 
         // Tools
         batchItems("tools",
@@ -66,9 +70,13 @@ public class ItemModelProvider extends ModelProvider {
 
         // Armor
         simpleItem(ConfigItems.ARMOR_CRIMSON_BOOTS, "armor");
-        armorSet(ConfigItems.ARMOR_CRIMSON_LEADER, true);
-        armorSet(ConfigItems.ARMOR_CRIMSON_PLATE, true);
-        armorSet(ConfigItems.ARMOR_CRIMSON_ROBE, true);
+        armorSet(ConfigItems.ARMOR_CRIMSON_LEADER);
+        armorSet(ConfigItems.ARMOR_CRIMSON_PLATE);
+        armorSet(ConfigItems.ARMOR_CRIMSON_ROBE);
+
+		tintableItem2Layer(ConfigItems.ARMOR_THAUMATURGE_CHEST, () -> new Dye(EquipmentInfoProvider.COLOUR_THAUMATURGE), "armor");
+		tintableItem2Layer(ConfigItems.ARMOR_THAUMATURGE_PANTS, () -> new Dye(EquipmentInfoProvider.COLOUR_THAUMATURGE), "armor");
+		tintableItem2Layer(ConfigItems.ARMOR_THAUMATURGE_BOOTS, () -> new Dye(EquipmentInfoProvider.COLOUR_THAUMATURGE), "armor");
     }
 
     protected void simpleItem(Holder<? extends Item> item, String... parentFolder) {
@@ -100,7 +108,7 @@ public class ItemModelProvider extends ModelProvider {
     }
 
 
-    protected void tintableAspect2LayerItem(Holder<? extends Item> item, String... parentFolder) {
+    protected void phialItem(Holder<? extends Item> item, String... parentFolder) {
         ResourceLocation location = RegistryUtils.getItemLocation(item, parentFolder);
 
         ResourceLocation emptyModel = ModelTemplates.FLAT_ITEM.create(location.withSuffix("_empty"),
@@ -117,10 +125,16 @@ public class ItemModelProvider extends ModelProvider {
         ));
     }
 
-    protected void armorSet(ConfigItems.ArmorSet armorSet, boolean skipBoots) {
+	protected void tintableItem2Layer(Holder<? extends Item> item, Supplier<? extends ItemTintSource> source, String... parentFolder) {
+		ResourceLocation location = RegistryUtils.getItemLocation(item, parentFolder);
+		ResourceLocation model = ModelTemplates.TWO_LAYERED_ITEM.create(location,
+				TextureMapping.layered(location, location.withSuffix("_overlay")),
+				items.modelOutput);
+		items.itemModelOutput.accept(item.value(), ItemModelUtils.tintedModel(model, new Constant(0xFFFFFFFF), source.get()));
+	}
+
+    protected void armorSet(ConfigItems.FancyArmorSet armorSet) {
         batchItems("armor", armorSet.head(), armorSet.chest(), armorSet.legs());
-        if(!skipBoots)
-            simpleItem(armorSet.boots(), "armor");
     }
 
     @Override
