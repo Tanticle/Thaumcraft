@@ -70,6 +70,10 @@ public final class UncommonTags {
     public static final TagKey<Item> ITEM_RUBBER = item("forge", "misc_items/rubber");
     public static final TagKey<Item> ITEM_SILICON = item("forge", "misc_items/silicon");
     public static final TagKey<Item> ITEM_SULFUR = item("forge", "misc_items/sulfur");
+    //VANILLA TAGS (not available in ItemTags class)
+    public static final TagKey<Item> SPAWN_EGGS = item("minecraft", "spawn_eggs");
+    public static final TagKey<Item> MUSIC_DISCS = item("minecraft", "music_discs");
+    public static final TagKey<Item> TRIM_TEMPLATES = item("minecraft", "trim_templates");
 
     private static TagKey<Item> item(String namespace, String id) {
         return TagKey.create(Registries.ITEM, ResourceLocation.tryBuild(namespace, id));
