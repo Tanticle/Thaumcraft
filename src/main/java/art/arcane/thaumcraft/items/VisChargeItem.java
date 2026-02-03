@@ -29,6 +29,14 @@ public class VisChargeItem extends Item {
 		stack.set(ConfigItemComponents.VIS_CHARGE.value(), Math.min(maxCharge, currentCharge + amount));
 	}
 
+	public void setCharge(ItemStack stack, int amount) {
+		if(!stack.has(ConfigItemComponents.VIS_CHARGE_MAX.value()))
+			return;
+
+		int maxCharge = stack.get(ConfigItemComponents.VIS_CHARGE_MAX.value());
+		stack.set(ConfigItemComponents.VIS_CHARGE.value(), Math.min(maxCharge, amount));
+	}
+
 	public int getCharge(ItemStack stack) {
 		return stack.getOrDefault(ConfigItemComponents.VIS_CHARGE.value(), 0);
 	}

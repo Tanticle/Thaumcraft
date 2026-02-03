@@ -1,10 +1,11 @@
 package art.arcane.thaumcraft.commands;
 
 import art.arcane.thaumcraft.items.VisChargeItem;
-import art.arcane.thaumcraft.registries.ConfigItemComponents;
 import com.mojang.brigadier.CommandDispatcher;
+import com.mojang.brigadier.arguments.IntegerArgumentType;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 
 public final class VisChargeCommand {
@@ -13,18 +14,23 @@ public final class VisChargeCommand {
 		dispatcher.register(Commands.literal("thaumcraft")
 				.requires(source -> source.hasPermission(2) && source.isPlayer())
 				.then(Commands.literal("charge")
-						.executes(commandContext -> {
-							commandContext.getSource().getPlayer().getInventory().items.stream().filter(itemStack -> itemStack.getItem() instanceof VisChargeItem).forEach(VisChargeCommand::chargeItem);
-							return 0;
-						})
+						.executes(ctx -> chargeAll(ctx.getSource().getPlayer(), -1))
+						.then(Commands.argument("amount", IntegerArgumentType.integer(1))
+								.executes(ctx -> chargeAll(ctx.getSource().getPlayer(), IntegerArgumentType.getInteger(ctx, "amount"))))
 				)
 		);
 	}
 
-	private static void chargeItem(ItemStack itemStack) {
+	private static int chargeAll(Player player, int amount) {
+		player.getInventory().items.stream().filter(itemStack -> itemStack.getItem() instanceof VisChargeItem).forEach(i -> chargeItem(i, amount));
+		player.getInventory().armor.stream().filter(itemStack -> itemStack.getItem() instanceof VisChargeItem).forEach(i -> chargeItem(i, amount));
+		player.getInventory().offhand.stream().filter(itemStack -> itemStack.getItem() instanceof VisChargeItem).forEach(i -> chargeItem(i, amount));
+		return 0;
+	}
+
+	private static void chargeItem(ItemStack itemStack, int amount) {
 		if(itemStack.getItem() instanceof VisChargeItem vis) {
-			int maxChange = itemStack.get(ConfigItemComponents.VIS_CHARGE_MAX.value());
-			vis.addCharge(itemStack, 9999);
+			vis.setCharge(itemStack, amount == -1 ? 9999 : amount);
 		}
 	}
 }
