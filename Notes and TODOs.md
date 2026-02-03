@@ -153,7 +153,7 @@
 
 ### Equipment: Armor
 
-- [ ] Thaumium Armor
+- [x] Thaumium Armor
 - [ ] Void Armor & Robes
 - [x] Thaumaturge's Armor
 - [x] Cultist Armor (Robes, Plate, Leader)
@@ -161,7 +161,7 @@
     - [ ] Cloth Flaps
 - [ ] Fortress Armor (Helm upgrades: Masks)
 - [ ] Goggles of Revealing (HUD overlay)
-- [ ] Boots of the Traveller (Jump/Speed boost)
+- [x] Boots of the Traveller (Jump/Speed boost)
 
 ### Equipment: Tools & Weapons
 
