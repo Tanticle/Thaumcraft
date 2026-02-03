@@ -46,13 +46,13 @@ public final class ThaumcraftMaterials {
 				TagKey.create(Registries.ITEM, Items.INGOT_THAUMIUM),
 				ArmorTypes.THAUMIUM);
 
-		public static final ArmorMaterial VOID_PLATE = new ArmorMaterial(
+		public static final ArmorMaterial VOID_METAL = new ArmorMaterial(
 				255,
-				defenseValues(3, 6, 8, 3),
+				defenseValues(3, 8, 6, 3),
 				10, SoundEvents.ARMOR_EQUIP_CHAIN,
 				1.0F, 0.0F,
 				TagKey.create(Registries.ITEM, Items.INGOT_THAUMIUM),
-				ArmorTypes.VOID_PLATE);
+				ArmorTypes.VOID_METAL);
 
 		public static final ArmorMaterial VOID_ROBE = new ArmorMaterial(
 				255,

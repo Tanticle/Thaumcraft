@@ -77,6 +77,16 @@ public class ItemModelProvider extends ModelProvider {
 		tintableItem2Layer(ConfigItems.ARMOR_THAUMATURGE_CHEST, () -> new Dye(EquipmentInfoProvider.COLOUR_THAUMATURGE), "armor");
 		tintableItem2Layer(ConfigItems.ARMOR_THAUMATURGE_PANTS, () -> new Dye(EquipmentInfoProvider.COLOUR_THAUMATURGE), "armor");
 		tintableItem2Layer(ConfigItems.ARMOR_THAUMATURGE_BOOTS, () -> new Dye(EquipmentInfoProvider.COLOUR_THAUMATURGE), "armor");
+
+		simpleItem(ConfigItems.ARMOR_THAUMIUM_HELMET, "armor");
+		simpleItem(ConfigItems.ARMOR_THAUMIUM_CHEST, "armor");
+		simpleItem(ConfigItems.ARMOR_THAUMIUM_PANTS, "armor");
+		simpleItem(ConfigItems.ARMOR_THAUMIUM_BOOTS, "armor");
+
+		simpleItem(ConfigItems.ARMOR_VOID_HELMET, "armor");
+		simpleItem(ConfigItems.ARMOR_VOID_CHEST, "armor");
+		simpleItem(ConfigItems.ARMOR_VOID_PANTS, "armor");
+		simpleItem(ConfigItems.ARMOR_VOID_BOOTS, "armor");
     }
 
     protected void simpleItem(Holder<? extends Item> item, String... parentFolder) {

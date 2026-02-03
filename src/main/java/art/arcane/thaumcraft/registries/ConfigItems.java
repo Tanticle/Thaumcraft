@@ -75,6 +75,21 @@ public final class ConfigItems {
 	public static final DeferredItem<ArmorItem> ARMOR_THAUMATURGE_BOOTS = registerArmorItem(ThaumcraftMaterials.Armor.THAUMATURGE, ArmorType.BOOTS, p ->
 			p.rarity(Rarity.UNCOMMON).component(ConfigItemComponents.VIS_COST_MODIFIER.value(), new VisCostModifierComponent(-0.02F)), ConfigCreativeTabs.MAIN);
 
+	public static final DeferredItem<ArmorItem> ARMOR_THAUMIUM_HELMET = registerArmorItem(ThaumcraftMaterials.Armor.THAUMIUM, ArmorType.HELMET, p -> p.rarity(Rarity.UNCOMMON), ConfigCreativeTabs.MAIN);
+	public static final DeferredItem<ArmorItem> ARMOR_THAUMIUM_CHEST = registerArmorItem(ThaumcraftMaterials.Armor.THAUMIUM, ArmorType.CHESTPLATE, p -> p.rarity(Rarity.UNCOMMON), ConfigCreativeTabs.MAIN);
+	public static final DeferredItem<ArmorItem> ARMOR_THAUMIUM_PANTS = registerArmorItem(ThaumcraftMaterials.Armor.THAUMIUM, ArmorType.LEGGINGS, p -> p.rarity(Rarity.UNCOMMON), ConfigCreativeTabs.MAIN);
+	public static final DeferredItem<ArmorItem> ARMOR_THAUMIUM_BOOTS = registerArmorItem(ThaumcraftMaterials.Armor.THAUMIUM, ArmorType.BOOTS, p -> p.rarity(Rarity.UNCOMMON), ConfigCreativeTabs.MAIN);
+
+	public static final DeferredItem<ArmorItem> ARMOR_VOID_HELMET = registerArmorItem(ThaumcraftMaterials.Armor.VOID_METAL, ArmorType.HELMET, p ->
+			p.rarity(Rarity.UNCOMMON).component(ConfigItemComponents.WARPING.value(), new WarpingComponent(1)), ConfigCreativeTabs.MAIN);
+	public static final DeferredItem<ArmorItem> ARMOR_VOID_CHEST = registerArmorItem(ThaumcraftMaterials.Armor.VOID_METAL, ArmorType.CHESTPLATE, p ->
+			p.rarity(Rarity.UNCOMMON).component(ConfigItemComponents.WARPING.value(), new WarpingComponent(1)), ConfigCreativeTabs.MAIN);
+	public static final DeferredItem<ArmorItem> ARMOR_VOID_PANTS = registerArmorItem(ThaumcraftMaterials.Armor.VOID_METAL, ArmorType.LEGGINGS, p ->
+			p.rarity(Rarity.UNCOMMON).component(ConfigItemComponents.WARPING.value(), new WarpingComponent(1)), ConfigCreativeTabs.MAIN);
+	public static final DeferredItem<ArmorItem> ARMOR_VOID_BOOTS = registerArmorItem(ThaumcraftMaterials.Armor.VOID_METAL, ArmorType.BOOTS, p ->
+			p.rarity(Rarity.UNCOMMON).component(ConfigItemComponents.WARPING.value(), new WarpingComponent(1)), ConfigCreativeTabs.MAIN);
+
+
 
 	public static final FancyArmorSet ARMOR_CRIMSON_ROBE = registerFancyArmorSet(ThaumcraftMaterials.Armor.CRIMSON_ROBE, FancyArmorItem.ArmorSet.CRIMSON_ROBE, p ->
 			p.rarity(Rarity.UNCOMMON)

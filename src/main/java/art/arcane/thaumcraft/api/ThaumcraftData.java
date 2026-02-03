@@ -373,7 +373,7 @@ public final class ThaumcraftData {
         public static final ResourceKey<EquipmentAsset> THAUMIUM = key("thaumium");
         public static final ResourceKey<EquipmentAsset> THAUMATURGE = key("thaumaturge");
         public static final ResourceKey<EquipmentAsset> VOID_ROBE = key("void_robe");
-        public static final ResourceKey<EquipmentAsset> VOID_PLATE = key("void_plate");
+        public static final ResourceKey<EquipmentAsset> VOID_METAL = key("void_metal");
         public static final ResourceKey<EquipmentAsset> FORTRESS = key("fortress");
         public static final ResourceKey<EquipmentAsset> CRIMSON_PLATE = key("crimson_plate");
         public static final ResourceKey<EquipmentAsset> CRIMSON_ROBE = key("crimson_robe");

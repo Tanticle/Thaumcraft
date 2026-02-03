@@ -54,5 +54,35 @@ public class EquipmentInfoProvider extends EquipmentAssetProvider {
 										Optional.of(new EquipmentClientInfo.Dyeable(Optional.of(COLOUR_THAUMATURGE))),
 										false)).build());
 
+		output.accept(ThaumcraftMaterials.Armor.THAUMIUM.assetId(),
+				EquipmentClientInfo.builder()
+						.addLayers(
+								EquipmentClientInfo.LayerType.HUMANOID,
+								new EquipmentClientInfo.Layer(
+										ThaumcraftMaterials.Armor.THAUMIUM.assetId().location(),
+										Optional.empty(),
+										false))
+						.addLayers(
+								EquipmentClientInfo.LayerType.HUMANOID_LEGGINGS,
+								new EquipmentClientInfo.Layer(
+										ThaumcraftMaterials.Armor.THAUMIUM.assetId().location(),
+										Optional.empty(),
+										false)).build());
+
+		output.accept(ThaumcraftMaterials.Armor.VOID_METAL.assetId(),
+				EquipmentClientInfo.builder()
+						.addLayers(
+								EquipmentClientInfo.LayerType.HUMANOID,
+								new EquipmentClientInfo.Layer(
+										ThaumcraftMaterials.Armor.VOID_METAL.assetId().location(),
+										Optional.empty(),
+										false))
+						.addLayers(
+								EquipmentClientInfo.LayerType.HUMANOID_LEGGINGS,
+								new EquipmentClientInfo.Layer(
+										ThaumcraftMaterials.Armor.VOID_METAL.assetId().location(),
+										Optional.empty(),
+										false)).build());
+
     }
 }
