@@ -13,6 +13,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import art.arcane.thaumcraft.blocks.LevitatorBlock;
+import art.arcane.thaumcraft.client.fx.ThaumcraftFX;
 import art.arcane.thaumcraft.config.ThaumcraftConfig;
 import art.arcane.thaumcraft.data.aura.AuraHelper;
 import art.arcane.thaumcraft.registries.ConfigBlockEntities;
@@ -100,7 +101,7 @@ public class LevitatorBlockEntity extends SimpleBlockEntity implements TickableB
         double vx = facing.getStepX() / 50.0;
         double vy = facing.getStepY() / 50.0;
         double vz = facing.getStepZ() / 50.0;
-        art.arcane.thaumcraft.client.fx.ThaumcraftFX.drawLevitatorParticle(x, y, z, vx, vy, vz);
+        ThaumcraftFX.drawLevitatorParticle(x, y, z, vx, vy, vz);
     }
 
     private void updateRangeActual(Direction facing) {
