@@ -345,23 +345,7 @@ public class AspectRegistryProvider extends JsonCodecProvider<AspectList> {
         bothTag(Tags.Blocks.GLAZED_TERRACOTTAS, new AspectList().add(Aspects.FIRE, 5).add(Aspects.SENSE, 5).add(Aspects.CRAFT, 3));
 
         //CONCRETE_POWDERS
-        AspectList concretePowderAspects = new AspectList().add(Aspects.EARTH, 5).add(Aspects.CHAOS, 3);
-        both(concretePowderAspects.clone(), Blocks.WHITE_CONCRETE_POWDER);
-        both(concretePowderAspects.clone(), Blocks.ORANGE_CONCRETE_POWDER);
-        both(concretePowderAspects.clone(), Blocks.MAGENTA_CONCRETE_POWDER);
-        both(concretePowderAspects.clone(), Blocks.LIGHT_BLUE_CONCRETE_POWDER);
-        both(concretePowderAspects.clone(), Blocks.YELLOW_CONCRETE_POWDER);
-        both(concretePowderAspects.clone(), Blocks.LIME_CONCRETE_POWDER);
-        both(concretePowderAspects.clone(), Blocks.PINK_CONCRETE_POWDER);
-        both(concretePowderAspects.clone(), Blocks.GRAY_CONCRETE_POWDER);
-        both(concretePowderAspects.clone(), Blocks.LIGHT_GRAY_CONCRETE_POWDER);
-        both(concretePowderAspects.clone(), Blocks.CYAN_CONCRETE_POWDER);
-        both(concretePowderAspects.clone(), Blocks.PURPLE_CONCRETE_POWDER);
-        both(concretePowderAspects.clone(), Blocks.BLUE_CONCRETE_POWDER);
-        both(concretePowderAspects.clone(), Blocks.BROWN_CONCRETE_POWDER);
-        both(concretePowderAspects.clone(), Blocks.GREEN_CONCRETE_POWDER);
-        both(concretePowderAspects.clone(), Blocks.RED_CONCRETE_POWDER);
-        both(concretePowderAspects.clone(), Blocks.BLACK_CONCRETE_POWDER);
+        bothTag(BlockTags.CONCRETE_POWDER, new AspectList().add(Aspects.EARTH, 5).add(Aspects.CHAOS, 3));
 
         //SLABS
         bothTag(BlockTags.SLABS, new AspectList().add(Aspects.CRAFT, 1));
@@ -382,7 +366,7 @@ public class AspectRegistryProvider extends JsonCodecProvider<AspectList> {
         bothTag(BlockTags.WALLS, new AspectList().add(Aspects.CRAFT, 1));
 
         //WALL_CORALS
-        bothTag(BlockTags.WALL_CORALS, new AspectList().add(Aspects.PLANT, 5).add(Aspects.WATER, 5));
+        bothTag(BlockTags.WALL_CORALS, new AspectList().add(Aspects.WATER, 5).add(Aspects.PLANT, 5).add(Aspects.SENSE, 3));
 
         //WARPED_STEMS
         bothTag(BlockTags.WARPED_STEMS, new AspectList().add(Aspects.MAGIC, 5).add(Aspects.TAINT, 5));
@@ -428,7 +412,6 @@ public class AspectRegistryProvider extends JsonCodecProvider<AspectList> {
         both(new AspectList().add(Aspects.EARTH, 5), Blocks.DIRT);
         both(new AspectList().add(Aspects.EARTH, 5).add(Aspects.PLANT, 2).add(Aspects.ORDER, 2), Blocks.DIRT_PATH);
         both(new AspectList().add(Aspects.EARTH, 5), Blocks.COARSE_DIRT);
-        both(new AspectList().add(Aspects.EARTH, 5).add(Aspects.PLANT, 2), Blocks.ROOTED_DIRT);
         both(new AspectList().add(Aspects.EARTH, 5).add(Aspects.WATER, 2).add(Aspects.ORDER, 2), Blocks.FARMLAND);
         both(new AspectList().add(Aspects.EARTH, 5).add(Aspects.PLANT, 2), Blocks.GRASS_BLOCK);
         both(new AspectList().add(Aspects.EARTH, 5).add(Aspects.PLANT, 1).add(Aspects.TAINT, 1), Blocks.MYCELIUM);
@@ -539,9 +522,7 @@ public class AspectRegistryProvider extends JsonCodecProvider<AspectList> {
         both(new AspectList().add(Aspects.CRAFT, 5).add(Aspects.TOOL, 5), Blocks.LOOM);
         both(new AspectList().add(Aspects.CRAFT, 5).add(Aspects.TOOL, 5), Blocks.STONECUTTER);
         both(new AspectList().add(Aspects.CRAFT, 5).add(Aspects.TOOL, 5), Blocks.GRINDSTONE);
-        both(new AspectList().add(Aspects.CRAFT, 5).add(Aspects.TOOL, 5).add(Aspects.METAL, 5), Blocks.ANVIL);
-        both(new AspectList().add(Aspects.CRAFT, 5).add(Aspects.TOOL, 5).add(Aspects.METAL, 5), Blocks.CHIPPED_ANVIL);
-        both(new AspectList().add(Aspects.CRAFT, 5).add(Aspects.TOOL, 5).add(Aspects.METAL, 5), Blocks.DAMAGED_ANVIL);
+        bothTag(BlockTags.ANVIL, new AspectList().add(Aspects.CRAFT, 5).add(Aspects.TOOL, 5).add(Aspects.METAL, 5));
 
         //LANTERNS
         both(new AspectList().add(Aspects.FIRE, 5).add(Aspects.SPIRIT, 5), Blocks.SOUL_CAMPFIRE);
@@ -715,21 +696,8 @@ public class AspectRegistryProvider extends JsonCodecProvider<AspectList> {
         both(new AspectList().add(Aspects.MAGIC, 5).add(Aspects.POWER, 5).add(Aspects.CHANGE, 5), Blocks.CRAFTER);
         both(new AspectList().add(Aspects.DARKNESS, 10).add(Aspects.TRAP, 10).add(Aspects.ALIEN, 5), Blocks.HEAVY_CORE);
 
-        both(new AspectList().add(Aspects.WATER, 5).add(Aspects.PLANT, 5).add(Aspects.SENSE, 3), Blocks.TUBE_CORAL);
-        both(new AspectList().add(Aspects.WATER, 5).add(Aspects.PLANT, 5).add(Aspects.SENSE, 3), Blocks.BRAIN_CORAL);
-        both(new AspectList().add(Aspects.WATER, 5).add(Aspects.PLANT, 5).add(Aspects.SENSE, 3), Blocks.BUBBLE_CORAL);
-        both(new AspectList().add(Aspects.WATER, 5).add(Aspects.PLANT, 5).add(Aspects.SENSE, 3), Blocks.FIRE_CORAL);
-        both(new AspectList().add(Aspects.WATER, 5).add(Aspects.PLANT, 5).add(Aspects.SENSE, 3), Blocks.HORN_CORAL);
-        both(new AspectList().add(Aspects.WATER, 5).add(Aspects.PLANT, 10).add(Aspects.SENSE, 5), Blocks.TUBE_CORAL_BLOCK);
-        both(new AspectList().add(Aspects.WATER, 5).add(Aspects.PLANT, 10).add(Aspects.SENSE, 5), Blocks.BRAIN_CORAL_BLOCK);
-        both(new AspectList().add(Aspects.WATER, 5).add(Aspects.PLANT, 10).add(Aspects.SENSE, 5), Blocks.BUBBLE_CORAL_BLOCK);
-        both(new AspectList().add(Aspects.WATER, 5).add(Aspects.PLANT, 10).add(Aspects.SENSE, 5), Blocks.FIRE_CORAL_BLOCK);
-        both(new AspectList().add(Aspects.WATER, 5).add(Aspects.PLANT, 10).add(Aspects.SENSE, 5), Blocks.HORN_CORAL_BLOCK);
-        both(new AspectList().add(Aspects.WATER, 5).add(Aspects.PLANT, 5).add(Aspects.SENSE, 3), Blocks.TUBE_CORAL_FAN);
-        both(new AspectList().add(Aspects.WATER, 5).add(Aspects.PLANT, 5).add(Aspects.SENSE, 3), Blocks.BRAIN_CORAL_FAN);
-        both(new AspectList().add(Aspects.WATER, 5).add(Aspects.PLANT, 5).add(Aspects.SENSE, 3), Blocks.BUBBLE_CORAL_FAN);
-        both(new AspectList().add(Aspects.WATER, 5).add(Aspects.PLANT, 5).add(Aspects.SENSE, 3), Blocks.FIRE_CORAL_FAN);
-        both(new AspectList().add(Aspects.WATER, 5).add(Aspects.PLANT, 5).add(Aspects.SENSE, 3), Blocks.HORN_CORAL_FAN);
+        bothTag(BlockTags.CORALS, new AspectList().add(Aspects.WATER, 5).add(Aspects.PLANT, 5).add(Aspects.SENSE, 3));
+        bothTag(BlockTags.CORAL_BLOCKS, new AspectList().add(Aspects.WATER, 5).add(Aspects.PLANT, 10).add(Aspects.SENSE, 5));
         both(new AspectList().add(Aspects.WATER, 3).add(Aspects.DEATH, 3).add(Aspects.EARTH, 3), Blocks.DEAD_TUBE_CORAL);
         both(new AspectList().add(Aspects.WATER, 3).add(Aspects.DEATH, 3).add(Aspects.EARTH, 3), Blocks.DEAD_BRAIN_CORAL);
         both(new AspectList().add(Aspects.WATER, 3).add(Aspects.DEATH, 3).add(Aspects.EARTH, 3), Blocks.DEAD_BUBBLE_CORAL);
@@ -869,11 +837,6 @@ public class AspectRegistryProvider extends JsonCodecProvider<AspectList> {
         both(new AspectList().add(Aspects.WATER, 3).add(Aspects.DEATH, 3).add(Aspects.EARTH, 3), Blocks.DEAD_BUBBLE_CORAL_WALL_FAN);
         both(new AspectList().add(Aspects.WATER, 3).add(Aspects.DEATH, 3).add(Aspects.EARTH, 3), Blocks.DEAD_FIRE_CORAL_WALL_FAN);
         both(new AspectList().add(Aspects.WATER, 3).add(Aspects.DEATH, 3).add(Aspects.EARTH, 3), Blocks.DEAD_HORN_CORAL_WALL_FAN);
-        both(new AspectList().add(Aspects.WATER, 5).add(Aspects.PLANT, 5).add(Aspects.SENSE, 3), Blocks.TUBE_CORAL_WALL_FAN);
-        both(new AspectList().add(Aspects.WATER, 5).add(Aspects.PLANT, 5).add(Aspects.SENSE, 3), Blocks.BRAIN_CORAL_WALL_FAN);
-        both(new AspectList().add(Aspects.WATER, 5).add(Aspects.PLANT, 5).add(Aspects.SENSE, 3), Blocks.BUBBLE_CORAL_WALL_FAN);
-        both(new AspectList().add(Aspects.WATER, 5).add(Aspects.PLANT, 5).add(Aspects.SENSE, 3), Blocks.FIRE_CORAL_WALL_FAN);
-        both(new AspectList().add(Aspects.WATER, 5).add(Aspects.PLANT, 5).add(Aspects.SENSE, 3), Blocks.HORN_CORAL_WALL_FAN);
 
         both(new AspectList().add(Aspects.MACHINE, 5).add(Aspects.SENSE, 5).add(Aspects.FIRE, 3), Blocks.POLISHED_BLACKSTONE_PRESSURE_PLATE);
         both(new AspectList().add(Aspects.MACHINE, 5).add(Aspects.SENSE, 5).add(Aspects.FIRE, 3), Blocks.CRIMSON_PRESSURE_PLATE);
