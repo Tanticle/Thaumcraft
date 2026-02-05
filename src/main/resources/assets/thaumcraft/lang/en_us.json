@@ -77,6 +77,9 @@
   "block.thaumcraft.cinderpearl": "Cinderpearl",
   "block.thaumcraft.shimmerleaf": "Shimmerleaf",
 
+  "block.thaumcraft.hungry_chest": "Hungry Chest",
+  "block.thaumcraft.everfull_urn": "Everfull Urn",
+
   "biome.thaumcraft.magical_forest": "Magical Forest",
 
   "item.thaumcraft.jar_brace": "Brass Lid Brace",
@@ -170,6 +173,7 @@
   "entity.thaumcraft.traveling_trunk": "Traveling Trunk",
 
   "container.thaumcraft.arcane_workbench": "Arcane Workbench",
+  "container.thaumcraft.hungry_chest": "Hungry Chest",
 
   "key.thaumcraft.category.debug": "Thaumcraft - Debug",
   "key.thaumcraft.debug.research": "Open Research Debug Screen",
