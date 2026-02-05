@@ -270,7 +270,7 @@
 - [ ] Candles (16 colors)
 - [ ] Banners (TC specific)
 - [X] Nitor (8 colors, floating light)
-- [ ] Metal Storage Blocks (Thaumium, Brass, Void)
+- [X] Metal Storage Blocks (Thaumium, Brass, Void)
 - [ ] Translucent Glass (Beacon base, decorative)
 - [ ] Paving Stones (Arcane, Barrier, Travel)
 - [ ] Pillar Block (Directional decorative)
