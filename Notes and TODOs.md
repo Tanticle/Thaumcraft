@@ -154,10 +154,10 @@
 ### Equipment: Armor
 
 - [x] Thaumium Armor
-- [ ] Void Armor & Robes
+- [x] Void Armor & Robes
 - [x] Thaumaturge's Armor
 - [x] Cultist Armor (Robes, Plate, Leader)
-    - [ ] Better System for 3D Armor
+    - [ ] Better System for 3D Armor (For the love of god, it's awful)
     - [ ] Cloth Flaps
 - [ ] Fortress Armor (Helm upgrades: Masks)
 - [ ] Goggles of Revealing (HUD overlay)
