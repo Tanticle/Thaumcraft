@@ -15,6 +15,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.ItemLike;
+import art.arcane.thaumcraft.registries.ConfigBlocks;
 
 import java.util.concurrent.CompletableFuture;
 
@@ -34,15 +35,23 @@ public class VanillaRecipeProvider extends RecipeProvider {
         plate(ConfigItems.PLATE_THAUMIUM.get(), ConfigItems.INGOT_THAUMIUM.get());
         plate(ConfigItems.PLATE_VOID.get(), ConfigItems.INGOT_VOID.get());
 
-        nineToOne(ConfigItems.INGOT_BRASS.get(), ConfigItems.NUGGET_BRASS.get());
-        nineToOne(ConfigItems.INGOT_THAUMIUM.get(), ConfigItems.NUGGET_THAUMIUM.get());
-        nineToOne(ConfigItems.INGOT_VOID.get(), ConfigItems.NUGGET_VOID.get());
-        nineToOne(ConfigItems.QUICKSILVER.get(), ConfigItems.NUGGET_QUICKSILVER.get());
+        nineToOne(ConfigItems.INGOT_BRASS.get(), ConfigItems.NUGGET_BRASS.get(), "nuggets");
+        nineToOne(ConfigItems.INGOT_THAUMIUM.get(), ConfigItems.NUGGET_THAUMIUM.get(), "nuggets");
+        nineToOne(ConfigItems.INGOT_VOID.get(), ConfigItems.NUGGET_VOID.get(), "nuggets");
+        nineToOne(ConfigItems.QUICKSILVER.get(), ConfigItems.NUGGET_QUICKSILVER.get(), "nuggets");
 
-        oneToNine(ConfigItems.NUGGET_BRASS.get(), ConfigItems.INGOT_BRASS.get());
-        oneToNine(ConfigItems.NUGGET_THAUMIUM.get(), ConfigItems.INGOT_THAUMIUM.get());
-        oneToNine(ConfigItems.NUGGET_VOID.get(), ConfigItems.INGOT_VOID.get());
-        oneToNine(ConfigItems.NUGGET_QUICKSILVER.get(), ConfigItems.QUICKSILVER.get());
+        oneToNine(ConfigItems.NUGGET_BRASS.get(), ConfigItems.INGOT_BRASS.get(), "ingot");
+        oneToNine(ConfigItems.NUGGET_THAUMIUM.get(), ConfigItems.INGOT_THAUMIUM.get(), "ingot");
+        oneToNine(ConfigItems.NUGGET_VOID.get(), ConfigItems.INGOT_VOID.get(), "ingot");
+        oneToNine(ConfigItems.NUGGET_QUICKSILVER.get(), ConfigItems.QUICKSILVER.get(), "ingot");
+
+        nineToOne(ConfigBlocks.METAL_BRASS.item(), ConfigItems.INGOT_BRASS.get(), "ingots");
+        nineToOne(ConfigBlocks.METAL_THAUMIUM.item(), ConfigItems.INGOT_THAUMIUM.get(), "ingots");
+        nineToOne(ConfigBlocks.METAL_VOID.item(), ConfigItems.INGOT_VOID.get(), "ingots");
+
+        oneToNine(ConfigItems.INGOT_BRASS.get(), ConfigBlocks.METAL_BRASS.item(), "block");
+        oneToNine(ConfigItems.INGOT_THAUMIUM.get(), ConfigBlocks.METAL_THAUMIUM.item(), "block");
+        oneToNine(ConfigItems.INGOT_VOID.get(), ConfigBlocks.METAL_VOID.item(), "block");
 
         ShapedRecipeBuilder.shaped(items, RecipeCategory.MISC, ConfigItems.FILTER.get())
                 .pattern(" S ")
@@ -71,21 +80,21 @@ public class VanillaRecipeProvider extends RecipeProvider {
                 .save(this.output);
     }
 
-    private void nineToOne(ItemLike result, ItemLike ingredient) {
+    private void nineToOne(ItemLike result, ItemLike ingredient, String suffix) {
         ShapedRecipeBuilder.shaped(items, RecipeCategory.MISC, result)
                 .pattern("NNN")
                 .pattern("NNN")
                 .pattern("NNN")
                 .define('N', ingredient)
                 .unlockedBy("has_ingredient", has(ingredient))
-                .save(this.output, "thaumcraft:" + getItemName(result) + "_from_nuggets");
+                .save(this.output, "thaumcraft:" + getItemName(result) + "_from_" + suffix);
     }
 
-    private void oneToNine(ItemLike result, ItemLike ingredient) {
+    private void oneToNine(ItemLike result, ItemLike ingredient, String suffix) {
         ShapelessRecipeBuilder.shapeless(items, RecipeCategory.MISC, result, 9)
                 .requires(ingredient)
                 .unlockedBy("has_ingredient", has(ingredient))
-                .save(this.output, "thaumcraft:" + getItemName(result) + "_from_ingot");
+                .save(this.output, "thaumcraft:" + getItemName(result) + "_from_" + suffix);
     }
 
     public static class Runner extends RecipeProvider.Runner {

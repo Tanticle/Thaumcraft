@@ -95,6 +95,10 @@ public class BlockDataProvider extends ModelProvider {
         simpleBlock(ConfigBlocks.DEEPSLATE_ORE_CINNABAR);
         simpleBlock(ConfigBlocks.DEEPSLATE_ORE_QUARTZ);
 
+        simpleBlock(ConfigBlocks.METAL_BRASS);
+        simpleBlock(ConfigBlocks.METAL_THAUMIUM);
+        simpleBlock(ConfigBlocks.METAL_VOID);
+
         registerSilverwoodTree();
         registerGreatwoodTree();
 

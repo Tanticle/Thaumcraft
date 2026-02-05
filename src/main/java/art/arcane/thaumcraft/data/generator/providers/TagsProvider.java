@@ -31,6 +31,9 @@ public class TagsProvider extends BlockTagsProvider {
                 ConfigBlocks.DEEPSLATE_ORE_AMBER.block(),
                 ConfigBlocks.DEEPSLATE_ORE_CINNABAR.block(),
                 ConfigBlocks.DEEPSLATE_ORE_QUARTZ.block(),
+                ConfigBlocks.METAL_BRASS.block(),
+                ConfigBlocks.METAL_THAUMIUM.block(),
+                ConfigBlocks.METAL_VOID.block(),
                 ConfigBlocks.LEVITATOR.block()
         );
         tag(BlockTags.NEEDS_STONE_TOOL).add(
@@ -39,7 +42,10 @@ public class TagsProvider extends BlockTagsProvider {
                 ConfigBlocks.ORE_QUARTZ.block(),
                 ConfigBlocks.DEEPSLATE_ORE_AMBER.block(),
                 ConfigBlocks.DEEPSLATE_ORE_CINNABAR.block(),
-                ConfigBlocks.DEEPSLATE_ORE_QUARTZ.block()
+                ConfigBlocks.DEEPSLATE_ORE_QUARTZ.block(),
+                ConfigBlocks.METAL_BRASS.block(),
+                ConfigBlocks.METAL_THAUMIUM.block(),
+                ConfigBlocks.METAL_VOID.block()
         );
 
         tag(BlockTags.LOGS_THAT_BURN).add(
@@ -129,6 +135,12 @@ public class TagsProvider extends BlockTagsProvider {
         tag(BlockTags.WOODEN_TRAPDOORS).add(ConfigBlocks.GREATWOOD_TRAPDOOR.block());
         tag(BlockTags.WOODEN_BUTTONS).add(ConfigBlocks.GREATWOOD_BUTTON.block());
         tag(BlockTags.WOODEN_PRESSURE_PLATES).add(ConfigBlocks.GREATWOOD_PRESSURE_PLATE.block());
+
+        tag(BlockTags.BEACON_BASE_BLOCKS).add(
+                ConfigBlocks.METAL_BRASS.block(),
+                ConfigBlocks.METAL_THAUMIUM.block(),
+                ConfigBlocks.METAL_VOID.block()
+        );
 
         tag(BlockTags.MINEABLE_WITH_AXE).add(ConfigBlocks.HUNGRY_CHEST.block());
         tag(BlockTags.MINEABLE_WITH_PICKAXE).add(ConfigBlocks.EVERFULL_URN.block());

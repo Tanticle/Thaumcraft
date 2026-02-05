@@ -317,6 +317,10 @@ public final class ThaumcraftData {
         public static final ResourceLocation DEEPSLATE_ORE_CINNABAR = Thaumcraft.id("deepslate_ore_cinnabar");
         public static final ResourceLocation DEEPSLATE_ORE_QUARTZ = Thaumcraft.id("deepslate_ore_quartz");
 
+        public static final ResourceLocation METAL_BRASS = Thaumcraft.id("metal_brass");
+        public static final ResourceLocation METAL_THAUMIUM = Thaumcraft.id("metal_thaumium");
+        public static final ResourceLocation METAL_VOID = Thaumcraft.id("metal_void");
+
         public static final ResourceLocation SILVERWOOD_LOG = Thaumcraft.id("silverwood_log");
         public static final ResourceLocation SILVERWOOD_WOOD = Thaumcraft.id("silverwood_wood");
         public static final ResourceLocation STRIPPED_SILVERWOOD_LOG = Thaumcraft.id("stripped_silverwood_log");

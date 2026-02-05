@@ -41,6 +41,10 @@
   "block.thaumcraft.deepslate_ore_cinnabar": "Deepslate Cinnabar Ore",
   "block.thaumcraft.deepslate_ore_quartz": "Deepslate Quartz Ore",
 
+  "block.thaumcraft.metal_brass": "Block of Brass",
+  "block.thaumcraft.metal_thaumium": "Block of Thaumium",
+  "block.thaumcraft.metal_void": "Block of Void Metal",
+
   "block.thaumcraft.silverwood_log": "Silverwood Log",
   "block.thaumcraft.silverwood_wood": "Silverwood Wood",
   "block.thaumcraft.stripped_silverwood_log": "Stripped Silverwood Log",
