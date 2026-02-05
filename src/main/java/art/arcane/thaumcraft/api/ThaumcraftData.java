@@ -203,6 +203,9 @@ public final class ThaumcraftData {
         public static final ResourceLocation TALLOW = Thaumcraft.id("tallow");
         public static final ResourceLocation ALUMENTUM = Thaumcraft.id("alumentum");
 
+        public static final ResourceLocation ZOMBIE_BRAIN = Thaumcraft.id("zombie_brain");
+        public static final ResourceLocation TRIPLE_MEAT_TREAT = Thaumcraft.id("triple_meat_treat");
+
         public static final ResourceLocation UPGRADE_SPEED = Thaumcraft.id("upgrade_speed");
         public static final ResourceLocation UPGRADE_CAPACITY = Thaumcraft.id("upgrade_capacity");
         public static final ResourceLocation UPGRADE_RAGE = Thaumcraft.id("upgrade_rage");

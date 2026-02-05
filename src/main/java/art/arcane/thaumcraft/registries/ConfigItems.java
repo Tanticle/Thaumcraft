@@ -4,8 +4,14 @@ import art.arcane.thaumcraft.items.FancyArmorItem;
 import art.arcane.thaumcraft.items.VisChargeItem;
 import art.arcane.thaumcraft.items.tools.*;
 import art.arcane.thaumcraft.items.vis.BootsTravellerItem;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.*;
+import net.minecraft.world.item.consume_effects.ApplyStatusEffectsConsumeEffect;
+import net.minecraft.world.item.component.Consumable;
 import net.minecraft.world.item.equipment.ArmorMaterial;
 import net.minecraft.world.item.equipment.ArmorType;
 import net.neoforged.bus.api.IEventBus;
@@ -141,6 +147,28 @@ public final class ConfigItems {
     public static final DeferredItem<Item> FABRIC = registerSimple(Items.FABRIC, ConfigCreativeTabs.MAIN);
     public static final DeferredItem<Item> TALLOW = registerSimple(Items.TALLOW, ConfigCreativeTabs.MAIN);
     public static final DeferredItem<Item> ALUMENTUM = registerSimple(Items.ALUMENTUM, ConfigCreativeTabs.MAIN);
+
+    // Consumables
+    public static final DeferredItem<Item> ZOMBIE_BRAIN = registerItem(Items.ZOMBIE_BRAIN, p -> new Item(p
+            .food(new FoodProperties.Builder()
+                    .nutrition(4)
+                    .saturationModifier(0.2F)
+                    .build())
+            .component(DataComponents.CONSUMABLE, Consumable.builder()
+                    .onConsume(new ApplyStatusEffectsConsumeEffect(new MobEffectInstance(MobEffects.HUNGER, 30, 0), 0.8F))
+                    .build())),
+            ConfigCreativeTabs.MAIN);
+
+    public static final DeferredItem<Item> TRIPLE_MEAT_TREAT = registerItem(Items.TRIPLE_MEAT_TREAT, p -> new Item(p
+            .food(new FoodProperties.Builder()
+                    .nutrition(6)
+                    .saturationModifier(0.8F)
+                    .alwaysEdible()
+                    .build())
+            .component(DataComponents.CONSUMABLE, Consumable.builder()
+                    .onConsume(new ApplyStatusEffectsConsumeEffect(new MobEffectInstance(MobEffects.REGENERATION, 100, 0), 0.66F))
+                    .build())),
+            ConfigCreativeTabs.MAIN);
 
     /* -------------------------------------------------------------------------------------------------------------- */
 

@@ -56,6 +56,9 @@ public class ItemModelProvider extends ModelProvider {
         simpleItem(ConfigItems.LOOT_BAG_UNCOMMON);
         simpleItem(ConfigItems.LOOT_BAG_RARE);
 
+        // Consumables
+        batchItems("consumables", ConfigItems.ZOMBIE_BRAIN, ConfigItems.TRIPLE_MEAT_TREAT);
+
         tintableAspectItem(ConfigItems.VIS_CRYSTAL, "resources");
         phialItem(ConfigItems.PHIAL, "resources");
 

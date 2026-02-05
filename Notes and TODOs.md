@@ -236,8 +236,8 @@
     - [ ] Sanity Soap
     - [ ] Bottle of Taint
     - [ ] Causality Collapser
-    - [X] Triple Meat Treat
-    - [X] Zombie Brains (Consumable) - MISSING: warp effects on eat (10% +1 perm, 90% +1-3 temp)
+    - [X] Triple Meat Treat - MISSING: add to #minecraft:wolf_food tag
+    - [X] Zombie Brains (Consumable) - MISSING: warp effects on eat (10% +1 perm, 90% +1-3 temp), add to #minecraft:wolf_food tag
 
 ### Blocks: Devices & Machines
 

@@ -1457,6 +1457,10 @@ public class AspectRegistryProvider extends JsonCodecProvider<AspectList> {
         item(new AspectList().add(Aspects.DESIRE, 10).add(Aspects.MAGIC, 5), ConfigItems.LOOT_BAG_COMMON.get());
         item(new AspectList().add(Aspects.DESIRE, 15).add(Aspects.MAGIC, 10), ConfigItems.LOOT_BAG_UNCOMMON.get());
         item(new AspectList().add(Aspects.DESIRE, 25).add(Aspects.MAGIC, 15), ConfigItems.LOOT_BAG_RARE.get());
+
+        //CONSUMABLES
+        item(new AspectList().add(Aspects.LIFE, 5).add(Aspects.MIND, 20).add(Aspects.UNDEAD, 10), ConfigItems.ZOMBIE_BRAIN.get());
+        item(new AspectList().add(Aspects.LIFE, 10).add(Aspects.DESIRE, 10), ConfigItems.TRIPLE_MEAT_TREAT.get());
     }
 
     private void item(AspectList list, Item... item) {
