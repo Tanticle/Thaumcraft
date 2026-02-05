@@ -236,8 +236,8 @@
     - [ ] Sanity Soap
     - [ ] Bottle of Taint
     - [ ] Causality Collapser
-    - [ ] Meat Nuggets & Triple Meat Treat
-    - [ ] Zombie Brains (Consumable)
+    - [X] Triple Meat Treat
+    - [X] Zombie Brains (Consumable) - MISSING: warp effects on eat (10% +1 perm, 90% +1-3 temp)
 
 ### Blocks: Devices & Machines
 
