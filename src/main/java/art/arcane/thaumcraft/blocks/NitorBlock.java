@@ -2,12 +2,10 @@ package art.arcane.thaumcraft.blocks;
 
 import art.arcane.thaumcraft.blocks.entities.NitorBlockEntity;
 import art.arcane.thaumcraft.registries.ConfigBlockEntities;
+import art.arcane.thaumcraft.registries.ConfigItemComponents;
 import art.arcane.thaumcraft.util.simple.TickableEntityBlock;
 import com.mojang.serialization.MapCodec;
-import com.mojang.serialization.codecs.RecordCodecBuilder;
-import lombok.Getter;
 import net.minecraft.core.BlockPos;
-import net.minecraft.util.StringRepresentable;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.ItemStack;
@@ -18,6 +16,8 @@ import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.level.block.state.properties.EnumProperty;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
@@ -25,26 +25,23 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 public class NitorBlock extends TickableEntityBlock<NitorBlockEntity> {
 
     private static final VoxelShape SHAPE = Block.box(5.28, 5.28, 5.28, 10.72, 10.72, 10.72);
-    private static final MapCodec<NitorBlock> CODEC = RecordCodecBuilder.mapCodec(i -> i.group(
-            propertiesCodec(),
-            StringRepresentable.fromValues(DyeColor::values).fieldOf("color").forGetter(b -> b.color)
-    ).apply(i, NitorBlock::new));
+    private static final MapCodec<NitorBlock> CODEC = simpleCodec(NitorBlock::new);
 
-    @Getter
-    private final DyeColor color;
+    public static final EnumProperty<DyeColor> COLOR = EnumProperty.create("color", DyeColor.class);
 
-    public NitorBlock(DyeColor color, BlockBehaviour.Properties props) {
-        this(props.strength(0.1f)
+    public NitorBlock(BlockBehaviour.Properties props) {
+        super(props.strength(0.1f)
                 .sound(SoundType.WOOL)
                 .lightLevel(bs -> 15)
                 .noOcclusion()
                 .noCollission()
-                .mapColor(color.getMapColor()), color);
+                .mapColor(state -> state.getValue(COLOR).getMapColor()), ConfigBlockEntities.NITOR::entityType);
+        registerDefaultState(stateDefinition.any().setValue(COLOR, DyeColor.YELLOW));
     }
 
-    private NitorBlock(BlockBehaviour.Properties props, DyeColor color) {
-        super(props, ConfigBlockEntities.NITOR::entityType);
-        this.color = color;
+    @Override
+    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
+        builder.add(COLOR);
     }
 
     @Override
@@ -74,7 +71,9 @@ public class NitorBlock extends TickableEntityBlock<NitorBlockEntity> {
 
     @Override
     public ItemStack getCloneItemStack(LevelReader level, BlockPos pos, BlockState state, boolean includeData, Player player) {
-        return new ItemStack(this);
+        ItemStack stack = new ItemStack(this);
+        stack.set(ConfigItemComponents.DYE_COLOR.value(), state.getValue(COLOR));
+        return stack;
     }
 
     @Override

@@ -23,9 +23,7 @@ import net.neoforged.neoforge.client.model.generators.template.ExtendedModelTemp
 import net.neoforged.neoforge.registries.DeferredBlock;
 import art.arcane.thaumcraft.Thaumcraft;
 import art.arcane.thaumcraft.blocks.CrystalBlock;
-import art.arcane.thaumcraft.blocks.NitorBlock;
 import art.arcane.thaumcraft.client.tints.NitorItemTintSource;
-import net.minecraft.world.item.DyeColor;
 import art.arcane.thaumcraft.blocks.InfusionPillarBlock;
 import art.arcane.thaumcraft.blocks.alchemy.CreativeAspectSourceBlock;
 import art.arcane.thaumcraft.blocks.alchemy.JarBlock;
@@ -519,10 +517,8 @@ public class BlockDataProvider extends ModelProvider {
                 TextureMapping.layered(baseTexture, coreTexture),
                 items.modelOutput);
 
-        ConfigBlocks.NITOR.forEach((color, blockObject) -> {
-            blocks.blockStateOutput.accept(MultiVariantGenerator.multiVariant(blockObject.block(), Variant.variant().with(VariantProperties.MODEL, nitorModel)));
-            items.itemModelOutput.accept(blockObject.item(), ItemModelUtils.tintedModel(itemModel, new NitorItemTintSource(), new Constant(0xFFFFFFFF)));
-        });
+        blocks.blockStateOutput.accept(MultiVariantGenerator.multiVariant(ConfigBlocks.NITOR.block(), Variant.variant().with(VariantProperties.MODEL, nitorModel)));
+        items.itemModelOutput.accept(ConfigBlocks.NITOR.item(), ItemModelUtils.tintedModel(itemModel, new NitorItemTintSource(), new Constant(0xFFFFFFFF)));
     }
 
     private void registerEmptyBlock(ConfigBlocks.BlockObject<? extends Block> block, ResourceLocation itemModel) {

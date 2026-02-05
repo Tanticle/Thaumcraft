@@ -20,7 +20,6 @@ import art.arcane.thaumcraft.blocks.NitorBlock;
 import art.arcane.thaumcraft.blocks.world.*;
 import art.arcane.thaumcraft.items.blocks.CrystalBlockItem;
 import art.arcane.thaumcraft.items.blocks.NitorBlockItem;
-import net.minecraft.world.item.DyeColor;
 import art.arcane.thaumcraft.util.simple.SimpleBlockMaterials;
 import art.arcane.thaumcraft.util.simple.SimpleCreativeTab;
 import lombok.RequiredArgsConstructor;
@@ -70,7 +69,7 @@ public final class ConfigBlocks {
 	public static final BlockObject<StairBlock> ELDRITCH_STONE_STAIRS = registerBlock(Blocks.ELDRITCH_STONE_STAIRS, props -> new StairBlock(ELDRITCH_STONE.block().defaultBlockState(), SimpleBlockMaterials.stone(props)), ConfigCreativeTabs.MAIN);
 	public static final BlockObject<SlabBlock> ELDRITCH_STONE_SLAB = registerBlock(Blocks.ELDRITCH_STONE_SLAB, props -> new SlabBlock(SimpleBlockMaterials.stone(props)), ConfigCreativeTabs.MAIN);
 	public static final Map<CrystalBlock.CrystalAspect, BlockObject<CrystalBlock>> CRYSTAL_COLONY = registerEnumBlock(Blocks.CRYSTAL_COLONY, CrystalBlock.CrystalAspect.class, CrystalBlock::new, CrystalBlockItem::new, ConfigCreativeTabs.MAIN);
-	public static final Map<DyeColor, BlockObject<NitorBlock>> NITOR = registerEnumBlock(Blocks.NITOR, DyeColor.class, NitorBlock::new, NitorBlockItem::new, ConfigCreativeTabs.MAIN);
+	public static final BlockObject<NitorBlock> NITOR = registerBlock(Blocks.NITOR, NitorBlock::new, NitorBlockItem::new, ConfigCreativeTabs.MAIN);
 	public static final BlockObject<ArcaneWorkbenchBlock> ARCANE_WORKBENCH = registerBlock(Blocks.ARCANE_WORKBENCH, ArcaneWorkbenchBlock::new, ConfigCreativeTabs.MAIN);
 	public static final BlockObject<CrucibleBlock> CRUCIBLE = registerBlock(Blocks.CRUCIBLE, CrucibleBlock::new, ConfigCreativeTabs.MAIN);
 	public static final BlockObject<RunicMatrixBlock> RUNIC_MATRIX = registerBlock(Blocks.RUNIC_MATRIX, RunicMatrixBlock::new, ConfigCreativeTabs.MAIN);

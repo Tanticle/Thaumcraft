@@ -43,7 +43,7 @@
     - [X] Alumentum Recipe
     - [ ] Essentia Distillation (Smelter, Alembic)
     - [ ] Void Ingot Recipe (needs void seed item)
-    - [ ] Nitor Recipe (needs nitor block)
+    - [X] Nitor Recipe (needs nitor block)
     - [ ] Metal Purification (cluster items needed)
     - [ ] Advanced Alchemy (Bath Salts, Sanity Soap, Liquid Death, Bottled Taint)
 - [ ] **Research System**
@@ -237,7 +237,8 @@
     - [ ] Bottle of Taint
     - [ ] Causality Collapser
     - [X] Triple Meat Treat - MISSING: add to #minecraft:wolf_food tag
-    - [X] Zombie Brains (Consumable) - MISSING: warp effects on eat (10% +1 perm, 90% +1-3 temp), add to #minecraft:wolf_food tag
+    - [X] Zombie Brains (Consumable) - MISSING: warp effects on eat (10% +1 perm, 90% +1-3 temp), add to #minecraft:
+      wolf_food tag
 
 ### Blocks: Devices & Machines
 
@@ -268,7 +269,7 @@
 
 - [ ] Candles (16 colors)
 - [ ] Banners (TC specific)
-- [ ] Nitor (8 colors, floating light)
+- [X] Nitor (8 colors, floating light)
 - [ ] Metal Storage Blocks (Thaumium, Brass, Void)
 - [ ] Translucent Glass (Beacon base, decorative)
 - [ ] Paving Stones (Arcane, Barrier, Travel)

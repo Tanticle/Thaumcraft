@@ -31,9 +31,7 @@ public class NitorBlockEntity extends SimpleBlockEntity implements TickableBlock
         if (level == null) return;
 
         BlockState state = level.getBlockState(getBlockPos());
-        if (!(state.getBlock() instanceof NitorBlock nitorBlock)) return;
-
-        int color = nitorBlock.getColor().getMapColor().col;
+        int color = state.getValue(NitorBlock.COLOR).getMapColor().col;
         BlockPos pos = getBlockPos();
 
         double x = pos.getX() + 0.5 + level.random.nextGaussian() * 0.025;

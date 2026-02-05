@@ -17,6 +17,7 @@ import net.neoforged.neoforge.registries.DeferredRegister;
 import art.arcane.thaumcraft.Thaumcraft;
 import art.arcane.thaumcraft.api.aspects.Aspect;
 import art.arcane.thaumcraft.api.components.InfusionEnchantmentComponent;
+import net.minecraft.world.item.DyeColor;
 
 import java.util.UUID;
 
@@ -46,6 +47,8 @@ public class ConfigItemComponents {
 	public static final Holder<DataComponentType<Integer>> VIS_CHARGE = register(ItemComponents.VIS_CHARGE, ExtraCodecs.NON_NEGATIVE_INT, ByteBufCodecs.VAR_INT);
 
 	public static final Holder<DataComponentType<Integer>> TIMER = register(ItemComponents.TIMER, ExtraCodecs.NON_NEGATIVE_INT, ByteBufCodecs.VAR_INT);
+
+	public static final Holder<DataComponentType<DyeColor>> DYE_COLOR = register(ItemComponents.DYE_COLOR, DyeColor.CODEC, NeoForgeStreamCodecs.enumCodec(DyeColor.class));
 
     /* -------------------------------------------------------------------------------------------------------------- */
 

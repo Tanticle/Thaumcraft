@@ -90,6 +90,7 @@ public final class ThaumcraftData {
             public static final ResourceKey<Recipe<?>> HEDGE_STRING = key("hedge_string");
             public static final ResourceKey<Recipe<?>> HEDGE_WEB = key("hedge_web");
             public static final ResourceKey<Recipe<?>> HEDGE_LAVA = key("hedge_lava");
+            public static final ResourceKey<Recipe<?>> NITOR = key("nitor");
             public static final ResourceKey<Recipe<?>> VIS_CRYSTAL_AER = key("vis_crystal_aer");
             public static final ResourceKey<Recipe<?>> VIS_CRYSTAL_TERRA = key("vis_crystal_terra");
             public static final ResourceKey<Recipe<?>> VIS_CRYSTAL_IGNIS = key("vis_crystal_ignis");
@@ -161,6 +162,7 @@ public final class ThaumcraftData {
         public static final ResourceLocation VIS_CHARGE_MAX = Thaumcraft.id("vis_charge_max");
         public static final ResourceLocation VIS_CHARGE = Thaumcraft.id("vis_charge");
         public static final ResourceLocation TIMER = Thaumcraft.id("timer");
+        public static final ResourceLocation DYE_COLOR = Thaumcraft.id("dye_color");
     }
 
     /**

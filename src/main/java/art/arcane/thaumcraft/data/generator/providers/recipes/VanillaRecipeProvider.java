@@ -13,6 +13,7 @@ import net.minecraft.data.recipes.ShapelessRecipeBuilder;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.ItemLike;
 
 import java.util.concurrent.CompletableFuture;
@@ -59,6 +60,7 @@ public class VanillaRecipeProvider extends RecipeProvider {
                 .define('W', ItemTags.WOOL)
                 .unlockedBy("has_string", has(Items.STRING))
                 .save(this.output);
+
     }
 
     private void plate(ItemLike result, ItemLike ingredient) {

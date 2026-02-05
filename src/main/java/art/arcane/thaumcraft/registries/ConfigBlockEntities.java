@@ -1,6 +1,5 @@
 package art.arcane.thaumcraft.registries;
 
-import art.arcane.thaumcraft.blocks.NitorBlock;
 import art.arcane.thaumcraft.blocks.entities.ArcaneWorkbenchBlockEntity;
 import art.arcane.thaumcraft.blocks.entities.NitorBlockEntity;
 import art.arcane.thaumcraft.blocks.entities.CreativeAspectSourceBlockEntity;
@@ -79,7 +78,7 @@ public final class ConfigBlockEntities {
             EverfullUrnBlockEntity::new,
             ConfigBlocks.EVERFULL_URN);
 
-    public static final BlockEntityObject<NitorBlockEntity> NITOR = registerEnumBlocks(BlockEntities.NITOR,
+    public static final BlockEntityObject<NitorBlockEntity> NITOR = register(BlockEntities.NITOR,
             NitorBlockEntity::new,
             ConfigBlocks.NITOR);
 

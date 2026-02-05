@@ -10,12 +10,15 @@ import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.DyeColor;
+import net.minecraft.world.item.DyeItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.Recipe;
 import art.arcane.thaumcraft.Thaumcraft;
 import art.arcane.thaumcraft.api.ThaumcraftData;
+import art.arcane.thaumcraft.registries.ConfigBlocks;
 import art.arcane.thaumcraft.data.aspects.AspectList;
 import art.arcane.thaumcraft.data.recipes.AlchemyRecipe;
 import art.arcane.thaumcraft.util.codec.data.CodecDataProvider;
@@ -101,6 +104,22 @@ public class AlchemyProvider extends CodecDataProvider<AlchemyRecipe> {
                 Ingredient.of(Items.BUCKET),
                 new AspectList().add(ThaumcraftData.Aspects.FIRE, 15).add(ThaumcraftData.Aspects.EARTH, 5),
                 new ItemStack(Items.LAVA_BUCKET));
+
+        ItemStack nitorStack = new ItemStack(ConfigBlocks.NITOR.item());
+        nitorStack.set(ConfigItemComponents.DYE_COLOR.value(), DyeColor.YELLOW);
+        recipe(Recipes.Alchemy.NITOR.location(),
+                Ingredient.of(Items.GLOWSTONE_DUST),
+                new AspectList().add(ThaumcraftData.Aspects.POWER, 10).add(ThaumcraftData.Aspects.FIRE, 10).add(ThaumcraftData.Aspects.LIGHT, 10),
+                nitorStack);
+
+        for (DyeColor color : DyeColor.values()) {
+            ItemStack dyedNitor = new ItemStack(ConfigBlocks.NITOR.item());
+            dyedNitor.set(ConfigItemComponents.DYE_COLOR.value(), color);
+            recipe(Thaumcraft.id("nitor_dye_" + color.getSerializedName()),
+                    Ingredient.of(DyeItem.byColor(color)),
+                    new AspectList().add(ThaumcraftData.Aspects.SENSE, 5).add(ThaumcraftData.Aspects.LIGHT, 5),
+                    dyedNitor);
+        }
 
         visCrystalRecipe(ThaumcraftData.Aspects.AIR);
         visCrystalRecipe(ThaumcraftData.Aspects.EARTH);
