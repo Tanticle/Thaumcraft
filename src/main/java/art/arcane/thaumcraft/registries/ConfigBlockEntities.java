@@ -4,6 +4,8 @@ import art.arcane.thaumcraft.blocks.entities.ArcaneWorkbenchBlockEntity;
 import art.arcane.thaumcraft.blocks.entities.CreativeAspectSourceBlockEntity;
 import art.arcane.thaumcraft.blocks.entities.CrucibleBlockEntity;
 import art.arcane.thaumcraft.blocks.entities.DioptraBlockEntity;
+import art.arcane.thaumcraft.blocks.entities.EverfullUrnBlockEntity;
+import art.arcane.thaumcraft.blocks.entities.HungryChestBlockEntity;
 import art.arcane.thaumcraft.blocks.entities.JarBlockEntity;
 import art.arcane.thaumcraft.blocks.entities.LevitatorBlockEntity;
 import art.arcane.thaumcraft.blocks.entities.PedestalBlockEntity;
@@ -65,6 +67,14 @@ public final class ConfigBlockEntities {
     public static final BlockEntityObject<LevitatorBlockEntity> LEVITATOR = register(BlockEntities.LEVITATOR,
             LevitatorBlockEntity::new,
             ConfigBlocks.LEVITATOR);
+
+    public static final BlockEntityObject<HungryChestBlockEntity> HUNGRY_CHEST = register(BlockEntities.HUNGRY_CHEST,
+            HungryChestBlockEntity::new,
+            ConfigBlocks.HUNGRY_CHEST);
+
+    public static final BlockEntityObject<EverfullUrnBlockEntity> EVERFULL_URN = register(BlockEntities.EVERFULL_URN,
+            EverfullUrnBlockEntity::new,
+            ConfigBlocks.EVERFULL_URN);
 
     /* -------------------------------------------------------------------------------------------------------------- */
 

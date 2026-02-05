@@ -251,19 +251,28 @@ public class CrucibleBlockEntity extends SimpleBlockEntity implements IFluidHand
 
 	@Override
 	public int fill(FluidStack resource, FluidAction action) {
-		setChanged();
-		return waterTank.fill(resource, action);
+		int filled = waterTank.fill(resource, action);
+		if (action.execute() && filled > 0) {
+			sync();
+		}
+		return filled;
 	}
 
 	@Override
 	public @NotNull FluidStack drain(int maxDrain, FluidAction action) {
-		setChanged();
-		return waterTank.drain(maxDrain, action);
+		FluidStack drained = waterTank.drain(maxDrain, action);
+		if (action.execute() && !drained.isEmpty()) {
+			sync();
+		}
+		return drained;
 	}
 
 	@Override
 	public @NotNull FluidStack drain(FluidStack resource, FluidAction action) {
-		setChanged();
-		return waterTank.drain(resource, action);
+		FluidStack drained = waterTank.drain(resource, action);
+		if (action.execute() && !drained.isEmpty()) {
+			sync();
+		}
+		return drained;
 	}
 }

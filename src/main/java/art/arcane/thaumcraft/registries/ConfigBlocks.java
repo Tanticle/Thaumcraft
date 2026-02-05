@@ -14,6 +14,8 @@ import art.arcane.thaumcraft.blocks.alchemy.CreativeAspectSourceBlock;
 import art.arcane.thaumcraft.blocks.alchemy.CrucibleBlock;
 import art.arcane.thaumcraft.blocks.alchemy.JarBlock;
 import art.arcane.thaumcraft.blocks.alchemy.TubeBlock;
+import art.arcane.thaumcraft.blocks.devices.EverfullUrnBlock;
+import art.arcane.thaumcraft.blocks.devices.HungryChestBlock;
 import art.arcane.thaumcraft.blocks.world.*;
 import art.arcane.thaumcraft.items.blocks.CrystalBlockItem;
 import art.arcane.thaumcraft.util.simple.SimpleBlockMaterials;
@@ -123,6 +125,9 @@ public final class ConfigBlocks {
 	public static final BlockObject<VishroomBlock> VISHROOM = registerBlock(Blocks.VISHROOM, VishroomBlock::new, ConfigCreativeTabs.MAIN);
 	public static final BlockObject<CinderpearllBlock> CINDERPEARL = registerBlock(Blocks.CINDERPEARL, CinderpearllBlock::new, ConfigCreativeTabs.MAIN);
 	public static final BlockObject<ShimmerleafBlock> SHIMMERLEAF = registerBlock(Blocks.SHIMMERLEAF, ShimmerleafBlock::new, ConfigCreativeTabs.MAIN);
+
+	public static final BlockObject<HungryChestBlock> HUNGRY_CHEST = registerBlock(Blocks.HUNGRY_CHEST, HungryChestBlock::new, ConfigCreativeTabs.MAIN);
+	public static final BlockObject<EverfullUrnBlock> EVERFULL_URN = registerBlock(Blocks.EVERFULL_URN, EverfullUrnBlock::new, ConfigCreativeTabs.MAIN);
 
 	private static BlockBehaviour.Properties silverwoodWoodProps(BlockBehaviour.Properties props) {
 		return SimpleBlockMaterials.wood(props).strength(2.0F, 3.0F);

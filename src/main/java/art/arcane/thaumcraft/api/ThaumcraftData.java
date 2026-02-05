@@ -345,6 +345,9 @@ public final class ThaumcraftData {
         public static final ResourceLocation VISHROOM = Thaumcraft.id("vishroom");
         public static final ResourceLocation CINDERPEARL = Thaumcraft.id("cinderpearl");
         public static final ResourceLocation SHIMMERLEAF = Thaumcraft.id("shimmerleaf");
+
+        public static final ResourceLocation HUNGRY_CHEST = Thaumcraft.id("hungry_chest");
+        public static final ResourceLocation EVERFULL_URN = Thaumcraft.id("everfull_urn");
     }
 
     public static final class CreativeTabs {
@@ -362,6 +365,8 @@ public final class ThaumcraftData {
         public static final ResourceLocation CREATIVE_ASPECT_SOURCE = Blocks.CREATIVE_ASPECT_SOURCE;
         public static final ResourceLocation DIOPTRA = Blocks.DIOPTRA;
         public static final ResourceLocation LEVITATOR = Blocks.LEVITATOR;
+        public static final ResourceLocation HUNGRY_CHEST = Blocks.HUNGRY_CHEST;
+        public static final ResourceLocation EVERFULL_URN = Blocks.EVERFULL_URN;
     }
 
     public static final class Entities {

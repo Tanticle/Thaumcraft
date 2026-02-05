@@ -128,5 +128,8 @@ public class TagsProvider extends BlockTagsProvider {
         tag(BlockTags.WOODEN_TRAPDOORS).add(ConfigBlocks.GREATWOOD_TRAPDOOR.block());
         tag(BlockTags.WOODEN_BUTTONS).add(ConfigBlocks.GREATWOOD_BUTTON.block());
         tag(BlockTags.WOODEN_PRESSURE_PLATES).add(ConfigBlocks.GREATWOOD_PRESSURE_PLATE.block());
+
+        tag(BlockTags.MINEABLE_WITH_AXE).add(ConfigBlocks.HUNGRY_CHEST.block());
+        tag(BlockTags.MINEABLE_WITH_PICKAXE).add(ConfigBlocks.EVERFULL_URN.block());
     }
 }

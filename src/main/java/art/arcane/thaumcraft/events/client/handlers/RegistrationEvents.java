@@ -10,6 +10,7 @@ import art.arcane.thaumcraft.client.rendering.entity.models.ArmorCrimsonPlate;
 import art.arcane.thaumcraft.client.rendering.entity.models.ArmorRobe;
 import art.arcane.thaumcraft.client.rendering.ui.AspectTooltip;
 import art.arcane.thaumcraft.client.screens.ArcaneWorkbenchScreen;
+import art.arcane.thaumcraft.client.screens.HungryChestScreen;
 import art.arcane.thaumcraft.client.tints.AspectItemTintSource;
 import art.arcane.thaumcraft.registries.*;
 import art.arcane.thaumcraft.util.RegistryUtils;
@@ -37,6 +38,7 @@ public class RegistrationEvents {
 	@SubscribeEvent
 	public static void onMenuScreenRegister(RegisterMenuScreensEvent e) {
 		e.register(ConfigMenus.ARCANE_WORKBENCH.get(), ArcaneWorkbenchScreen::new);
+		e.register(ConfigMenus.HUNGRY_CHEST.get(), HungryChestScreen::new);
 	}
 
 	@SubscribeEvent
