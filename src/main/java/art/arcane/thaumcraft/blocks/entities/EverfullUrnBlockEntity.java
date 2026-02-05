@@ -7,6 +7,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.LayeredCauldronBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -29,12 +30,13 @@ public class EverfullUrnBlockEntity extends SimpleBlockEntity implements Tickabl
     public static final int CAULDRON_COST = 333;
     public static final int FLUID_TRANSFER_AMOUNT = 25;
     public static final int APOTHECARY_COST = 1000;
-    private static final int SCAN_RADIUS_XZ = 2;
-    private static final int SCAN_RADIUS_Y_DOWN = 1;
-    private static final int SCAN_RADIUS_Y_UP = 1;
+    private static final int SCAN_RADIUS_XZ = 5;
+    private static final int SCAN_RADIUS_Y_DOWN = 3;
+    private static final int SCAN_RADIUS_Y_UP = 2;
     private static final int SCAN_SIZE_XZ = SCAN_RADIUS_XZ * 2 + 1;
     private static final int SCAN_SIZE_Y = SCAN_RADIUS_Y_DOWN + SCAN_RADIUS_Y_UP + 1;
     private static final int MAX_SCAN_INDEX = SCAN_SIZE_XZ * SCAN_SIZE_Y * SCAN_SIZE_XZ;
+    private static final int SCANS_PER_TICK = 8;
 
     private int waterAmount;
     private int scanIndex;
@@ -68,86 +70,88 @@ public class EverfullUrnBlockEntity extends SimpleBlockEntity implements Tickabl
     }
 
     private void tickContainerFilling() {
-        scanIndex = (scanIndex + 1) % MAX_SCAN_INDEX;
-        BlockPos scanPos = indexToPos(scanIndex);
+        Level level = getLevel();
+        if (level == null) return;
 
-        if (isValidHandler(scanPos)) {
-            knownHandlers.add(scanIndex);
+        for (int i = 0; i < SCANS_PER_TICK; i++) {
+            scanIndex = (scanIndex + 1) % MAX_SCAN_INDEX;
+            BlockPos scanPos = indexToPos(scanIndex);
+
+            if (scanPos.equals(getBlockPos())) continue;
+
+            if (isValidHandler(level, scanPos)) {
+                knownHandlers.add(scanIndex);
+            } else {
+                knownHandlers.remove(scanIndex);
+            }
         }
 
         for (int idx : knownHandlers.toIntArray()) {
-            if (waterAmount < FLUID_TRANSFER_AMOUNT) {
-                break;
-            }
+            if (waterAmount < FLUID_TRANSFER_AMOUNT) break;
 
             BlockPos pos = indexToPos(idx);
+            if (!level.isLoaded(pos)) continue;
 
-            if (tryFillFluidHandler(pos)) {
-                break;
-            }
-
-            if (tryFillCauldron(pos)) {
-                break;
-            }
-
-            if (tryFillBotaniaApothecary(pos)) {
-                break;
-            }
-
-            if (!isValidHandler(pos)) {
-                knownHandlers.remove(idx);
-            }
+            if (tryFillFluidHandler(level, pos)) break;
+            if (tryFillCauldron(level, pos)) break;
+            if (tryFillBotaniaApothecary(level, pos)) break;
         }
     }
 
-    private boolean isValidHandler(BlockPos pos) {
-        BlockState state = getLevel().getBlockState(pos);
+    private boolean isValidHandler(Level level, BlockPos pos) {
+        if (!level.isLoaded(pos)) return false;
+
+        BlockState state = level.getBlockState(pos);
         if (state.is(Blocks.CAULDRON) || state.is(Blocks.WATER_CAULDRON)) {
             return true;
         }
-        BlockEntity blockEntity = getLevel().getBlockEntity(pos);
-        if (blockEntity != null) {
-            IFluidHandler handler = getLevel().getCapability(Capabilities.FluidHandler.BLOCK, pos, state, blockEntity, Direction.UP);
-            if (handler != null) {
-                return true;
-            }
-            if (BotaniaCompat.isPetalApothecary(blockEntity)) {
-                return true;
-            }
-        }
-        return false;
-    }
 
-    private boolean tryFillFluidHandler(BlockPos pos) {
-        BlockEntity blockEntity = getLevel().getBlockEntity(pos);
-        if (blockEntity == null) {
-            return false;
+        BlockEntity blockEntity = level.getBlockEntity(pos);
+        if (blockEntity == null) return false;
+
+        for (Direction dir : Direction.values()) {
+            IFluidHandler handler = level.getCapability(Capabilities.FluidHandler.BLOCK, pos, state, blockEntity, dir);
+            if (handler != null) return true;
         }
-        IFluidHandler handler = getLevel().getCapability(Capabilities.FluidHandler.BLOCK, pos, blockEntity.getBlockState(), blockEntity, Direction.UP);
-        if (handler == null) {
-            return false;
-        }
-        FluidStack water = new FluidStack(net.minecraft.world.level.material.Fluids.WATER, Math.min(waterAmount, FLUID_TRANSFER_AMOUNT));
-        int filled = handler.fill(water, IFluidHandler.FluidAction.SIMULATE);
-        if (filled > 0) {
-            handler.fill(new FluidStack(net.minecraft.world.level.material.Fluids.WATER, filled), IFluidHandler.FluidAction.EXECUTE);
-            consumeWater(filled);
+
+        if (BotaniaCompat.isPetalApothecary(blockEntity)) {
             return true;
         }
+
         return false;
     }
 
-    private boolean tryFillCauldron(BlockPos pos) {
-        BlockState state = getLevel().getBlockState(pos);
+    private boolean tryFillFluidHandler(Level level, BlockPos pos) {
+        BlockEntity blockEntity = level.getBlockEntity(pos);
+        if (blockEntity == null) return false;
+
+        BlockState state = blockEntity.getBlockState();
+        for (Direction dir : Direction.values()) {
+            IFluidHandler handler = level.getCapability(Capabilities.FluidHandler.BLOCK, pos, state, blockEntity, dir);
+            if (handler == null) continue;
+
+            FluidStack water = new FluidStack(net.minecraft.world.level.material.Fluids.WATER, Math.min(waterAmount, FLUID_TRANSFER_AMOUNT));
+            int filled = handler.fill(water, IFluidHandler.FluidAction.SIMULATE);
+            if (filled > 0) {
+                handler.fill(new FluidStack(net.minecraft.world.level.material.Fluids.WATER, filled), IFluidHandler.FluidAction.EXECUTE);
+                consumeWater(filled);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private boolean tryFillCauldron(Level level, BlockPos pos) {
+        BlockState state = level.getBlockState(pos);
         if (state.is(Blocks.CAULDRON) && waterAmount >= CAULDRON_COST) {
-            getLevel().setBlockAndUpdate(pos, Blocks.WATER_CAULDRON.defaultBlockState().setValue(LayeredCauldronBlock.LEVEL, 1));
+            level.setBlockAndUpdate(pos, Blocks.WATER_CAULDRON.defaultBlockState().setValue(LayeredCauldronBlock.LEVEL, 1));
             consumeWater(CAULDRON_COST);
             return true;
         }
         if (state.is(Blocks.WATER_CAULDRON)) {
-            int level = state.getValue(LayeredCauldronBlock.LEVEL);
-            if (level < 3 && waterAmount >= CAULDRON_COST) {
-                getLevel().setBlockAndUpdate(pos, state.setValue(LayeredCauldronBlock.LEVEL, level + 1));
+            int cauldronLevel = state.getValue(LayeredCauldronBlock.LEVEL);
+            if (cauldronLevel < 3 && waterAmount >= CAULDRON_COST) {
+                level.setBlockAndUpdate(pos, state.setValue(LayeredCauldronBlock.LEVEL, cauldronLevel + 1));
                 consumeWater(CAULDRON_COST);
                 return true;
             }
@@ -155,11 +159,11 @@ public class EverfullUrnBlockEntity extends SimpleBlockEntity implements Tickabl
         return false;
     }
 
-    private boolean tryFillBotaniaApothecary(BlockPos pos) {
+    private boolean tryFillBotaniaApothecary(Level level, BlockPos pos) {
         if (!BotaniaCompat.isLoaded() || waterAmount < APOTHECARY_COST) {
             return false;
         }
-        if (BotaniaCompat.tryFillApothecary(getLevel(), pos)) {
+        if (BotaniaCompat.tryFillApothecary(level, pos)) {
             consumeWater(APOTHECARY_COST);
             return true;
         }
