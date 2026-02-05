@@ -1,6 +1,8 @@
 package art.arcane.thaumcraft.registries;
 
+import art.arcane.thaumcraft.blocks.NitorBlock;
 import art.arcane.thaumcraft.blocks.entities.ArcaneWorkbenchBlockEntity;
+import art.arcane.thaumcraft.blocks.entities.NitorBlockEntity;
 import art.arcane.thaumcraft.blocks.entities.CreativeAspectSourceBlockEntity;
 import art.arcane.thaumcraft.blocks.entities.CrucibleBlockEntity;
 import art.arcane.thaumcraft.blocks.entities.DioptraBlockEntity;
@@ -22,6 +24,7 @@ import net.neoforged.neoforge.registries.DeferredRegister;
 import art.arcane.thaumcraft.Thaumcraft;
 
 import java.util.Arrays;
+import java.util.Map;
 import java.util.function.Supplier;
 
 import static art.arcane.thaumcraft.api.ThaumcraftData.BlockEntities;
@@ -76,6 +79,10 @@ public final class ConfigBlockEntities {
             EverfullUrnBlockEntity::new,
             ConfigBlocks.EVERFULL_URN);
 
+    public static final BlockEntityObject<NitorBlockEntity> NITOR = registerEnumBlocks(BlockEntities.NITOR,
+            NitorBlockEntity::new,
+            ConfigBlocks.NITOR);
+
     /* -------------------------------------------------------------------------------------------------------------- */
 
     public static void init(IEventBus bus) {
@@ -86,6 +93,13 @@ public final class ConfigBlockEntities {
     private static <E extends BlockEntity> BlockEntityObject<E> register(ResourceLocation id, BlockEntityType.BlockEntitySupplier<E> supplier, ConfigBlocks.BlockObject<? extends Block>... validBlocks) {
         return new BlockEntityObject<>(REGISTRY_BLOCK_ENTITIES.register(id.getPath(), () -> {
             Block[] blocks = Arrays.stream(validBlocks).map(ConfigBlocks.BlockObject::block).toArray(Block[]::new);
+            return new BlockEntityType<>(supplier, blocks);
+        }));
+    }
+
+    private static <E extends BlockEntity, K extends Enum<K>, B extends Block> BlockEntityObject<E> registerEnumBlocks(ResourceLocation id, BlockEntityType.BlockEntitySupplier<E> supplier, Map<K, ConfigBlocks.BlockObject<B>> validBlocks) {
+        return new BlockEntityObject<>(REGISTRY_BLOCK_ENTITIES.register(id.getPath(), () -> {
+            Block[] blocks = validBlocks.values().stream().map(ConfigBlocks.BlockObject::block).toArray(Block[]::new);
             return new BlockEntityType<>(supplier, blocks);
         }));
     }

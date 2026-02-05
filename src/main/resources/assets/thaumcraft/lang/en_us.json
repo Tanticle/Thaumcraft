@@ -80,6 +80,9 @@
   "block.thaumcraft.hungry_chest": "Hungry Chest",
   "block.thaumcraft.everfull_urn": "Everfull Urn",
 
+  "block.thaumcraft.nitor": "Nitor",
+  "block.thaumcraft.nitor_colored": "%s Nitor",
+
   "biome.thaumcraft.magical_forest": "Magical Forest",
 
   "item.thaumcraft.jar_brace": "Brass Lid Brace",

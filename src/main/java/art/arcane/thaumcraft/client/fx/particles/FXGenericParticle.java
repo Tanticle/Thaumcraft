@@ -69,8 +69,8 @@ public class FXGenericParticle extends Particle {
         this.windX = windX;
         this.windZ = windZ;
         this.hasPhysics = false;
-        this.currentAngle = level.random.nextFloat() * (float) Math.PI * 2.0f;
-        this.prevAngle = currentAngle;
+        this.currentAngle = 0.0f;
+        this.prevAngle = 0.0f;
         calculateFrames();
         setParticleTextureIndex(startParticle);
     }

@@ -38,6 +38,7 @@ public final class ThaumcraftData {
     public static final class TintSources {
 
         public static final ResourceLocation ASPECT_ITEM = Thaumcraft.id("aspect_item");
+        public static final ResourceLocation NITOR_ITEM = Thaumcraft.id("nitor_item");
     }
 
     /**
@@ -291,6 +292,7 @@ public final class ThaumcraftData {
         public static final ResourceLocation VOID_JAR = Thaumcraft.id("void_jar");
 
         public static final ResourceLocation CRYSTAL_COLONY = Thaumcraft.id("crystal_colony");
+        public static final ResourceLocation NITOR = Thaumcraft.id("nitor");
 
         public static final ResourceLocation TUBE = Thaumcraft.id("tube");
 
@@ -370,6 +372,7 @@ public final class ThaumcraftData {
         public static final ResourceLocation LEVITATOR = Blocks.LEVITATOR;
         public static final ResourceLocation HUNGRY_CHEST = Blocks.HUNGRY_CHEST;
         public static final ResourceLocation EVERFULL_URN = Blocks.EVERFULL_URN;
+        public static final ResourceLocation NITOR = Blocks.NITOR;
     }
 
     public static final class Entities {

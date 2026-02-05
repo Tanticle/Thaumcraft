@@ -23,6 +23,9 @@ import net.neoforged.neoforge.client.model.generators.template.ExtendedModelTemp
 import net.neoforged.neoforge.registries.DeferredBlock;
 import art.arcane.thaumcraft.Thaumcraft;
 import art.arcane.thaumcraft.blocks.CrystalBlock;
+import art.arcane.thaumcraft.blocks.NitorBlock;
+import art.arcane.thaumcraft.client.tints.NitorItemTintSource;
+import net.minecraft.world.item.DyeColor;
 import art.arcane.thaumcraft.blocks.InfusionPillarBlock;
 import art.arcane.thaumcraft.blocks.alchemy.CreativeAspectSourceBlock;
 import art.arcane.thaumcraft.blocks.alchemy.JarBlock;
@@ -33,6 +36,7 @@ import art.arcane.thaumcraft.blocks.LevitatorBlock;
 import art.arcane.thaumcraft.client.tints.AspectItemTintSource;
 import art.arcane.thaumcraft.registries.ConfigBlocks;
 import art.arcane.thaumcraft.util.RegistryUtils;
+import net.minecraft.client.color.item.Constant;
 
 import java.util.*;
 import java.util.stream.Stream;
@@ -102,6 +106,8 @@ public class BlockDataProvider extends ModelProvider {
 
         registerHungryChest();
         simpleExistingBlock(ConfigBlocks.EVERFULL_URN);
+
+        registerNitorBlocks();
     }
 
     private void registerGreatwoodTree() {
@@ -502,6 +508,21 @@ public class BlockDataProvider extends ModelProvider {
     private void registerFakeBlock(DeferredBlock<?> block) {
         ResourceLocation model = Thaumcraft.id("block/empty");
         blocks.blockStateOutput.accept(MultiVariantGenerator.multiVariant(block.value(), Variant.variant().with(VariantProperties.MODEL, model)));
+    }
+
+    private void registerNitorBlocks() {
+        ResourceLocation nitorModel = Thaumcraft.id("block/nitor");
+        ResourceLocation baseTexture = Thaumcraft.id("item/nitor/nitor");
+        ResourceLocation coreTexture = Thaumcraft.id("item/nitor/nitor_core");
+        ResourceLocation itemModel = ModelTemplates.TWO_LAYERED_ITEM.create(
+                baseTexture,
+                TextureMapping.layered(baseTexture, coreTexture),
+                items.modelOutput);
+
+        ConfigBlocks.NITOR.forEach((color, blockObject) -> {
+            blocks.blockStateOutput.accept(MultiVariantGenerator.multiVariant(blockObject.block(), Variant.variant().with(VariantProperties.MODEL, nitorModel)));
+            items.itemModelOutput.accept(blockObject.item(), ItemModelUtils.tintedModel(itemModel, new NitorItemTintSource(), new Constant(0xFFFFFFFF)));
+        });
     }
 
     private void registerEmptyBlock(ConfigBlocks.BlockObject<? extends Block> block, ResourceLocation itemModel) {

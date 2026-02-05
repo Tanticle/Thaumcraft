@@ -408,6 +408,64 @@ public final class ThaumcraftFX {
         ThaumcraftParticleRenderer.addParticle(particle);
     }
 
+    public static void drawNitorFlames(double x, double y, double z, double vx, double vy, double vz,
+                                        int color, int delay) {
+        Minecraft mc = Minecraft.getInstance();
+        ClientLevel level = mc.level;
+        if (level == null) return;
+
+        RandomSource random = level.random;
+        float r = ((color >> 16) & 0xFF) / 255.0f;
+        float g = ((color >> 8) & 0xFF) / 255.0f;
+        float b = (color & 0xFF) / 255.0f;
+
+        int age = 10 + random.nextInt(5);
+        float[] alphaKeys = new float[]{1.0f};
+        float[] scaleKeys = new float[]{4.0f + random.nextFloat() * 2.0f, 0.05f};
+
+        FXGenericParticle particle = new FXGenericParticle(
+                level, x, y, z, vx, vy, vz,
+                age, r, g, b, r, g, b,
+                alphaKeys, scaleKeys,
+                64,
+                264, 8, 1, true,
+                0.0f, 0.98f,
+                0.0f,
+                0.0025f, 0.0f, 0.0025f,
+                0.0f, 0.0f
+        );
+
+        if (delay > 0) {
+            addParticleWithDelay(particle, delay);
+        } else {
+            ThaumcraftParticleRenderer.addParticle(particle);
+        }
+    }
+
+    public static void drawNitorCore(double x, double y, double z, double vx, double vy, double vz) {
+        Minecraft mc = Minecraft.getInstance();
+        ClientLevel level = mc.level;
+        if (level == null) return;
+
+        int age = 10;
+        float[] alphaKeys = new float[]{1.0f};
+        float[] scaleKeys = new float[]{1.0f, 1.0f, 1.0f};
+
+        FXGenericParticle particle = new FXGenericParticle(
+                level, x, y, z, vx, vy, vz,
+                age, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f,
+                alphaKeys, scaleKeys,
+                64,
+                457, 1, 1, false,
+                0.0f, 0.98f,
+                0.0f,
+                2.0E-4f, 2.0E-4f, 2.0E-4f,
+                0.0f, 0.0f
+        );
+
+        ThaumcraftParticleRenderer.addParticle(particle);
+    }
+
     public record Wind(float x, float z) {}
 
     private static Wind getWind(ClientLevel level, double windFactor) {

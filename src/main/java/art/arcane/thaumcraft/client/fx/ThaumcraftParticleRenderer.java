@@ -76,13 +76,13 @@ public class ThaumcraftParticleRenderer {
         Camera camera = event.getCamera();
         float partialTick = event.getPartialTick().getGameTimeDeltaPartialTick(true);
 
-        RenderSystem.depthMask(true);
+        RenderSystem.depthMask(false);
         RenderSystem.enableDepthTest();
         RenderSystem.disableCull();
         RenderSystem.setShader(CoreShaders.PARTICLE);
         RenderSystem.setShaderTexture(0, ThaumcraftParticleRenderType.PARTICLES_TEXTURE);
         RenderSystem.enableBlend();
-        RenderSystem.defaultBlendFunc();
+        RenderSystem.blendFunc(770, 1);
 
         Tesselator tesselator = Tesselator.getInstance();
         BufferBuilder buffer = tesselator.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.PARTICLE);
@@ -100,7 +100,9 @@ public class ThaumcraftParticleRenderer {
             BufferUploader.drawWithShader(meshData);
         }
 
+        RenderSystem.depthMask(true);
         RenderSystem.enableCull();
         RenderSystem.disableBlend();
+        RenderSystem.defaultBlendFunc();
     }
 }
