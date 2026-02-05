@@ -2,7 +2,9 @@ package art.arcane.thaumcraft.client.rendering.entity.models;
 
 import art.arcane.thaumcraft.Thaumcraft;
 import art.arcane.thaumcraft.api.ThaumcraftMaterials;
+import art.arcane.thaumcraft.util.Colour;
 import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.model.geom.ModelPart;
@@ -12,10 +14,15 @@ import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.state.HumanoidRenderState;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.item.component.DyedItemColor;
 
-public class ArmorCrimsonRobe<S extends HumanoidRenderState> extends HumanoidModel<S> {
+public class ArmorRobe<S extends HumanoidRenderState> extends HumanoidModel<S> {
 
-	public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(Thaumcraft.id("armor_crimson_robe"), "main");
+	public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(Thaumcraft.id("armor_robe"), "main");
+
+	public static final int VOID_DEFAULT_COLOUR = Colour.fromHex("#6A3880").argb32(true);
+
+	private final boolean isVoid;
 
 	private final ModelPart shoulderplate_r;
 	private final ModelPart shoulderplate_l;
@@ -29,8 +36,11 @@ public class ArmorCrimsonRobe<S extends HumanoidRenderState> extends HumanoidMod
 	private final ModelPart cloth_back_r;
 	private final ModelPart legplate_r;
 
-	public ArmorCrimsonRobe(ModelPart root) {
+	private int headColour, chestColour, legsColour;
+
+	public ArmorRobe(ModelPart root, boolean isVoid) {
 		super(root);
+		this.isVoid = isVoid;
 		this.leggings = root.getChild("leggings");
 		this.shoulderplate_r = this.leftArm.getChild("shoulderplate_r");
 		this.shoulderplate_l = this.rightArm.getChild("shoulderplate_l");
@@ -162,9 +172,23 @@ public class ArmorCrimsonRobe<S extends HumanoidRenderState> extends HumanoidMod
 	}
 
 	public void render(PoseStack stack, MultiBufferSource buffer, int packedLight, int packedOverlay) {
-		ResourceLocation assetId = ThaumcraftMaterials.Armor.CRIMSON_ROBE.assetId().location();
+		ResourceLocation assetId = isVoid ? ThaumcraftMaterials.Armor.VOID_ROBE.assetId().location() : ThaumcraftMaterials.Armor.CRIMSON_ROBE.assetId().location();
 		ResourceLocation texture = ResourceLocation.fromNamespaceAndPath(assetId.getNamespace(), "textures/entity/equipment/humanoid/" + assetId.getPath() + ".png");
 		renderToBuffer(stack, buffer.getBuffer(renderType(texture)), packedLight, packedOverlay);
+		if(isVoid) {
+			ResourceLocation overlay = ResourceLocation.fromNamespaceAndPath(assetId.getNamespace(), "textures/entity/equipment/humanoid/" + assetId.getPath() + "_overlay.png");
+			VertexConsumer consumer = buffer.getBuffer(renderType(overlay));
+			// Head
+			this.head.render(stack, consumer, packedLight, packedOverlay, headColour);
+			// Chest
+			this.body.render(stack, consumer, packedLight, packedOverlay, chestColour);
+			this.leftArm.render(stack, consumer, packedLight, packedOverlay, chestColour);
+			this.rightArm.render(stack, consumer, packedLight, packedOverlay, chestColour);
+			// Legs
+			this.leggings.render(stack, consumer, packedLight, packedOverlay, legsColour);
+			this.leftLeg.render(stack, consumer, packedLight, packedOverlay, legsColour);
+			this.rightLeg.render(stack, consumer, packedLight, packedOverlay, legsColour);
+		}
 	}
 
 	@Override
@@ -174,20 +198,27 @@ public class ArmorCrimsonRobe<S extends HumanoidRenderState> extends HumanoidMod
 	}
 
 	public void setVisible(EquipmentSlot slot) {
+		setVisible(slot, new DyedItemColor(VOID_DEFAULT_COLOUR, false));
+	}
+
+	public void setVisible(EquipmentSlot slot, DyedItemColor colour) {
 		switch(slot) {
 			case HEAD -> {
 				this.head.visible = true;
 				this.hat.visible = true;
+				this.headColour = colour.rgb();
 			}
 			case CHEST -> {
 				this.body.visible = true;
 				this.leftArm.visible = true;
 				this.rightArm.visible = true;
+				this.chestColour = colour.rgb();
 			}
 			case LEGS -> {
 				this.leftLeg.visible = true;
 				this.rightLeg.visible = true;
 				this.leggings.visible = true;
+				this.legsColour = colour.rgb();
 			}
 		}
 	}

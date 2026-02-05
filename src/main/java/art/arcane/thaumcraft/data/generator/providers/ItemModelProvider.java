@@ -1,6 +1,6 @@
 package art.arcane.thaumcraft.data.generator.providers;
 
-import art.arcane.thaumcraft.util.Colour;
+import art.arcane.thaumcraft.client.rendering.entity.models.ArmorRobe;
 import net.minecraft.client.color.item.Constant;
 import net.minecraft.client.color.item.Dye;
 import net.minecraft.client.color.item.ItemTintSource;
@@ -73,6 +73,10 @@ public class ItemModelProvider extends ModelProvider {
         armorSet(ConfigItems.ARMOR_CRIMSON_PLATE);
         armorSet(ConfigItems.ARMOR_CRIMSON_ROBE);
 
+		tintableItemLayer(ConfigItems.ARMOR_VOID_ROBE.head(), () -> new Dye(ArmorRobe.VOID_DEFAULT_COLOUR), "armor");
+		tintableItem2Layer(ConfigItems.ARMOR_VOID_ROBE.chest(), () -> new Dye(ArmorRobe.VOID_DEFAULT_COLOUR), "armor");
+		tintableItem2Layer(ConfigItems.ARMOR_VOID_ROBE.legs(), () -> new Dye(ArmorRobe.VOID_DEFAULT_COLOUR), "armor");
+
 		simpleItem(ConfigItems.ARMOR_CRIMSON_BOOTS, "armor");
 		simpleItem(ConfigItems.ARMOR_TRAVELLER_BOOTS, "armor");
 
@@ -136,6 +140,14 @@ public class ItemModelProvider extends ModelProvider {
                 ItemModelUtils.plainModel(emptyModel)
         ));
     }
+
+	protected void tintableItemLayer(Holder<? extends Item> item, Supplier<? extends ItemTintSource> source, String... parentFolder) {
+		ResourceLocation location = RegistryUtils.getItemLocation(item, parentFolder);
+		ResourceLocation model = ModelTemplates.FLAT_ITEM.create(location,
+				TextureMapping.layer0(location),
+				items.modelOutput);
+		items.itemModelOutput.accept(item.value(), ItemModelUtils.tintedModel(model, new Constant(0xFFFFFFFF), source.get()));
+	}
 
 	protected void tintableItem2Layer(Holder<? extends Item> item, Supplier<? extends ItemTintSource> source, String... parentFolder) {
 		ResourceLocation location = RegistryUtils.getItemLocation(item, parentFolder);

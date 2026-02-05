@@ -7,11 +7,10 @@ import art.arcane.thaumcraft.client.rendering.FancyArmorLayer;
 import art.arcane.thaumcraft.client.rendering.ber.*;
 import art.arcane.thaumcraft.client.rendering.entity.models.ArmorCrimsonLeader;
 import art.arcane.thaumcraft.client.rendering.entity.models.ArmorCrimsonPlate;
-import art.arcane.thaumcraft.client.rendering.entity.models.ArmorCrimsonRobe;
+import art.arcane.thaumcraft.client.rendering.entity.models.ArmorRobe;
 import art.arcane.thaumcraft.client.rendering.ui.AspectTooltip;
 import art.arcane.thaumcraft.client.screens.ArcaneWorkbenchScreen;
 import art.arcane.thaumcraft.client.tints.AspectItemTintSource;
-import art.arcane.thaumcraft.config.ThaumcraftConfig;
 import art.arcane.thaumcraft.registries.*;
 import art.arcane.thaumcraft.util.RegistryUtils;
 import net.minecraft.client.model.HumanoidModel;
@@ -22,12 +21,9 @@ import net.minecraft.client.renderer.entity.LivingEntityRenderer;
 import net.minecraft.client.renderer.entity.layers.RenderLayer;
 import net.minecraft.client.renderer.entity.state.HumanoidRenderState;
 import net.minecraft.client.resources.PlayerSkin;
-import net.minecraft.core.Holder;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.level.biome.Biome;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
@@ -87,7 +83,7 @@ public class RegistrationEvents {
 	public static void onEntityLayerRegister(EntityRenderersEvent.RegisterLayerDefinitions event) {
 		event.registerLayerDefinition(ArmorCrimsonLeader.LAYER_LOCATION, ArmorCrimsonLeader::createBodyLayer);
 		event.registerLayerDefinition(ArmorCrimsonPlate.LAYER_LOCATION, ArmorCrimsonPlate::createBodyLayer);
-		event.registerLayerDefinition(ArmorCrimsonRobe.LAYER_LOCATION, ArmorCrimsonRobe::createBodyLayer);
+		event.registerLayerDefinition(ArmorRobe.LAYER_LOCATION, ArmorRobe::createBodyLayer);
 	}
 
 	@SubscribeEvent

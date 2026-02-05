@@ -56,7 +56,7 @@ public final class ThaumcraftMaterials {
 
 		public static final ArmorMaterial VOID_ROBE = new ArmorMaterial(
 				255,
-				defenseValues(4, 7, 9, 4),
+				defenseValues(4, 9, 7, 4),
 				10, SoundEvents.ARMOR_EQUIP_LEATHER,
 				2.0F, 0.0F,
 				TagKey.create(Registries.ITEM, Items.INGOT_THAUMIUM),

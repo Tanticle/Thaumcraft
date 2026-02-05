@@ -97,6 +97,11 @@ public final class ConfigItems {
 					.component(ConfigItemComponents.WARPING.value(), 1)
 					.component(ConfigItemComponents.VIS_COST_MODIFIER.value(), -0.01F),
 			ConfigCreativeTabs.MAIN);
+	public static final FancyArmorSet ARMOR_VOID_ROBE = registerFancyArmorSet(ThaumcraftMaterials.Armor.VOID_ROBE, FancyArmorItem.ArmorSet.VOID_ROBE, p ->
+					p.rarity(Rarity.RARE)
+							.component(ConfigItemComponents.WARPING.value(), 3)
+							.component(ConfigItemComponents.VIS_COST_MODIFIER.value(), -0.05F),
+			ConfigCreativeTabs.MAIN);
     public static final FancyArmorSet ARMOR_CRIMSON_LEADER = registerFancyArmorSet(ThaumcraftMaterials.Armor.CRIMSON_LEADER, FancyArmorItem.ArmorSet.CRIMSON_LEADER, p -> p.rarity(Rarity.RARE), ConfigCreativeTabs.MAIN);
     public static final FancyArmorSet ARMOR_CRIMSON_PLATE = registerFancyArmorSet(ThaumcraftMaterials.Armor.CRIMSON_PLATE, FancyArmorItem.ArmorSet.CRIMSON_PLATE, p -> p.rarity(Rarity.UNCOMMON), ConfigCreativeTabs.MAIN);
 
