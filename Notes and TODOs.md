@@ -33,17 +33,18 @@
     - [ ] Taint Logs
     - [ ] Taint Blocks (Crust, Soil, etc.)
     - [ ] Taint Features (Geysers, Tendrils)
+    - [ ] Falling Taint Entity
 - [ ] Multiblock Structure Logic
 - [-] **Alchemy**
-    - [X] Crucible Block & Block Entity &Crucible Recipe System
+    - [X] Crucible Block & Block Entity & Crucible Recipe System
     - [X] Hedge Alchemy Recipes (tallow, leather, gunpowder x2, slime x2, glowstone x2, dye x2, clay, string, cobweb,
       lava all work)
     - [X] Metallurgy Recipes (brass ingot, thaumium ingot)
     - [X] Vis Crystal Recipes
     - [X] Alumentum Recipe
+    - [X] Nitor Recipe (needs nitor block)
     - [ ] Essentia Distillation (Smelter, Alembic)
     - [ ] Void Ingot Recipe (needs void seed item)
-    - [X] Nitor Recipe (needs nitor block)
     - [ ] Metal Purification (cluster items needed)
     - [ ] Advanced Alchemy (Bath Salts, Sanity Soap, Liquid Death, Bottled Taint)
 - [ ] **Research System**
@@ -62,11 +63,32 @@
     - [ ] Unnatural Hunger
     - [ ] Death Gaze
     - [ ] Infectious Vis Exhaustion
+- [ ] **Champion Mods System**
+    - [ ] Armored
+    - [ ] Bold
+    - [ ] Fire
+    - [ ] Grim
+    - [ ] Infested
+    - [ ] Mighty
+    - [ ] Poison
+    - [ ] Sickly
+    - [ ] Spined
+    - [ ] Tainted
+    - [ ] Undying
+    - [ ] Vampire
+    - [ ] Warded
+    - [ ] Warp
+- [ ] **Particles & Visual Effects**
+    - [ ] Custom Particle Types (fire motes, sparkles, runes, swarms, vent effects, etc.)
+    - [ ] Beam Rendering (arcs, bolts, bore beams, wand beams)
+    - [ ] Shield Rune Effects
+    - [ ] Block Ward Visuals
+    - [ ] Essentia Stream Visuals
 
 ### World Generation & Environment
 
 - [-] **Ores**
-    - [X] Add Cinnabar, Amber, and Quarts Textures & Raw Variants of Cinn/Amber
+    - [X] Add Cinnabar, Amber, and Quartz Textures & Raw Variants of Cinn/Amber
     - [X] All 3 Ores Generate
     - [ ] Elemental Crystals (Air, Fire, Water, Earth, Order, Entropy) in caves
 - [X] **Trees**
@@ -92,10 +114,19 @@
         - [X] Vishroom placement - Looks bad
         - [X] Cinderpearl placement
         - [X] Shimmerleaf placement
-        - [ ] Mob spawns (Pech, Wisp, Witch, Vex)
         - [X] Big mushroom generation
         - [X] Config options (weight, enable/disable)
+        - [ ] Mob spawns (Pech, Wisp, Witch, Vex)
+    - [ ] Eerie Biome
+    - [ ] Eldritch Dimension
+        - [ ] Dimension registration & portal mechanics
+        - [ ] Eldritch biome
+        - [ ] Flesh blocks
+        - [ ] Hole blocks
+        - [ ] Barrier Stone blocks
+        - [ ] Dimension structures & encounters
 - [ ] Loot Tables (Dungeon chests, Pech trades)
+- [ ] Loot Blocks (worldgen loot containers / crates)
 
 ### Entities & Mobs
 
@@ -104,8 +135,11 @@
     - [ ] Firebats
 - [ ] **Common**
     - [ ] Brainy Zombies (Normal & Giant)
+    - [ ] Inhabited Zombie
     - [ ] Pech (Forager, Hunter, Mage)
+        - [ ] Pech Trading System
     - [ ] Thaumic Slimes
+    - [ ] Spellbat
 - [ ] **Cultists**
     - [ ] Crimson Knights
     - [ ] Crimson Clerics
@@ -115,13 +149,32 @@
     - [ ] Eldritch Crabs
     - [ ] Eldritch Watchers
     - [ ] Mind Spiders
-- [ ] **Tained**
+- [ ] **Tainted**
     - [ ] Taint Crawlers
     - [ ] Taint Swarms
     - [ ] Taintacles (Normal & Giant)
+    - [ ] Taint Seed (Normal & Prime)
 - [ ] **Bosses**
-    - [ ] The Taintaculus?
-    - [ ] Crimson Portal logic
+    - [ ] Eldritch Golem
+    - [ ] Eldritch Warden
+    - [ ] Cultist Leader
+    - [ ] Crimson Portal (Lesser & Greater)
+    - [ ] Giant Taintacle
+- [ ] **Constructs**
+    - [ ] Arcane Bore (entity + container/GUI)
+    - [ ] Crossbow Turret (basic + advanced, containers/GUIs)
+- [ ] **Projectiles**
+    - [ ] Alumentum (throwable explosive)
+    - [ ] Bottle of Taint (throwable)
+    - [ ] Causality Collapser (throwable)
+    - [ ] Homing Shard (from Collector enchantment)
+    - [ ] Rift Blast
+    - [ ] Eldritch Orb (boss attack)
+    - [ ] Golem Dart / Golem Orb
+    - [ ] Grapple Hook
+    - [ ] Focus Projectiles (Projectile, Cloud, Mine)
+- [ ] **Special**
+    - [ ] Special Item Entity (custom pickup behavior)
 
 ### Golems
 
@@ -153,15 +206,15 @@
 
 ### Equipment: Armor
 
-- [x] Thaumium Armor
-- [x] Void Armor & Robes
-- [x] Thaumaturge's Armor
-- [x] Cultist Armor (Robes, Plate, Leader)
+- [X] Thaumium Armor
+- [X] Void Armor & Robes
+- [X] Thaumaturge's Armor
+- [X] Cultist Armor (Robes, Plate, Leader)
     - [ ] Better System for 3D Armor (For the love of god, it's awful)
     - [ ] Cloth Flaps
 - [ ] Fortress Armor (Helm upgrades: Masks)
 - [ ] Goggles of Revealing (HUD overlay)
-- [x] Boots of the Traveller (Jump/Speed boost)
+- [X] Boots of the Traveller (Jump/Speed boost)
 
 ### Equipment: Tools & Weapons
 
@@ -170,10 +223,11 @@
 - [X] Void Tools (Regeneration logic)
 - [X] Primal Crusher
 - [X] Crimson Blade
-- [ ] Thaumometer (Scanning logic)
 - [X] Sanity Checker
-- [ ] Grapple Gun
 - [X] Scribing Tools (Research table usage)
+- [ ] Thaumometer (Scanning logic)
+- [ ] Grapple Gun
+- [ ] Hand Mirror (links to magic mirror blocks, remote inventory access)
 
 ### Equipment: Casting (Auromancy)
 
@@ -204,7 +258,7 @@
         - [ ] Split Target
         - [ ] Split Trajectory
 
-### Baubles???
+### Baubles
 
 - [ ] Vis Amulet (Vis recharge)
 - [ ] Cloud Ring (Flight/Fall protect)
@@ -221,6 +275,7 @@
     - [ ] Essentia Smelter (Basic & Thaumium)
     - [ ] Arcane Alembics
     - [ ] Centrifuge
+    - [ ] Thaumatorium (automated alchemy, recipe selection GUI)
 - [ ] **Essentia Transport**
     - [X] Tubes
     - [ ] Tube Variants (Valve, Filter, Buffer, Restricted, Oneway)
@@ -229,16 +284,15 @@
 - [-] **Items**
     - [X] Phials
     - [X] Vis Crystals
-    - [X] Quartz Sliver - for making the crystals and all that
+    - [X] Quartz Sliver
     - [X] Alumentum
     - [X] Tallow
+    - [X] Triple Meat Treat - MISSING: add to #minecraft:wolf_food tag
+    - [X] Zombie Brains (Consumable) - MISSING: warp effects on eat (10% +1 perm, 90% +1-3 temp), add to #minecraft:wolf_food tag
     - [ ] Bath Salts
     - [ ] Sanity Soap
     - [ ] Bottle of Taint
     - [ ] Causality Collapser
-    - [X] Triple Meat Treat - MISSING: add to #minecraft:wolf_food tag
-    - [X] Zombie Brains (Consumable) - MISSING: warp effects on eat (10% +1 perm, 90% +1-3 temp), add to #minecraft:
-      wolf_food tag
 
 ### Blocks: Devices & Machines
 
@@ -247,33 +301,34 @@
     - [ ] Brain in a Jar
 - [ ] **Crafting**
     - [X] Arcane Workbench
+    - [ ] Arcane Workbench Charger (vis charging addon)
     - [ ] Focal Manipulator (Focus crafting)
     - [ ] Infusion Altar (Pillars, Pedestals, Matrix)
     - [ ] Stabilizers
+    - [ ] Pattern Crafter (automates arcane workbench crafting)
 - [ ] **Utility**
     - [X] Dioptra * NEEDS VATUU POLISH FOR RENDERER & BLOCK MODEL
     - [X] Arcane Levitator
+    - [X] Hungry Chest
+    - [X] Everfull Urn
     - [ ] Arcane Ear & Toggle
     - [ ] Arcane Lamp / Lamp of Growth / Lamp of Fertility
     - [ ] Infernal Furnace
     - [ ] Mirrors (Magic Hand Mirror link, Essentia Mirrors)
     - [ ] Redstone Relay
-    - [ ] Hungry Chest
-    - [ ] Everfull Urn
     - [ ] Arcane Bellows
     - [ ] Vis Battery
     - [ ] Vis Generator
     - [ ] Flux Condenser / Lattice
+    - [ ] Potion Sprayer (area effect, container/GUI)
+    - [ ] Recharge Pedestal (passively recharges vis items)
+    - [ ] Void Siphon (container/GUI)
 
 ### Blocks: Cosmetic & Building
 
-- [ ] Candles (16 colors)
-- [ ] Banners (TC specific)
 - [X] Nitor (8 colors, floating light)
 - [X] Metal Storage Blocks (Thaumium, Brass, Void)
-- [ ] Translucent Glass (Beacon base, decorative)
-- [ ] Paving Stones (Arcane, Barrier, Travel)
-- [ ] Pillar Block (Directional decorative)
+- [X] Amber Blocks (Translucent, beacon base)
 - [X] Planks & Logs (Greatwood, Silverwood) - **Doors/Wood types need redesign**
 - [X] Arcane Stone Blocks (Bricks, Smooth, Pillars)
 - [X] Eldritch Stone (+ Stairs, Slabs)
@@ -281,10 +336,16 @@
 - [X] Pedestals (Ancient, Eldritch, Arcane)
     - [ ] Stabilization
     - [ ] Viewmodels
+- [ ] Candles (16 colors)
+- [ ] Banners (TC specific)
+- [ ] Paving Stones (Arcane, Barrier, Travel)
+- [ ] Pillar Block (Directional decorative)
+- [ ] Table Block (decorative furniture)
+- [ ] Porous Stone
+- [ ] Inlay Blocks (floor-embedded redstone circuits)
 
 ### Items & Resources
 
-- [ ] Thaumonomicon
 - [X] Salis Mundus
 - [X] Loot Bags (Common, Uncommon, Rare)
 - [X] Vis Crystals (All 6 primals + Taint, tintable item)
@@ -293,6 +354,8 @@
 - [X] Metal Nuggets (Brass, Thaumium, Void, Quicksilver, Quartz)
 - [X] Metal Plates (Brass, Iron, Thaumium, Void)
 - [X] Raw Ores (Amber, Cinnabar, Quicksilver)
+- [X] Amber Blocks
+- [ ] Thaumonomicon
 - [ ] Metal Clusters (Iron, Gold, Copper, Cinnabar - for purification)
 - [ ] Void Seed
 - [ ] Knowledge Fragments
@@ -300,3 +363,6 @@
 - [ ] Primordial Pearl
 - [ ] Magic Dust
 - [ ] Crystal Essence
+- [ ] Pech Wand (Pech mob drop)
+- [ ] Creative Flux Sponge (debug tool)
+- [ ] Creative Placer (debug tool)

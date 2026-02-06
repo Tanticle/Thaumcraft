@@ -205,6 +205,14 @@ public final class ThaumcraftData {
         public static final ResourceLocation FABRIC = Thaumcraft.id("fabric");
         public static final ResourceLocation TALLOW = Thaumcraft.id("tallow");
         public static final ResourceLocation ALUMENTUM = Thaumcraft.id("alumentum");
+        public static final ResourceLocation VOID_SEED = Thaumcraft.id("void_seed");
+        public static final ResourceLocation MAGIC_DUST = Thaumcraft.id("magic_dust");
+        public static final ResourceLocation PECH_WAND = Thaumcraft.id("pech_wand");
+
+        public static final ResourceLocation CLUSTER_IRON = Thaumcraft.id("cluster_iron");
+        public static final ResourceLocation CLUSTER_GOLD = Thaumcraft.id("cluster_gold");
+        public static final ResourceLocation CLUSTER_COPPER = Thaumcraft.id("cluster_copper");
+        public static final ResourceLocation CLUSTER_CINNABAR = Thaumcraft.id("cluster_cinnabar");
 
         public static final ResourceLocation ZOMBIE_BRAIN = Thaumcraft.id("zombie_brain");
         public static final ResourceLocation TRIPLE_MEAT_TREAT = Thaumcraft.id("triple_meat_treat");
