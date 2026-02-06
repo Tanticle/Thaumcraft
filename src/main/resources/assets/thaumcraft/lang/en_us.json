@@ -156,6 +156,9 @@
   "item.thaumcraft.void_robe_helmet": "Void Thaumaturge Hood",
   "item.thaumcraft.void_robe_chestplate": "Void Thaumaturge Robe",
   "item.thaumcraft.void_robe_leggings": "Void Thaumaturge Leggings",
+  "item.thaumcraft.fortress_helmet": "Thaumium Fortress Helm",
+  "item.thaumcraft.fortress_chestplate": "Thaumium Fortress Cuirass",
+  "item.thaumcraft.fortress_leggings": "Thaumium Fortress Thigh Guards",
   "item.thaumcraft.void_metal_helmet": "Void Helm",
   "item.thaumcraft.void_metal_chestplate": "Void Chestplate",
   "item.thaumcraft.void_metal_leggings": "Void Leggings",
@@ -244,6 +247,10 @@
   "misc.thaumcraft.tooltip.vis_charge": "Vis Charge: %d",
   "misc.thaumcraft.tooltip.aspect_simple": "%s",
   "misc.thaumcraft.tooltip.aspect_complex": "%dx %s",
+  "misc.thaumcraft.tooltip.fortress_armor_goggles": "Goggles of Revealing",
+  "misc.thaumcraft.tooltip.fortress_armor_mask_devil": "Grinning Devil",
+  "misc.thaumcraft.tooltip.fortress_armor_mask_ghost": "Angry Ghost",
+  "misc.thaumcraft.tooltip.fortress_armor_mask_fiend": "Sipping Fiend",
 
   "network.thaumcraft.aspect_registry_disconnect": "Unable to synchronize Aspect Registry! Check the log for more information.",
 

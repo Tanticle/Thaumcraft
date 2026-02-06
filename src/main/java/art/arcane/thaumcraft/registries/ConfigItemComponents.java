@@ -1,5 +1,6 @@
 package art.arcane.thaumcraft.registries;
 
+import art.arcane.thaumcraft.api.components.FortressFaceplateComponent;
 import com.mojang.serialization.Codec;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Holder;
@@ -49,6 +50,8 @@ public class ConfigItemComponents {
 	public static final Holder<DataComponentType<Integer>> TIMER = register(ItemComponents.TIMER, ExtraCodecs.NON_NEGATIVE_INT, ByteBufCodecs.VAR_INT);
 
 	public static final Holder<DataComponentType<DyeColor>> DYE_COLOR = register(ItemComponents.DYE_COLOR, DyeColor.CODEC, NeoForgeStreamCodecs.enumCodec(DyeColor.class));
+
+	public static final Holder<DataComponentType<FortressFaceplateComponent>> ARMOR_FORTRESS_FACEPLATE = register(ItemComponents.ARMOR_FORTRESS_FACEPLATE, FortressFaceplateComponent.CODEC, FortressFaceplateComponent.STREAM_CODEC);
 
     /* -------------------------------------------------------------------------------------------------------------- */
 

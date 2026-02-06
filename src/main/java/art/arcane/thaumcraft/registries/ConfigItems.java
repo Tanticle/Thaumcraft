@@ -110,6 +110,7 @@ public final class ConfigItems {
 			ConfigCreativeTabs.MAIN);
     public static final FancyArmorSet ARMOR_CRIMSON_LEADER = registerFancyArmorSet(ThaumcraftMaterials.Armor.CRIMSON_LEADER, FancyArmorItem.ArmorSet.CRIMSON_LEADER, p -> p.rarity(Rarity.RARE), ConfigCreativeTabs.MAIN);
     public static final FancyArmorSet ARMOR_CRIMSON_PLATE = registerFancyArmorSet(ThaumcraftMaterials.Armor.CRIMSON_PLATE, FancyArmorItem.ArmorSet.CRIMSON_PLATE, p -> p.rarity(Rarity.UNCOMMON), ConfigCreativeTabs.MAIN);
+    public static final FancyArmorSet ARMOR_FORTRESS = registerFancyArmorSet(ThaumcraftMaterials.Armor.FORTRESS, FancyArmorItem.ArmorSet.FORTRESS, p -> p.rarity(Rarity.RARE), ConfigCreativeTabs.MAIN);
 
 
     // Resources

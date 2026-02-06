@@ -1,7 +1,7 @@
 package art.arcane.thaumcraft.events.handlers;
 
+import art.arcane.thaumcraft.commands.GiveCommand;
 import art.arcane.thaumcraft.commands.VisChargeCommand;
-import art.arcane.thaumcraft.items.VisChargeItem;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.chunk.LevelChunk;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -41,7 +41,10 @@ public final class WorldEvents {
 
     @SubscribeEvent
     public static void onRegisterCommands(RegisterCommandsEvent e) {
-        AuraCommands.register(e.getDispatcher());
-		VisChargeCommand.register(e.getDispatcher());
+		if(Thaumcraft.isDev()) {
+			AuraCommands.register(e.getDispatcher());
+			VisChargeCommand.register(e.getDispatcher());
+			GiveCommand.register(e.getDispatcher());
+		}
     }
 }

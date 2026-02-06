@@ -40,11 +40,21 @@ public final class Codecs {
         }
     };
 
+	public static <E extends Enum<E>> Codec<E> enumCodec(Class<E> clazz) {
+		return Codec.INT.xmap(i -> clazz.getEnumConstants()[i], Enum::ordinal);
+	}
+
+	public static <E extends Enum<E>> StreamCodec<ByteBuf, E> enumStreamCodec(Class<E> clazz) {
+		return new StreamCodec<>() {
+			public E decode(ByteBuf buffer) { return clazz.getEnumConstants()[buffer.readInt()]; }
+			public void encode(ByteBuf buffer, E value) { buffer.writeInt(value.ordinal()); }
+		};
+	}
+
     public static StreamCodec<ByteBuf, Character> CHAR_STREAM = new StreamCodec<>() {
         public Character decode(ByteBuf buffer) {
             return buffer.readChar();
         }
-
         public void encode(ByteBuf buffer, Character value) {
             buffer.writeChar(value);
         }
