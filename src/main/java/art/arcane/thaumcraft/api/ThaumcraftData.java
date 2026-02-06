@@ -321,6 +321,9 @@ public final class ThaumcraftData {
         public static final ResourceLocation METAL_THAUMIUM = Thaumcraft.id("metal_thaumium");
         public static final ResourceLocation METAL_VOID = Thaumcraft.id("metal_void");
 
+        public static final ResourceLocation AMBER_BLOCK = Thaumcraft.id("amber_block");
+        public static final ResourceLocation AMBER_BRICK = Thaumcraft.id("amber_brick");
+
         public static final ResourceLocation SILVERWOOD_LOG = Thaumcraft.id("silverwood_log");
         public static final ResourceLocation SILVERWOOD_WOOD = Thaumcraft.id("silverwood_wood");
         public static final ResourceLocation STRIPPED_SILVERWOOD_LOG = Thaumcraft.id("stripped_silverwood_log");

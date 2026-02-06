@@ -99,6 +99,9 @@ public class BlockDataProvider extends ModelProvider {
         simpleBlock(ConfigBlocks.METAL_THAUMIUM);
         simpleBlock(ConfigBlocks.METAL_VOID);
 
+        translucentColumnBlock(ConfigBlocks.AMBER_BLOCK);
+        translucentBlock(ConfigBlocks.AMBER_BRICK);
+
         registerSilverwoodTree();
         registerGreatwoodTree();
 
@@ -286,6 +289,36 @@ public class BlockDataProvider extends ModelProvider {
     @Override
     protected Stream<? extends Holder<Item>> getKnownItems() {
         return super.getKnownItems().filter(holder -> holder.value() instanceof BlockItem);
+    }
+
+    private void translucentBlock(ConfigBlocks.BlockObject<? extends Block> block) {
+        ResourceLocation id = RegistryUtils.getBlockLocation(block.blockSupplier());
+        TextureMapping mapping = new TextureMapping().put(TextureSlot.ALL, id).put(TextureSlot.PARTICLE, id);
+        ModelTemplate template = ExtendedModelTemplateBuilder.builder()
+                .parent(ResourceLocation.withDefaultNamespace("block/cube_all"))
+                .renderType("minecraft:translucent")
+                .requiredTextureSlot(TextureSlot.ALL)
+                .build();
+        ResourceLocation model = template.create(block.block(), mapping, blocks.modelOutput);
+        blocks.blockStateOutput.accept(MultiVariantGenerator.multiVariant(block.block(), Variant.variant().with(VariantProperties.MODEL, model)));
+        blockParentItem(block, model);
+    }
+
+    private void translucentColumnBlock(ConfigBlocks.BlockObject<? extends Block> block) {
+        ResourceLocation id = RegistryUtils.getBlockLocation(block.blockSupplier());
+        TextureMapping mapping = new TextureMapping()
+                .put(TextureSlot.SIDE, id.withSuffix("_side"))
+                .put(TextureSlot.END, id.withSuffix("_top"))
+                .put(TextureSlot.PARTICLE, id.withSuffix("_side"));
+        ModelTemplate template = ExtendedModelTemplateBuilder.builder()
+                .parent(ResourceLocation.withDefaultNamespace("block/cube_column"))
+                .renderType("minecraft:translucent")
+                .requiredTextureSlot(TextureSlot.SIDE)
+                .requiredTextureSlot(TextureSlot.END)
+                .build();
+        ResourceLocation model = template.create(block.block(), mapping, blocks.modelOutput);
+        blocks.blockStateOutput.accept(MultiVariantGenerator.multiVariant(block.block(), Variant.variant().with(VariantProperties.MODEL, model)));
+        blockParentItem(block, model);
     }
 
     public void simpleBlock(ConfigBlocks.BlockObject<? extends Block> block) {

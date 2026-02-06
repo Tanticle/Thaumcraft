@@ -99,6 +99,8 @@ public final class ConfigBlocks {
 	public static final BlockObject<Block> METAL_BRASS = registerBlock(Blocks.METAL_BRASS, props -> new Block(SimpleBlockMaterials.metal(props).strength(5.0F, 6.0F).sound(SoundType.METAL)), ConfigCreativeTabs.MAIN);
 	public static final BlockObject<Block> METAL_THAUMIUM = registerBlock(Blocks.METAL_THAUMIUM, props -> new Block(SimpleBlockMaterials.metal(props).strength(5.0F, 6.0F).sound(SoundType.METAL)), ConfigCreativeTabs.MAIN);
 	public static final BlockObject<Block> METAL_VOID = registerBlock(Blocks.METAL_VOID, props -> new Block(SimpleBlockMaterials.metal(props).strength(5.0F, 6.0F).sound(SoundType.METAL)), ConfigCreativeTabs.MAIN);
+	public static final BlockObject<TransparentBlock> AMBER_BLOCK = registerBlock(Blocks.AMBER_BLOCK, props -> new TransparentBlock(SimpleBlockMaterials.glass(props).strength(0.5F).sound(SoundType.STONE)), ConfigCreativeTabs.MAIN);
+	public static final BlockObject<TransparentBlock> AMBER_BRICK = registerBlock(Blocks.AMBER_BRICK, props -> new TransparentBlock(SimpleBlockMaterials.glass(props).strength(0.5F).sound(SoundType.STONE)), ConfigCreativeTabs.MAIN);
 	public static final BlockObject<SilverwoodLogBlock> SILVERWOOD_LOG = registerBlock(Blocks.SILVERWOOD_LOG, SilverwoodLogBlock::new, ConfigCreativeTabs.MAIN);
 	public static final BlockObject<RotatedPillarBlock> SILVERWOOD_WOOD = registerBlock(Blocks.SILVERWOOD_WOOD, props -> new RotatedPillarBlock(silverwoodWoodProps(props)), ConfigCreativeTabs.MAIN);
 	public static final BlockObject<RotatedPillarBlock> STRIPPED_SILVERWOOD_LOG = registerBlock(Blocks.STRIPPED_SILVERWOOD_LOG, props -> new RotatedPillarBlock(silverwoodWoodProps(props)), ConfigCreativeTabs.MAIN);

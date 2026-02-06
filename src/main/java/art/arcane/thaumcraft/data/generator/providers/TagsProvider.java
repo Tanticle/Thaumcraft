@@ -139,7 +139,14 @@ public class TagsProvider extends BlockTagsProvider {
         tag(BlockTags.BEACON_BASE_BLOCKS).add(
                 ConfigBlocks.METAL_BRASS.block(),
                 ConfigBlocks.METAL_THAUMIUM.block(),
-                ConfigBlocks.METAL_VOID.block()
+                ConfigBlocks.METAL_VOID.block(),
+                ConfigBlocks.AMBER_BLOCK.block(),
+                ConfigBlocks.AMBER_BRICK.block()
+        );
+
+        tag(BlockTags.MINEABLE_WITH_PICKAXE).add(
+                ConfigBlocks.AMBER_BLOCK.block(),
+                ConfigBlocks.AMBER_BRICK.block()
         );
 
         tag(BlockTags.MINEABLE_WITH_AXE).add(ConfigBlocks.HUNGRY_CHEST.block());
