@@ -88,6 +88,7 @@ public class ItemModelProvider extends ModelProvider {
         armorSet(ConfigItems.ARMOR_CRIMSON_LEADER);
         armorSet(ConfigItems.ARMOR_CRIMSON_PLATE);
         armorSet(ConfigItems.ARMOR_CRIMSON_ROBE);
+		armorSet(ConfigItems.ARMOR_FORTRESS);
 
 		tintableItemLayer(ConfigItems.ARMOR_VOID_ROBE.head(), () -> new Dye(ArmorRobe.VOID_DEFAULT_COLOUR), "armor");
 		tintableItem2Layer(ConfigItems.ARMOR_VOID_ROBE.chest(), () -> new Dye(ArmorRobe.VOID_DEFAULT_COLOUR), "armor");

@@ -1,5 +1,6 @@
 package art.arcane.thaumcraft.events.client.handlers;
 
+import art.arcane.thaumcraft.api.components.FortressFaceplateComponent;
 import art.arcane.thaumcraft.items.VisChargeItem;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.datafixers.util.Either;
@@ -71,6 +72,14 @@ public class RenderEvents {
             format.setMinimumFractionDigits(0);
             e.getTooltipElements().add(Either.left(Component.translatable(translation, format.format(Math.abs(modifier * 100))).withStyle(ChatFormatting.DARK_PURPLE)));
         }
+
+		if(e.getItemStack().has(ConfigItemComponents.ARMOR_FORTRESS_FACEPLATE.value())) {
+			FortressFaceplateComponent face = e.getItemStack().get(ConfigItemComponents.ARMOR_FORTRESS_FACEPLATE.value());
+			if(face.hasGoggles())
+				e.getTooltipElements().add(Either.left(Component.translatable("misc.thaumcraft.tooltip.fortress_armor_goggles").withStyle(ChatFormatting.DARK_PURPLE)));
+			if(face.type() != FortressFaceplateComponent.Type.NONE)
+				e.getTooltipElements().add(Either.left(Component.translatable("misc.thaumcraft.tooltip.fortress_armor_" + face.type().getModelPart()).withStyle(ChatFormatting.GOLD)));
+		}
 
 		if(e.getItemStack().getItem() instanceof VisChargeItem i) {
 			int charge = i.getCharge(e.getItemStack());

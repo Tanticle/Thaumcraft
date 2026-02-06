@@ -163,6 +163,7 @@ public final class ThaumcraftData {
         public static final ResourceLocation VIS_CHARGE = Thaumcraft.id("vis_charge");
         public static final ResourceLocation TIMER = Thaumcraft.id("timer");
         public static final ResourceLocation DYE_COLOR = Thaumcraft.id("dye_color");
+        public static final ResourceLocation ARMOR_FORTRESS_FACEPLATE = Thaumcraft.id("fortress_faceplate");
     }
 
     /**
