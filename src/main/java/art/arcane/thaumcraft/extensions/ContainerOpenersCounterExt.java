@@ -8,5 +8,4 @@ public interface ContainerOpenersCounterExt {
 
 	void backgroundIncrementOpener(Level level, BlockPos pos, BlockState state, boolean skipEvents);
 	void backgroundDecrementOpener(Level level, BlockPos pos, BlockState state, boolean skipEvents);
-
 }

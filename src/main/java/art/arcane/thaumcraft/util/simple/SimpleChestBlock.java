@@ -205,6 +205,10 @@ public class SimpleChestBlock<B extends BaseContainerBlockEntity & BetterLidBloc
 		builder.add(FACING, WATERLOGGED);
 	}
 
+	protected RenderShape getRenderShape(BlockState state) {
+		return RenderShape.INVISIBLE;
+	}
+
 	@Override
 	protected boolean isPathfindable(BlockState p_51522_, PathComputationType p_51525_) {
 		return false;

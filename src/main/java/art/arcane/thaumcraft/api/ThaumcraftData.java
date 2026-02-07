@@ -5,10 +5,8 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.tags.BlockTags;
-import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.item.equipment.EquipmentAsset;
@@ -38,7 +36,7 @@ public final class ThaumcraftData {
     public static final class TintSources {
 
         public static final ResourceLocation ASPECT_ITEM = Thaumcraft.id("aspect_item");
-        public static final ResourceLocation NITOR_ITEM = Thaumcraft.id("nitor_item");
+        public static final ResourceLocation DYED_ITEM = Thaumcraft.id("dyed_item");
     }
 
     /**
@@ -162,7 +160,6 @@ public final class ThaumcraftData {
         public static final ResourceLocation VIS_CHARGE_MAX = Thaumcraft.id("vis_charge_max");
         public static final ResourceLocation VIS_CHARGE = Thaumcraft.id("vis_charge");
         public static final ResourceLocation TIMER = Thaumcraft.id("timer");
-        public static final ResourceLocation DYE_COLOR = Thaumcraft.id("dye_color");
         public static final ResourceLocation ARMOR_FORTRESS_FACEPLATE = Thaumcraft.id("fortress_faceplate");
     }
 

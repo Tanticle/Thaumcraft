@@ -21,6 +21,8 @@
 
 ## TODO
 
+- [ ] Empty Block Models do not respect the particle texture.
+
 ### Core Systems
 
 - [X] Aura Management (Chunk-based Vis)
@@ -309,7 +311,7 @@
 - [ ] **Utility**
     - [X] Dioptra * NEEDS VATUU POLISH FOR RENDERER & BLOCK MODEL
     - [X] Arcane Levitator
-    - [X] Hungry Chest
+    - [X] Hungry Chest (TODO: Blocked Logic and Cat sitting)
     - [X] Everfull Urn
     - [ ] Arcane Ear & Toggle
     - [ ] Arcane Lamp / Lamp of Growth / Lamp of Fertility

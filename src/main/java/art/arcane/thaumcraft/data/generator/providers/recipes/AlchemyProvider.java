@@ -7,6 +7,7 @@ import art.arcane.thaumcraft.registries.ConfigItems;
 import art.arcane.thaumcraft.util.FallbackHolder;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderLookup;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
@@ -106,7 +107,7 @@ public class AlchemyProvider extends CodecDataProvider<AlchemyRecipe> {
                 new ItemStack(Items.LAVA_BUCKET));
 
         ItemStack nitorStack = new ItemStack(ConfigBlocks.NITOR.item());
-        nitorStack.set(ConfigItemComponents.DYE_COLOR.value(), DyeColor.YELLOW);
+        nitorStack.set(DataComponents.BASE_COLOR, DyeColor.YELLOW);
         recipe(Recipes.Alchemy.NITOR.location(),
                 Ingredient.of(Items.GLOWSTONE_DUST),
                 new AspectList().add(ThaumcraftData.Aspects.POWER, 10).add(ThaumcraftData.Aspects.FIRE, 10).add(ThaumcraftData.Aspects.LIGHT, 10),
@@ -114,7 +115,7 @@ public class AlchemyProvider extends CodecDataProvider<AlchemyRecipe> {
 
         for (DyeColor color : DyeColor.values()) {
             ItemStack dyedNitor = new ItemStack(ConfigBlocks.NITOR.item());
-            dyedNitor.set(ConfigItemComponents.DYE_COLOR.value(), color);
+            dyedNitor.set(DataComponents.BASE_COLOR, color);
             recipe(Thaumcraft.id("nitor_dye_" + color.getSerializedName()),
                     Ingredient.of(DyeItem.byColor(color)),
                     new AspectList().add(ThaumcraftData.Aspects.SENSE, 5).add(ThaumcraftData.Aspects.LIGHT, 5),

@@ -1,6 +1,7 @@
 package art.arcane.thaumcraft.data.generator.providers;
 
 import art.arcane.thaumcraft.api.ThaumcraftData;
+import art.arcane.thaumcraft.client.tints.DyeItemTintSource;
 import com.google.common.collect.ImmutableMap;
 import net.minecraft.client.data.models.BlockModelGenerators;
 import net.minecraft.client.data.models.ItemModelGenerators;
@@ -12,16 +13,17 @@ import net.minecraft.core.Holder;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.neoforged.neoforge.client.model.generators.loaders.ObjModelBuilder;
+import net.neoforged.neoforge.client.model.generators.template.ExtendedModelTemplate;
 import net.neoforged.neoforge.client.model.generators.template.ExtendedModelTemplateBuilder;
 import net.neoforged.neoforge.registries.DeferredBlock;
 import art.arcane.thaumcraft.Thaumcraft;
 import art.arcane.thaumcraft.blocks.CrystalBlock;
-import art.arcane.thaumcraft.client.tints.NitorItemTintSource;
 import art.arcane.thaumcraft.blocks.InfusionPillarBlock;
 import art.arcane.thaumcraft.blocks.alchemy.CreativeAspectSourceBlock;
 import art.arcane.thaumcraft.blocks.alchemy.JarBlock;
@@ -76,7 +78,9 @@ public class BlockDataProvider extends ModelProvider {
 
         registerCrystalColonies();
 
-        registerEmptyBlock(ConfigBlocks.RUNIC_MATRIX, RegistryUtils.getBlockItemLocation(ConfigBlocks.RUNIC_MATRIX.blockSupplier()));
+        registerEmptyBlock(ConfigBlocks.RUNIC_MATRIX,
+				RegistryUtils.getBlockLocation(ConfigBlocks.ARCANE_STONE_BRICK.blockSupplier()),
+				RegistryUtils.getBlockItemLocation(ConfigBlocks.RUNIC_MATRIX.blockSupplier()));
         registerFakeBlock(ConfigBlocks.LAMPLIGHT);
 
         simpleBlock(ConfigBlocks.INFUSION_STONE_COST);
@@ -523,22 +527,21 @@ public class BlockDataProvider extends ModelProvider {
     }
 
     private void registerNitorBlocks() {
-        ResourceLocation nitorModel = Thaumcraft.id("block/nitor");
-        ResourceLocation baseTexture = Thaumcraft.id("item/nitor/nitor");
-        ResourceLocation coreTexture = Thaumcraft.id("item/nitor/nitor_core");
-        ResourceLocation itemModel = ModelTemplates.TWO_LAYERED_ITEM.create(
-                baseTexture,
-                TextureMapping.layered(baseTexture, coreTexture),
-                items.modelOutput);
+		registerEmptyBlock(ConfigBlocks.NITOR, RegistryUtils.getItemLocation(ConfigBlocks.NITOR.blockSupplier()), null);
 
-        blocks.blockStateOutput.accept(MultiVariantGenerator.multiVariant(ConfigBlocks.NITOR.block(), Variant.variant().with(VariantProperties.MODEL, nitorModel)));
-        items.itemModelOutput.accept(ConfigBlocks.NITOR.item(), ItemModelUtils.tintedModel(itemModel, new NitorItemTintSource(), new Constant(0xFFFFFFFF)));
+		ResourceLocation location = RegistryUtils.getItemLocation(ConfigBlocks.NITOR.itemSupplier(), "block");
+		ResourceLocation model = ModelTemplates.TWO_LAYERED_ITEM.create(location,
+				TextureMapping.layered(location, location.withSuffix("_overlay")),
+				items.modelOutput);
+		items.itemModelOutput.accept(ConfigBlocks.NITOR.item(), ItemModelUtils.tintedModel(model, new Constant(0xFFFFFFFF), new DyeItemTintSource(DyeColor.YELLOW)));
     }
 
-    private void registerEmptyBlock(ConfigBlocks.BlockObject<? extends Block> block, ResourceLocation itemModel) {
-        ResourceLocation model = Thaumcraft.id("block/empty");
-        blocks.blockStateOutput.accept(MultiVariantGenerator.multiVariant(block.block(), Variant.variant().with(VariantProperties.MODEL, model)));
-        if(itemModel != null)
+	private static final ExtendedModelTemplate TEMPLATE_EMPTY = ExtendedModelTemplateBuilder.builder().parent(Thaumcraft.id("block/empty")).requiredTextureSlot(TextureSlot.PARTICLE).build();
+
+    private void registerEmptyBlock(ConfigBlocks.BlockObject<? extends Block> block, ResourceLocation particleTexture, ResourceLocation itemModel) {
+		ResourceLocation model = TexturedModel.createDefault(b -> new TextureMapping().put(TextureSlot.PARTICLE, particleTexture), TEMPLATE_EMPTY).create(block.block(), blocks.modelOutput);
+		blocks.blockStateOutput.accept(MultiVariantGenerator.multiVariant(block.block(), Variant.variant().with(VariantProperties.MODEL, model)));
+		if(itemModel != null)
             blockParentItem(block, itemModel);
     }
 

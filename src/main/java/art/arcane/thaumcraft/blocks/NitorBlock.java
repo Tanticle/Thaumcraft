@@ -2,10 +2,10 @@ package art.arcane.thaumcraft.blocks;
 
 import art.arcane.thaumcraft.blocks.entities.NitorBlockEntity;
 import art.arcane.thaumcraft.registries.ConfigBlockEntities;
-import art.arcane.thaumcraft.registries.ConfigItemComponents;
 import art.arcane.thaumcraft.util.simple.TickableEntityBlock;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.ItemStack;
@@ -72,11 +72,11 @@ public class NitorBlock extends TickableEntityBlock<NitorBlockEntity> {
     @Override
     public ItemStack getCloneItemStack(LevelReader level, BlockPos pos, BlockState state, boolean includeData, Player player) {
         ItemStack stack = new ItemStack(this);
-        stack.set(ConfigItemComponents.DYE_COLOR.value(), state.getValue(COLOR));
+        stack.set(DataComponents.BASE_COLOR, state.getValue(COLOR));
         return stack;
     }
 
-    @Override
+	@Override
     protected MapCodec<? extends NitorBlock> codec() {
         return CODEC;
     }

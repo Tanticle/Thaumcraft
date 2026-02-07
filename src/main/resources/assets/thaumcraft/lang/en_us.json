@@ -87,8 +87,7 @@
   "block.thaumcraft.hungry_chest": "Hungry Chest",
   "block.thaumcraft.everfull_urn": "Everfull Urn",
 
-  "block.thaumcraft.nitor": "Nitor",
-  "block.thaumcraft.nitor_colored": "%s Nitor",
+  "block.thaumcraft.nitor": "%s Nitor",
 
   "biome.thaumcraft.magical_forest": "Magical Forest",
 

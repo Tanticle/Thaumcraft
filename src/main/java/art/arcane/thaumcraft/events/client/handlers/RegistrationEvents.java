@@ -12,7 +12,7 @@ import art.arcane.thaumcraft.client.rendering.entity.models.ArmorRobe;
 import art.arcane.thaumcraft.client.rendering.ui.AspectTooltip;
 import art.arcane.thaumcraft.client.screens.ArcaneWorkbenchScreen;
 import art.arcane.thaumcraft.client.tints.AspectItemTintSource;
-import art.arcane.thaumcraft.client.tints.NitorItemTintSource;
+import art.arcane.thaumcraft.client.tints.DyeItemTintSource;
 import art.arcane.thaumcraft.registries.*;
 import art.arcane.thaumcraft.util.RegistryUtils;
 import net.minecraft.client.model.HumanoidModel;
@@ -75,7 +75,7 @@ public class RegistrationEvents {
 	@SubscribeEvent
 	public static void onItemColorTintingRegister(RegisterColorHandlersEvent.ItemTintSources e) {
 		e.register(ThaumcraftData.TintSources.ASPECT_ITEM, AspectItemTintSource.CODEC);
-		e.register(ThaumcraftData.TintSources.NITOR_ITEM, NitorItemTintSource.CODEC);
+		e.register(ThaumcraftData.TintSources.DYED_ITEM, DyeItemTintSource.CODEC);
 	}
 
 	@SubscribeEvent
