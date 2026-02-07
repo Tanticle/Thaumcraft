@@ -1,4 +1,4 @@
-package art.arcane.thaumcraft.items.vis;
+package art.arcane.thaumcraft.items.equipment;
 
 import art.arcane.thaumcraft.Thaumcraft;
 import art.arcane.thaumcraft.api.ThaumcraftMaterials;

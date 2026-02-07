@@ -3,7 +3,7 @@ package art.arcane.thaumcraft.registries;
 import art.arcane.thaumcraft.items.FancyArmorItem;
 import art.arcane.thaumcraft.items.VisChargeItem;
 import art.arcane.thaumcraft.items.tools.*;
-import art.arcane.thaumcraft.items.vis.BootsTravellerItem;
+import art.arcane.thaumcraft.items.equipment.BootsTravellerItem;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.effect.MobEffectInstance;
