@@ -52,6 +52,19 @@ public class ItemModelProvider extends ModelProvider {
 
         // Crafting Components
         batchItems("resources", ConfigItems.FILTER, ConfigItems.FABRIC, ConfigItems.TALLOW, ConfigItems.ALUMENTUM);
+
+        // Misc Resources
+        simpleItem(ConfigItems.VOID_SEED, "resources");
+        simpleItem(ConfigItems.MAGIC_DUST, "resources");
+        simpleItem(ConfigItems.PECH_WAND, "resources");
+
+        // Clusters
+        ResourceLocation clusterTexture = Thaumcraft.id("item/resources/cluster");
+        tintedItemSharedTexture(ConfigItems.CLUSTER_IRON, clusterTexture, 0xD8AF93, "resources");
+        tintedItemSharedTexture(ConfigItems.CLUSTER_GOLD, clusterTexture, 0xFCEE4B, "resources");
+        tintedItemSharedTexture(ConfigItems.CLUSTER_COPPER, clusterTexture, 0xE77C56, "resources");
+        tintedItemSharedTexture(ConfigItems.CLUSTER_CINNABAR, clusterTexture, 0xE03030, "resources");
+
         simpleItem(ConfigItems.LOOT_BAG_COMMON);
         simpleItem(ConfigItems.LOOT_BAG_UNCOMMON);
         simpleItem(ConfigItems.LOOT_BAG_RARE);
@@ -160,6 +173,12 @@ public class ItemModelProvider extends ModelProvider {
 				items.modelOutput);
 		items.itemModelOutput.accept(item.value(), ItemModelUtils.tintedModel(model, new Constant(0xFFFFFFFF), source.get()));
 	}
+
+    protected void tintedItemSharedTexture(Holder<? extends Item> item, ResourceLocation sharedTexture, int color, String... parentFolder) {
+        ResourceLocation location = RegistryUtils.getItemLocation(item, parentFolder);
+        ResourceLocation model = ModelTemplates.FLAT_ITEM.create(location, TextureMapping.layer0(sharedTexture), items.modelOutput);
+        items.itemModelOutput.accept(item.value(), ItemModelUtils.tintedModel(model, new Constant(color)));
+    }
 
     protected void armorSet(ConfigItems.FancyArmorSet armorSet) {
         batchItems("armor", armorSet.head(), armorSet.chest(), armorSet.legs());

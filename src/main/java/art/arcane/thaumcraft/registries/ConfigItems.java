@@ -149,6 +149,17 @@ public final class ConfigItems {
     public static final DeferredItem<Item> TALLOW = registerSimple(Items.TALLOW, ConfigCreativeTabs.MAIN);
     public static final DeferredItem<Item> ALUMENTUM = registerSimple(Items.ALUMENTUM, ConfigCreativeTabs.MAIN);
 
+    // Misc Resources
+    public static final DeferredItem<Item> VOID_SEED = registerSimple(Items.VOID_SEED, ConfigCreativeTabs.MAIN);
+    public static final DeferredItem<Item> MAGIC_DUST = registerSimple(Items.MAGIC_DUST, ConfigCreativeTabs.MAIN);
+    public static final DeferredItem<Item> PECH_WAND = registerSimple(Items.PECH_WAND, ConfigCreativeTabs.MAIN);
+
+    // Clusters
+    public static final DeferredItem<Item> CLUSTER_IRON = registerSimple(Items.CLUSTER_IRON, ConfigCreativeTabs.MAIN);
+    public static final DeferredItem<Item> CLUSTER_GOLD = registerSimple(Items.CLUSTER_GOLD, ConfigCreativeTabs.MAIN);
+    public static final DeferredItem<Item> CLUSTER_COPPER = registerSimple(Items.CLUSTER_COPPER, ConfigCreativeTabs.MAIN);
+    public static final DeferredItem<Item> CLUSTER_CINNABAR = registerSimple(Items.CLUSTER_CINNABAR, ConfigCreativeTabs.MAIN);
+
     // Consumables
     public static final DeferredItem<Item> ZOMBIE_BRAIN = registerItem(Items.ZOMBIE_BRAIN, p -> new Item(p
             .food(new FoodProperties.Builder()

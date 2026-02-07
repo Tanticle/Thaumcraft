@@ -53,6 +53,16 @@ public class VanillaRecipeProvider extends RecipeProvider {
         oneToNine(ConfigItems.INGOT_THAUMIUM.get(), ConfigBlocks.METAL_THAUMIUM.item(), "block");
         oneToNine(ConfigItems.INGOT_VOID.get(), ConfigBlocks.METAL_VOID.item(), "block");
 
+        nineToOne(ConfigBlocks.AMBER_BLOCK.item(), ConfigItems.AMBER.get(), "amber");
+        oneToNine(ConfigItems.AMBER.get(), ConfigBlocks.AMBER_BLOCK.item(), "block");
+
+        ShapedRecipeBuilder.shaped(items, RecipeCategory.BUILDING_BLOCKS, ConfigBlocks.AMBER_BRICK.item(), 4)
+                .pattern("AA")
+                .pattern("AA")
+                .define('A', ConfigBlocks.AMBER_BLOCK.item())
+                .unlockedBy("has_ingredient", has(ConfigBlocks.AMBER_BLOCK.item()))
+                .save(this.output);
+
         ShapedRecipeBuilder.shaped(items, RecipeCategory.MISC, ConfigItems.FILTER.get())
                 .pattern(" S ")
                 .pattern("SGS")
