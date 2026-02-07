@@ -1,5 +1,6 @@
 package art.arcane.thaumcraft.data.generator.providers;
 
+import art.arcane.thaumcraft.api.ThaumcraftData;
 import com.google.common.collect.ImmutableMap;
 import net.minecraft.client.data.models.BlockModelGenerators;
 import net.minecraft.client.data.models.ItemModelGenerators;
@@ -12,10 +13,7 @@ import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.RotatedPillarBlock;
-import net.minecraft.world.level.block.SlabBlock;
-import net.minecraft.world.level.block.StairBlock;
+import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.neoforged.neoforge.client.model.generators.loaders.ObjModelBuilder;
@@ -28,7 +26,6 @@ import art.arcane.thaumcraft.blocks.InfusionPillarBlock;
 import art.arcane.thaumcraft.blocks.alchemy.CreativeAspectSourceBlock;
 import art.arcane.thaumcraft.blocks.alchemy.JarBlock;
 import art.arcane.thaumcraft.blocks.alchemy.TubeBlock;
-import art.arcane.thaumcraft.blocks.devices.HungryChestBlock;
 import art.arcane.thaumcraft.blocks.DioptraBlock;
 import art.arcane.thaumcraft.blocks.LevitatorBlock;
 import art.arcane.thaumcraft.client.tints.AspectItemTintSource;
@@ -109,7 +106,7 @@ public class BlockDataProvider extends ModelProvider {
         registerCrossBlock(ConfigBlocks.CINDERPEARL);
         registerCrossBlock(ConfigBlocks.SHIMMERLEAF);
 
-        registerHungryChest();
+		blockModels.createChest(ConfigBlocks.HUNGRY_CHEST.block(), ConfigBlocks.GREATWOOD_PLANKS.block(), ThaumcraftData.Blocks.HUNGRY_CHEST, false);
         simpleExistingBlock(ConfigBlocks.EVERFULL_URN);
 
         registerNitorBlocks();
@@ -327,26 +324,6 @@ public class BlockDataProvider extends ModelProvider {
         TexturedModel.Provider model = TexturedModel.createDefault(b -> mapping, ModelTemplates.CUBE_ALL);
         blocks.createTrivialBlock(block.block(), model);
         blockParentItem(block, id);
-    }
-
-    private void registerHungryChest() {
-        Block block = ConfigBlocks.HUNGRY_CHEST.block();
-        ResourceLocation model = ModelLocationUtils.getModelLocation(block);
-
-        MultiVariantGenerator generator = MultiVariantGenerator.multiVariant(block);
-        generator.with(PropertyDispatch.property(HungryChestBlock.FACING).generate(dir -> {
-            VariantProperties.Rotation yRot = switch (dir) {
-                case NORTH -> VariantProperties.Rotation.R0;
-                case SOUTH -> VariantProperties.Rotation.R180;
-                case WEST -> VariantProperties.Rotation.R270;
-                case EAST -> VariantProperties.Rotation.R90;
-                default -> VariantProperties.Rotation.R0;
-            };
-            return Variant.variant().with(VariantProperties.MODEL, model).with(VariantProperties.Y_ROT, yRot);
-        }));
-
-        blocks.blockStateOutput.accept(generator);
-        blockParentItem(ConfigBlocks.HUNGRY_CHEST, model);
     }
 
     private void registerDirectionalMultipart(ConfigBlocks.BlockObject<? extends Block> block, Map<Direction, BooleanProperty> dirProperties, ResourceLocation centerPart, ResourceLocation sidePart, boolean hideCenter) {

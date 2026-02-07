@@ -26,6 +26,13 @@ public abstract class SimpleEntityBlock<T extends BlockEntity> extends Block imp
         return beType.get().create(pPos, pState);
     }
 
+	@Override
+	protected boolean triggerEvent(BlockState state, Level level, BlockPos pos, int id, int param) {
+		super.triggerEvent(state, level, pos, id, param);
+		BlockEntity blockentity = level.getBlockEntity(pos);
+		return blockentity == null ? false : blockentity.triggerEvent(id, param);
+	}
+
     @SuppressWarnings("unchecked")
     public T getEntity(Level l, BlockPos pos) {
         BlockEntity entity = l.getBlockEntity(pos);

@@ -11,7 +11,6 @@ import net.neoforged.neoforge.network.IContainerFactory;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import art.arcane.thaumcraft.Thaumcraft;
 import art.arcane.thaumcraft.menus.ArcaneWorkbenchMenu;
-import art.arcane.thaumcraft.menus.HungryChestMenu;
 
 import java.util.function.Supplier;
 
@@ -24,7 +23,6 @@ public final class ConfigMenus {
     /*public static final Supplier<MenuType<TrunkMenu>> TRUNK_MENU_SMALL = register(Thaumcraft.id("trunk_menu"), (id, inv) -> TrunkMenu.create(id, inv, false));
     public static final Supplier<MenuType<TrunkMenu>> TRUNK_MENU_BIG = register(Thaumcraft.id("trunk_menu_big"), (id, inv) -> TrunkMenu.create(id, inv, true));*/
     public static final Supplier<MenuType<ArcaneWorkbenchMenu>> ARCANE_WORKBENCH = register(Thaumcraft.id("arcane_workbench"), (id, inv) -> new ArcaneWorkbenchMenu(id, inv));
-    public static final Supplier<MenuType<HungryChestMenu>> HUNGRY_CHEST = register(Thaumcraft.id("hungry_chest"), (id, inv) -> new HungryChestMenu(id, inv));
 
     /* -------------------------------------------------------------------------------------------------------------- */
 

@@ -11,7 +11,6 @@ import art.arcane.thaumcraft.client.rendering.entity.models.ArmorFortress;
 import art.arcane.thaumcraft.client.rendering.entity.models.ArmorRobe;
 import art.arcane.thaumcraft.client.rendering.ui.AspectTooltip;
 import art.arcane.thaumcraft.client.screens.ArcaneWorkbenchScreen;
-import art.arcane.thaumcraft.client.screens.HungryChestScreen;
 import art.arcane.thaumcraft.client.tints.AspectItemTintSource;
 import art.arcane.thaumcraft.client.tints.NitorItemTintSource;
 import art.arcane.thaumcraft.registries.*;
@@ -40,7 +39,6 @@ public class RegistrationEvents {
 	@SubscribeEvent
 	public static void onMenuScreenRegister(RegisterMenuScreensEvent e) {
 		e.register(ConfigMenus.ARCANE_WORKBENCH.get(), ArcaneWorkbenchScreen::new);
-		e.register(ConfigMenus.HUNGRY_CHEST.get(), HungryChestScreen::new);
 	}
 
 	@SubscribeEvent
@@ -56,6 +54,7 @@ public class RegistrationEvents {
 		e.registerBlockEntityRenderer(ConfigBlockEntities.CREATIVE_ASPECT_SOURCE.entityType(), CreativeAspectSourceBER::new);
 		e.registerBlockEntityRenderer(ConfigBlockEntities.JAR.entityType(), JarBER::new);
 		e.registerBlockEntityRenderer(ConfigBlockEntities.DIOPTRA.entityType(), DioptraBER::new);
+		e.registerBlockEntityRenderer(ConfigBlockEntities.HUNGRY_CHEST.entityType(), ctx -> new SingleChestBER<>(ctx, ThaumcraftData.Blocks.HUNGRY_CHEST));
 
 		//e.registerEntityRenderer(ConfigEntities.LIVING_TRUNK.entityType(), TrunkEntityRenderer::new);
 		e.registerEntityRenderer(ConfigEntities.MOVING_ITEM.entityType(), ItemEntityRenderer::new);
