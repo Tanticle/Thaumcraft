@@ -21,7 +21,9 @@
 
 ## TODO
 
-- [ ] Empty Block Models do not respect the particle texture.
+### Bugs
+
+Nothing so far. :)
 
 ### Core Systems
 

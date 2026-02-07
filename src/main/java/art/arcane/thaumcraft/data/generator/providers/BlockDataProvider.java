@@ -527,7 +527,7 @@ public class BlockDataProvider extends ModelProvider {
     }
 
     private void registerNitorBlocks() {
-		registerEmptyBlock(ConfigBlocks.NITOR, RegistryUtils.getItemLocation(ConfigBlocks.NITOR.blockSupplier()), null);
+		registerEmptyBlock(ConfigBlocks.NITOR, RegistryUtils.getItemLocation(ConfigBlocks.NITOR.blockSupplier(), "block"), null);
 
 		ResourceLocation location = RegistryUtils.getItemLocation(ConfigBlocks.NITOR.itemSupplier(), "block");
 		ResourceLocation model = ModelTemplates.TWO_LAYERED_ITEM.create(location,
@@ -536,7 +536,7 @@ public class BlockDataProvider extends ModelProvider {
 		items.itemModelOutput.accept(ConfigBlocks.NITOR.item(), ItemModelUtils.tintedModel(model, new Constant(0xFFFFFFFF), new DyeItemTintSource(DyeColor.YELLOW)));
     }
 
-	private static final ExtendedModelTemplate TEMPLATE_EMPTY = ExtendedModelTemplateBuilder.builder().parent(Thaumcraft.id("block/empty")).requiredTextureSlot(TextureSlot.PARTICLE).build();
+	private static final ExtendedModelTemplate TEMPLATE_EMPTY = ExtendedModelTemplateBuilder.builder().requiredTextureSlot(TextureSlot.PARTICLE).build();
 
     private void registerEmptyBlock(ConfigBlocks.BlockObject<? extends Block> block, ResourceLocation particleTexture, ResourceLocation itemModel) {
 		ResourceLocation model = TexturedModel.createDefault(b -> new TextureMapping().put(TextureSlot.PARTICLE, particleTexture), TEMPLATE_EMPTY).create(block.block(), blocks.modelOutput);
