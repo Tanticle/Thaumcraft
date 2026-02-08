@@ -1,6 +1,6 @@
-package art.arcane.thaumcraft.data.generator;
+package art.arcane.thaumcraft.data;
 
-import art.arcane.thaumcraft.data.generator.providers.*;
+import art.arcane.thaumcraft.data.providers.*;
 import net.minecraft.core.RegistrySetBuilder;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.DataGenerator;
@@ -9,11 +9,11 @@ import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.data.event.GatherDataEvent;
 import art.arcane.thaumcraft.Thaumcraft;
-import art.arcane.thaumcraft.data.generator.providers.recipes.AlchemyProvider;
-import art.arcane.thaumcraft.data.generator.providers.recipes.ArcaneCraftingProvider;
-import art.arcane.thaumcraft.data.generator.providers.recipes.InfusionProvider;
-import art.arcane.thaumcraft.data.generator.providers.recipes.SalisMundusRecipeProvider;
-import art.arcane.thaumcraft.data.generator.providers.recipes.VanillaRecipeProvider;
+import art.arcane.thaumcraft.data.providers.recipes.AlchemyProvider;
+import art.arcane.thaumcraft.data.providers.recipes.ArcaneCraftingProvider;
+import art.arcane.thaumcraft.data.providers.recipes.InfusionProvider;
+import art.arcane.thaumcraft.data.providers.recipes.SalisMundusRecipeProvider;
+import art.arcane.thaumcraft.data.providers.recipes.VanillaRecipeProvider;
 
 @EventBusSubscriber(modid = Thaumcraft.MOD_ID, bus = EventBusSubscriber.Bus.MOD)
 public final class ThaumcraftDataGenerator {

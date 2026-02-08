@@ -1,4 +1,4 @@
-package art.arcane.thaumcraft.data.generator.providers;
+package art.arcane.thaumcraft.data.providers;
 
 import art.arcane.thaumcraft.api.ThaumcraftData;
 import art.arcane.thaumcraft.client.tints.DyeItemTintSource;

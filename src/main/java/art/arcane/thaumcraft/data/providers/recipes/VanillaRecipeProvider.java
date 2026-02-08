@@ -1,4 +1,4 @@
-package art.arcane.thaumcraft.data.generator.providers.recipes;
+package art.arcane.thaumcraft.data.providers.recipes;
 
 import art.arcane.thaumcraft.registries.ConfigItems;
 import net.minecraft.core.HolderGetter;
@@ -13,7 +13,6 @@ import net.minecraft.data.recipes.ShapelessRecipeBuilder;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.ItemLike;
 import art.arcane.thaumcraft.registries.ConfigBlocks;
 

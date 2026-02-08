@@ -1,4 +1,4 @@
-package art.arcane.thaumcraft.data.generator.providers.recipes;
+package art.arcane.thaumcraft.data.providers.recipes;
 
 import com.google.gson.JsonElement;
 import art.arcane.thaumcraft.api.aspects.Aspect;
@@ -16,7 +16,6 @@ import net.minecraft.world.item.DyeItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraft.world.item.crafting.Recipe;
 import art.arcane.thaumcraft.Thaumcraft;
 import art.arcane.thaumcraft.api.ThaumcraftData;
 import art.arcane.thaumcraft.registries.ConfigBlocks;

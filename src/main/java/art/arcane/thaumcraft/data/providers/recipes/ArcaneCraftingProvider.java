@@ -1,4 +1,4 @@
-package art.arcane.thaumcraft.data.generator.providers.recipes;
+package art.arcane.thaumcraft.data.providers.recipes;
 
 import com.google.gson.JsonElement;
 import net.minecraft.core.HolderLookup;

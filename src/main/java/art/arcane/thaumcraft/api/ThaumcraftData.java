@@ -245,6 +245,7 @@ public final class ThaumcraftData {
         public static final ResourceLocation TRAVELLER_BOOTS = Thaumcraft.id("traveller_boots");
 
         public static final ResourceLocation SALIS_MUNDUS = Thaumcraft.id("salis_mundus");
+        public static final ResourceLocation SCANNER = Thaumcraft.id("scanner");
     }
 
     public static final class Enchantments {

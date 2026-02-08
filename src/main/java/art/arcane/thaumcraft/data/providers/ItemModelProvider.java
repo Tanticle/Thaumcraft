@@ -1,27 +1,34 @@
-package art.arcane.thaumcraft.data.generator.providers;
+package art.arcane.thaumcraft.data.providers;
 
 import art.arcane.thaumcraft.client.rendering.entity.models.ArmorRobe;
+import com.mojang.serialization.RecordBuilder;
 import net.minecraft.client.color.item.Constant;
 import net.minecraft.client.color.item.Dye;
 import net.minecraft.client.color.item.ItemTintSource;
 import net.minecraft.client.data.models.BlockModelGenerators;
 import net.minecraft.client.data.models.ItemModelGenerators;
 import net.minecraft.client.data.models.ModelProvider;
-import net.minecraft.client.data.models.model.ItemModelUtils;
-import net.minecraft.client.data.models.model.ModelTemplates;
-import net.minecraft.client.data.models.model.TextureMapping;
+import net.minecraft.client.data.models.model.*;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.core.Holder;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.level.block.Block;
 import art.arcane.thaumcraft.Thaumcraft;
 import art.arcane.thaumcraft.client.tints.AspectItemTintSource;
 import art.arcane.thaumcraft.items.ItemModelProperties;
 import art.arcane.thaumcraft.registries.ConfigItems;
 import art.arcane.thaumcraft.util.RegistryUtils;
+import net.neoforged.neoforge.client.model.generators.loaders.ObjModelBuilder;
+import net.neoforged.neoforge.client.model.generators.template.ExtendedModelTemplateBuilder;
+import net.neoforged.neoforge.client.model.generators.template.TransformVecBuilder;
+import net.neoforged.neoforge.client.model.obj.ObjLoader;
 
+import java.util.Map;
+import java.util.function.Consumer;
 import java.util.function.Supplier;
 import java.util.stream.Stream;
 
@@ -110,6 +117,23 @@ public class ItemModelProvider extends ModelProvider {
 		simpleItem(ConfigItems.ARMOR_VOID_CHEST, "armor");
 		simpleItem(ConfigItems.ARMOR_VOID_PANTS, "armor");
 		simpleItem(ConfigItems.ARMOR_VOID_BOOTS, "armor");
+
+		objItem(ConfigItems.SCANNER, 2, Map.of(
+				ItemDisplayContext.FIRST_PERSON_RIGHT_HAND, t ->
+						t.translation(-1F, 0F, -6.3F).rotation(90, 0, 0),
+				ItemDisplayContext.FIRST_PERSON_LEFT_HAND, t ->
+						t.translation(-17F, 0F, -6.3F).rotation(90, 0, 0),
+				ItemDisplayContext.THIRD_PERSON_RIGHT_HAND, t ->
+						t.translation(0.1F, 0.4F, -0.7F).scale(0.2F).rotation(242, 0, 270),
+				ItemDisplayContext.THIRD_PERSON_LEFT_HAND, t ->
+						t.translation(0.1F, -2.2F, 0.4F).scale(0.2F).rotation(75, 0, 270),
+				ItemDisplayContext.GUI, t ->
+						t.translation(3F, -2.7F, 0).scale(0.35F).rotation(90, 0, 0),
+				ItemDisplayContext.GROUND, t ->
+						t.translation(1.5F, 2F, 1.5F).scale(0.2F).rotation(90, 0, 0),
+				ItemDisplayContext.FIXED, t ->
+						t.translation(-3F, -3.26F, -2.25F).scale(0.4F).rotation(-90, 180, 0)
+		));
     }
 
     protected void simpleItem(Holder<? extends Item> item, String... parentFolder) {
@@ -117,6 +141,23 @@ public class ItemModelProvider extends ModelProvider {
         ResourceLocation model = ModelTemplates.FLAT_ITEM.create(location, TextureMapping.layer0(location), items.modelOutput);
         items.itemModelOutput.accept(item.value(), ItemModelUtils.plainModel(model));
     }
+
+	protected void objItem(Holder<? extends Item> item, int layers, Map<ItemDisplayContext, Consumer<TransformVecBuilder>> transforms, String... parentFolder) {
+		ResourceLocation texture = RegistryUtils.getItemLocation(item, parentFolder);
+		TextureMapping mapping = new TextureMapping();
+		ExtendedModelTemplateBuilder builder = ExtendedModelTemplateBuilder.builder()
+				.customLoader(ObjModelBuilder::new, loader -> loader.flipV(true).modelLocation(RegistryUtils.getItemLocation(item, parentFolder).withPrefix("models/").withSuffix(".obj")))
+				.renderType("item_entity_translucent_cull");
+		for(int i = 0; i < layers; i++) {
+			TextureSlot slot = TextureSlot.create("layer" + i);
+			builder.requiredTextureSlot(slot);
+			mapping.put(slot, texture.withSuffix("_" + i));
+		}
+
+		transforms.forEach(builder::transform);
+
+		items.itemModelOutput.accept(item.value(), ItemModelUtils.plainModel(builder.build().create(item.value(), mapping, items.modelOutput)));
+	}
 
     protected void simpleItemWithTexture(Holder<? extends Item> item, ResourceLocation texture) {
         ResourceLocation location = RegistryUtils.getItemLocation(item);

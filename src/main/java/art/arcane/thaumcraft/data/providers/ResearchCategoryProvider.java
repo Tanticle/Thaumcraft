@@ -1,4 +1,4 @@
-package art.arcane.thaumcraft.data.generator.providers;
+package art.arcane.thaumcraft.data.providers;
 
 import com.google.common.collect.Lists;
 import net.minecraft.core.RegistrySetBuilder;

@@ -182,6 +182,8 @@ public final class ConfigItems {
                     .build())),
             ConfigCreativeTabs.MAIN);
 
+	public static final DeferredItem<Item> SCANNER = registerSimple(Items.SCANNER, ConfigCreativeTabs.MAIN);
+
     /* -------------------------------------------------------------------------------------------------------------- */
 
     public static void init(IEventBus bus) { REGISTRY.register(bus); }
