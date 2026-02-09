@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.entity.*;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -12,6 +13,7 @@ import net.neoforged.neoforge.event.entity.EntityAttributeCreationEvent;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import art.arcane.thaumcraft.Thaumcraft;
 import art.arcane.thaumcraft.entities.MovingItemEntity;
+import art.arcane.thaumcraft.entities.golem.GolemEntity;
 import art.arcane.thaumcraft.util.ReflectionUtils;
 
 import java.util.function.Consumer;
@@ -32,6 +34,16 @@ public final class ConfigEntities {
 
     public static final EntityObject<MovingItemEntity> MOVING_ITEM = register(Entities.MOVING_ITEM, MovingItemEntity::new, MobCategory.MISC, .25F, .25F,
             builder -> { });
+
+    public static final LivingEntityObject<GolemEntity> GOLEM = registerLiving(Entities.GOLEM, GolemEntity::new, MobCategory.MISC, 0.4F, 0.9F,
+            builder -> builder.clientTrackingRange(8),
+            mobAttributes(a -> a
+                    .add(Attributes.MAX_HEALTH, 10)
+                    .add(Attributes.MOVEMENT_SPEED, 0.25)
+                    .add(Attributes.ATTACK_DAMAGE, 1)
+                    .add(Attributes.ARMOR, 0)
+                    .add(Attributes.FOLLOW_RANGE, 32)
+            ));
 
     /* -------------------------------------------------------------------------------------------------------------- */
 

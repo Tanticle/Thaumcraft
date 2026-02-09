@@ -1,5 +1,6 @@
 package art.arcane.thaumcraft.util;
 
+import art.arcane.thaumcraft.data.recipes.SalisMundusMultiblockRecipe;
 import art.arcane.thaumcraft.data.recipes.SalisMundusRecipe;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Vec3i;
@@ -49,6 +50,23 @@ public final class CraftingUtils {
 		return p.recipeAccess().recipeMap().byType(ConfigRecipeTypes.SALIS_MUNDUS.type()).stream()
 				.filter(holder -> holder.value().matches(new SalisMundusRecipe.Input(input.getBlock()), p))
 				.findFirst();
+	}
+
+	public static Optional<RecipeHolder<SalisMundusMultiblockRecipe>> findSalisMundusMultiblockRecipe(ServerLevel p, BlockState input, BlockPos pos) {
+		return p.recipeAccess().recipeMap().byType(ConfigRecipeTypes.SALIS_MUNDUS_MULTIBLOCK.type()).stream()
+				.filter(holder -> holder.value().matches(new SalisMundusMultiblockRecipe.Input(input.getBlock()), p))
+				.filter(holder -> holder.value().validatePattern(p, pos))
+				.findFirst();
+	}
+
+	public static boolean hasSalisMundusMultiblockRecipeClient(Block block) {
+		MinecraftServer server = Minecraft.getInstance().getSingleplayerServer();
+		if (server != null) {
+			return server.getRecipeManager().recipeMap()
+					.byType(ConfigRecipeTypes.SALIS_MUNDUS_MULTIBLOCK.type()).stream()
+					.anyMatch(holder -> holder.value().triggerBlock() == block);
+		}
+		return true;
 	}
 
 	public static boolean hasSalisMundusRecipeClient(Block block) {

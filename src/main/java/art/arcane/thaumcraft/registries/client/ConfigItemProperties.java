@@ -19,16 +19,14 @@ public final class ConfigItemProperties {
     /* -------------------------------------------------------------------------------------------------------------- */
 
     public static final Pair<ResourceLocation, MapCodec<? extends ItemModelProperties.HasData>> HAS_ASPECT = Pair.of(ThaumcraftData.ItemProperties.HAS_ASPECT, ItemModelProperties.HasData.CODEC);
+    public static final Pair<ResourceLocation, MapCodec<? extends ItemModelProperties.SealTypeCheck>> SEAL_TYPE_CHECK = Pair.of(ThaumcraftData.ItemProperties.SEAL_TYPE_CHECK, ItemModelProperties.SealTypeCheck.CODEC);
 
     /* -------------------------------------------------------------------------------------------------------------- */
 
     @SubscribeEvent
     public static void onConditionalPropertyRegisterEvent(RegisterConditionalItemModelPropertyEvent event) {
-        /*ReflectionUtils.getAllStaticsOfType(ConfigItemProperties.class, Pair.class).forEach(p -> {
-            if(p.getSecond() instanceof ConditionalItemModelProperty property)
-                event.register((ResourceLocation)p.getFirst(), property.type());
-        });*/
         event.register(HAS_ASPECT.getFirst(), HAS_ASPECT.getSecond());
+        event.register(SEAL_TYPE_CHECK.getFirst(), SEAL_TYPE_CHECK.getSecond());
     }
 
 }

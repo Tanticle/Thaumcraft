@@ -11,7 +11,9 @@ import net.neoforged.neoforge.network.IContainerFactory;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import art.arcane.thaumcraft.Thaumcraft;
 import art.arcane.thaumcraft.menus.ArcaneWorkbenchMenu;
+import art.arcane.thaumcraft.menus.GolemBuilderMenu;
 import art.arcane.thaumcraft.menus.HungryChestMenu;
+import art.arcane.thaumcraft.menus.SealConfigMenu;
 
 import java.util.function.Supplier;
 
@@ -25,6 +27,8 @@ public final class ConfigMenus {
     public static final Supplier<MenuType<TrunkMenu>> TRUNK_MENU_BIG = register(Thaumcraft.id("trunk_menu_big"), (id, inv) -> TrunkMenu.create(id, inv, true));*/
     public static final Supplier<MenuType<ArcaneWorkbenchMenu>> ARCANE_WORKBENCH = register(Thaumcraft.id("arcane_workbench"), (id, inv) -> new ArcaneWorkbenchMenu(id, inv));
     public static final Supplier<MenuType<HungryChestMenu>> HUNGRY_CHEST = register(Thaumcraft.id("hungry_chest"), (id, inv) -> new HungryChestMenu(id, inv));
+    public static final Supplier<MenuType<GolemBuilderMenu>> GOLEM_BUILDER = register(Thaumcraft.id("golem_builder"), (id, inv) -> new GolemBuilderMenu(id, inv));
+    public static final Supplier<MenuType<SealConfigMenu>> SEAL_CONFIG = registerFactory(Thaumcraft.id("seal_config"), SealConfigMenu::new);
 
     /* -------------------------------------------------------------------------------------------------------------- */
 

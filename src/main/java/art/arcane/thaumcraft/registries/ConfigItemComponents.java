@@ -1,6 +1,8 @@
 package art.arcane.thaumcraft.registries;
 
 import art.arcane.thaumcraft.api.components.FortressFaceplateComponent;
+import art.arcane.thaumcraft.api.components.GolemConfiguration;
+import art.arcane.thaumcraft.data.golemancy.SealType;
 import com.mojang.serialization.Codec;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Holder;
@@ -10,6 +12,7 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.ExtraCodecs;
 import net.neoforged.bus.api.IEventBus;
@@ -52,6 +55,11 @@ public class ConfigItemComponents {
 	public static final Holder<DataComponentType<DyeColor>> DYE_COLOR = register(ItemComponents.DYE_COLOR, DyeColor.CODEC, NeoForgeStreamCodecs.enumCodec(DyeColor.class));
 
 	public static final Holder<DataComponentType<FortressFaceplateComponent>> ARMOR_FORTRESS_FACEPLATE = register(ItemComponents.ARMOR_FORTRESS_FACEPLATE, FortressFaceplateComponent.CODEC, FortressFaceplateComponent.STREAM_CODEC);
+
+	public static final Holder<DataComponentType<GolemConfiguration>> GOLEM_CONFIG = register(ItemComponents.GOLEM_CONFIG, GolemConfiguration.CODEC, GolemConfiguration.STREAM_CODEC);
+	public static final Holder<DataComponentType<ResourceKey<SealType>>> SEAL_TYPE = register(ItemComponents.SEAL_TYPE,
+			ResourceKey.codec(art.arcane.thaumcraft.api.ThaumcraftData.Registries.SEAL_TYPE),
+			ResourceKey.streamCodec(art.arcane.thaumcraft.api.ThaumcraftData.Registries.SEAL_TYPE));
 
     /* -------------------------------------------------------------------------------------------------------------- */
 

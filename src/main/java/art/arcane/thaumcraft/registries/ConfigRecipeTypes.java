@@ -13,6 +13,7 @@ import art.arcane.thaumcraft.api.ThaumcraftData;
 import art.arcane.thaumcraft.data.recipes.AlchemyRecipe;
 import art.arcane.thaumcraft.data.recipes.ArcaneCraftingRecipe;
 import art.arcane.thaumcraft.data.recipes.InfusionRecipe;
+import art.arcane.thaumcraft.data.recipes.SalisMundusMultiblockRecipe;
 import art.arcane.thaumcraft.data.recipes.SalisMundusRecipe;
 import art.arcane.thaumcraft.util.codec.recipes.CodecRecipeSerializer;
 
@@ -29,6 +30,7 @@ public final class ConfigRecipeTypes {
     public static final RecipeObject<ArcaneCraftingRecipe> ARCANE_CRAFTING = register(ThaumcraftData.Recipes.Types.ARCANE_CRAFTING, () -> new CodecRecipeSerializer<>(ArcaneCraftingRecipe.CODEC, ArcaneCraftingRecipe.STREAM_CODEC));
     public static final RecipeObject<InfusionRecipe> INFUSION = register(ThaumcraftData.Recipes.Types.INFUSION, () -> new CodecRecipeSerializer<>(InfusionRecipe.CODEC, InfusionRecipe.STREAM_CODEC));
     public static final RecipeObject<SalisMundusRecipe> SALIS_MUNDUS = register(ThaumcraftData.Recipes.Types.SALIS_MUNDUS, () -> new CodecRecipeSerializer<>(SalisMundusRecipe.CODEC, SalisMundusRecipe.STREAM_CODEC));
+    public static final RecipeObject<SalisMundusMultiblockRecipe> SALIS_MUNDUS_MULTIBLOCK = register(ThaumcraftData.Recipes.Types.SALIS_MUNDUS_MULTIBLOCK, () -> new CodecRecipeSerializer<>(SalisMundusMultiblockRecipe.CODEC, SalisMundusMultiblockRecipe.STREAM_CODEC));
 
     /* -------------------------------------------------------------------------------------------------------------- */
 

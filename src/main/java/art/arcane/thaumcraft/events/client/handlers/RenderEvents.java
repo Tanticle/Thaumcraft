@@ -15,6 +15,7 @@ import net.minecraft.world.inventory.tooltip.TooltipComponent;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.neoforge.client.event.ClientPlayerNetworkEvent;
 import net.neoforged.neoforge.client.event.ClientTickEvent;
 import net.neoforged.neoforge.client.event.RenderLevelStageEvent;
 import net.neoforged.neoforge.client.event.RenderTooltipEvent;
@@ -25,6 +26,8 @@ import art.arcane.thaumcraft.client.fx.ArchitectBlockRenderer;
 import art.arcane.thaumcraft.client.fx.OreScanRenderer;
 import art.arcane.thaumcraft.api.aspects.AspectContainerItem;
 import art.arcane.thaumcraft.client.ThaumcraftClient;
+import art.arcane.thaumcraft.client.rendering.SealClientData;
+import art.arcane.thaumcraft.client.rendering.SealWorldRenderer;
 import art.arcane.thaumcraft.client.rendering.ui.AspectTooltip;
 import art.arcane.thaumcraft.data.aspects.AspectList;
 import art.arcane.thaumcraft.items.AbstractAspectItem;
@@ -114,6 +117,7 @@ public class RenderEvents {
             MultiBufferSource.BufferSource bufferSource = Minecraft.getInstance().renderBuffers().bufferSource();
             OreScanRenderer.render(e.getPoseStack(), e.getCamera(), bufferSource, e.getPartialTick().getGameTimeDeltaPartialTick(true));
             ArchitectBlockRenderer.render(e.getPoseStack(), e.getCamera(), bufferSource);
+            SealWorldRenderer.render(e.getPoseStack(), e.getCamera(), bufferSource);
             bufferSource.endBatch();
         }
     }
@@ -121,5 +125,10 @@ public class RenderEvents {
     @SubscribeEvent
     public static void onClientTick(ClientTickEvent.Post e) {
         OreScanRenderer.tick();
+    }
+
+    @SubscribeEvent
+    public static void onClientDisconnect(ClientPlayerNetworkEvent.LoggingOut e) {
+        SealClientData.clear();
     }
 }

@@ -1,6 +1,7 @@
 package art.arcane.thaumcraft;
 
 import art.arcane.thaumcraft.config.ThaumcraftConfig;
+import art.arcane.thaumcraft.data.golemancy.seals.SealBehaviorInit;
 import art.arcane.thaumcraft.registries.*;
 import art.arcane.thaumcraft.world.ThaumcraftBiomes;
 import art.arcane.thaumcraft.world.tree.ConfigTreeFeatures;
@@ -42,6 +43,8 @@ public final class Thaumcraft {
         ConfigTreeFeatures.init(modEventBus);
 
         ThaumcraftBiomes.init(modEventBus);
+
+        SealBehaviorInit.init();
     }
 
     public static boolean isDev() {

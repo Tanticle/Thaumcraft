@@ -5,14 +5,18 @@ import art.arcane.thaumcraft.api.ThaumcraftData;
 import art.arcane.thaumcraft.client.fx.particles.SmokeSpiralParticle;
 import art.arcane.thaumcraft.client.rendering.FancyArmorLayer;
 import art.arcane.thaumcraft.client.rendering.ber.*;
+import art.arcane.thaumcraft.client.rendering.entity.GolemEntityRenderer;
 import art.arcane.thaumcraft.client.rendering.entity.models.ArmorCrimsonLeader;
 import art.arcane.thaumcraft.client.rendering.entity.models.ArmorCrimsonPlate;
 import art.arcane.thaumcraft.client.rendering.entity.models.ArmorFortress;
 import art.arcane.thaumcraft.client.rendering.entity.models.ArmorRobe;
 import art.arcane.thaumcraft.client.rendering.ui.AspectTooltip;
 import art.arcane.thaumcraft.client.screens.ArcaneWorkbenchScreen;
+import art.arcane.thaumcraft.client.screens.GolemBuilderScreen;
 import art.arcane.thaumcraft.client.screens.HungryChestScreen;
+import art.arcane.thaumcraft.client.screens.SealConfigScreen;
 import art.arcane.thaumcraft.client.tints.AspectItemTintSource;
+import art.arcane.thaumcraft.client.tints.GolemMaterialItemTintSource;
 import art.arcane.thaumcraft.client.tints.NitorItemTintSource;
 import art.arcane.thaumcraft.registries.*;
 import art.arcane.thaumcraft.util.RegistryUtils;
@@ -41,6 +45,8 @@ public class RegistrationEvents {
 	public static void onMenuScreenRegister(RegisterMenuScreensEvent e) {
 		e.register(ConfigMenus.ARCANE_WORKBENCH.get(), ArcaneWorkbenchScreen::new);
 		e.register(ConfigMenus.HUNGRY_CHEST.get(), HungryChestScreen::new);
+		e.register(ConfigMenus.GOLEM_BUILDER.get(), GolemBuilderScreen::new);
+		e.register(ConfigMenus.SEAL_CONFIG.get(), SealConfigScreen::new);
 	}
 
 	@SubscribeEvent
@@ -56,9 +62,11 @@ public class RegistrationEvents {
 		e.registerBlockEntityRenderer(ConfigBlockEntities.CREATIVE_ASPECT_SOURCE.entityType(), CreativeAspectSourceBER::new);
 		e.registerBlockEntityRenderer(ConfigBlockEntities.JAR.entityType(), JarBER::new);
 		e.registerBlockEntityRenderer(ConfigBlockEntities.DIOPTRA.entityType(), DioptraBER::new);
+		e.registerBlockEntityRenderer(ConfigBlockEntities.GOLEM_BUILDER.entityType(), GolemBuilderBER::new);
 
 		//e.registerEntityRenderer(ConfigEntities.LIVING_TRUNK.entityType(), TrunkEntityRenderer::new);
 		e.registerEntityRenderer(ConfigEntities.MOVING_ITEM.entityType(), ItemEntityRenderer::new);
+		e.registerEntityRenderer(ConfigEntities.GOLEM.entityType(), GolemEntityRenderer::new);
 	}
 
 	@SubscribeEvent
@@ -77,6 +85,7 @@ public class RegistrationEvents {
 	public static void onItemColorTintingRegister(RegisterColorHandlersEvent.ItemTintSources e) {
 		e.register(ThaumcraftData.TintSources.ASPECT_ITEM, AspectItemTintSource.CODEC);
 		e.register(ThaumcraftData.TintSources.NITOR_ITEM, NitorItemTintSource.CODEC);
+		e.register(ThaumcraftData.TintSources.GOLEM_MATERIAL_ITEM, GolemMaterialItemTintSource.CODEC);
 	}
 
 	@SubscribeEvent

@@ -8,16 +8,19 @@ import net.neoforged.neoforge.client.event.EntityRenderersEvent;
 import art.arcane.thaumcraft.Thaumcraft;
 import art.arcane.thaumcraft.api.ThaumcraftData;
 import art.arcane.thaumcraft.client.rendering.ber.models.RunicMatrixModel;
+import art.arcane.thaumcraft.client.rendering.entity.models.GolemEntityModel;
 
 @EventBusSubscriber(modid = Thaumcraft.MOD_ID, value = Dist.CLIENT, bus = EventBusSubscriber.Bus.MOD)
 public final class ConfigModelLayers {
 
     public static ModelLayerLocation TRUNK = new ModelLayerLocation(ThaumcraftData.Entities.TRAVELING_TRUNK.location(), "main");
     public static ModelLayerLocation RUNIC_MATRIX = new ModelLayerLocation(ThaumcraftData.Blocks.RUNIC_MATRIX, "main");
+    public static ModelLayerLocation GOLEM = new ModelLayerLocation(ThaumcraftData.Entities.GOLEM.location(), "main");
 
     @SubscribeEvent
     public static void onLayerBake(EntityRenderersEvent.RegisterLayerDefinitions e) {
         //e.registerLayerDefinition(TRUNK, TrunkModel::createBodyLayer);
         e.registerLayerDefinition(RUNIC_MATRIX, RunicMatrixModel::createBodyLayer);
+        e.registerLayerDefinition(GOLEM, GolemEntityModel::createBodyLayer);
     }
 }

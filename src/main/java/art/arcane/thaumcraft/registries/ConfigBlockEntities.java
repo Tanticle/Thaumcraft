@@ -1,6 +1,8 @@
 package art.arcane.thaumcraft.registries;
 
 import art.arcane.thaumcraft.blocks.entities.ArcaneWorkbenchBlockEntity;
+import art.arcane.thaumcraft.blocks.entities.GolemBuilderBlockEntity;
+import art.arcane.thaumcraft.blocks.entities.GolemBuilderComponentBlockEntity;
 import art.arcane.thaumcraft.blocks.entities.NitorBlockEntity;
 import art.arcane.thaumcraft.blocks.entities.CreativeAspectSourceBlockEntity;
 import art.arcane.thaumcraft.blocks.entities.CrucibleBlockEntity;
@@ -19,6 +21,7 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.neoforged.bus.api.IEventBus;
+import net.neoforged.neoforge.registries.DeferredBlock;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import art.arcane.thaumcraft.Thaumcraft;
 
@@ -82,6 +85,14 @@ public final class ConfigBlockEntities {
             NitorBlockEntity::new,
             ConfigBlocks.NITOR);
 
+    public static final BlockEntityObject<GolemBuilderBlockEntity> GOLEM_BUILDER = register(BlockEntities.GOLEM_BUILDER,
+            GolemBuilderBlockEntity::new,
+            ConfigBlocks.GOLEM_BUILDER);
+
+    public static final BlockEntityObject<GolemBuilderComponentBlockEntity> GOLEM_BUILDER_COMPONENT = registerDeferredBlock(BlockEntities.GOLEM_BUILDER_COMPONENT,
+            GolemBuilderComponentBlockEntity::new,
+            ConfigBlocks.GOLEM_BUILDER_COMPONENT);
+
     /* -------------------------------------------------------------------------------------------------------------- */
 
     public static void init(IEventBus bus) {
@@ -92,6 +103,14 @@ public final class ConfigBlockEntities {
     private static <E extends BlockEntity> BlockEntityObject<E> register(ResourceLocation id, BlockEntityType.BlockEntitySupplier<E> supplier, ConfigBlocks.BlockObject<? extends Block>... validBlocks) {
         return new BlockEntityObject<>(REGISTRY_BLOCK_ENTITIES.register(id.getPath(), () -> {
             Block[] blocks = Arrays.stream(validBlocks).map(ConfigBlocks.BlockObject::block).toArray(Block[]::new);
+            return new BlockEntityType<>(supplier, blocks);
+        }));
+    }
+
+    @SafeVarargs
+    private static <E extends BlockEntity> BlockEntityObject<E> registerDeferredBlock(ResourceLocation id, BlockEntityType.BlockEntitySupplier<E> supplier, DeferredBlock<? extends Block>... validBlocks) {
+        return new BlockEntityObject<>(REGISTRY_BLOCK_ENTITIES.register(id.getPath(), () -> {
+            Block[] blocks = Arrays.stream(validBlocks).map(DeferredBlock::value).toArray(Block[]::new);
             return new BlockEntityType<>(supplier, blocks);
         }));
     }

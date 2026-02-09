@@ -15,6 +15,10 @@ import art.arcane.thaumcraft.api.aspects.Aspect;
 import art.arcane.thaumcraft.data.aspects.AspectList;
 import art.arcane.thaumcraft.data.aspects.AspectRegistry;
 import art.arcane.thaumcraft.data.aura.AuraBiomeInfo;
+import art.arcane.thaumcraft.data.golemancy.GolemMaterial;
+import art.arcane.thaumcraft.data.golemancy.GolemPart;
+import art.arcane.thaumcraft.data.golemancy.GolemTrait;
+import art.arcane.thaumcraft.data.golemancy.SealType;
 import art.arcane.thaumcraft.data.research.ResearchCategory;
 import art.arcane.thaumcraft.data.research.ResearchEntry;
 import art.arcane.thaumcraft.util.ReflectionUtils;
@@ -43,6 +47,23 @@ public final class ConfigDataRegistries {
     public static final DataRegistry<AuraBiomeInfo> AURA_BIOME_INFO = new DataRegistry<>(ThaumcraftData.Registries.AURA_BIOME_INFO,
             AuraBiomeInfo.CODEC.codec(), AuraBiomeInfo.CODEC.codec(),
             Thaumcraft.id("unknown"));
+
+    public static final DataRegistry<GolemTrait> GOLEM_TRAITS = new DataRegistry<>(ThaumcraftData.Registries.GOLEM_TRAIT,
+            GolemTrait.CODEC.codec(), GolemTrait.CODEC.codec(),
+            Thaumcraft.id("smart"));
+
+    public static final DataRegistry<GolemMaterial> GOLEM_MATERIALS = new DataRegistry<>(ThaumcraftData.Registries.GOLEM_MATERIAL,
+            GolemMaterial.CODEC.codec(), GolemMaterial.CODEC.codec(),
+            Thaumcraft.id("wood"));
+
+    public static final DataRegistry<GolemPart> GOLEM_PARTS = new DataRegistry<>(ThaumcraftData.Registries.GOLEM_PART,
+            GolemPart.CODEC.codec(), GolemPart.CODEC.codec(),
+            Thaumcraft.id("head_basic"));
+
+    public static final DataRegistry<SealType> SEAL_TYPES = new DataRegistry<>(ThaumcraftData.Registries.SEAL_TYPE,
+            SealType.CODEC.codec(), SealType.CODEC.codec(),
+            Thaumcraft.id("guard"));
+
     /* -------------------------------------------------------------------------------------------------------------- */
 
     @SubscribeEvent
