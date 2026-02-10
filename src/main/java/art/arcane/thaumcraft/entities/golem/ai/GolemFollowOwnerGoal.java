@@ -2,6 +2,8 @@ package art.arcane.thaumcraft.entities.golem.ai;
 
 import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.pathfinder.PathType;
+import art.arcane.thaumcraft.api.ThaumcraftData;
 import art.arcane.thaumcraft.entities.golem.GolemEntity;
 
 import java.util.EnumSet;
@@ -16,6 +18,7 @@ public class GolemFollowOwnerGoal extends Goal {
     private final float stopDistance;
     private Player owner;
     private int pathFindDelay;
+    private float oldWaterCost;
 
     public GolemFollowOwnerGoal(GolemEntity golem, double speed, float startDist, float stopDist) {
         this.golem = golem;
@@ -50,7 +53,9 @@ public class GolemFollowOwnerGoal extends Goal {
     @Override
     public void start() {
         pathFindDelay = 0;
-        golem.getNavigation().moveTo(owner, speedModifier);
+        oldWaterCost = golem.getPathfindingMalus(PathType.WATER);
+        golem.setPathfindingMalus(PathType.WATER, 0.0F);
+        moveTowardOwner();
     }
 
     @Override
@@ -58,7 +63,9 @@ public class GolemFollowOwnerGoal extends Goal {
         golem.getLookControl().setLookAt(owner, 10.0F, golem.getMaxHeadXRot());
         if (--pathFindDelay <= 0) {
             pathFindDelay = 10;
-            golem.getNavigation().moveTo(owner, speedModifier);
+            if (!moveTowardOwner() && golem.distanceToSqr(owner) >= 64.0D) {
+                tryTeleportNearOwner();
+            }
         }
     }
 
@@ -66,5 +73,47 @@ public class GolemFollowOwnerGoal extends Goal {
     public void stop() {
         owner = null;
         golem.getNavigation().stop();
+        golem.setPathfindingMalus(PathType.WATER, oldWaterCost);
+    }
+
+    private void tryTeleportNearOwner() {
+        int baseX = owner.getBlockX() - 2;
+        int baseZ = owner.getBlockZ() - 2;
+        int y = owner.getBlockY();
+
+        for (int dx = 0; dx <= 4; dx++) {
+            for (int dz = 0; dz <= 4; dz++) {
+                if (dx >= 1 && dx <= 3 && dz >= 1 && dz <= 3) continue;
+                int x = baseX + dx;
+                int z = baseZ + dz;
+                if (!golem.level().getBlockState(new net.minecraft.core.BlockPos(x, y - 1, z)).isSolid()) continue;
+                if (!golem.level().getBlockState(new net.minecraft.core.BlockPos(x, y, z)).canBeReplaced()) continue;
+                if (!golem.level().getBlockState(new net.minecraft.core.BlockPos(x, y + 1, z)).canBeReplaced()) continue;
+
+                golem.moveTo(x + 0.5, y, z + 0.5, golem.getYRot(), golem.getXRot());
+                golem.getNavigation().stop();
+                return;
+            }
+        }
+
+        if (golem.hasTrait(ThaumcraftData.GolemTraits.FLYER)) {
+            double tx = owner.getX();
+            double ty = owner.getY() + 1.0;
+            double tz = owner.getZ();
+            var bounds = golem.getBoundingBox().move(tx - golem.getX(), ty - golem.getY(), tz - golem.getZ());
+            if (golem.level().noCollision(golem, bounds)) {
+                golem.moveTo(tx, ty, tz, golem.getYRot(), golem.getXRot());
+                golem.getNavigation().stop();
+            }
+        }
+    }
+
+    private boolean moveTowardOwner() {
+        boolean moved = golem.getNavigation().moveTo(owner, speedModifier * golem.getGolemMoveSpeed());
+        if (!moved && golem.hasTrait(ThaumcraftData.GolemTraits.FLYER)) {
+            golem.getMoveControl().setWantedPosition(owner.getX(), owner.getY() + 1.0, owner.getZ(), speedModifier * golem.getGolemMoveSpeed());
+            return true;
+        }
+        return moved;
     }
 }

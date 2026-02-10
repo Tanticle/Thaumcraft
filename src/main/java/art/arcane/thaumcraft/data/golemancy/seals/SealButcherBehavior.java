@@ -34,12 +34,16 @@ public class SealButcherBehavior extends AbstractSealBehavior {
     }
 
     @Override
-    public boolean onTaskCompleted(ServerLevel level, GolemEntity golem, GolemTask task) {
+    public void onTaskStarted(ServerLevel level, GolemEntity golem, GolemTask task) {
         net.minecraft.world.entity.Entity entity = level.getEntity(task.getEntityId());
         if (entity instanceof Animal animal && animal.isAlive()) {
             golem.setTarget(animal);
-            return true;
         }
+        task.setSuspended(true);
+    }
+
+    @Override
+    public boolean onTaskCompleted(ServerLevel level, GolemEntity golem, GolemTask task) {
         return false;
     }
 

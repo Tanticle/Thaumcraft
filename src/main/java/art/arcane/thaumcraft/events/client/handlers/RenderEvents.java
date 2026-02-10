@@ -11,6 +11,8 @@ import net.minecraft.core.Holder;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.FormattedText;
 import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.inventory.tooltip.TooltipComponent;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -31,6 +33,8 @@ import art.arcane.thaumcraft.client.rendering.SealWorldRenderer;
 import art.arcane.thaumcraft.client.rendering.ui.AspectTooltip;
 import art.arcane.thaumcraft.data.aspects.AspectList;
 import art.arcane.thaumcraft.items.AbstractAspectItem;
+import art.arcane.thaumcraft.items.golemancy.GolemBellItem;
+import art.arcane.thaumcraft.items.golemancy.SealPlacerItem;
 import art.arcane.thaumcraft.registries.ConfigDataRegistries;
 import art.arcane.thaumcraft.registries.ConfigItemComponents;
 import art.arcane.thaumcraft.util.RegistryUtils;
@@ -117,9 +121,20 @@ public class RenderEvents {
             MultiBufferSource.BufferSource bufferSource = Minecraft.getInstance().renderBuffers().bufferSource();
             OreScanRenderer.render(e.getPoseStack(), e.getCamera(), bufferSource, e.getPartialTick().getGameTimeDeltaPartialTick(true));
             ArchitectBlockRenderer.render(e.getPoseStack(), e.getCamera(), bufferSource);
-            SealWorldRenderer.render(e.getPoseStack(), e.getCamera(), bufferSource);
+            if (isHoldingSealDisplayer(Minecraft.getInstance().player)) {
+                SealWorldRenderer.render(e.getPoseStack(), e.getCamera(), bufferSource);
+            }
             bufferSource.endBatch();
         }
+    }
+
+    private static boolean isHoldingSealDisplayer(Player player) {
+        if (player == null) return false;
+        return isSealDisplayer(player.getMainHandItem()) || isSealDisplayer(player.getOffhandItem());
+    }
+
+    private static boolean isSealDisplayer(ItemStack stack) {
+        return stack.getItem() instanceof GolemBellItem || stack.getItem() instanceof SealPlacerItem;
     }
 
     @SubscribeEvent

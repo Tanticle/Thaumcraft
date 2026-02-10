@@ -2,13 +2,14 @@ package art.arcane.thaumcraft.data.generator.providers;
 
 import net.minecraft.core.RegistrySetBuilder;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.block.Blocks;
 import art.arcane.thaumcraft.Thaumcraft;
 import art.arcane.thaumcraft.api.ThaumcraftData;
 import art.arcane.thaumcraft.data.golemancy.GolemMaterial;
 import art.arcane.thaumcraft.data.golemancy.GolemTrait;
+import art.arcane.thaumcraft.registries.ConfigBlocks;
+import art.arcane.thaumcraft.registries.ConfigItems;
 import art.arcane.thaumcraft.util.Colour;
 import art.arcane.thaumcraft.util.simple.SimpleDataProvider;
 
@@ -26,46 +27,46 @@ public class GolemMaterialProvider extends SimpleDataProvider<GolemMaterial> {
 
     @Override
     public void createEntries() {
-        material(GolemMaterials.WOOD, "wood", "#8B6914",
-                0, 0, 1,
-                List.of(Ingredient.of(Blocks.OAK_PLANKS), Ingredient.of(Blocks.OAK_PLANKS)),
-                List.of(Ingredient.of(Blocks.OAK_PLANKS)),
-                List.of(GolemTraits.LIGHT, GolemTraits.CLUMSY, GolemTraits.FRAGILE),
+        material(GolemMaterials.WOOD, "wood", "#4D332A",
+                6, 2, 1,
+                List.of(Ingredient.of(ConfigBlocks.GREATWOOD_PLANKS.item())),
+                List.of(Ingredient.of(ConfigItems.MECHANISM_SIMPLE)),
+                List.of(GolemTraits.LIGHT),
                 Optional.empty());
 
-        material(GolemMaterials.IRON, "iron", "#C8C8C8",
-                10, 3, 2,
-                List.of(Ingredient.of(Items.IRON_INGOT), Ingredient.of(Items.IRON_INGOT)),
-                List.of(Ingredient.of(Items.IRON_INGOT)),
-                List.of(GolemTraits.HEAVY, GolemTraits.REPAIR),
+        material(GolemMaterials.IRON, "iron", "#FFFFFF",
+                20, 8, 3,
+                List.of(Ingredient.of(ConfigItems.PLATE_IRON)),
+                List.of(Ingredient.of(ConfigItems.MECHANISM_SIMPLE)),
+                List.of(GolemTraits.HEAVY, GolemTraits.FIREPROOF, GolemTraits.BLASTPROOF),
                 Optional.empty());
 
-        material(GolemMaterials.CLAY, "clay", "#B87333",
-                5, 1, 1,
-                List.of(Ingredient.of(Items.CLAY_BALL), Ingredient.of(Items.CLAY_BALL)),
-                List.of(Ingredient.of(Items.CLAY_BALL)),
-                List.of(GolemTraits.LIGHT, GolemTraits.FRAGILE),
+        material(GolemMaterials.CLAY, "clay", "#C77457",
+                10, 4, 2,
+                List.of(Ingredient.of(Blocks.TERRACOTTA)),
+                List.of(Ingredient.of(ConfigItems.MECHANISM_SIMPLE)),
+                List.of(GolemTraits.FIREPROOF),
                 Optional.empty());
 
-        material(GolemMaterials.BRASS, "brass", "#DAA520",
-                8, 2, 1,
-                List.of(Ingredient.of(Items.GOLD_INGOT), Ingredient.of(Items.GOLD_INGOT)),
-                List.of(Ingredient.of(Items.GOLD_INGOT)),
-                List.of(GolemTraits.SMART, GolemTraits.REPAIR),
+        material(GolemMaterials.BRASS, "brass", "#EEA11C",
+                16, 6, 3,
+                List.of(Ingredient.of(ConfigItems.PLATE_BRASS)),
+                List.of(Ingredient.of(ConfigItems.MECHANISM_SIMPLE)),
+                List.of(GolemTraits.LIGHT),
                 Optional.empty());
 
-        material(GolemMaterials.THAUMIUM, "thaumium", "#5050A0",
-                15, 4, 3,
-                List.of(Ingredient.of(Items.IRON_INGOT), Ingredient.of(Items.IRON_INGOT)),
-                List.of(Ingredient.of(Items.IRON_INGOT)),
-                List.of(GolemTraits.HEAVY, GolemTraits.ARMORED, GolemTraits.REPAIR),
+        material(GolemMaterials.THAUMIUM, "thaumium", "#503772",
+                24, 10, 4,
+                List.of(Ingredient.of(ConfigItems.PLATE_THAUMIUM)),
+                List.of(Ingredient.of(ConfigItems.MECHANISM_SIMPLE)),
+                List.of(GolemTraits.HEAVY, GolemTraits.FIREPROOF, GolemTraits.BLASTPROOF),
                 Optional.empty());
 
-        material(GolemMaterials.VOID, "void", "#2D0060",
-                20, 5, 4,
-                List.of(Ingredient.of(Items.IRON_INGOT), Ingredient.of(Items.IRON_INGOT)),
-                List.of(Ingredient.of(Items.IRON_INGOT)),
-                List.of(GolemTraits.HEAVY, GolemTraits.ARMORED, GolemTraits.BRUTAL, GolemTraits.REPAIR),
+        material(GolemMaterials.VOID, "void", "#160D29",
+                20, 6, 4,
+                List.of(Ingredient.of(ConfigItems.PLATE_VOID)),
+                List.of(Ingredient.of(ConfigItems.MECHANISM_SIMPLE)),
+                List.of(GolemTraits.REPAIR),
                 Optional.empty());
     }
 

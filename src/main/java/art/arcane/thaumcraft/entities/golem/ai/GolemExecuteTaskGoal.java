@@ -3,6 +3,7 @@ package art.arcane.thaumcraft.entities.golem.ai;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.ai.goal.Goal;
+import net.minecraft.world.phys.Vec3;
 import art.arcane.thaumcraft.data.golemancy.GolemTask;
 import art.arcane.thaumcraft.data.golemancy.GolemTaskManager;
 import art.arcane.thaumcraft.data.golemancy.SealBehaviors;
@@ -15,12 +16,12 @@ import java.util.EnumSet;
 
 public class GolemExecuteTaskGoal extends Goal {
 
-    private static final double EXECUTE_RANGE_SQ = 2.5 * 2.5;
-    private static final int MAX_PATHFIND_TICKS = 200;
+    private static final int MAX_PATHFIND_TICKS = 1000;
     private static final int REPATH_INTERVAL = 20;
 
     private final GolemEntity golem;
     private GolemTask currentTask;
+    private double executeRangeSq;
     private int cooldown;
     private int ticksOnTask;
     private int repathTimer;
@@ -55,13 +56,14 @@ public class GolemExecuteTaskGoal extends Goal {
         if (behavior == null || !behavior.canGolemPerformTask(golem, task)) return false;
 
         currentTask = task;
+        executeRangeSq = resolveExecuteRangeSq(serverLevel, task);
         task.reserve(golem.getUUID());
         return true;
     }
 
     @Override
     public boolean canContinueToUse() {
-        if (currentTask == null || currentTask.isCompleted() || currentTask.isExpired()) {
+        if (currentTask == null || currentTask.isCompleted() || currentTask.isExpired() || currentTask.isSuspended()) {
             return false;
         }
         if (golem.isFollowing()) return false;
@@ -76,7 +78,10 @@ public class GolemExecuteTaskGoal extends Goal {
         ticksOnTask = 0;
         repathTimer = 0;
         taskStarted = false;
-        navigateToTarget();
+        Vec3 target = getTargetPos();
+        if (target != null) {
+            navigateToTarget(target);
+        }
     }
 
     @Override
@@ -84,29 +89,36 @@ public class GolemExecuteTaskGoal extends Goal {
         if (currentTask == null || !(golem.level() instanceof ServerLevel serverLevel)) return;
 
         ticksOnTask++;
+        Vec3 target = getTargetPos();
+        if (target == null) {
+            suspendTask(serverLevel);
+            return;
+        }
 
-        double distSq = golem.blockPosition().distSqr(getTargetPos());
+        double distSq = golem.position().distanceToSqr(target);
 
-        if (distSq <= EXECUTE_RANGE_SQ) {
+        if (distSq <= executeRangeSq) {
             executeTask(serverLevel);
             return;
         }
 
         if (--repathTimer <= 0) {
             repathTimer = REPATH_INTERVAL;
-            navigateToTarget();
+            navigateToTarget(target);
         }
 
-        if (golem.getNavigation().isDone() && distSq > EXECUTE_RANGE_SQ) {
+        if (golem.getNavigation().isDone() && distSq > executeRangeSq) {
             suspendTask(serverLevel);
         }
     }
 
     @Override
     public void stop() {
-        if (currentTask != null && !currentTask.isCompleted()) {
+        if (currentTask != null) {
             currentTask.unreserve();
-            if (golem.level() instanceof ServerLevel serverLevel) {
+            if (currentTask.isCompleted() && !currentTask.isSuspended()) {
+                currentTask.setSuspended(true);
+            } else if (!currentTask.isCompleted() && !currentTask.isSuspended() && golem.level() instanceof ServerLevel serverLevel) {
                 SealSavedData sealData = SealSavedData.get(serverLevel);
                 SealInstance seal = sealData.getSeal(currentTask.sealPos());
                 if (seal != null) {
@@ -119,28 +131,32 @@ public class GolemExecuteTaskGoal extends Goal {
         }
         currentTask = null;
         taskStarted = false;
+        executeRangeSq = 0.0;
         cooldown = 10;
     }
 
-    private net.minecraft.core.BlockPos getTargetPos() {
+    private Vec3 getTargetPos() {
         if (currentTask.getType() == 1 && golem.level() instanceof ServerLevel serverLevel) {
             Entity target = serverLevel.getEntity(currentTask.getEntityId());
             if (target != null && target.isAlive()) {
-                return target.blockPosition();
+                return target.position();
             }
+            return null;
         }
-        return currentTask.getBlockTarget();
+        return Vec3.atCenterOf(currentTask.getBlockTarget());
     }
 
-    private void navigateToTarget() {
-        net.minecraft.core.BlockPos target = getTargetPos();
-        golem.getNavigation().moveTo(
-                target.getX() + 0.5,
-                target.getY(),
-                target.getZ() + 0.5,
-                1.0
+    private void navigateToTarget(Vec3 target) {
+        boolean moved = golem.getNavigation().moveTo(
+                target.x,
+                target.y,
+                target.z,
+                golem.getGolemMoveSpeed()
         );
-        golem.getLookControl().setLookAt(target.getX() + 0.5, target.getY() + 0.5, target.getZ() + 0.5);
+        if (!moved && golem.hasTrait(art.arcane.thaumcraft.api.ThaumcraftData.GolemTraits.FLYER)) {
+            golem.getMoveControl().setWantedPosition(target.x, target.y, target.z, golem.getGolemMoveSpeed());
+        }
+        golem.getLookControl().setLookAt(target.x, target.y, target.z);
     }
 
     private void executeTask(ServerLevel serverLevel) {
@@ -160,13 +176,18 @@ public class GolemExecuteTaskGoal extends Goal {
         if (!taskStarted) {
             behavior.onTaskStarted(serverLevel, golem, currentTask);
             taskStarted = true;
+            if (currentTask.isSuspended()) {
+                return;
+            }
         }
 
         boolean success = behavior.onTaskCompleted(serverLevel, golem, currentTask);
-        if (!success) {
-            behavior.onTaskSuspended(serverLevel, currentTask);
+        if (currentTask.isSuspended()) {
+            return;
         }
-        currentTask.complete();
+        if (success) {
+            currentTask.setCompletion(true);
+        }
     }
 
     private void suspendTask(ServerLevel serverLevel) {
@@ -177,7 +198,20 @@ public class GolemExecuteTaskGoal extends Goal {
             if (behavior != null) {
                 behavior.onTaskSuspended(serverLevel, currentTask);
             }
+        } else {
+            currentTask.setSuspended(true);
         }
-        currentTask.complete();
+    }
+
+    private double resolveExecuteRangeSq(ServerLevel level, GolemTask task) {
+        if (task.getType() == 1) {
+            Entity target = level.getEntity(task.getEntityId());
+            if (target != null && target.isAlive()) {
+                double width = target.getBbWidth() * 0.5;
+                return 3.5 + width * width;
+            }
+            return 3.5;
+        }
+        return 4.0;
     }
 }

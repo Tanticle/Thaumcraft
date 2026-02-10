@@ -14,7 +14,10 @@ public record ClientboundSealSyncPacket(
         Direction face,
         ResourceLocation sealType,
         byte color,
-        byte priority
+        byte priority,
+        int areaX,
+        int areaY,
+        int areaZ
 ) implements CustomPacketPayload {
 
     public static final StreamCodec<FriendlyByteBuf, ClientboundSealSyncPacket> STREAM_CODEC =
@@ -24,6 +27,9 @@ public record ClientboundSealSyncPacket(
                     ResourceLocation.STREAM_CODEC, ClientboundSealSyncPacket::sealType,
                     ByteBufCodecs.BYTE, ClientboundSealSyncPacket::color,
                     ByteBufCodecs.BYTE, ClientboundSealSyncPacket::priority,
+                    ByteBufCodecs.VAR_INT, ClientboundSealSyncPacket::areaX,
+                    ByteBufCodecs.VAR_INT, ClientboundSealSyncPacket::areaY,
+                    ByteBufCodecs.VAR_INT, ClientboundSealSyncPacket::areaZ,
                     ClientboundSealSyncPacket::new
             );
 

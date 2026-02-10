@@ -17,8 +17,8 @@ public class SealClientData {
 
     private static final Map<SealPos, SealRenderEntry> SEALS = new ConcurrentHashMap<>();
 
-    public static void addSeal(BlockPos pos, Direction face, ResourceLocation sealType, byte color) {
-        SEALS.put(new SealPos(pos, face), new SealRenderEntry(sealType, color));
+    public static void addSeal(BlockPos pos, Direction face, ResourceLocation sealType, byte color, int areaX, int areaY, int areaZ) {
+        SEALS.put(new SealPos(pos, face), new SealRenderEntry(sealType, color, new BlockPos(areaX, areaY, areaZ)));
     }
 
     public static void removeSeal(BlockPos pos, Direction face) {
@@ -40,5 +40,5 @@ public class SealClientData {
         return result;
     }
 
-    public record SealRenderEntry(ResourceLocation sealType, byte color) {}
+    public record SealRenderEntry(ResourceLocation sealType, byte color, BlockPos area) {}
 }

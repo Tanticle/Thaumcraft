@@ -1,15 +1,21 @@
 package art.arcane.thaumcraft.data.golemancy.seals;
 
-import net.minecraft.core.BlockPos;
-import net.minecraft.server.level.ServerLevel;
-import net.minecraft.world.level.block.CropBlock;
-import net.minecraft.world.level.block.state.BlockState;
 import art.arcane.thaumcraft.data.golemancy.GolemTask;
 import art.arcane.thaumcraft.data.golemancy.GolemTaskManager;
 import art.arcane.thaumcraft.data.golemancy.SealInstance;
 import art.arcane.thaumcraft.entities.golem.GolemEntity;
+import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.CropBlock;
+import net.minecraft.world.level.block.state.BlockState;
+
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class SealHarvestBehavior extends AbstractSealBehavior {
+
+    private final Map<Integer, ReplantInfo> replantTasks = new ConcurrentHashMap<>();
 
     @Override
     public void tickSeal(ServerLevel level, SealInstance seal) {
@@ -30,6 +36,30 @@ public class SealHarvestBehavior extends AbstractSealBehavior {
 
     @Override
     public boolean onTaskCompleted(ServerLevel level, GolemEntity golem, GolemTask task) {
+        ReplantInfo replant = replantTasks.get(task.getId());
+        if (replant != null) {
+            if (!level.getBlockState(task.getBlockTarget()).isAir()) {
+                replantTasks.remove(task.getId());
+                return true;
+            }
+            if (!golem.isCarrying(replant.seed)) {
+                return false;
+            }
+            ItemStack used = golem.dropItem(replant.seed.copyWithCount(1));
+            if (used.isEmpty()) {
+                return false;
+            }
+            if (replant.plantState.canSurvive(level, task.getBlockTarget())) {
+                level.setBlockAndUpdate(task.getBlockTarget(), replant.plantState);
+                replantTasks.remove(task.getId());
+                return true;
+            }
+            // Return seed if the placement is invalid now.
+            golem.holdItem(used);
+            replantTasks.remove(task.getId());
+            return true;
+        }
+
         BlockPos target = task.getBlockTarget();
         BlockState state = level.getBlockState(target);
         if (!(state.getBlock() instanceof CropBlock crop) || !crop.isMaxAge(state)) return false;
@@ -38,7 +68,16 @@ public class SealHarvestBehavior extends AbstractSealBehavior {
 
         SealInstance seal = art.arcane.thaumcraft.data.golemancy.SealSavedData.get(level).getSeal(task.sealPos());
         if (seal != null && seal.getToggle("replant", true)) {
-            level.setBlockAndUpdate(target, crop.getStateForAge(0));
+            ItemStack seed = state.getCloneItemStack(level, target, false);
+            if (seed.isEmpty()) {
+                seed = new ItemStack(crop.asItem());
+            }
+            if (!seed.isEmpty()) {
+                GolemTask replantTask = GolemTask.blockTask(task.sealPos(), target, task.getPriority());
+                if (GolemTaskManager.get(level).addTask(replantTask) != null) {
+                    replantTasks.put(replantTask.getId(), new ReplantInfo(seed.copyWithCount(1), crop.getStateForAge(0)));
+                }
+            }
         }
 
         return true;
@@ -46,6 +85,19 @@ public class SealHarvestBehavior extends AbstractSealBehavior {
 
     @Override
     public boolean canGolemPerformTask(GolemEntity golem, GolemTask task) {
-        return !golem.hasTrait(art.arcane.thaumcraft.api.ThaumcraftData.GolemTraits.CLUMSY);
+        ReplantInfo info = replantTasks.get(task.getId());
+        if (info != null) {
+            return golem.isCarrying(info.seed);
+        }
+        return true;
+    }
+
+    @Override
+    public void onTaskSuspended(ServerLevel level, GolemTask task) {
+        replantTasks.remove(task.getId());
+        super.onTaskSuspended(level, task);
+    }
+
+    private record ReplantInfo(ItemStack seed, BlockState plantState) {
     }
 }

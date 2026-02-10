@@ -24,6 +24,8 @@ public class SealPickupBehavior extends AbstractSealBehavior {
         List<ItemEntity> items = level.getEntitiesOfClass(ItemEntity.class, area);
 
         for (ItemEntity item : items) {
+            if (item.hasPickUpDelay()) continue;
+            if (!matchesFilter(item.getItem(), seal)) continue;
             if (!manager.hasEntityTask(seal.getSealPos(), item.getId())) {
                 manager.addTask(GolemTask.entityTask(seal.getSealPos(), item.blockPosition(), item.getId(), seal.getPriority()));
             }
@@ -34,8 +36,15 @@ public class SealPickupBehavior extends AbstractSealBehavior {
     public boolean onTaskCompleted(ServerLevel level, GolemEntity golem, GolemTask task) {
         net.minecraft.world.entity.Entity entity = level.getEntity(task.getEntityId());
         if (!(entity instanceof ItemEntity itemEntity) || !itemEntity.isAlive()) return false;
+        SealInstance seal = art.arcane.thaumcraft.data.golemancy.SealSavedData.get(level).getSeal(task.sealPos());
+        if (seal != null && !matchesFilter(itemEntity.getItem(), seal)) return false;
 
-        ItemStack remaining = golem.getInventory().addItem(itemEntity.getItem().copy());
+        ItemStack source = itemEntity.getItem();
+        ItemStack remaining = golem.holdItem(source.copy());
+        int moved = source.getCount() - remaining.getCount();
+        if (moved <= 0) {
+            return false;
+        }
         if (remaining.isEmpty()) {
             itemEntity.discard();
         } else {
@@ -46,10 +55,22 @@ public class SealPickupBehavior extends AbstractSealBehavior {
 
     @Override
     public boolean canGolemPerformTask(GolemEntity golem, GolemTask task) {
-        for (int i = 0; i < golem.getInventory().getContainerSize(); i++) {
-            ItemStack slot = golem.getInventory().getItem(i);
-            if (slot.isEmpty() || slot.getCount() < slot.getMaxStackSize()) return true;
+        if (!(golem.level() instanceof ServerLevel level)) {
+            return false;
         }
-        return false;
+        net.minecraft.world.entity.Entity entity = level.getEntity(task.getEntityId());
+        if (!(entity instanceof ItemEntity itemEntity) || !itemEntity.isAlive() || itemEntity.getItem().isEmpty()) {
+            task.setSuspended(true);
+            return false;
+        }
+        return golem.canCarry(itemEntity.getItem(), true);
+    }
+
+    private boolean matchesFilter(ItemStack stack, SealInstance seal) {
+        if (seal == null || seal.getFilter().isEmpty()) return true;
+        boolean matches = seal.getFilter().stream()
+                .filter(f -> !f.isEmpty())
+                .anyMatch(f -> ItemStack.isSameItemSameComponents(f, stack));
+        return seal.isBlacklist() != matches;
     }
 }

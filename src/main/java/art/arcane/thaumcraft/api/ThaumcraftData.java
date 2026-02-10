@@ -602,6 +602,10 @@ public final class ThaumcraftData {
         public static final SoundEvent COINS = variable("coins");
         public static final SoundEvent BUBBLE = variable("bubble");
         public static final SoundEvent SPILL = variable("spill");
+        public static final SoundEvent CLACK = variable("clack");
+        public static final SoundEvent TOOL = variable("tool");
+        public static final SoundEvent ZAP = variable("zap");
+        public static final SoundEvent SCAN = variable("scan");
 
         private static SoundEvent fixed(String id, float range) {
             return SoundEvent.createFixedRangeEvent(Thaumcraft.id(id), range);

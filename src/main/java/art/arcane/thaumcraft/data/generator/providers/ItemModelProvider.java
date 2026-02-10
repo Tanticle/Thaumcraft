@@ -127,7 +127,7 @@ public class ItemModelProvider extends ModelProvider {
 				"fill", "fill_advanced", "empty", "empty_advanced", "use"
 		};
 
-		ResourceLocation blankTexture = Thaumcraft.id("item/golemancy/seals/seal_blank");
+		ResourceLocation blankTexture = Thaumcraft.id("item/golemancy/seals/static/seal_blank");
 		ResourceLocation blankModelLoc = Thaumcraft.id("item/golemancy/seal_placer_blank");
 		ResourceLocation fallbackModel = ModelTemplates.FLAT_ITEM.create(blankModelLoc, TextureMapping.layer0(blankTexture), items.modelOutput);
 
@@ -135,7 +135,7 @@ public class ItemModelProvider extends ModelProvider {
 
 		for (int i = sealTypes.length - 1; i >= 0; i--) {
 			String type = sealTypes[i];
-			ResourceLocation texture = Thaumcraft.id("item/golemancy/seals/seal_" + type);
+			ResourceLocation texture = Thaumcraft.id("item/golemancy/seals/static/seal_" + type);
 			ResourceLocation modelLoc = Thaumcraft.id("item/golemancy/seal_placer_" + type);
 			ResourceLocation model = ModelTemplates.FLAT_ITEM.create(modelLoc, TextureMapping.layer0(texture), items.modelOutput);
 			current = ItemModelUtils.conditional(new ItemModelProperties.SealTypeCheck(type), ItemModelUtils.plainModel(model), current);

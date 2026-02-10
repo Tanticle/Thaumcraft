@@ -48,24 +48,24 @@ public class GolemPartProvider extends SimpleDataProvider<GolemPart> {
         part(GolemParts.HEAD_BASIC, PartType.HEAD, "head_basic", "golem_head_basic",
                 List.of(mindClockwork), List.of());
         part(GolemParts.HEAD_SMART, PartType.HEAD, "head_smart", "golem_head_smart",
-                List.of(mindBiothaumic), List.of(GolemTraits.SMART));
+                List.of(mindBiothaumic), List.of(GolemTraits.SMART, GolemTraits.FRAGILE));
         part(GolemParts.HEAD_SMART_ARMORED, PartType.HEAD, "head_smart_armored", "golem_head_smart_armor",
-                List.of(mindBiothaumic, brassPlate, wool), List.of(GolemTraits.SMART, GolemTraits.ARMORED));
+                List.of(mindBiothaumic, brassPlate, wool), List.of(GolemTraits.SMART));
         part(GolemParts.HEAD_SCOUT, PartType.HEAD, "head_scout", "golem_head_scout",
-                List.of(mindClockwork, moduleVision), List.of(GolemTraits.SCOUT));
+                List.of(mindClockwork, moduleVision), List.of(GolemTraits.SCOUT, GolemTraits.FRAGILE));
         part(GolemParts.HEAD_SMART_SCOUT, PartType.HEAD, "head_smart_scout", "golem_head_scout_smart",
-                List.of(mindBiothaumic, moduleVision), List.of(GolemTraits.SMART, GolemTraits.SCOUT));
+                List.of(mindBiothaumic, moduleVision), List.of(GolemTraits.SMART, GolemTraits.SCOUT, GolemTraits.FRAGILE));
 
         part(GolemParts.ARM_BASIC, PartType.ARM, "arm_basic", "golem_arms_basic",
                 List.of(), List.of());
         part(GolemParts.ARM_FINE, PartType.ARM, "arm_fine", "golem_arms_fine",
-                List.of(mechanismSimple), List.of(GolemTraits.DEFT));
+                List.of(mechanismSimple), List.of(GolemTraits.DEFT, GolemTraits.FRAGILE));
         part(GolemParts.ARM_CLAWS, PartType.ARM, "arm_claws", "golem_arms_claws",
-                List.of(moduleAggression, shears, shears), List.of(GolemTraits.FIGHTER));
+                List.of(moduleAggression, shears, shears), List.of(GolemTraits.FIGHTER, GolemTraits.CLUMSY, GolemTraits.BRUTAL));
         part(GolemParts.ARM_BREAKERS, PartType.ARM, "arm_breakers", "golem_arms_breakers",
-                List.of(diamond, diamond, piston, piston), List.of(GolemTraits.BREAKER));
+                List.of(diamond, diamond, piston, piston), List.of(GolemTraits.BREAKER, GolemTraits.CLUMSY, GolemTraits.BRUTAL));
         part(GolemParts.ARM_DARTS, PartType.ARM, "arm_darts", "golem_arms_darter",
-                List.of(moduleAggression, dispenser, dispenser, arrow), List.of(GolemTraits.RANGED));
+                List.of(moduleAggression, dispenser, dispenser, arrow), List.of(GolemTraits.FIGHTER, GolemTraits.CLUMSY, GolemTraits.RANGED, GolemTraits.FRAGILE));
 
         part(GolemParts.LEG_WALKER, PartType.LEG, "leg_walker", "golem_legs_walker",
                 List.of(), List.of());
@@ -74,12 +74,12 @@ public class GolemPartProvider extends SimpleDataProvider<GolemPart> {
         part(GolemParts.LEG_CLIMBER, PartType.LEG, "leg_climber", "golem_legs_climber",
                 List.of(flint, flint, flint, flint), List.of(GolemTraits.CLIMBER));
         part(GolemParts.LEG_FLYER, PartType.LEG, "leg_flyer", "golem_legs_floater",
-                List.of(Ingredient.of(ConfigBlocks.LEVITATOR.item()), brassPlate, brassPlate, brassPlate, brassPlate, slimeball), List.of(GolemTraits.FLYER));
+                List.of(Ingredient.of(ConfigBlocks.LEVITATOR.item()), brassPlate, brassPlate, brassPlate, brassPlate, slimeball), List.of(GolemTraits.FLYER, GolemTraits.FRAGILE));
 
         partNoModel(GolemParts.ADDON_NONE, PartType.ADDON, "addon_none",
                 List.of(), List.of());
         part(GolemParts.ADDON_ARMORED, PartType.ADDON, "addon_armored", "golem_armor",
-                List.of(), List.of(GolemTraits.ARMORED));
+                List.of(), List.of(GolemTraits.ARMORED, GolemTraits.HEAVY));
         partNoModel(GolemParts.ADDON_FIGHTER, PartType.ADDON, "addon_fighter",
                 List.of(moduleAggression), List.of(GolemTraits.FIGHTER));
         part(GolemParts.ADDON_HAULER, PartType.ADDON, "addon_hauler", "golem_hauler",

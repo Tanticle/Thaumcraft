@@ -51,12 +51,7 @@ public class SealSavedData extends SavedData {
 
     public void addSeal(SealInstance seal, ServerLevel level) {
         addSeal(seal);
-        SealPos sp = seal.getSealPos();
-        PacketDistributor.sendToPlayersNear(
-                level, null,
-                sp.pos().getX(), sp.pos().getY(), sp.pos().getZ(), 64,
-                new ClientboundSealSyncPacket(sp.pos(), sp.face(), seal.getSealTypeKey().location(), seal.getColor(), seal.getPriority())
-        );
+        syncSeal(seal, level);
     }
 
     public void removeSeal(SealPos pos) {
@@ -77,9 +72,34 @@ public class SealSavedData extends SavedData {
         for (SealInstance seal : seals.values()) {
             SealPos sp = seal.getSealPos();
             PacketDistributor.sendToPlayer(player,
-                    new ClientboundSealSyncPacket(sp.pos(), sp.face(), seal.getSealTypeKey().location(), seal.getColor(), seal.getPriority())
+                    new ClientboundSealSyncPacket(
+                            sp.pos(),
+                            sp.face(),
+                            seal.getSealTypeKey().location(),
+                            seal.getColor(),
+                            seal.getPriority(),
+                            seal.getArea().getX(),
+                            seal.getArea().getY(),
+                            seal.getArea().getZ())
             );
         }
+    }
+
+    public void syncSeal(SealInstance seal, ServerLevel level) {
+        SealPos sp = seal.getSealPos();
+        PacketDistributor.sendToPlayersNear(
+                level, null,
+                sp.pos().getX(), sp.pos().getY(), sp.pos().getZ(), 64,
+                new ClientboundSealSyncPacket(
+                        sp.pos(),
+                        sp.face(),
+                        seal.getSealTypeKey().location(),
+                        seal.getColor(),
+                        seal.getPriority(),
+                        seal.getArea().getX(),
+                        seal.getArea().getY(),
+                        seal.getArea().getZ())
+        );
     }
 
     public SealInstance getSeal(SealPos pos) {
@@ -103,6 +123,7 @@ public class SealSavedData extends SavedData {
 
         for (SealInstance seal : seals.values()) {
             if (seal.isRedstoneSensitive() && level.hasNeighborSignal(seal.getSealPos().pos())) {
+                GolemTaskManager.get(level).suspendTasksForSeal(seal.getSealPos());
                 continue;
             }
 

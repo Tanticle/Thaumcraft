@@ -40,8 +40,9 @@ public class GolemWanderNearHomeGoal extends Goal {
         if (target == null) return false;
 
         if (!home.equals(BlockPos.ZERO)) {
+            int homeRadius = golem.getHomeRadius();
             double distToHome = target.distanceToSqr(home.getX() + 0.5, home.getY(), home.getZ() + 0.5);
-            if (distToHome > (double) maxDistFromHome * maxDistFromHome) return false;
+            if (distToHome > (double) homeRadius * homeRadius) return false;
         }
 
         targetX = target.x;
@@ -57,7 +58,7 @@ public class GolemWanderNearHomeGoal extends Goal {
 
     @Override
     public void start() {
-        golem.getNavigation().moveTo(targetX, targetY, targetZ, speed);
+        golem.getNavigation().moveTo(targetX, targetY, targetZ, speed * golem.getGolemMoveSpeed());
     }
 
     @Override

@@ -26,12 +26,21 @@ public class SealTypeProvider extends SimpleDataProvider<SealType> {
         seal(SealTypes.GUARD, "guard",
                 List.of(GolemTraits.FIGHTER), List.of(),
                 true, false, 0,
-                List.of());
+                List.of(
+                        new SealToggle("pmob", "golem.prop.mob", true),
+                        new SealToggle("panimal", "golem.prop.animal", false),
+                        new SealToggle("pplayer", "golem.prop.player", false)
+                ));
 
         seal(SealTypes.GUARD_ADVANCED, "guard_advanced",
                 List.of(GolemTraits.FIGHTER), List.of(),
                 true, true, 5,
-                List.of(new SealToggle("ranged_only", "Ranged Only", false)));
+                List.of(
+                        new SealToggle("pmob", "golem.prop.mob", true),
+                        new SealToggle("panimal", "golem.prop.animal", false),
+                        new SealToggle("pplayer", "golem.prop.player", false),
+                        new SealToggle("ranged_only", "Ranged Only", false)
+                ));
 
         seal(SealTypes.PICKUP, "pickup",
                 List.of(), List.of(),
@@ -46,7 +55,10 @@ public class SealTypeProvider extends SimpleDataProvider<SealType> {
         seal(SealTypes.PROVIDE, "provide",
                 List.of(), List.of(),
                 true, true, 5,
-                List.of());
+                List.of(
+                        new SealToggle("single_item", "Single Item", false),
+                        new SealToggle("leave_last", "Leave Last", false)
+                ));
 
         seal(SealTypes.STOCK, "stock",
                 List.of(), List.of(),
@@ -59,12 +71,12 @@ public class SealTypeProvider extends SimpleDataProvider<SealType> {
                 List.of());
 
         seal(SealTypes.BREAKER_ADVANCED, "breaker_advanced",
-                List.of(GolemTraits.BREAKER), List.of(),
+                List.of(GolemTraits.BREAKER, GolemTraits.SMART), List.of(),
                 true, true, 5,
                 List.of(new SealToggle("silk_touch", "Silk Touch", false)));
 
         seal(SealTypes.HARVEST, "harvest",
-                List.of(), List.of(GolemTraits.CLUMSY),
+                List.of(GolemTraits.DEFT, GolemTraits.SMART), List.of(),
                 true, false, 0,
                 List.of(new SealToggle("replant", "Replant", true)));
 
@@ -81,12 +93,17 @@ public class SealTypeProvider extends SimpleDataProvider<SealType> {
         seal(SealTypes.FILL, "fill",
                 List.of(), List.of(),
                 true, true, 5,
-                List.of());
+                List.of(
+                        new SealToggle("existing_only", "Only Existing", false)
+                ));
 
         seal(SealTypes.FILL_ADVANCED, "fill_advanced",
                 List.of(), List.of(),
                 true, true, 5,
-                List.of(new SealToggle("exact_amount", "Exact Amount", false)));
+                List.of(
+                        new SealToggle("existing_only", "Only Existing", false),
+                        new SealToggle("exact_amount", "Exact Amount", false)
+                ));
 
         seal(SealTypes.EMPTY, "empty",
                 List.of(), List.of(),
@@ -94,12 +111,15 @@ public class SealTypeProvider extends SimpleDataProvider<SealType> {
                 List.of());
 
         seal(SealTypes.EMPTY_ADVANCED, "empty_advanced",
-                List.of(), List.of(),
+                List.of(GolemTraits.SMART), List.of(),
                 true, true, 5,
-                List.of(new SealToggle("leave_last", "Leave Last Stack", false)));
+                List.of(
+                        new SealToggle("cycle_filters", "Cycle Filters", false),
+                        new SealToggle("leave_last", "Leave Last Stack", false)
+                ));
 
         seal(SealTypes.USE, "use",
-                List.of(GolemTraits.DEFT), List.of(),
+                List.of(GolemTraits.DEFT, GolemTraits.SMART), List.of(),
                 true, false, 0,
                 List.of());
     }

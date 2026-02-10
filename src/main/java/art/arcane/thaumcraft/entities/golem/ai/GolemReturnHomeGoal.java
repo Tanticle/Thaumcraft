@@ -9,7 +9,6 @@ import java.util.EnumSet;
 public class GolemReturnHomeGoal extends Goal {
 
     private final GolemEntity golem;
-    private static final double MAX_DISTANCE_SQ = 32.0 * 32.0;
 
     public GolemReturnHomeGoal(GolemEntity golem) {
         this.golem = golem;
@@ -18,13 +17,16 @@ public class GolemReturnHomeGoal extends Goal {
 
     @Override
     public boolean canUse() {
+        if (golem.isFollowing()) return false;
         BlockPos home = golem.getHomePos();
         if (home.equals(BlockPos.ZERO)) return false;
-        return golem.blockPosition().distSqr(home) > MAX_DISTANCE_SQ;
+        int radius = golem.getHomeRadius();
+        return golem.blockPosition().distSqr(home) > (double) radius * radius;
     }
 
     @Override
     public boolean canContinueToUse() {
+        if (golem.isFollowing()) return false;
         BlockPos home = golem.getHomePos();
         if (home.equals(BlockPos.ZERO)) return false;
         if (golem.getNavigation().isDone()) return false;
@@ -34,7 +36,7 @@ public class GolemReturnHomeGoal extends Goal {
     @Override
     public void start() {
         BlockPos home = golem.getHomePos();
-        golem.getNavigation().moveTo(home.getX() + 0.5, home.getY(), home.getZ() + 0.5, 1.0);
+        golem.getNavigation().moveTo(home.getX() + 0.5, home.getY(), home.getZ() + 0.5, golem.getGolemMoveSpeed());
     }
 
     @Override

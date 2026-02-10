@@ -25,6 +25,10 @@ public class ConfigSounds {
     public static final Holder<SoundEvent> COINS = register(Sounds.COINS);
     public static final Holder<SoundEvent> BUBBLE = register(Sounds.BUBBLE);
     public static final Holder<SoundEvent> SPILL = register(Sounds.SPILL);
+    public static final Holder<SoundEvent> CLACK = register(Sounds.CLACK);
+    public static final Holder<SoundEvent> TOOL = register(Sounds.TOOL);
+    public static final Holder<SoundEvent> ZAP = register(Sounds.ZAP);
+    public static final Holder<SoundEvent> SCAN = register(Sounds.SCAN);
 
     /* -------------------------------------------------------------------------------------------------------------- */
 

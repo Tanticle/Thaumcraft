@@ -31,7 +31,10 @@ public class SealInstance {
         this.sealTypeKey = sealTypeKey;
         this.priority = 0;
         this.color = -1;
-        this.area = new BlockPos(8, 8, 8);
+        int x = sealPos.face().getStepX() == 0 ? 3 : 1;
+        int y = sealPos.face().getStepY() == 0 ? 3 : 1;
+        int z = sealPos.face().getStepZ() == 0 ? 3 : 1;
+        this.area = new BlockPos(x, y, z);
         this.locked = false;
         this.redstoneSensitive = false;
         this.owner = owner;

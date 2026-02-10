@@ -57,6 +57,9 @@ public class ThaumcraftJEIPlugin implements IModPlugin {
     public void registerItemSubtypes(ISubtypeRegistration registration) {
         registration.registerFromDataComponentTypes(ConfigItems.VIS_CRYSTAL.value(), ConfigItemComponents.ASPECT_HOLDER.value());
         registration.registerFromDataComponentTypes(ConfigItems.PHIAL.value(), ConfigItemComponents.ASPECT_HOLDER.value());
+        registration.registerFromDataComponentTypes(ConfigItems.SEAL_PLACER.value(), ConfigItemComponents.SEAL_TYPE.value());
+        registration.registerFromDataComponentTypes(ConfigItems.GOLEM_PLACER.value(), ConfigItemComponents.GOLEM_CONFIG.value());
+        registration.registerFromDataComponentTypes(ConfigBlocks.NITOR.item(), ConfigItemComponents.DYE_COLOR.value());
     }
 
     @Override

@@ -55,6 +55,7 @@ public class GolemTask {
     public void reserve(UUID golemId) {
         this.reservedGolem = golemId;
         this.reserved = true;
+        this.lifespan += 120;
     }
 
     public void unreserve() {
@@ -69,6 +70,18 @@ public class GolemTask {
 
     public void complete() {
         this.completed = true;
+    }
+
+    public void setCompletion(boolean fulfilled) {
+        this.completed = fulfilled;
+        this.lifespan += 1;
+    }
+
+    public void setSuspended(boolean suspended) {
+        this.suspended = suspended;
+        if (suspended) {
+            unreserve();
+        }
     }
 
     public boolean isExpired() {

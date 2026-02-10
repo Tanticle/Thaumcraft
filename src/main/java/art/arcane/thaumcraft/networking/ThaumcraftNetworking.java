@@ -51,7 +51,14 @@ public class ThaumcraftNetworking {
         });
 
         registrar.playToClient(ClientboundSealSyncPacket.TYPE, ClientboundSealSyncPacket.STREAM_CODEC, (data, ctx) -> {
-            ctx.enqueueWork(() -> SealClientData.addSeal(data.pos(), data.face(), data.sealType(), data.color()));
+            ctx.enqueueWork(() -> SealClientData.addSeal(
+                    data.pos(),
+                    data.face(),
+                    data.sealType(),
+                    data.color(),
+                    data.areaX(),
+                    data.areaY(),
+                    data.areaZ()));
         });
 
         registrar.playToClient(ClientboundSealRemovePacket.TYPE, ClientboundSealRemovePacket.STREAM_CODEC, (data, ctx) -> {

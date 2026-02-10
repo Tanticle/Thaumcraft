@@ -1,5 +1,6 @@
 package art.arcane.thaumcraft.items.golemancy;
 
+import net.minecraft.ChatFormatting;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.NonNullList;
 import net.minecraft.network.chat.Component;
@@ -8,6 +9,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 import art.arcane.thaumcraft.api.ThaumcraftData;
@@ -18,6 +20,8 @@ import art.arcane.thaumcraft.registries.ConfigEntities;
 import art.arcane.thaumcraft.registries.ConfigDataRegistries;
 import art.arcane.thaumcraft.registries.ConfigItemComponents;
 import art.arcane.thaumcraft.util.simple.SimpleCreativeTab;
+
+import java.util.List;
 
 public class GolemPlacerItem extends Item implements SimpleCreativeTab.MultipleRegistrar {
 
@@ -34,6 +38,38 @@ public class GolemPlacerItem extends Item implements SimpleCreativeTab.MultipleR
             return Component.translatable("item.thaumcraft.golem_placer.has_material", materialName);
         }
         return super.getName(stack);
+    }
+
+    @Override
+    public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> tooltipComponents, TooltipFlag tooltipFlag) {
+        super.appendHoverText(stack, context, tooltipComponents, tooltipFlag);
+
+        GolemConfiguration config = stack.get(ConfigItemComponents.GOLEM_CONFIG.value());
+        if (config == null) {
+            return;
+        }
+
+        tooltipComponents.add(Component.translatable("tooltip.thaumcraft.golem_placer.flavor")
+                .withStyle(ChatFormatting.DARK_GRAY, ChatFormatting.ITALIC));
+        tooltipComponents.add(Component.translatable("tooltip.thaumcraft.golem_placer.material",
+                        Component.translatable("golem_material.thaumcraft." + config.material().location().getPath()))
+                .withStyle(ChatFormatting.GRAY));
+        tooltipComponents.add(Component.translatable("tooltip.thaumcraft.golem_placer.head",
+                        Component.translatable("golem_part.thaumcraft." + config.head().location().getPath()))
+                .withStyle(ChatFormatting.GRAY));
+        tooltipComponents.add(Component.translatable("tooltip.thaumcraft.golem_placer.arms",
+                        Component.translatable("golem_part.thaumcraft." + config.arms().location().getPath()))
+                .withStyle(ChatFormatting.GRAY));
+        tooltipComponents.add(Component.translatable("tooltip.thaumcraft.golem_placer.legs",
+                        Component.translatable("golem_part.thaumcraft." + config.legs().location().getPath()))
+                .withStyle(ChatFormatting.GRAY));
+        tooltipComponents.add(Component.translatable("tooltip.thaumcraft.golem_placer.addon",
+                        Component.translatable("golem_part.thaumcraft." + config.addon().location().getPath()))
+                .withStyle(ChatFormatting.GRAY));
+        if (config.rank() > 0) {
+            tooltipComponents.add(Component.translatable("tooltip.thaumcraft.golem_placer.rank", config.rank())
+                    .withStyle(ChatFormatting.DARK_GRAY));
+        }
     }
 
     @Override

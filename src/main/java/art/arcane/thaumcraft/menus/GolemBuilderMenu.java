@@ -69,10 +69,26 @@ public class GolemBuilderMenu extends AbstractContainerMenu {
 
     @Override
     public boolean clickMenuButton(Player player, int id) {
+        if (id < GolemBuilderBlockEntity.BUTTON_HEAD_PREV || id > GolemBuilderBlockEntity.BUTTON_CRAFT) {
+            return false;
+        }
+
+        // Client-side menus are created without a bound block entity; returning true lets
+        // the button packet reach the server.
+        if (player.level().isClientSide()) {
+            return true;
+        }
+
         if (blockEntity != null) {
             return blockEntity.handleButton(id, player);
         }
-        return false;
+
+        return access.evaluate((level, pos) -> {
+            if (level.getBlockEntity(pos) instanceof GolemBuilderBlockEntity be) {
+                return be.handleButton(id, player);
+            }
+            return false;
+        }, false);
     }
 
     @Override

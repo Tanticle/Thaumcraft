@@ -40,6 +40,7 @@ public final class ConfigEntities {
             mobAttributes(a -> a
                     .add(Attributes.MAX_HEALTH, 10)
                     .add(Attributes.MOVEMENT_SPEED, 0.25)
+                    .add(Attributes.FLYING_SPEED, 0.25)
                     .add(Attributes.ATTACK_DAMAGE, 1)
                     .add(Attributes.ARMOR, 0)
                     .add(Attributes.FOLLOW_RANGE, 32)

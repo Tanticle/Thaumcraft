@@ -5,6 +5,7 @@ import net.minecraft.core.NonNullList;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -18,6 +19,7 @@ import art.arcane.thaumcraft.data.golemancy.SealSavedData;
 import art.arcane.thaumcraft.data.golemancy.SealType;
 import art.arcane.thaumcraft.registries.ConfigDataRegistries;
 import art.arcane.thaumcraft.registries.ConfigItemComponents;
+import art.arcane.thaumcraft.registries.ConfigSounds;
 import art.arcane.thaumcraft.util.simple.SimpleCreativeTab;
 
 public class SealPlacerItem extends Item implements SimpleCreativeTab.MultipleRegistrar {
@@ -62,6 +64,7 @@ public class SealPlacerItem extends Item implements SimpleCreativeTab.MultipleRe
         SealInstance seal = new SealInstance(sealPos, sealTypeKey,
                 context.getPlayer() != null ? context.getPlayer().getUUID() : java.util.UUID.randomUUID());
         data.addSeal(seal, serverLevel);
+        level.playSound(null, context.getClickedPos(), ConfigSounds.CLACK.value(), SoundSource.BLOCKS, 0.6F, 1.0F);
 
         if (context.getPlayer() != null && !context.getPlayer().getAbilities().instabuild) {
             stack.shrink(1);

@@ -13,13 +13,13 @@ import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import art.arcane.thaumcraft.api.ThaumcraftData;
 import art.arcane.thaumcraft.api.components.GolemConfiguration;
 import art.arcane.thaumcraft.blocks.MultiblockController;
+import art.arcane.thaumcraft.data.golemancy.GolemBuilderRequirements;
 import art.arcane.thaumcraft.data.golemancy.GolemMaterial;
 import art.arcane.thaumcraft.data.golemancy.GolemPart;
 import art.arcane.thaumcraft.registries.ConfigBlockEntities;
@@ -95,12 +95,18 @@ public class GolemBuilderBlockEntity extends SimpleBlockEntity implements Tickab
 
         materialList = access.lookupOrThrow(ThaumcraftData.Registries.GOLEM_MATERIAL)
                 .listElements()
-                .sorted(Comparator.comparing(h -> h.key().location()))
+                .sorted(
+                        Comparator.comparingInt((Holder.Reference<GolemMaterial> h) -> materialSortIndex(h.key().location()))
+                                .thenComparing(h -> h.key().location())
+                )
                 .toList();
 
         List<Holder.Reference<GolemPart>> allParts = access.lookupOrThrow(ThaumcraftData.Registries.GOLEM_PART)
                 .listElements()
-                .sorted(Comparator.comparing(h -> h.key().location()))
+                .sorted(
+                        Comparator.comparingInt((Holder.Reference<GolemPart> h) -> partSortIndex(h.value().type(), h.key().location()))
+                                .thenComparing(h -> h.key().location())
+                )
                 .toList();
 
         headList = new ArrayList<>();
@@ -193,38 +199,33 @@ public class GolemBuilderBlockEntity extends SimpleBlockEntity implements Tickab
         if (materialList == null || materialList.isEmpty()) return;
         if (player == null) return;
 
-        List<Ingredient> required = getRequiredComponents();
+        List<ItemStack> required = getRequiredComponents();
         int flags = 0;
         for (int i = 0; i < required.size() && i < 30; i++) {
-            if (playerHasIngredient(player, required.get(i))) {
+            if (playerHasStack(player, required.get(i))) {
                 flags |= (1 << i);
             }
         }
         componentFlags = flags;
     }
 
-    public List<Ingredient> getRequiredComponents() {
+    public List<ItemStack> getRequiredComponents() {
         ensurePartsBuilt();
         if (materialList == null || materialList.isEmpty()) return List.of();
 
-        List<Ingredient> required = new ArrayList<>();
-        GolemMaterial mat = materialList.get(materialIndex).value();
-        required.addAll(mat.baseComponents());
-        required.addAll(mat.mechanismComponents());
-
-        if (!headList.isEmpty()) required.addAll(headList.get(headIndex).value().components());
-        if (!armList.isEmpty()) required.addAll(armList.get(armIndex).value().components());
-        if (!legList.isEmpty()) required.addAll(legList.get(legIndex).value().components());
-        if (!addonList.isEmpty()) required.addAll(addonList.get(addonIndex).value().components());
-
-        return required;
+        ResourceKey<GolemMaterial> materialKey = materialList.get(materialIndex).key();
+        ResourceKey<GolemPart> headKey = headList.isEmpty() ? ThaumcraftData.GolemParts.HEAD_BASIC : headList.get(headIndex).key();
+        ResourceKey<GolemPart> armKey = armList.isEmpty() ? ThaumcraftData.GolemParts.ARM_BASIC : armList.get(armIndex).key();
+        ResourceKey<GolemPart> legKey = legList.isEmpty() ? ThaumcraftData.GolemParts.LEG_WALKER : legList.get(legIndex).key();
+        ResourceKey<GolemPart> addonKey = addonList.isEmpty() ? ThaumcraftData.GolemParts.ADDON_NONE : addonList.get(addonIndex).key();
+        return GolemBuilderRequirements.build(level.registryAccess(), materialKey, headKey, armKey, legKey, addonKey);
     }
 
-    private boolean playerHasIngredient(Player player, Ingredient ingredient) {
-        int needed = 1;
+    private boolean playerHasStack(Player player, ItemStack required) {
+        int needed = required.getCount();
         for (int i = 0; i < player.getInventory().getContainerSize(); i++) {
             ItemStack stack = player.getInventory().getItem(i);
-            if (!stack.isEmpty() && ingredient.test(stack)) {
+            if (!stack.isEmpty() && ItemStack.isSameItemSameComponents(stack, required)) {
                 needed -= stack.getCount();
                 if (needed <= 0) return true;
             }
@@ -235,14 +236,19 @@ public class GolemBuilderBlockEntity extends SimpleBlockEntity implements Tickab
     private void startCraft(Player player) {
         if (!outputSlot.getItem(0).isEmpty()) return;
         if (crafting) return;
+        if (player == null) return;
 
-        List<Ingredient> required = getRequiredComponents();
-        for (Ingredient ingredient : required) {
-            if (!playerHasIngredient(player, ingredient)) return;
+        boolean creative = player.getAbilities().instabuild;
+
+        List<ItemStack> required = getRequiredComponents();
+        if (!creative) {
+            for (ItemStack requiredStack : required) {
+                if (!playerHasStack(player, requiredStack)) return;
+            }
         }
 
-        for (Ingredient ingredient : required) {
-            consumeIngredient(player, ingredient);
+        for (ItemStack requiredStack : required) {
+            consumeStack(player, requiredStack);
         }
 
         crafting = true;
@@ -250,15 +256,20 @@ public class GolemBuilderBlockEntity extends SimpleBlockEntity implements Tickab
         setChanged();
     }
 
-    private void consumeIngredient(Player player, Ingredient ingredient) {
+    private void consumeStack(Player player, ItemStack required) {
+        int remaining = required.getCount();
         for (int i = 0; i < player.getInventory().getContainerSize(); i++) {
             ItemStack stack = player.getInventory().getItem(i);
-            if (!stack.isEmpty() && ingredient.test(stack)) {
-                stack.shrink(1);
+            if (!stack.isEmpty() && ItemStack.isSameItemSameComponents(stack, required)) {
+                int taken = Math.min(remaining, stack.getCount());
+                stack.shrink(taken);
+                remaining -= taken;
                 if (stack.isEmpty()) {
                     player.getInventory().setItem(i, ItemStack.EMPTY);
                 }
-                return;
+                if (remaining <= 0) {
+                    return;
+                }
             }
         }
     }
@@ -396,5 +407,53 @@ public class GolemBuilderBlockEntity extends SimpleBlockEntity implements Tickab
     private static int clamp(int index, int size) {
         if (size <= 0) return 0;
         return index >= size ? 0 : index;
+    }
+
+    public static int materialSortIndex(ResourceLocation id) {
+        return switch (id.getPath()) {
+            case "wood" -> 0;
+            case "iron" -> 1;
+            case "clay" -> 2;
+            case "brass" -> 3;
+            case "thaumium" -> 4;
+            case "void" -> 5;
+            default -> 100;
+        };
+    }
+
+    public static int partSortIndex(GolemPart.PartType type, ResourceLocation id) {
+        String path = id.getPath();
+        return switch (type) {
+            case HEAD -> switch (path) {
+                case "head_basic" -> 0;
+                case "head_smart" -> 1;
+                case "head_smart_armored" -> 2;
+                case "head_scout" -> 3;
+                case "head_smart_scout" -> 4;
+                default -> 100;
+            };
+            case ARM -> switch (path) {
+                case "arm_basic" -> 0;
+                case "arm_fine" -> 1;
+                case "arm_claws" -> 2;
+                case "arm_breakers" -> 3;
+                case "arm_darts" -> 4;
+                default -> 100;
+            };
+            case LEG -> switch (path) {
+                case "leg_walker" -> 0;
+                case "leg_roller" -> 1;
+                case "leg_climber" -> 2;
+                case "leg_flyer" -> 3;
+                default -> 100;
+            };
+            case ADDON -> switch (path) {
+                case "addon_none" -> 0;
+                case "addon_armored" -> 1;
+                case "addon_fighter" -> 2;
+                case "addon_hauler" -> 3;
+                default -> 100;
+            };
+        };
     }
 }
