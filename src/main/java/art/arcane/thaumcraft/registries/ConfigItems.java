@@ -6,6 +6,7 @@ import art.arcane.thaumcraft.items.tools.*;
 import art.arcane.thaumcraft.items.equipment.BootsTravellerItem;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.Unit;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.food.FoodProperties;
@@ -182,7 +183,7 @@ public final class ConfigItems {
                     .build())),
             ConfigCreativeTabs.MAIN);
 
-	public static final DeferredItem<Item> SCANNER = registerSimple(Items.SCANNER, ConfigCreativeTabs.MAIN);
+	public static final DeferredItem<Item> SCANNER = registerItem(Items.SCANNER, p -> new Item(p.component(ConfigItemComponents.GOGGLE_SIGHT.value(), Unit.INSTANCE)), ConfigCreativeTabs.MAIN);
 
     /* -------------------------------------------------------------------------------------------------------------- */
 

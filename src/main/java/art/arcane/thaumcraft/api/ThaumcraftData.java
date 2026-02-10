@@ -161,6 +161,7 @@ public final class ThaumcraftData {
         public static final ResourceLocation VIS_CHARGE = Thaumcraft.id("vis_charge");
         public static final ResourceLocation TIMER = Thaumcraft.id("timer");
         public static final ResourceLocation ARMOR_FORTRESS_FACEPLATE = Thaumcraft.id("fortress_faceplate");
+        public static final ResourceLocation GOGGLE_SIGHT = Thaumcraft.id("goggle_sight");
     }
 
     /**
@@ -246,6 +247,7 @@ public final class ThaumcraftData {
 
         public static final ResourceLocation SALIS_MUNDUS = Thaumcraft.id("salis_mundus");
         public static final ResourceLocation SCANNER = Thaumcraft.id("scanner");
+		public static final ResourceLocation GOGGLES =  Thaumcraft.id("goggles");
     }
 
     public static final class Enchantments {
@@ -431,6 +433,7 @@ public final class ThaumcraftData {
         public static final ResourceLocation INFUSION_STABILIZER = Thaumcraft.id("infusion_stabilizer");
         public static final ResourceLocation INFUSION_PEDESTAL = Thaumcraft.id("infusion_pedestal");
         public static final ResourceLocation INFUSION_MODIFIER = Thaumcraft.id("infusion_modifier");
+        public static final ResourceLocation GOGGLE_RENDERER = Thaumcraft.id("goggle_renderer");
     }
 
     public static final class DataMaps {

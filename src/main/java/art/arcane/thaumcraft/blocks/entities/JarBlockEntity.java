@@ -1,5 +1,6 @@
 package art.arcane.thaumcraft.blocks.entities;
 
+import art.arcane.thaumcraft.api.capabilities.IGoggleRendererCapability;
 import lombok.Getter;
 import lombok.Setter;
 import net.minecraft.core.BlockPos;
@@ -16,7 +17,7 @@ import art.arcane.thaumcraft.blocks.alchemy.JarBlock;
 import art.arcane.thaumcraft.registries.ConfigBlockEntities;
 import art.arcane.thaumcraft.util.simple.SimpleBlockEntity;
 
-public class JarBlockEntity extends SimpleBlockEntity implements IEssentiaCapability {
+public class JarBlockEntity extends SimpleBlockEntity implements IEssentiaCapability, IGoggleRendererCapability {
 
     private static final int MAX_ESSENTIA = 250;
 
