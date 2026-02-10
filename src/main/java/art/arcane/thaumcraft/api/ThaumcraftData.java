@@ -47,7 +47,7 @@ public final class ThaumcraftData {
     public static final class TintSources {
 
         public static final ResourceLocation ASPECT_ITEM = Thaumcraft.id("aspect_item");
-        public static final ResourceLocation NITOR_ITEM = Thaumcraft.id("nitor_item");
+        public static final ResourceLocation DYED_ITEM = Thaumcraft.id("dyed_item");
         public static final ResourceLocation GOLEM_MATERIAL_ITEM = Thaumcraft.id("golem_material_item");
     }
 
@@ -183,6 +183,7 @@ public final class ThaumcraftData {
         public static final ResourceLocation VIS_CHARGE = Thaumcraft.id("vis_charge");
         public static final ResourceLocation TIMER = Thaumcraft.id("timer");
         public static final ResourceLocation DYE_COLOR = Thaumcraft.id("dye_color");
+        public static final ResourceLocation GOGGLE_SIGHT = Thaumcraft.id("goggle_sight");
         public static final ResourceLocation ARMOR_FORTRESS_FACEPLATE = Thaumcraft.id("fortress_faceplate");
         public static final ResourceLocation GOLEM_CONFIG = Thaumcraft.id("golem_config");
         public static final ResourceLocation SEAL_TYPE = Thaumcraft.id("seal_type");
@@ -270,6 +271,8 @@ public final class ThaumcraftData {
         public static final ResourceLocation TRAVELLER_BOOTS = Thaumcraft.id("traveller_boots");
 
         public static final ResourceLocation SALIS_MUNDUS = Thaumcraft.id("salis_mundus");
+        public static final ResourceLocation SCANNER = Thaumcraft.id("scanner");
+        public static final ResourceLocation GOGGLES = Thaumcraft.id("goggles");
 
         public static final ResourceLocation GOLEM_PLACER = Thaumcraft.id("golem_placer");
         public static final ResourceLocation SEAL_PLACER = Thaumcraft.id("seal_placer");
@@ -567,6 +570,7 @@ public final class ThaumcraftData {
         public static final ResourceLocation INFUSION_STABILIZER = Thaumcraft.id("infusion_stabilizer");
         public static final ResourceLocation INFUSION_PEDESTAL = Thaumcraft.id("infusion_pedestal");
         public static final ResourceLocation INFUSION_MODIFIER = Thaumcraft.id("infusion_modifier");
+        public static final ResourceLocation GOGGLE_RENDERER = Thaumcraft.id("goggle_renderer");
     }
 
     public static final class DataMaps {

@@ -39,6 +39,13 @@ ordering = "NONE"
 side = "BOTH"
 
 [[dependencies.${mod_id}]]
+modId = "baubles"
+type = "required"
+versionRange = "0.6"
+ordering = "NONE"
+side = "BOTH"
+
+[[dependencies.${mod_id}]]
 modId = "jei"
 type = "optional"
 versionRange = "1.0-99.0"

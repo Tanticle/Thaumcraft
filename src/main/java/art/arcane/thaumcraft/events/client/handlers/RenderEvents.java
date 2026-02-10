@@ -1,11 +1,19 @@
 package art.arcane.thaumcraft.events.client.handlers;
 
+import art.arcane.thaumcraft.api.ThaumcraftUtils;
+import art.arcane.thaumcraft.api.capabilities.IGoggleRendererCapability;
 import art.arcane.thaumcraft.api.components.FortressFaceplateComponent;
 import art.arcane.thaumcraft.items.VisChargeItem;
+import art.arcane.thaumcraft.registries.ConfigCapabilities;
 import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.datafixers.util.Either;
 import net.minecraft.ChatFormatting;
+import net.minecraft.client.Camera;
+import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.Font;
+import net.minecraft.client.renderer.LightTexture;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.core.Holder;
 import net.minecraft.network.chat.Component;
@@ -14,6 +22,9 @@ import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.inventory.tooltip.TooltipComponent;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.Vec3;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
@@ -124,6 +135,9 @@ public class RenderEvents {
             if (isHoldingSealDisplayer(Minecraft.getInstance().player)) {
                 SealWorldRenderer.render(e.getPoseStack(), e.getCamera(), bufferSource);
             }
+            if (ThaumcraftUtils.playerHasGoggleSight(Minecraft.getInstance().player) && Minecraft.getInstance().hitResult instanceof BlockHitResult hit) {
+                dispatchGoggleSight(bufferSource, e.getPoseStack(), e.getCamera(), e.getLevel(), hit, e.getPartialTick());
+            }
             bufferSource.endBatch();
         }
     }
@@ -145,5 +159,35 @@ public class RenderEvents {
     @SubscribeEvent
     public static void onClientDisconnect(ClientPlayerNetworkEvent.LoggingOut e) {
         SealClientData.clear();
+    }
+
+    private static final int HIGHER_FONT = 15;
+
+    private static void dispatchGoggleSight(MultiBufferSource.BufferSource bufferSource, PoseStack stack, Camera camera, Level level, BlockHitResult hit, DeltaTracker delta) {
+        IGoggleRendererCapability renderCap = level.getCapability(ConfigCapabilities.GOGGLE_RENDERER, hit.getBlockPos(), hit.getDirection());
+        if (renderCap != null) {
+            Font font = Minecraft.getInstance().font;
+            stack.pushPose();
+
+            stack.translate(Vec3.atLowerCornerOf(hit.getBlockPos()).subtract(camera.getPosition()));
+            renderCap.render(stack, bufferSource, delta);
+
+            stack.translate(.5F, .5F, .5F);
+            stack.mulPose(camera.rotation());
+            stack.scale(.0125F, -.0125F, .0125F);
+
+            RenderSystem.disableDepthTest();
+            int lineCount = renderCap.textDisplay().size();
+            float yOffset = lineCount * HIGHER_FONT / 2F;
+            for (int i = 0; i < lineCount; i++) {
+                Component component = renderCap.textDisplay().get(i);
+                float centerOffset = (float) (-font.width(component) / 2);
+                font.drawInBatch(component, centerOffset, -yOffset + (i * HIGHER_FONT), -1, true, stack.last().pose(), bufferSource, Font.DisplayMode.SEE_THROUGH, 0, LightTexture.FULL_BRIGHT);
+            }
+            bufferSource.endLastBatch();
+            RenderSystem.enableDepthTest();
+
+            stack.popPose();
+        }
     }
 }

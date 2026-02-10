@@ -15,13 +15,13 @@ import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.ExtraCodecs;
+import net.minecraft.util.Unit;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.network.codec.NeoForgeStreamCodecs;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import art.arcane.thaumcraft.Thaumcraft;
 import art.arcane.thaumcraft.api.aspects.Aspect;
 import art.arcane.thaumcraft.api.components.InfusionEnchantmentComponent;
-import net.minecraft.world.item.DyeColor;
 
 import java.util.UUID;
 
@@ -51,10 +51,10 @@ public class ConfigItemComponents {
 	public static final Holder<DataComponentType<Integer>> VIS_CHARGE = register(ItemComponents.VIS_CHARGE, ExtraCodecs.NON_NEGATIVE_INT, ByteBufCodecs.VAR_INT);
 
 	public static final Holder<DataComponentType<Integer>> TIMER = register(ItemComponents.TIMER, ExtraCodecs.NON_NEGATIVE_INT, ByteBufCodecs.VAR_INT);
-
-	public static final Holder<DataComponentType<DyeColor>> DYE_COLOR = register(ItemComponents.DYE_COLOR, DyeColor.CODEC, NeoForgeStreamCodecs.enumCodec(DyeColor.class));
+	public static final Holder<DataComponentType<Integer>> DYE_COLOR = register(ItemComponents.DYE_COLOR, Codec.INT, ByteBufCodecs.VAR_INT);
 
 	public static final Holder<DataComponentType<FortressFaceplateComponent>> ARMOR_FORTRESS_FACEPLATE = register(ItemComponents.ARMOR_FORTRESS_FACEPLATE, FortressFaceplateComponent.CODEC, FortressFaceplateComponent.STREAM_CODEC);
+	public static final Holder<DataComponentType<Unit>> GOGGLE_SIGHT = register(ItemComponents.GOGGLE_SIGHT, Codec.unit(Unit.INSTANCE), StreamCodec.unit(Unit.INSTANCE));
 
 	public static final Holder<DataComponentType<GolemConfiguration>> GOLEM_CONFIG = register(ItemComponents.GOLEM_CONFIG, GolemConfiguration.CODEC, GolemConfiguration.STREAM_CODEC);
 	public static final Holder<DataComponentType<ResourceKey<SealType>>> SEAL_TYPE = register(ItemComponents.SEAL_TYPE,

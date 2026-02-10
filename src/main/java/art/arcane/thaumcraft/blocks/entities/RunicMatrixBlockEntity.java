@@ -1,12 +1,15 @@
 package art.arcane.thaumcraft.blocks.entities;
 
+import art.arcane.thaumcraft.api.capabilities.IGoggleRendererCapability;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundSource;
@@ -36,7 +39,7 @@ import java.util.*;
 
 //TODO: Infusion - Speed and Cost modifiers
 @Getter
-public class RunicMatrixBlockEntity extends SimpleBlockEntity implements TickableBlockEntity {
+public class RunicMatrixBlockEntity extends SimpleBlockEntity implements TickableBlockEntity, IGoggleRendererCapability {
 
     private static final int RADIUS_HORIZONTAL = 8;
     private static final int RADIUS_BELOW = -7;
@@ -62,6 +65,11 @@ public class RunicMatrixBlockEntity extends SimpleBlockEntity implements Tickabl
         this.animationHandler = new AnimationHandler(this);
         this.itemProviders = new ArrayList<>();
     }
+
+	@Override
+	public List<Component> textDisplay() {
+		return List.of(Component.literal("Stable").withStyle(ChatFormatting.BOLD), Component.literal("0.1 gain / cycle").withStyle(ChatFormatting.ITALIC, ChatFormatting.GOLD));
+	}
 
     @Override
     public TickSetting getTickSetting() {

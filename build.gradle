@@ -5,7 +5,7 @@ plugins {
     id 'io.freefair.lombok' version '8.12'
 }
 
-group = 'tld.unknown'
+group = 'art.arcane'
 version = project.mod_version
 
 java {
@@ -42,7 +42,8 @@ dependencies {
 
     implementation project(":Multiblock")
 
-    implementation("curse.maven:terrablender-neoforge-940057:6055021")
+    implementation("curse.maven:terrablender-neoforge-940057:${terrablender_gradle}")
+    implementation("curse.maven:baubles-2-1040353:${baubles_gradle}")
 }
 
 neoForge {

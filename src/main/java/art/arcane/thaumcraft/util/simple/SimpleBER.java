@@ -18,17 +18,16 @@ public abstract class SimpleBER<T extends BlockEntity> implements BlockEntityRen
 
     protected void renderNametag(PoseStack stack, MultiBufferSource source, float y, Component text, int light) {
         stack.pushPose();
+		stack.translate(.5D, .5D + y, .5D);
+		stack.mulPose(context.getEntityRenderer().cameraOrientation());
+		stack.scale(.025F, -.025F, .025F);
 
-        stack.translate(.5D, .5D + y, .5D);
-        stack.mulPose(context.getEntityRenderer().cameraOrientation());
-        stack.scale(.025F, -.025F, .025F);
-
-        int bgColor = (int)(Minecraft.getInstance().options.getBackgroundOpacity(0.25F) * 255.0F) << 24;
-        Matrix4f matrix4f = stack.last().pose();
-        Font font = context.getFont();
-        float centerOffset = (float)(-font.width(text) / 2);
-        font.drawInBatch(text, centerOffset, 0, 553648127, false, matrix4f, source, Font.DisplayMode.SEE_THROUGH, bgColor, light);
-        font.drawInBatch(text, centerOffset, 0, -1, false, matrix4f, source, Font.DisplayMode.NORMAL, 0, light);
+		int bgColor = (int)(Minecraft.getInstance().options.getBackgroundOpacity(0.25F) * 255.0F) << 24;
+		Matrix4f matrix4f = stack.last().pose();
+		Font font = context.getFont();
+		float centerOffset = (float)(-font.width(text) / 2);
+		font.drawInBatch(text, centerOffset, 0, 553648127, false, matrix4f, source, Font.DisplayMode.SEE_THROUGH, bgColor, light);
+		font.drawInBatch(text, centerOffset, 0, -1, false, matrix4f, source, Font.DisplayMode.NORMAL, 0, light);
 
         stack.popPose();
     }

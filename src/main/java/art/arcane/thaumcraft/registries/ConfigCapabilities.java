@@ -19,6 +19,7 @@ public class ConfigCapabilities {
     public static final BlockCapability<IInfusionStabilizerCapability, Void> INFUSION_STABILIZER = BlockCapability.createVoid(Capabilities.INFUSION_STABILIZER, IInfusionStabilizerCapability.class);
     public static final BlockCapability<IInfusionPedestalCapability, Void> INFUSION_PEDESTAL = BlockCapability.createVoid(Capabilities.INFUSION_PEDESTAL, IInfusionPedestalCapability.class);
     public static final BlockCapability<IInfusionModifierCapability, Void> INFUSION_MODIFIER = BlockCapability.createVoid(Capabilities.INFUSION_MODIFIER, IInfusionModifierCapability.class);
+    public static final BlockCapability<IGoggleRendererCapability, Direction> GOGGLE_RENDERER = BlockCapability.createSided(Capabilities.GOGGLE_RENDERER, IGoggleRendererCapability.class);
 
     public static final EntityCapability<IResearchCapability, Void> RESEARCH = EntityCapability.createVoid(Capabilities.RESEARCH, IResearchCapability.class);
 
@@ -32,6 +33,9 @@ public class ConfigCapabilities {
         e.registerBlock(INFUSION_MODIFIER, (level, pos, state, be, $) -> (IInfusionModifierCapability)state.getBlock(), ConfigBlocks.INFUSION_STONE_SPEED.block(), ConfigBlocks.INFUSION_STONE_COST.block());
 
         e.registerEntity(RESEARCH, EntityType.PLAYER, (p, x) -> p.getData(ConfigDataAttachments.PLAYER_RESEARCH));
+
+		e.registerBlockEntity(GOGGLE_RENDERER, ConfigBlockEntities.JAR.entityType(), (be, side) -> be);
+		e.registerBlockEntity(GOGGLE_RENDERER, ConfigBlockEntities.RUNIC_MATRIX.entityType(), (be, side) -> be);
 
         e.registerBlockEntity(net.neoforged.neoforge.capabilities.Capabilities.FluidHandler.BLOCK, ConfigBlockEntities.CRUCIBLE.entityType(), (be, side) -> side == Direction.UP ? be : null);
     }

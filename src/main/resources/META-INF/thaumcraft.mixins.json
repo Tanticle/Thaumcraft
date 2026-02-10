@@ -3,6 +3,7 @@
   "package": "art.arcane.thaumcraft.extensions.mixins",
   "compatibilityLevel": "JAVA_21",
   "mixins": [
+    "ContainerOpenersCounterMixin",
     "RegistriesDatapackGeneratorMixin"
   ],
   "client": [
