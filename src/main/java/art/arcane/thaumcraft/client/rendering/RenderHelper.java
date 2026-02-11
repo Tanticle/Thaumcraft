@@ -19,10 +19,9 @@ import org.joml.Matrix4f;
 import org.joml.Vector2f;
 import org.joml.Vector3f;
 import art.arcane.thaumcraft.Thaumcraft;
+import org.joml.Vector4f;
 
 public final class RenderHelper {
-
-    public static final CuboidRenderer CUBOID_RENDERER = new CuboidRenderer();
 
     public static TextureAtlasSprite getFluidSprite(FluidStack b) {
         ResourceLocation texture = IClientFluidTypeExtensions.of(b.getFluid()).getStillTexture(b);
@@ -39,43 +38,43 @@ public final class RenderHelper {
         });
     }
 
-    public static void drawFace(Direction dir, VertexConsumer consumer, Matrix4f modelMatrix, Vector3f min, Vector3f max, int colour, float minU, float minV, float maxU, float maxV, boolean applyLight, int light, boolean applyOverlay, int overlay) {
+    public static void drawFace(Direction dir, VertexConsumer consumer, Matrix4f modelMatrix, Vector3f min, Vector3f max, int colour, Vector4f uv, boolean applyLight, int light, boolean applyOverlay, int overlay) {
         switch(dir) {
             case UP -> {
-                fillVertex(consumer, modelMatrix, max.x(), max.y(), min.z(), colour, maxU, minV, applyLight, light, applyOverlay, overlay);
-                fillVertex(consumer, modelMatrix, min.x(), max.y(), min.z(), colour, minU, minV, applyLight, light, applyOverlay, overlay);
-                fillVertex(consumer, modelMatrix, min.x(), max.y(), max.z(), colour, minU, maxV, applyLight, light, applyOverlay, overlay);
-                fillVertex(consumer, modelMatrix, max.x(), max.y(), max.z(), colour, maxU, maxV, applyLight, light, applyOverlay, overlay);
+                fillVertex(consumer, modelMatrix, max.x(), max.y(), min.z(), colour, uv.z(), uv.y(), applyLight, light, applyOverlay, overlay);
+                fillVertex(consumer, modelMatrix, min.x(), max.y(), min.z(), colour, uv.x(), uv.y(), applyLight, light, applyOverlay, overlay);
+                fillVertex(consumer, modelMatrix, min.x(), max.y(), max.z(), colour, uv.x(), uv.w(), applyLight, light, applyOverlay, overlay);
+                fillVertex(consumer, modelMatrix, max.x(), max.y(), max.z(), colour, uv.z(), uv.w(), applyLight, light, applyOverlay, overlay);
             }
             case DOWN -> {
-                fillVertex(consumer, modelMatrix, max.x(), min.y(), min.z(), colour, maxU, minV, applyLight, light, applyOverlay, overlay);
-                fillVertex(consumer, modelMatrix, max.x(), min.y(), max.z(), colour, maxU, maxV, applyLight, light, applyOverlay, overlay);
-                fillVertex(consumer, modelMatrix, min.x(), min.y(), max.z(), colour, minU, maxV, applyLight, light, applyOverlay, overlay);
-                fillVertex(consumer, modelMatrix, min.x(), min.y(), min.z(), colour, minU, minV, applyLight, light, applyOverlay, overlay);
+                fillVertex(consumer, modelMatrix, max.x(), min.y(), min.z(), colour, uv.z(), uv.y(), applyLight, light, applyOverlay, overlay);
+                fillVertex(consumer, modelMatrix, max.x(), min.y(), max.z(), colour, uv.z(), uv.w(), applyLight, light, applyOverlay, overlay);
+                fillVertex(consumer, modelMatrix, min.x(), min.y(), max.z(), colour, uv.x(), uv.w(), applyLight, light, applyOverlay, overlay);
+                fillVertex(consumer, modelMatrix, min.x(), min.y(), min.z(), colour, uv.x(), uv.y(), applyLight, light, applyOverlay, overlay);
             }
             case NORTH -> {
-                fillVertex(consumer, modelMatrix, max.x(), min.y(), min.z(), colour, maxU, minV, applyLight, light, applyOverlay, overlay);
-                fillVertex(consumer, modelMatrix, min.x(), min.y(), min.z(), colour, minU, minV, applyLight, light, applyOverlay, overlay);
-                fillVertex(consumer, modelMatrix, min.x(), max.y(), min.z(), colour, minU, maxV, applyLight, light, applyOverlay, overlay);
-                fillVertex(consumer, modelMatrix, max.x(), max.y(), min.z(), colour, maxU, maxV, applyLight, light, applyOverlay, overlay);
+                fillVertex(consumer, modelMatrix, max.x(), min.y(), min.z(), colour, uv.z(), uv.y(), applyLight, light, applyOverlay, overlay);
+                fillVertex(consumer, modelMatrix, min.x(), min.y(), min.z(), colour, uv.x(), uv.y(), applyLight, light, applyOverlay, overlay);
+                fillVertex(consumer, modelMatrix, min.x(), max.y(), min.z(), colour, uv.x(), uv.w(), applyLight, light, applyOverlay, overlay);
+                fillVertex(consumer, modelMatrix, max.x(), max.y(), min.z(), colour, uv.z(), uv.w(), applyLight, light, applyOverlay, overlay);
             }
             case SOUTH -> {
-                fillVertex(consumer, modelMatrix, max.x(), min.y(), max.z(), colour, maxU, minV, applyLight, light, applyOverlay, overlay);
-                fillVertex(consumer, modelMatrix, max.x(), max.y(), max.z(), colour, maxU, maxV, applyLight, light, applyOverlay, overlay);
-                fillVertex(consumer, modelMatrix, min.x(), max.y(), max.z(), colour, minU, maxV, applyLight, light, applyOverlay, overlay);
-                fillVertex(consumer, modelMatrix, min.x(), min.y(), max.z(), colour, minU, minV, applyLight, light, applyOverlay, overlay);
+                fillVertex(consumer, modelMatrix, max.x(), min.y(), max.z(), colour, uv.z(), uv.y(), applyLight, light, applyOverlay, overlay);
+                fillVertex(consumer, modelMatrix, max.x(), max.y(), max.z(), colour, uv.z(), uv.w(), applyLight, light, applyOverlay, overlay);
+                fillVertex(consumer, modelMatrix, min.x(), max.y(), max.z(), colour, uv.x(), uv.w(), applyLight, light, applyOverlay, overlay);
+                fillVertex(consumer, modelMatrix, min.x(), min.y(), max.z(), colour, uv.x(), uv.y(), applyLight, light, applyOverlay, overlay);
             }
             case EAST -> {
-                fillVertex(consumer, modelMatrix, max.x(), min.y(), max.z(), colour, maxU, minV, applyLight, light, applyOverlay, overlay);
-                fillVertex(consumer, modelMatrix, max.x(), min.y(), min.z(), colour, minU, minV, applyLight, light, applyOverlay, overlay);
-                fillVertex(consumer, modelMatrix, max.x(), max.y(), min.z(), colour, minU, maxV, applyLight, light, applyOverlay, overlay);
-                fillVertex(consumer, modelMatrix, max.x(), max.y(), max.z(), colour, maxU, maxV, applyLight, light, applyOverlay, overlay);
+                fillVertex(consumer, modelMatrix, max.x(), min.y(), max.z(), colour, uv.z(), uv.y(), applyLight, light, applyOverlay, overlay);
+                fillVertex(consumer, modelMatrix, max.x(), min.y(), min.z(), colour, uv.x(), uv.y(), applyLight, light, applyOverlay, overlay);
+                fillVertex(consumer, modelMatrix, max.x(), max.y(), min.z(), colour, uv.x(), uv.w(), applyLight, light, applyOverlay, overlay);
+                fillVertex(consumer, modelMatrix, max.x(), max.y(), max.z(), colour, uv.z(), uv.w(), applyLight, light, applyOverlay, overlay);
             }
             case WEST -> {
-                fillVertex(consumer, modelMatrix, min.x(), min.y(), max.z(), colour, maxU, minV, applyLight, light, applyOverlay, overlay);
-                fillVertex(consumer, modelMatrix, min.x(), max.y(), max.z(), colour, maxU, maxV, applyLight, light, applyOverlay, overlay);
-                fillVertex(consumer, modelMatrix, min.x(), max.y(), min.z(), colour, minU, maxV, applyLight, light, applyOverlay, overlay);
-                fillVertex(consumer, modelMatrix, min.x(), min.y(), min.z(), colour, minU, minV, applyLight, light, applyOverlay, overlay);
+                fillVertex(consumer, modelMatrix, min.x(), min.y(), max.z(), colour, uv.z(), uv.y(), applyLight, light, applyOverlay, overlay);
+                fillVertex(consumer, modelMatrix, min.x(), max.y(), max.z(), colour, uv.z(), uv.w(), applyLight, light, applyOverlay, overlay);
+                fillVertex(consumer, modelMatrix, min.x(), max.y(), min.z(), colour, uv.x(), uv.w(), applyLight, light, applyOverlay, overlay);
+                fillVertex(consumer, modelMatrix, min.x(), min.y(), min.z(), colour, uv.x(), uv.y(), applyLight, light, applyOverlay, overlay);
             }
         }
     }

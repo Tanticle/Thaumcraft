@@ -134,6 +134,8 @@ public class ItemModelProvider extends ModelProvider {
 				ItemDisplayContext.FIXED, t ->
 						t.translation(-3F, -3.26F, -2.25F).scale(0.4F).rotation(-90, 180, 0)
 		));
+
+		simpleItem(ConfigItems.GOGGLES);
     }
 
     protected void simpleItem(Holder<? extends Item> item, String... parentFolder) {

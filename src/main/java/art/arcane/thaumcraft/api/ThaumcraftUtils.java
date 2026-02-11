@@ -14,7 +14,7 @@ public final class ThaumcraftUtils {
     }
 
 	public static boolean playerHasGoggleSight(Player player) {
-		return player.getInventory().getArmor(0).has(ConfigItemComponents.GOGGLE_SIGHT.value()) ||
+		return player.getInventory().getArmor(3).has(ConfigItemComponents.GOGGLE_SIGHT.value()) ||
 				Baubles.API.getBaublesInventory(player).getBaubleInSlot(BaubleType.HEAD).has(ConfigItemComponents.GOGGLE_SIGHT.value()) ||
 				player.getMainHandItem().has(ConfigItemComponents.GOGGLE_SIGHT.value()) ||
 				player.getOffhandItem().has(ConfigItemComponents.GOGGLE_SIGHT.value());

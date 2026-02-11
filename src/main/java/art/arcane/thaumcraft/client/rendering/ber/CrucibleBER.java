@@ -1,11 +1,9 @@
 package art.arcane.thaumcraft.client.rendering.ber;
 
-import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
-import net.minecraft.client.renderer.texture.TextureAtlas;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.core.Direction;
 import net.neoforged.neoforge.fluids.FluidStack;
@@ -14,6 +12,7 @@ import art.arcane.thaumcraft.blocks.entities.CrucibleBlockEntity;
 import art.arcane.thaumcraft.client.rendering.RenderHelper;
 import art.arcane.thaumcraft.util.FluidHelper;
 import art.arcane.thaumcraft.util.simple.SimpleBER;
+import org.joml.Vector4f;
 
 public class CrucibleBER extends SimpleBER<CrucibleBlockEntity> {
 
@@ -42,7 +41,7 @@ public class CrucibleBER extends SimpleBER<CrucibleBlockEntity> {
             RenderHelper.drawFace(Direction.UP,
                     pBufferSource.getBuffer(RenderType.translucent()), pPoseStack.last().pose(),
                     new Vector3f(0, 0, 0), new Vector3f(1, 0, 1), RenderHelper.getFluidTint(fluid),
-                    sprite.getU0(), sprite.getV0(), sprite.getU1(), sprite.getV1(), true, pPackedLight, false, 0);
+                    new Vector4f(sprite.getU0(), sprite.getV0(), sprite.getU1(), sprite.getV1()), true, pPackedLight, false, 0);
             pPoseStack.popPose();
         }
     }
