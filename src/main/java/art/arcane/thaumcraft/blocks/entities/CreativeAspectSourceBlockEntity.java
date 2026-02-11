@@ -77,7 +77,7 @@ public class CreativeAspectSourceBlockEntity extends SimpleBlockEntity implement
 
     @Override
     public int drainAspect(ResourceKey<Aspect> aspect, int amount, Direction dir) {
-        return compliesToAspect(aspect, dir) ? Math.min(amount, FILLED_AMOUNT) : 0;
+        return amount > 0 && compliesToAspect(aspect, dir) ? Math.min(amount, FILLED_AMOUNT) : 0;
     }
 
     @Override
@@ -92,12 +92,12 @@ public class CreativeAspectSourceBlockEntity extends SimpleBlockEntity implement
 
     @Override
     public boolean contains(ResourceKey<Aspect> aspect, int amount, Direction dir) {
-        return compliesToAspect(aspect, dir) && amount <= FILLED_AMOUNT;
+        return amount > 0 && compliesToAspect(aspect, dir) && amount <= FILLED_AMOUNT;
     }
 
     @Override
     public boolean compliesToAspect(ResourceKey<Aspect> aspect, Direction dir) {
-        return aspect.equals(this.aspect);
+        return this.aspect != null && (aspect == null || aspect.equals(this.aspect));
     }
 
     @Override

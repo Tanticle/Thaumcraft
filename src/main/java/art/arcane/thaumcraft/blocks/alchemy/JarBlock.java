@@ -17,6 +17,9 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SoundType;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityTicker;
+import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
@@ -32,6 +35,7 @@ import art.arcane.thaumcraft.blocks.entities.JarBlockEntity;
 import art.arcane.thaumcraft.items.resources.JarLabelItem;
 import art.arcane.thaumcraft.util.simple.SimpleBlockMaterials;
 import art.arcane.thaumcraft.util.simple.SimpleEntityBlock;
+import art.arcane.thaumcraft.util.simple.TickableBlockEntity;
 
 public class JarBlock extends SimpleEntityBlock<JarBlockEntity> {
 
@@ -67,6 +71,21 @@ public class JarBlock extends SimpleEntityBlock<JarBlockEntity> {
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> pBuilder) {
         pBuilder.add(CONNECTED).add(BRACED);
+    }
+
+    @Nullable
+    @Override
+    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> blockEntityType) {
+        return (l, p, s, be) -> {
+            if (be instanceof TickableBlockEntity tickable) {
+                if (l.isClientSide() && tickable.getTickSetting().isTickClient()) {
+                    tickable.onClientTick();
+                }
+                if (!l.isClientSide() && tickable.getTickSetting().isTickServer()) {
+                    tickable.onServerTick();
+                }
+            }
+        };
     }
 
     @Override
