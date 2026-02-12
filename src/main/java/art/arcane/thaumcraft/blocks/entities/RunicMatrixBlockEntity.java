@@ -87,7 +87,9 @@ public class RunicMatrixBlockEntity extends SimpleBlockEntity implements Tickabl
     }
 
     @Override
-    public void onServerTick() { }
+    public void onServerTick() {
+
+	}
 
     @Override
     public void onClientTick() {
