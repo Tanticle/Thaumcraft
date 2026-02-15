@@ -1,9 +1,13 @@
 package art.arcane.thaumcraft.blocks.entities;
 
 import art.arcane.thaumcraft.api.capabilities.IGoggleRendererCapability;
+import art.arcane.thaumcraft.api.enums.InfusionStability;
+import com.mojang.blaze3d.vertex.PoseStack;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import net.minecraft.ChatFormatting;
+import net.minecraft.client.DeltaTracker;
+import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
@@ -35,6 +39,7 @@ import art.arcane.thaumcraft.util.CraftingUtils;
 import art.arcane.thaumcraft.util.simple.SimpleBlockEntity;
 import art.arcane.thaumcraft.util.simple.TickableBlockEntity;
 
+import java.text.DecimalFormat;
 import java.util.*;
 
 //TODO: Infusion - Speed and Cost modifiers
@@ -45,11 +50,13 @@ public class RunicMatrixBlockEntity extends SimpleBlockEntity implements Tickabl
     private static final int RADIUS_BELOW = -7;
     private static final int RADIUS_ABOVE = 3;
 
-    private static final int CYCLE_TIME_DEFAULT = 10;
+    private static final int CYCLE_TIME_DEFAULT = 20;
+	private static final float STABILITY_CAP = 25F;
+
+	private static final DecimalFormat DECIMAL_FORMAT = new DecimalFormat("#######.##");
 
     private final AnimationHandler animationHandler;
     private MatrixState state;
-    private AltarTier tier;
 
     private RecipeHolder<InfusionRecipe> currentRecipe;
     private AspectList requiredEssentia;
@@ -58,20 +65,36 @@ public class RunicMatrixBlockEntity extends SimpleBlockEntity implements Tickabl
     private int cycleSpeed;
     private float costModifier;
 
+	private float stability, stabilityModifier;
+	private boolean shouldRecheckEnvironment;
+
     public RunicMatrixBlockEntity(BlockPos pPos, BlockState pBlockState) {
         super(ConfigBlockEntities.RUNIC_MATRIX.entityType(), pPos, pBlockState);
         this.state = MatrixState.INACTIVE;
-        this.tier = AltarTier.ARCANE;
         this.animationHandler = new AnimationHandler(this);
         this.itemProviders = new ArrayList<>();
     }
 
 	@Override
 	public List<Component> textDisplay() {
-		return List.of(Component.literal("Stable").withStyle(ChatFormatting.BOLD), Component.literal("0.1 gain / cycle").withStyle(ChatFormatting.ITALIC, ChatFormatting.GOLD));
+		List<Component> list = new ArrayList<>();
+		InfusionStability stabilityType = getInfusionStability();
+		list.add(stabilityType.getMessage().withStyle(ChatFormatting.BOLD));
+		list.add(Component.translatable("msg.thaumcraft.infusion_gain", DECIMAL_FORMAT.format(stabilityModifier)).withStyle(ChatFormatting.ITALIC, ChatFormatting.GOLD));
+		if(this.state == MatrixState.CRAFTING || this.state == MatrixState.ABSORBING) {
+			float loss = currentRecipe.value().instability() / stabilityType.getModifier();
+			if(loss != 0.0F)
+				list.add(Component.translatable("msg.thaumcraft.infusion_loss", DECIMAL_FORMAT.format(loss)).withStyle(ChatFormatting.ITALIC, ChatFormatting.RED));
+		}
+		return list;
 	}
 
-    @Override
+	@Override
+	public void render(PoseStack stack, MultiBufferSource buffer, DeltaTracker deltaTracker) {
+		//TODO - Aspect Container Rendering
+	}
+
+	@Override
     public TickSetting getTickSetting() {
         return TickSetting.SERVER_AND_CLIENT;
     }
@@ -88,7 +111,26 @@ public class RunicMatrixBlockEntity extends SimpleBlockEntity implements Tickabl
 
     @Override
     public void onServerTick() {
+		if(this.state == MatrixState.INACTIVE)
+			return;
 
+		if(shouldRecheckEnvironment) {
+			shouldRecheckEnvironment = false;
+			scanEnvironment();
+		}
+
+		if(!CraftingUtils.verifyInfusionAltarStructure(level, this.getBlockPos(), false))
+			this.state = MatrixState.STOPPING;
+
+		switch(this.state) {
+			case CRAFTING, ABSORBING -> {
+				//TODO - Do crafting
+			}
+			case IDLE ->  {
+				if(this.stability < STABILITY_CAP)
+					stability = Math.min(STABILITY_CAP, stability + Math.max(.1F, stabilityModifier));
+			}
+		}
 	}
 
     @Override
@@ -135,7 +177,7 @@ public class RunicMatrixBlockEntity extends SimpleBlockEntity implements Tickabl
                 }
             }
         }
-        //TODO: Infusion - Instability
+        //TODO: Infusion - Instability modifiers, Symmetry
         return true;
     }
 
@@ -171,6 +213,14 @@ public class RunicMatrixBlockEntity extends SimpleBlockEntity implements Tickabl
         List<ItemStack> components = itemProviders.stream().map(be -> level.getCapability(ConfigCapabilities.INFUSION_PEDESTAL, be.getBlockPos()).getItem()).filter(item -> item != ItemStack.EMPTY).toList();
         return CraftingUtils.findInfusionRecipe((ServerLevel)level, new InfusionRecipe.Input(catalyst, NonNullList.copyOf(components), research));
     }
+
+	public InfusionStability getInfusionStability() {
+		if(stability > 0F) {
+			return stability > STABILITY_CAP / 2 ? InfusionStability.VERY_STABLE : InfusionStability.STABLE;
+		} else {
+			return stability > -STABILITY_CAP ? InfusionStability.VERY_UNSTABLE : InfusionStability.UNSTABLE;
+		}
+	}
 
     public static class AnimationHandler {
 
@@ -234,9 +284,9 @@ public class RunicMatrixBlockEntity extends SimpleBlockEntity implements Tickabl
         INACTIVE,
         STARTING,
         IDLE,
+		STOPPING,
         ABSORBING,
-        CRAFTING,
-        EXPLODING;
+        CRAFTING;
 
         @Override
         public String getSerializedName() {
