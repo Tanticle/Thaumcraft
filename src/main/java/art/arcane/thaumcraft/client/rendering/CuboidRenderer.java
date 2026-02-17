@@ -54,7 +54,6 @@ public class CuboidRenderer {
 		uvs.clear();
 		CUBE_UV.forEach((direction, uv) -> {
 			Vector4f coords = uv.apply(width * 16, height * 16, depth * 16).add(texOffsetX, texOffsetY, texOffsetX, texOffsetY);
-			System.out.println("Direction: " + direction + " | UVs: " + coords);
 			uvs.put(direction, coords.div(texSizeWidth, texSizeHeight, texSizeWidth, texSizeHeight));
 		});
 		return this;
