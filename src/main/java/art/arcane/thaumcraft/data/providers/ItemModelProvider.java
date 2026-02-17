@@ -84,6 +84,7 @@ public class ItemModelProvider extends ModelProvider {
 
         // Tools
         batchItems("tools",
+                ConfigItems.GAUNTLET,
                 ConfigItems.ELEMENTAL_AXE, ConfigItems.ELEMENTAL_HOE, ConfigItems.ELEMENTAL_PICKAXE, ConfigItems.ELEMENTAL_SHOVEL, ConfigItems.ELEMENTAL_SWORD,
                 ConfigItems.THAUMIUM_AXE, ConfigItems.THAUMIUM_HOE, ConfigItems.THAUMIUM_PICKAXE, ConfigItems.THAUMIUM_SHOVEL, ConfigItems.THAUMIUM_SWORD,
                 ConfigItems.VOID_AXE, ConfigItems.VOID_HOE, ConfigItems.VOID_PICKAXE, ConfigItems.VOID_SHOVEL, ConfigItems.VOID_SWORD,

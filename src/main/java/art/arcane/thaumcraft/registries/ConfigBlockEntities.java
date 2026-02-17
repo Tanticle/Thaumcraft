@@ -5,6 +5,8 @@ import art.arcane.thaumcraft.blocks.entities.NitorBlockEntity;
 import art.arcane.thaumcraft.blocks.entities.CreativeAspectSourceBlockEntity;
 import art.arcane.thaumcraft.blocks.entities.CrucibleBlockEntity;
 import art.arcane.thaumcraft.blocks.entities.DioptraBlockEntity;
+import art.arcane.thaumcraft.blocks.entities.EssentiaInputBlockEntity;
+import art.arcane.thaumcraft.blocks.entities.EssentiaOutputBlockEntity;
 import art.arcane.thaumcraft.blocks.entities.EverfullUrnBlockEntity;
 import art.arcane.thaumcraft.blocks.entities.HungryChestBlockEntity;
 import art.arcane.thaumcraft.blocks.entities.JarBlockEntity;
@@ -12,6 +14,11 @@ import art.arcane.thaumcraft.blocks.entities.LevitatorBlockEntity;
 import art.arcane.thaumcraft.blocks.entities.PedestalBlockEntity;
 import art.arcane.thaumcraft.blocks.entities.RunicMatrixBlockEntity;
 import art.arcane.thaumcraft.blocks.entities.TubeBlockEntity;
+import art.arcane.thaumcraft.blocks.entities.TubeBufferBlockEntity;
+import art.arcane.thaumcraft.blocks.entities.TubeFilterBlockEntity;
+import art.arcane.thaumcraft.blocks.entities.TubeOnewayBlockEntity;
+import art.arcane.thaumcraft.blocks.entities.TubeRestrictBlockEntity;
+import art.arcane.thaumcraft.blocks.entities.TubeValveBlockEntity;
 import lombok.RequiredArgsConstructor;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
@@ -57,6 +64,34 @@ public final class ConfigBlockEntities {
     public static final BlockEntityObject<TubeBlockEntity> TUBE = register(BlockEntities.TUBE,
             TubeBlockEntity::new,
             ConfigBlocks.TUBE);
+
+    public static final BlockEntityObject<TubeValveBlockEntity> TUBE_VALVE = register(BlockEntities.TUBE_VALVE,
+            TubeValveBlockEntity::new,
+            ConfigBlocks.TUBE_VALVE);
+
+    public static final BlockEntityObject<TubeFilterBlockEntity> TUBE_FILTER = register(BlockEntities.TUBE_FILTER,
+            TubeFilterBlockEntity::new,
+            ConfigBlocks.TUBE_FILTER);
+
+    public static final BlockEntityObject<TubeRestrictBlockEntity> TUBE_RESTRICT = register(BlockEntities.TUBE_RESTRICT,
+            TubeRestrictBlockEntity::new,
+            ConfigBlocks.TUBE_RESTRICT);
+
+    public static final BlockEntityObject<TubeOnewayBlockEntity> TUBE_ONEWAY = register(BlockEntities.TUBE_ONEWAY,
+            TubeOnewayBlockEntity::new,
+            ConfigBlocks.TUBE_ONEWAY);
+
+    public static final BlockEntityObject<TubeBufferBlockEntity> TUBE_BUFFER = register(BlockEntities.TUBE_BUFFER,
+            TubeBufferBlockEntity::new,
+            ConfigBlocks.TUBE_BUFFER);
+
+    public static final BlockEntityObject<EssentiaInputBlockEntity> ESSENTIA_INPUT = register(BlockEntities.ESSENTIA_INPUT,
+            EssentiaInputBlockEntity::new,
+            ConfigBlocks.ESSENTIA_INPUT);
+
+    public static final BlockEntityObject<EssentiaOutputBlockEntity> ESSENTIA_OUTPUT = register(BlockEntities.ESSENTIA_OUTPUT,
+            EssentiaOutputBlockEntity::new,
+            ConfigBlocks.ESSENTIA_OUTPUT);
 
     public static final BlockEntityObject<CreativeAspectSourceBlockEntity> CREATIVE_ASPECT_SOURCE = register(BlockEntities.CREATIVE_ASPECT_SOURCE,
             CreativeAspectSourceBlockEntity::new,

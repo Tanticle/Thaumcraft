@@ -14,6 +14,7 @@ import art.arcane.thaumcraft.client.fx.ThaumcraftFX;
 import art.arcane.thaumcraft.items.tools.ElementalShovelItem;
 import art.arcane.thaumcraft.networking.packets.ClientboundAspectRegistrySyncPacket;
 import art.arcane.thaumcraft.networking.packets.ClientboundBamfEffectPacket;
+import art.arcane.thaumcraft.networking.packets.ClientboundEssentiaTrailPacket;
 import art.arcane.thaumcraft.networking.packets.ClientboundSalisMundusEffectPacket;
 import art.arcane.thaumcraft.networking.packets.ClientboundSoundingPacket;
 import art.arcane.thaumcraft.networking.packets.ServerboundCycleToolModePacket;
@@ -45,6 +46,10 @@ public class ThaumcraftNetworking {
 
         registrar.playToClient(ClientboundBamfEffectPacket.TYPE, ClientboundBamfEffectPacket.STREAM_CODEC, (data, ctx) -> {
             ctx.enqueueWork(() -> ThaumcraftFX.drawBamf(data));
+        });
+
+        registrar.playToClient(ClientboundEssentiaTrailPacket.TYPE, ClientboundEssentiaTrailPacket.STREAM_CODEC, (data, ctx) -> {
+            ctx.enqueueWork(() -> ThaumcraftFX.drawEssentiaTrail(data));
         });
 
         registrar.playToServer(ServerboundCycleToolModePacket.TYPE, ServerboundCycleToolModePacket.STREAM_CODEC, (data, ctx) -> {
