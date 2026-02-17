@@ -88,6 +88,9 @@ Nothing so far. :)
     - [ ] Shield Rune Effects
     - [ ] Block Ward Visuals
     - [ ] Essentia Stream Visuals
+- [ ] **Goggle Sight**
+  - [ ] Aspect Containers (Jars etc.)
+  - [ ] Infusion Matrix (Status; Stability)
 
 ### World Generation & Environment
 
@@ -216,9 +219,17 @@ Nothing so far. :)
 - [X] Cultist Armor (Robes, Plate, Leader)
     - [ ] Better System for 3D Armor (For the love of god, it's awful)
     - [ ] Cloth Flaps
-- [ ] Fortress Armor (Helm upgrades: Masks)
-- [ ] Goggles of Revealing (HUD overlay)
-- [X] Boots of the Traveller (Jump/Speed boost)
+- [ ] Fortress Armor
+  -  [X] Main Armor Set
+  -  [X] Goggle Effect
+  -  [ ] Devil Mask Effect
+  -  [ ] Ghost Mask Effect
+  -  [ ] Fiend Mask Effect
+- [X] Goggles of Revealing
+  - [X] Armor Piece
+  - [X] Bauble
+  - [X] Goggle Effect
+- [X] Boots of the Traveller
 
 ### Equipment: Tools & Weapons
 
@@ -337,9 +348,9 @@ Nothing so far. :)
 - [X] Arcane Stone Blocks (Bricks, Smooth, Pillars)
 - [X] Eldritch Stone (+ Stairs, Slabs)
 - [X] Ancient Stone (+ Tile, Stairs, Slabs)
-- [X] Pedestals (Ancient, Eldritch, Arcane)
+- [~] Pedestals (Ancient, Eldritch, Arcane)
     - [ ] Stabilization
-    - [ ] Viewmodels
+    - [X] Viewmodels
 - [ ] Candles (16 colors)
 - [ ] Banners (TC specific)
 - [ ] Paving Stones (Arcane, Barrier, Travel)

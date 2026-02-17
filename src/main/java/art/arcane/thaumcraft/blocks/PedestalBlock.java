@@ -1,7 +1,9 @@
 package art.arcane.thaumcraft.blocks;
 
+import art.arcane.thaumcraft.registries.ConfigBlocks;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
@@ -30,9 +32,14 @@ import art.arcane.thaumcraft.util.simple.SimpleEntityBlock;
 public class PedestalBlock extends SimpleEntityBlock<PedestalBlockEntity> implements IInfusionModifierCapability {
 
     private static final VoxelShape SHAPE = Shapes.or(
-            Block.box(0, 0, 0, 16, 4, 16),
-            Block.box(4, 4, 4, 12, 12, 12),
-            Block.box(2, 12, 2, 14, 16, 14));
+			Block.box(0, 0, 0, 16, 4, 16),
+			Block.box(4, 4, 4, 12, 12, 12),
+			Block.box(2, 12, 2, 14, 16, 14));
+
+	private static final VoxelShape SHAPE_ALT = Shapes.or(
+			Block.box(0, 0, 0, 16, 4, 16),
+			Block.box(2, 4, 2, 14, 8, 14),
+			Block.box(4, 8, 4, 12, 12, 12));
 
     public static final IntegerProperty STABILIZED = IntegerProperty.create("stabilized", 0, 15);
 
@@ -52,12 +59,7 @@ public class PedestalBlock extends SimpleEntityBlock<PedestalBlockEntity> implem
 
     @Override
     public VoxelShape getShape(BlockState pState, BlockGetter pLevel, BlockPos pPos, CollisionContext pContext) {
-        return SHAPE;
-    }
-
-    @Override
-    public boolean skipRendering(BlockState pState, BlockState pAdjacentBlockState, Direction pDirection) {
-        return pDirection == Direction.DOWN;
+        return pState.getBlock() == ConfigBlocks.ARCANE_PEDESTAL.block() ? SHAPE : SHAPE_ALT;
     }
 
     @Override

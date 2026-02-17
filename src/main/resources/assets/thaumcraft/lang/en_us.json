@@ -186,6 +186,8 @@
   "item.thaumcraft.loot_bag_rare": "Rare Loot Bag",
   "item.thaumcraft.zombie_brain": "Zombie Brain",
   "item.thaumcraft.triple_meat_treat": "Triple Meat Treat",
+  "item.thaumcraft.scanner": "Thaumometer",
+  "item.thaumcraft.goggles": "Goggles of Revealing",
 
   "enchantment.thaumcraft.burrowing": "Burrowing",
   "enchantment.thaumcraft.destructive": "Destructive",
@@ -276,6 +278,13 @@
   "msg.thaumcraft.gauntlet.choke.open": "Open",
   "msg.thaumcraft.gauntlet.choke.half": "Half",
   "msg.thaumcraft.gauntlet.choke.closed": "Closed",
+  "msg.thaumcraft.infusion_stability_very_stable": "Very Stable",
+  "msg.thaumcraft.infusion_stability_stable": "Stable",
+  "msg.thaumcraft.infusion_stability_unstable": "Unstable",
+  "msg.thaumcraft.infusion_stability_very_unstable": "Very Unstable",
+  "msg.thaumcraft.infusion_stability_calamitous": "Calamitous",
+  "msg.thaumcraft.infusion_gain": "%.2f gain / cycle",
+  "msg.thaumcraft.infusion_loss": "0 to %.2f loss / cycle",
 
   "misc.thaumcraft.tooltip.warping": "Warping %s",
   "misc.thaumcraft.tooltip.vis_modifier_positive": "Vis Discount: %.1f%%",

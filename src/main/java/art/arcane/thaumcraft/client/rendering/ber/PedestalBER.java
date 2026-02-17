@@ -1,5 +1,7 @@
 package art.arcane.thaumcraft.client.rendering.ber;
 
+import art.arcane.thaumcraft.registries.ConfigBlocks;
+import art.arcane.thaumcraft.registries.ConfigItems;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -28,10 +30,9 @@ public class PedestalBER extends SimpleBER<PedestalBlockEntity> {
             pPoseStack.pushPose();
             ItemStack itemstack = pBlockEntity.getItemStack();
 
-            pPoseStack.translate(.5F, 1.25F, .5F);
+            pPoseStack.translate(.5F, pBlockEntity.getBlockState().getBlock() == ConfigBlocks.ARCANE_PEDESTAL.block() ? 1.25F : 1F, .5F);
             float gameTime = pBlockEntity.getLevel().getGameTime();
             pPoseStack.mulPose(Axis.YP.rotationDegrees(Mth.rotLerp(pPartialTick, (gameTime + pPartialTick - 1) % 360, gameTime % 360)));
-
 
             this.itemRenderer.renderStatic(itemstack, ItemDisplayContext.GROUND, pPackedLight, OverlayTexture.NO_OVERLAY, pPoseStack, pBufferSource, pBlockEntity.getLevel(), 0);
 

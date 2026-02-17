@@ -430,6 +430,7 @@ public final class ThaumcraftData {
         public static final ResourceKey<EquipmentAsset> CRIMSON_LEADER = key("crimson_leader");
         public static final ResourceKey<EquipmentAsset> CRIMSON_BOOTS = key("crimson_boots");
         public static final ResourceKey<EquipmentAsset> TRAVELLER = key("traveller_boots");
+        public static final ResourceKey<EquipmentAsset> GOGGLES = key("goggles");
 
         private static ResourceKey<EquipmentAsset> key(String id) {
             return ResourceKey.create(EquipmentAssets.ROOT_ID, Thaumcraft.id(id));

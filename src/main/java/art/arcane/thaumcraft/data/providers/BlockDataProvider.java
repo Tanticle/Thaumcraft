@@ -494,6 +494,12 @@ public class BlockDataProvider extends ModelProvider {
         blockParentItem(block, model);
     }
 
+	private void simpleExistingModel(ConfigBlocks.BlockObject<? extends Block> block, ResourceLocation modelId, String... subfolders) {
+		ResourceLocation model = RegistryUtils.getBlockLocation(modelId, subfolders);
+		blocks.blockStateOutput.accept(MultiVariantGenerator.multiVariant(block.block(), Variant.variant().with(VariantProperties.MODEL, model)));
+		blockParentItem(block, model);
+	}
+
     private void registerStairAndSlab(ConfigBlocks.BlockObject<? extends Block> block, ConfigBlocks.BlockObject<? extends StairBlock> stairs, ConfigBlocks.BlockObject<? extends SlabBlock> slab, boolean uniqueTextures) {
         ResourceLocation texture = RegistryUtils.getBlockLocation(block.blockSupplier());
         TextureMapping mapping = new TextureMapping().put(TextureSlot.PARTICLE, texture.withSuffix(uniqueTextures ? "_0" : ""))

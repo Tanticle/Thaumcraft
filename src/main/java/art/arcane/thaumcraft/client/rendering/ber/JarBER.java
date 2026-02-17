@@ -1,5 +1,6 @@
 package art.arcane.thaumcraft.client.rendering.ber;
 
+import art.arcane.thaumcraft.client.rendering.CuboidRenderer;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
@@ -63,11 +64,11 @@ public class JarBER extends SimpleBER<JarBlockEntity> {
         VertexConsumer consumer = pBufferSource.getBuffer(Sheets.solidBlockSheet());
         float fluidHeight = FLUID_HEIGHT * pBlockEntity.getFillPercent();
 
-        RenderHelper.CUBOID_RENDERER.prepare(FLUID_WIDTH, fluidHeight, FLUID_WIDTH, 16, 16,
+        new CuboidRenderer(FLUID_WIDTH, fluidHeight, FLUID_WIDTH, 16, 16,
                         Minecraft.getInstance().getTextureAtlas(TextureAtlas.LOCATION_BLOCKS).apply(FILLED_TEXTURE))
-                .setUVs(Direction.Axis.X, 4, 0, 12, 10 * pBlockEntity.getFillPercent())
-                .setUVs(Direction.Axis.Z, 4, 0, 12, 10 * pBlockEntity.getFillPercent())
-                .setUVs(Direction.Axis.Y, 4, 4, 12, 12)
+                .setAxisUVs(Direction.Axis.X, 4, 0, 12, 10 * pBlockEntity.getFillPercent())
+                .setAxisUVs(Direction.Axis.Z, 4, 0, 12, 10 * pBlockEntity.getFillPercent())
+                .setAxisUVs(Direction.Axis.Y, 4, 4, 12, 12)
                 .draw(consumer, pPoseStack.last().pose(), ConfigDataRegistries.ASPECTS.get(pBlockEntity.getLevel().registryAccess(), pBlockEntity.getEssentiaType(Direction.UP)).colour().argb32(true), true, pPackedLight, true, pPackedOverlay);
         pPoseStack.popPose();
     }
