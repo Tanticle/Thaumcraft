@@ -43,6 +43,7 @@ public final class ConfigItems {
     public static final DeferredItem<Item> JAR_LABEL = registerItem(Items.JAR_LABEL, JarLabelItem::new, ConfigCreativeTabs.MAIN);
 
     // Tools
+    public static final DeferredItem<Item> GAUNTLET = registerSimple(Items.GAUNTLET, p -> p.stacksTo(1).rarity(Rarity.UNCOMMON), ConfigCreativeTabs.MAIN);
     public static final DeferredItem<ResonatorItem> ESSENTIA_RESONATOR = registerItem(Items.ESSENTIA_RESONATOR, ResonatorItem::new, ConfigCreativeTabs.MAIN);
     public static final DeferredItem<ScribingToolsItem> SCRIBING_TOOLS = registerItem(Items.SCRIBING_TOOLS, ScribingToolsItem::new, ConfigCreativeTabs.MAIN);
     public static final DeferredItem<PrimalCrusherItem> PRIMAL_CRUSHER = registerItem(Items.PRIMAL_CRUSHER, PrimalCrusherItem::new, ConfigCreativeTabs.MAIN);

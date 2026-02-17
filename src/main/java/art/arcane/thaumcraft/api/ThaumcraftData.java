@@ -221,6 +221,7 @@ public final class ThaumcraftData {
         public static final ResourceLocation UPGRADE_RAGE = Thaumcraft.id("upgrade_rage");
         public static final ResourceLocation UPGRADE_EFFICIENCY = Thaumcraft.id("upgrade_efficiency");
         // Tools
+        public static final ResourceLocation GAUNTLET = Thaumcraft.id("gauntlet");
         public static final ResourceLocation ESSENTIA_RESONATOR = Thaumcraft.id("resonator");
         public static final ResourceLocation SCRIBING_TOOLS = Thaumcraft.id("scribing_tools");
         public static final ResourceLocation PRIMAL_CRUSHER = Thaumcraft.id("primal_crusher");
@@ -306,6 +307,13 @@ public final class ThaumcraftData {
         public static final ResourceLocation NITOR = Thaumcraft.id("nitor");
 
         public static final ResourceLocation TUBE = Thaumcraft.id("tube");
+        public static final ResourceLocation TUBE_VALVE = Thaumcraft.id("tube_valve");
+        public static final ResourceLocation TUBE_FILTER = Thaumcraft.id("tube_filter");
+        public static final ResourceLocation TUBE_RESTRICT = Thaumcraft.id("tube_restrict");
+        public static final ResourceLocation TUBE_ONEWAY = Thaumcraft.id("tube_oneway");
+        public static final ResourceLocation TUBE_BUFFER = Thaumcraft.id("tube_buffer");
+        public static final ResourceLocation ESSENTIA_INPUT = Thaumcraft.id("essentia_input");
+        public static final ResourceLocation ESSENTIA_OUTPUT = Thaumcraft.id("essentia_output");
 
         public static final ResourceLocation CREATIVE_ASPECT_SOURCE = Thaumcraft.id("creative_aspect_source");
         public static final ResourceLocation INFUSION_STONE_SPEED =  Thaumcraft.id("infusion_stone_speed");
@@ -385,6 +393,13 @@ public final class ThaumcraftData {
         public static final ResourceLocation PEDESTAL = Thaumcraft.id("pedestal");
         public static final ResourceLocation JAR = Thaumcraft.id("jar");
         public static final ResourceLocation TUBE = Blocks.TUBE;
+        public static final ResourceLocation TUBE_VALVE = Blocks.TUBE_VALVE;
+        public static final ResourceLocation TUBE_FILTER = Blocks.TUBE_FILTER;
+        public static final ResourceLocation TUBE_RESTRICT = Blocks.TUBE_RESTRICT;
+        public static final ResourceLocation TUBE_ONEWAY = Blocks.TUBE_ONEWAY;
+        public static final ResourceLocation TUBE_BUFFER = Blocks.TUBE_BUFFER;
+        public static final ResourceLocation ESSENTIA_INPUT = Blocks.ESSENTIA_INPUT;
+        public static final ResourceLocation ESSENTIA_OUTPUT = Blocks.ESSENTIA_OUTPUT;
         public static final ResourceLocation CREATIVE_ASPECT_SOURCE = Blocks.CREATIVE_ASPECT_SOURCE;
         public static final ResourceLocation DIOPTRA = Blocks.DIOPTRA;
         public static final ResourceLocation LEVITATOR = Blocks.LEVITATOR;
@@ -469,6 +484,7 @@ public final class ThaumcraftData {
         public static final SoundEvent POOF = variable("poof");
         public static final SoundEvent COINS = variable("coins");
         public static final SoundEvent BUBBLE = variable("bubble");
+        public static final SoundEvent CREAK = variable("creak");
         public static final SoundEvent SPILL = variable("spill");
 
         private static SoundEvent fixed(String id, float range) {
@@ -486,6 +502,7 @@ public final class ThaumcraftData {
         public static final ResourceLocation CYCLE_TOOL_MODE = Thaumcraft.id("cycle_tool_mode");
         public static final ResourceLocation SALIS_MUNDUS_EFFECT = Thaumcraft.id("salis_mundus_effect");
         public static final ResourceLocation BAMF_EFFECT = Thaumcraft.id("bamf_effect");
+        public static final ResourceLocation ESSENTIA_TRAIL = Thaumcraft.id("essentia_trail");
     }
 
     /**

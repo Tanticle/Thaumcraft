@@ -2,6 +2,7 @@ package art.arcane.thaumcraft.client.fx;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
+import net.minecraft.client.particle.Particle;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.sounds.SoundSource;
@@ -11,7 +12,9 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import art.arcane.thaumcraft.client.fx.particles.FXGenericParticle;
+import art.arcane.thaumcraft.client.fx.particles.FXVentParticle;
 import art.arcane.thaumcraft.networking.packets.ClientboundBamfEffectPacket;
+import art.arcane.thaumcraft.networking.packets.ClientboundEssentiaTrailPacket;
 import art.arcane.thaumcraft.networking.packets.ClientboundSalisMundusEffectPacket;
 import art.arcane.thaumcraft.registries.ConfigSounds;
 
@@ -370,7 +373,71 @@ public final class ThaumcraftFX {
         }
     }
 
-    private static void addParticleWithDelay(FXGenericParticle particle, int delayTicks) {
+    public static void drawEssentiaTrail(ClientboundEssentiaTrailPacket data) {
+        Minecraft mc = Minecraft.getInstance();
+        ClientLevel level = mc.level;
+        if (level == null) {
+            return;
+        }
+
+        Vec3 from = data.from();
+        Vec3 to = data.to();
+        Vec3 delta = to.subtract(from);
+        double length = delta.length();
+        if (length < 0.0001) {
+            return;
+        }
+
+        RandomSource random = level.random;
+        Vec3 normal = delta.scale(1.0 / length);
+        int count = Math.max(4, (int) (length * 18.0) + Math.max(0, data.ext()));
+
+        int color = data.color();
+        float r = ((color >> 16) & 0xFF) / 255.0f;
+        float g = ((color >> 8) & 0xFF) / 255.0f;
+        float b = (color & 0xFF) / 255.0f;
+
+        for (int i = 0; i < count; i++) {
+            double t = count <= 1 ? 0.0 : (double) i / (double) (count - 1);
+            Vec3 point = from.lerp(to, t);
+            double jitter = 0.0125;
+            int delay = (int) (t * (2 + Math.max(0, data.ext())));
+
+            drawSimpleSparkle(
+                    random,
+                    point.x + random.nextGaussian() * jitter,
+                    point.y + random.nextGaussian() * jitter,
+                    point.z + random.nextGaussian() * jitter,
+                    normal.x * 0.01,
+                    normal.y * 0.01,
+                    normal.z * 0.01,
+                    0.2f,
+                    r, g, b,
+                    delay,
+                    0.92f,
+                    0.0f,
+                    7
+            );
+        }
+    }
+
+    public static void drawVentParticles(double x, double y, double z, double vx, double vy, double vz, int color) {
+        drawVentParticles(x, y, z, vx, vy, vz, color, 1.0f);
+    }
+
+    public static void drawVentParticles(double x, double y, double z, double vx, double vy, double vz, int color, float scale) {
+        Minecraft mc = Minecraft.getInstance();
+        ClientLevel level = mc.level;
+        if (level == null) {
+            return;
+        }
+
+        FXVentParticle particle = new FXVentParticle(level, x, y, z, vx, vy, vz, color);
+        particle.setScale(scale);
+        ThaumcraftParticleRenderer.addParticle(particle);
+    }
+
+    private static void addParticleWithDelay(Particle particle, int delayTicks) {
         DelayedParticleQueue.add(particle, delayTicks);
     }
 

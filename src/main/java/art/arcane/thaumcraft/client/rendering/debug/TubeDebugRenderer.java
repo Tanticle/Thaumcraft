@@ -30,6 +30,9 @@ public class TubeDebugRenderer implements DebugRenderer.SimpleDebugRenderer {
 
     @Override
     public void render(PoseStack poseStack, MultiBufferSource bufferSource, double camX, double camY, double camZ) {
+        if (!this.active || this.minecraft.player == null) {
+            return;
+        }
         BlockPos blockpos = this.minecraft.player.blockPosition();
         LevelReader levelreader = this.minecraft.player.level();
         for (BlockPos pos : BlockPos.betweenClosed(blockpos.offset(-RADIUS, -RADIUS, -RADIUS), blockpos.offset(RADIUS, RADIUS, RADIUS))) {
