@@ -24,6 +24,9 @@ import art.arcane.thaumcraft.api.ThaumcraftMaterials;
 import art.arcane.thaumcraft.items.resources.JarLabelItem;
 import art.arcane.thaumcraft.items.resources.LootBagItem;
 import art.arcane.thaumcraft.items.resources.PhialItem;
+import art.arcane.thaumcraft.items.golemancy.GolemBellItem;
+import art.arcane.thaumcraft.items.golemancy.GolemPlacerItem;
+import art.arcane.thaumcraft.items.golemancy.SealPlacerItem;
 import art.arcane.thaumcraft.items.resources.SalisMundusItem;
 import art.arcane.thaumcraft.items.resources.VisCrystalItem;
 import art.arcane.thaumcraft.util.simple.SimpleCreativeTab;
@@ -123,6 +126,16 @@ public final class ConfigItems {
     public static final DeferredItem<PhialItem> PHIAL = registerItem(Items.PHIAL, PhialItem::new, ConfigCreativeTabs.MAIN);
     public static final DeferredItem<VisCrystalItem> VIS_CRYSTAL = registerItem(Items.VIS_CRYSTAL, VisCrystalItem::new, ConfigCreativeTabs.MAIN);
     public static final DeferredItem<SalisMundusItem> SALIS_MUNDUS = registerItem(Items.SALIS_MUNDUS, SalisMundusItem::new, ConfigCreativeTabs.MAIN);
+
+    public static final DeferredItem<GolemPlacerItem> GOLEM_PLACER = registerItem(Items.GOLEM_PLACER, GolemPlacerItem::new, ConfigCreativeTabs.MAIN);
+    public static final DeferredItem<SealPlacerItem> SEAL_PLACER = registerItem(Items.SEAL_PLACER, SealPlacerItem::new, ConfigCreativeTabs.MAIN);
+    public static final DeferredItem<GolemBellItem> GOLEM_BELL = registerItem(Items.GOLEM_BELL, GolemBellItem::new, ConfigCreativeTabs.MAIN);
+
+    public static final DeferredItem<Item> MIND_CLOCKWORK = registerSimple(Items.MIND_CLOCKWORK, ConfigCreativeTabs.MAIN);
+    public static final DeferredItem<Item> MIND_BIOTHAUMIC = registerSimple(Items.MIND_BIOTHAUMIC, ConfigCreativeTabs.MAIN);
+    public static final DeferredItem<Item> MECHANISM_SIMPLE = registerSimple(Items.MECHANISM_SIMPLE, ConfigCreativeTabs.MAIN);
+    public static final DeferredItem<Item> MODULE_VISION = registerSimple(Items.MODULE_VISION, ConfigCreativeTabs.MAIN);
+    public static final DeferredItem<Item> MODULE_AGGRESSION = registerSimple(Items.MODULE_AGGRESSION, ConfigCreativeTabs.MAIN);
 
     public static final DeferredItem<LootBagItem> LOOT_BAG_COMMON = registerItem(Items.LOOT_BAG_COMMON, p -> new LootBagItem(art.arcane.thaumcraft.api.ThaumcraftData.Loot.TABLE_LOOT_BAG_COMMON, p.rarity(Rarity.COMMON)), ConfigCreativeTabs.MAIN);
     public static final DeferredItem<LootBagItem> LOOT_BAG_UNCOMMON = registerItem(Items.LOOT_BAG_UNCOMMON, p -> new LootBagItem(art.arcane.thaumcraft.api.ThaumcraftData.Loot.TABLE_LOOT_BAG_UNCOMMON, p.rarity(Rarity.UNCOMMON)), ConfigCreativeTabs.MAIN);

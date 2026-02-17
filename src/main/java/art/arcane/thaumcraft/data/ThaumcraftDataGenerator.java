@@ -12,6 +12,7 @@ import art.arcane.thaumcraft.Thaumcraft;
 import art.arcane.thaumcraft.data.providers.recipes.AlchemyProvider;
 import art.arcane.thaumcraft.data.providers.recipes.ArcaneCraftingProvider;
 import art.arcane.thaumcraft.data.providers.recipes.InfusionProvider;
+import art.arcane.thaumcraft.data.providers.recipes.SalisMundusMultiblockRecipeProvider;
 import art.arcane.thaumcraft.data.providers.recipes.SalisMundusRecipeProvider;
 import art.arcane.thaumcraft.data.providers.recipes.VanillaRecipeProvider;
 
@@ -34,11 +35,17 @@ public final class ThaumcraftDataGenerator {
         dataGen.addProvider(true, new AspectRegistryProvider(e));
         dataGen.addProvider(true, new AuraBiomeProvider(builder).build(e));
 
+        dataGen.addProvider(true, new GolemTraitProvider(builder).build(e));
+        dataGen.addProvider(true, new GolemMaterialProvider(builder).build(e));
+        dataGen.addProvider(true, new GolemPartProvider(builder).build(e));
+        dataGen.addProvider(true, new SealTypeProvider(builder).build(e));
+
         var combinedLookup = aspectProvider.getRegistryProvider();
         dataGen.addProvider(true, (DataProvider.Factory<DataProvider>) ArcaneCraftingProvider::new);
         dataGen.addProvider(true, (DataProvider.Factory<DataProvider>) output -> new AlchemyProvider(output, combinedLookup));
         dataGen.addProvider(true, (DataProvider.Factory<DataProvider>) InfusionProvider::new);
         dataGen.addProvider(true, (DataProvider.Factory<DataProvider>) SalisMundusRecipeProvider::new);
+        dataGen.addProvider(true, (DataProvider.Factory<DataProvider>) SalisMundusMultiblockRecipeProvider::new);
         dataGen.addProvider(true, new VanillaRecipeProvider.Runner(dataGen.getPackOutput(), e.getLookupProvider()));
 
         dataGen.addProvider(true, new BlockDataProvider(dataGen.getPackOutput()));

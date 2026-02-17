@@ -5,8 +5,10 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.tags.BlockTags;
+import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.item.equipment.EquipmentAsset;
@@ -16,6 +18,10 @@ import art.arcane.thaumcraft.Thaumcraft;
 import art.arcane.thaumcraft.api.aspects.Aspect;
 import art.arcane.thaumcraft.data.aspects.AspectList;
 import art.arcane.thaumcraft.data.aura.AuraBiomeInfo;
+import art.arcane.thaumcraft.data.golemancy.GolemMaterial;
+import art.arcane.thaumcraft.data.golemancy.GolemPart;
+import art.arcane.thaumcraft.data.golemancy.GolemTrait;
+import art.arcane.thaumcraft.data.golemancy.SealType;
 import art.arcane.thaumcraft.data.recipes.ArcaneCraftingRecipe;
 import art.arcane.thaumcraft.data.research.ResearchCategory;
 import art.arcane.thaumcraft.data.research.ResearchEntry;
@@ -31,12 +37,18 @@ public final class ThaumcraftData {
         public static final ResourceKey<Registry<ResearchEntry>> RESEARCH_ENTRY = ResourceKey.createRegistryKey(Thaumcraft.id("research_entries"));
 
         public static final ResourceKey<Registry<ArcaneCraftingRecipe>> ARCANE_CRAFTING_RECIPE_TYPE = ResourceKey.createRegistryKey(Thaumcraft.id("arcane_crafting"));
+
+        public static final ResourceKey<Registry<GolemTrait>> GOLEM_TRAIT = ResourceKey.createRegistryKey(Thaumcraft.id("golem_traits"));
+        public static final ResourceKey<Registry<GolemMaterial>> GOLEM_MATERIAL = ResourceKey.createRegistryKey(Thaumcraft.id("golem_materials"));
+        public static final ResourceKey<Registry<GolemPart>> GOLEM_PART = ResourceKey.createRegistryKey(Thaumcraft.id("golem_parts"));
+        public static final ResourceKey<Registry<SealType>> SEAL_TYPE = ResourceKey.createRegistryKey(Thaumcraft.id("seal_types"));
     }
 
     public static final class TintSources {
 
         public static final ResourceLocation ASPECT_ITEM = Thaumcraft.id("aspect_item");
         public static final ResourceLocation DYED_ITEM = Thaumcraft.id("dyed_item");
+        public static final ResourceLocation GOLEM_MATERIAL_ITEM = Thaumcraft.id("golem_material_item");
     }
 
     /**
@@ -56,6 +68,7 @@ public final class ThaumcraftData {
             public static final ResourceKey<RecipeType<?>> ALCHEMY = key("alchemy");
             public static final ResourceKey<RecipeType<?>> INFUSION = key("infusion");
             public static final ResourceKey<RecipeType<?>> SALIS_MUNDUS = key("salis_mundus");
+            public static final ResourceKey<RecipeType<?>> SALIS_MUNDUS_MULTIBLOCK = key("salis_mundus_multiblock");
 
             private static <T extends Recipe<?>> ResourceKey<RecipeType<?>> key(String id) {
                 return ResourceKey.create(net.minecraft.core.registries.Registries.RECIPE_TYPE, Thaumcraft.id(id));
@@ -119,6 +132,15 @@ public final class ThaumcraftData {
                 return ResourceKey.create(net.minecraft.core.registries.Registries.RECIPE, Thaumcraft.id(id));
             }
         }
+
+        public static final class SalisMundusMultiblock {
+
+            public static final ResourceKey<Recipe<?>> GOLEM_BUILDER = key("golem_builder");
+
+            private static ResourceKey<Recipe<?>> key(String id) {
+                return ResourceKey.create(net.minecraft.core.registries.Registries.RECIPE, Thaumcraft.id(id));
+            }
+        }
     }
 
 
@@ -160,8 +182,11 @@ public final class ThaumcraftData {
         public static final ResourceLocation VIS_CHARGE_MAX = Thaumcraft.id("vis_charge_max");
         public static final ResourceLocation VIS_CHARGE = Thaumcraft.id("vis_charge");
         public static final ResourceLocation TIMER = Thaumcraft.id("timer");
-        public static final ResourceLocation ARMOR_FORTRESS_FACEPLATE = Thaumcraft.id("fortress_faceplate");
+        public static final ResourceLocation DYE_COLOR = Thaumcraft.id("dye_color");
         public static final ResourceLocation GOGGLE_SIGHT = Thaumcraft.id("goggle_sight");
+        public static final ResourceLocation ARMOR_FORTRESS_FACEPLATE = Thaumcraft.id("fortress_faceplate");
+        public static final ResourceLocation GOLEM_CONFIG = Thaumcraft.id("golem_config");
+        public static final ResourceLocation SEAL_TYPE = Thaumcraft.id("seal_type");
     }
 
     /**
@@ -248,7 +273,17 @@ public final class ThaumcraftData {
 
         public static final ResourceLocation SALIS_MUNDUS = Thaumcraft.id("salis_mundus");
         public static final ResourceLocation SCANNER = Thaumcraft.id("scanner");
-		public static final ResourceLocation GOGGLES =  Thaumcraft.id("goggles");
+        public static final ResourceLocation GOGGLES = Thaumcraft.id("goggles");
+
+        public static final ResourceLocation GOLEM_PLACER = Thaumcraft.id("golem_placer");
+        public static final ResourceLocation SEAL_PLACER = Thaumcraft.id("seal_placer");
+        public static final ResourceLocation GOLEM_BELL = Thaumcraft.id("golem_bell");
+
+        public static final ResourceLocation MIND_CLOCKWORK = Thaumcraft.id("mind_clockwork");
+        public static final ResourceLocation MIND_BIOTHAUMIC = Thaumcraft.id("mind_biothaumic");
+        public static final ResourceLocation MECHANISM_SIMPLE = Thaumcraft.id("mechanism_simple");
+        public static final ResourceLocation MODULE_VISION = Thaumcraft.id("module_vision");
+        public static final ResourceLocation MODULE_AGGRESSION = Thaumcraft.id("module_aggression");
     }
 
     public static final class Enchantments {
@@ -266,6 +301,7 @@ public final class ThaumcraftData {
     public static final class ItemProperties {
 
         public static final ResourceLocation HAS_ASPECT = Thaumcraft.id("has_aspect");
+        public static final ResourceLocation SEAL_TYPE_CHECK = Thaumcraft.id("seal_type_check");
     }
 
     public static final class Tags {
@@ -379,6 +415,10 @@ public final class ThaumcraftData {
 
         public static final ResourceLocation HUNGRY_CHEST = Thaumcraft.id("hungry_chest");
         public static final ResourceLocation EVERFULL_URN = Thaumcraft.id("everfull_urn");
+
+        public static final ResourceLocation GOLEM_BUILDER = Thaumcraft.id("golem_builder");
+        public static final ResourceLocation GOLEM_BUILDER_COMPONENT = Thaumcraft.id("golem_builder_component");
+        public static final ResourceLocation STONE_TABLE = Thaumcraft.id("stone_table");
     }
 
     public static final class CreativeTabs {
@@ -406,15 +446,112 @@ public final class ThaumcraftData {
         public static final ResourceLocation HUNGRY_CHEST = Blocks.HUNGRY_CHEST;
         public static final ResourceLocation EVERFULL_URN = Blocks.EVERFULL_URN;
         public static final ResourceLocation NITOR = Blocks.NITOR;
+        public static final ResourceLocation GOLEM_BUILDER = Blocks.GOLEM_BUILDER;
+        public static final ResourceLocation GOLEM_BUILDER_COMPONENT = Blocks.GOLEM_BUILDER_COMPONENT;
     }
 
     public static final class Entities {
 
         public static final ResourceKey<EntityType<?>> TRAVELING_TRUNK = key("traveling_trunk");
         public static final ResourceKey<EntityType<?>> MOVING_ITEM = key("moving_item");
+        public static final ResourceKey<EntityType<?>> GOLEM = key("golem");
 
         private static ResourceKey<EntityType<?>> key(String id) {
             return ResourceKey.create(net.minecraft.core.registries.Registries.ENTITY_TYPE, Thaumcraft.id(id));
+        }
+    }
+
+    public static final class GolemTraits {
+
+        public static final ResourceKey<GolemTrait> SMART = key("smart");
+        public static final ResourceKey<GolemTrait> DEFT = key("deft");
+        public static final ResourceKey<GolemTrait> CLUMSY = key("clumsy");
+        public static final ResourceKey<GolemTrait> FIGHTER = key("fighter");
+        public static final ResourceKey<GolemTrait> WHEELED = key("wheeled");
+        public static final ResourceKey<GolemTrait> FLYER = key("flyer");
+        public static final ResourceKey<GolemTrait> CLIMBER = key("climber");
+        public static final ResourceKey<GolemTrait> HEAVY = key("heavy");
+        public static final ResourceKey<GolemTrait> LIGHT = key("light");
+        public static final ResourceKey<GolemTrait> FRAGILE = key("fragile");
+        public static final ResourceKey<GolemTrait> REPAIR = key("repair");
+        public static final ResourceKey<GolemTrait> SCOUT = key("scout");
+        public static final ResourceKey<GolemTrait> ARMORED = key("armored");
+        public static final ResourceKey<GolemTrait> BRUTAL = key("brutal");
+        public static final ResourceKey<GolemTrait> FIREPROOF = key("fireproof");
+        public static final ResourceKey<GolemTrait> BREAKER = key("breaker");
+        public static final ResourceKey<GolemTrait> HAULER = key("hauler");
+        public static final ResourceKey<GolemTrait> RANGED = key("ranged");
+        public static final ResourceKey<GolemTrait> BLASTPROOF = key("blastproof");
+
+        private static ResourceKey<GolemTrait> key(String id) {
+            return ResourceKey.create(Registries.GOLEM_TRAIT, Thaumcraft.id(id));
+        }
+    }
+
+    public static final class GolemMaterials {
+
+        public static final ResourceKey<GolemMaterial> WOOD = key("wood");
+        public static final ResourceKey<GolemMaterial> IRON = key("iron");
+        public static final ResourceKey<GolemMaterial> CLAY = key("clay");
+        public static final ResourceKey<GolemMaterial> BRASS = key("brass");
+        public static final ResourceKey<GolemMaterial> THAUMIUM = key("thaumium");
+        public static final ResourceKey<GolemMaterial> VOID = key("void");
+
+        private static ResourceKey<GolemMaterial> key(String id) {
+            return ResourceKey.create(Registries.GOLEM_MATERIAL, Thaumcraft.id(id));
+        }
+    }
+
+    public static final class GolemParts {
+
+        public static final ResourceKey<GolemPart> HEAD_BASIC = key("head_basic");
+        public static final ResourceKey<GolemPart> HEAD_SMART = key("head_smart");
+        public static final ResourceKey<GolemPart> HEAD_SMART_ARMORED = key("head_smart_armored");
+        public static final ResourceKey<GolemPart> HEAD_SCOUT = key("head_scout");
+        public static final ResourceKey<GolemPart> HEAD_SMART_SCOUT = key("head_smart_scout");
+
+        public static final ResourceKey<GolemPart> ARM_BASIC = key("arm_basic");
+        public static final ResourceKey<GolemPart> ARM_FINE = key("arm_fine");
+        public static final ResourceKey<GolemPart> ARM_CLAWS = key("arm_claws");
+        public static final ResourceKey<GolemPart> ARM_BREAKERS = key("arm_breakers");
+        public static final ResourceKey<GolemPart> ARM_DARTS = key("arm_darts");
+
+        public static final ResourceKey<GolemPart> LEG_WALKER = key("leg_walker");
+        public static final ResourceKey<GolemPart> LEG_ROLLER = key("leg_roller");
+        public static final ResourceKey<GolemPart> LEG_CLIMBER = key("leg_climber");
+        public static final ResourceKey<GolemPart> LEG_FLYER = key("leg_flyer");
+
+        public static final ResourceKey<GolemPart> ADDON_NONE = key("addon_none");
+        public static final ResourceKey<GolemPart> ADDON_ARMORED = key("addon_armored");
+        public static final ResourceKey<GolemPart> ADDON_FIGHTER = key("addon_fighter");
+        public static final ResourceKey<GolemPart> ADDON_HAULER = key("addon_hauler");
+
+        private static ResourceKey<GolemPart> key(String id) {
+            return ResourceKey.create(Registries.GOLEM_PART, Thaumcraft.id(id));
+        }
+    }
+
+    public static final class SealTypes {
+
+        public static final ResourceKey<SealType> GUARD = key("guard");
+        public static final ResourceKey<SealType> GUARD_ADVANCED = key("guard_advanced");
+        public static final ResourceKey<SealType> PICKUP = key("pickup");
+        public static final ResourceKey<SealType> PICKUP_ADVANCED = key("pickup_advanced");
+        public static final ResourceKey<SealType> PROVIDE = key("provide");
+        public static final ResourceKey<SealType> STOCK = key("stock");
+        public static final ResourceKey<SealType> BREAKER = key("breaker");
+        public static final ResourceKey<SealType> BREAKER_ADVANCED = key("breaker_advanced");
+        public static final ResourceKey<SealType> HARVEST = key("harvest");
+        public static final ResourceKey<SealType> LUMBER = key("lumber");
+        public static final ResourceKey<SealType> BUTCHER = key("butcher");
+        public static final ResourceKey<SealType> FILL = key("fill");
+        public static final ResourceKey<SealType> FILL_ADVANCED = key("fill_advanced");
+        public static final ResourceKey<SealType> EMPTY = key("empty");
+        public static final ResourceKey<SealType> EMPTY_ADVANCED = key("empty_advanced");
+        public static final ResourceKey<SealType> USE = key("use");
+
+        private static ResourceKey<SealType> key(String id) {
+            return ResourceKey.create(Registries.SEAL_TYPE, Thaumcraft.id(id));
         }
     }
 
@@ -486,6 +623,10 @@ public final class ThaumcraftData {
         public static final SoundEvent BUBBLE = variable("bubble");
         public static final SoundEvent CREAK = variable("creak");
         public static final SoundEvent SPILL = variable("spill");
+        public static final SoundEvent CLACK = variable("clack");
+        public static final SoundEvent TOOL = variable("tool");
+        public static final SoundEvent ZAP = variable("zap");
+        public static final SoundEvent SCAN = variable("scan");
 
         private static SoundEvent fixed(String id, float range) {
             return SoundEvent.createFixedRangeEvent(Thaumcraft.id(id), range);
@@ -502,6 +643,8 @@ public final class ThaumcraftData {
         public static final ResourceLocation CYCLE_TOOL_MODE = Thaumcraft.id("cycle_tool_mode");
         public static final ResourceLocation SALIS_MUNDUS_EFFECT = Thaumcraft.id("salis_mundus_effect");
         public static final ResourceLocation BAMF_EFFECT = Thaumcraft.id("bamf_effect");
+        public static final ResourceLocation SEAL_SYNC = Thaumcraft.id("seal_sync");
+        public static final ResourceLocation SEAL_REMOVE = Thaumcraft.id("seal_remove");
         public static final ResourceLocation ESSENTIA_TRAIL = Thaumcraft.id("essentia_trail");
     }
 

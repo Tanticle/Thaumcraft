@@ -1,5 +1,6 @@
 package art.arcane.thaumcraft.items.resources;
 
+import art.arcane.thaumcraft.data.recipes.SalisMundusMultiblockRecipe;
 import art.arcane.thaumcraft.data.recipes.SalisMundusRecipe;
 import art.arcane.thaumcraft.networking.packets.ClientboundBamfEffectPacket;
 import art.arcane.thaumcraft.networking.packets.ClientboundSalisMundusEffectPacket;
@@ -55,53 +56,76 @@ public class SalisMundusItem extends Item {
             return InteractionResult.PASS;
         }
 
-		if (level.isClientSide() && !CraftingUtils.hasSalisMundusRecipeClient(state.getBlock())) {
+		if (level.isClientSide() && !CraftingUtils.hasSalisMundusRecipeClient(state.getBlock())
+				&& !CraftingUtils.hasSalisMundusMultiblockRecipeClient(state.getBlock())) {
 			return InteractionResult.PASS;
 		}
 
 		if (level instanceof ServerLevel serverLevel) {
 			Optional<RecipeHolder<SalisMundusRecipe>> recipe = CraftingUtils.findSalisMundusRecipe(serverLevel, state);
-			if (recipe.isEmpty()) {
-				return InteractionResult.PASS;
-			}
 
-			Block expectedInput = recipe.get().value().input();
-			boolean inputIsCauldron = expectedInput.builtInRegistryHolder().is(net.minecraft.tags.BlockTags.CAULDRONS);
+			if (recipe.isPresent()) {
+				Block expectedInput = recipe.get().value().input();
+				boolean inputIsCauldron = expectedInput.builtInRegistryHolder().is(net.minecraft.tags.BlockTags.CAULDRONS);
 
-			if (!player.getAbilities().instabuild) {
-				stack.shrink(1);
-			}
-
-			ScheduledServerTask.schedule(serverLevel, CONVERSION_DELAY, () -> {
-				Block currentBlock = level.getBlockState(pos).getBlock();
-				if (currentBlock != expectedInput) {
-					if (!inputIsCauldron || !currentBlock.builtInRegistryHolder().is(net.minecraft.tags.BlockTags.CAULDRONS)) {
-						return;
-					}
+				if (!player.getAbilities().instabuild) {
+					stack.shrink(1);
 				}
-				level.setBlockAndUpdate(pos, recipe.get().value().output().defaultBlockState());
-				PacketDistributor.sendToPlayersNear(
-						serverLevel,
-						null,
-						pos.getX() + 0.5,
-						pos.getY() + 0.5,
-						pos.getZ() + 0.5,
-						64.0,
-						new ClientboundBamfEffectPacket(pos, 0x8019CC, true, true)
-				);
-			});
 
-			Vec3 hitPos = context.getClickLocation();
-			Vec3 handPos = EntityUtils.getHandPosition(player, hand);
-			PacketDistributor.sendToPlayersNear(
-					serverLevel,
-					null,
-					pos.getX() + 0.5,
-					pos.getY() + 0.5,
-					pos.getZ() + 0.5,
-					64.0,
-					new ClientboundSalisMundusEffectPacket(pos, hitPos, handPos, Collections.singletonList(pos))
-			);
+				ScheduledServerTask.schedule(serverLevel, CONVERSION_DELAY, () -> {
+					Block currentBlock = level.getBlockState(pos).getBlock();
+					if (currentBlock != expectedInput) {
+						if (!inputIsCauldron || !currentBlock.builtInRegistryHolder().is(net.minecraft.tags.BlockTags.CAULDRONS)) {
+							return;
+						}
+					}
+					level.setBlockAndUpdate(pos, recipe.get().value().output().defaultBlockState());
+					PacketDistributor.sendToPlayersNear(
+							serverLevel, null,
+							pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, 64.0,
+							new ClientboundBamfEffectPacket(pos, 0x8019CC, true, true)
+					);
+				});
+
+				Vec3 hitPos = context.getClickLocation();
+				Vec3 handPos = EntityUtils.getHandPosition(player, hand);
+				PacketDistributor.sendToPlayersNear(
+						serverLevel, null,
+						pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, 64.0,
+						new ClientboundSalisMundusEffectPacket(pos, hitPos, handPos, Collections.singletonList(pos))
+				);
+			} else {
+				Optional<RecipeHolder<SalisMundusMultiblockRecipe>> multiblock = CraftingUtils.findSalisMundusMultiblockRecipe(serverLevel, state, pos);
+				if (multiblock.isEmpty()) {
+					return InteractionResult.PASS;
+				}
+
+				SalisMundusMultiblockRecipe mbRecipe = multiblock.get().value();
+				java.util.List<BlockPos> positions = mbRecipe.getPatternPositions(serverLevel, pos);
+
+				if (!player.getAbilities().instabuild) {
+					stack.shrink(1);
+				}
+
+				ScheduledServerTask.schedule(serverLevel, CONVERSION_DELAY, () -> {
+					if (mbRecipe.validatePattern(level, pos)) {
+						mbRecipe.transformBlocks(level, pos);
+						PacketDistributor.sendToPlayersNear(
+								serverLevel, null,
+								pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, 64.0,
+								new ClientboundBamfEffectPacket(pos, 0x8019CC, true, true)
+						);
+					}
+				});
+
+				Vec3 hitPos = context.getClickLocation();
+				Vec3 handPos = EntityUtils.getHandPosition(player, hand);
+				PacketDistributor.sendToPlayersNear(
+						serverLevel, null,
+						pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, 64.0,
+						new ClientboundSalisMundusEffectPacket(pos, hitPos, handPos, positions)
+				);
+			}
 		}
 
 		return InteractionResult.SUCCESS;

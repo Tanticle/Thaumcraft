@@ -123,6 +123,10 @@ public class BlockDataProvider extends ModelProvider {
         simpleExistingBlock(ConfigBlocks.EVERFULL_URN);
 
         registerNitorBlocks();
+
+        simpleBlock(ConfigBlocks.GOLEM_BUILDER);
+        registerFakeBlock(ConfigBlocks.GOLEM_BUILDER_COMPONENT);
+        simpleExistingBlock(ConfigBlocks.STONE_TABLE);
     }
 
     private void registerGreatwoodTree() {
@@ -311,6 +315,35 @@ public class BlockDataProvider extends ModelProvider {
                 .build();
         ResourceLocation model = template.create(block.block(), mapping, blocks.modelOutput);
         blocks.blockStateOutput.accept(MultiVariantGenerator.multiVariant(block.block(), Variant.variant().with(VariantProperties.MODEL, model)));
+        blockParentItem(block, model);
+    }
+
+    private void columnBlock(ConfigBlocks.BlockObject<? extends Block> block) {
+        ResourceLocation id = RegistryUtils.getBlockLocation(block.blockSupplier());
+        TextureMapping mapping = new TextureMapping()
+                .put(TextureSlot.SIDE, id.withSuffix("_side"))
+                .put(TextureSlot.END, id.withSuffix("_top"))
+                .put(TextureSlot.PARTICLE, id.withSuffix("_side"));
+        ResourceLocation model = ModelTemplates.CUBE_COLUMN.create(block.block(), mapping, blocks.modelOutput);
+        blocks.blockStateOutput.accept(MultiVariantGenerator.multiVariant(block.block(), Variant.variant().with(VariantProperties.MODEL, model)));
+        blockParentItem(block, model);
+    }
+
+    private void cutoutColumnBlock(ConfigBlocks.BlockObject<? extends Block> block) {
+        ResourceLocation id = RegistryUtils.getBlockLocation(block.blockSupplier());
+        TextureMapping mapping = new TextureMapping()
+                .put(TextureSlot.SIDE, id.withSuffix("_side"))
+                .put(TextureSlot.END, id.withSuffix("_top"))
+                .put(TextureSlot.PARTICLE, id.withSuffix("_side"));
+        ModelTemplate template = ExtendedModelTemplateBuilder.builder()
+                .parent(ResourceLocation.withDefaultNamespace("block/cube_column"))
+                .renderType("minecraft:cutout")
+                .requiredTextureSlot(TextureSlot.SIDE)
+                .requiredTextureSlot(TextureSlot.END)
+                .build();
+        ResourceLocation model = template.create(block.block(), mapping, blocks.modelOutput);
+        blocks.blockStateOutput.accept(MultiVariantGenerator.multiVariant(block.block(),
+                Variant.variant().with(VariantProperties.MODEL, model)));
         blockParentItem(block, model);
     }
 

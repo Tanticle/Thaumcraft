@@ -14,6 +14,8 @@ import art.arcane.thaumcraft.blocks.alchemy.CreativeAspectSourceBlock;
 import art.arcane.thaumcraft.blocks.alchemy.EssentiaInputBlock;
 import art.arcane.thaumcraft.blocks.alchemy.EssentiaOutputBlock;
 import art.arcane.thaumcraft.blocks.alchemy.CrucibleBlock;
+import art.arcane.thaumcraft.blocks.crafting.GolemBuilderBlock;
+import art.arcane.thaumcraft.blocks.crafting.GolemBuilderComponentBlock;
 import art.arcane.thaumcraft.blocks.alchemy.JarBlock;
 import art.arcane.thaumcraft.blocks.alchemy.TubeBufferBlock;
 import art.arcane.thaumcraft.blocks.alchemy.TubeBlock;
@@ -151,6 +153,10 @@ public final class ConfigBlocks {
 
 	public static final BlockObject<HungryChestBlock> HUNGRY_CHEST = registerBlock(Blocks.HUNGRY_CHEST, HungryChestBlock::new, ConfigCreativeTabs.MAIN);
 	public static final BlockObject<EverfullUrnBlock> EVERFULL_URN = registerBlock(Blocks.EVERFULL_URN, EverfullUrnBlock::new, ConfigCreativeTabs.MAIN);
+
+	public static final BlockObject<GolemBuilderBlock> GOLEM_BUILDER = registerBlock(Blocks.GOLEM_BUILDER, GolemBuilderBlock::new, ConfigCreativeTabs.MAIN);
+	public static final DeferredBlock<GolemBuilderComponentBlock> GOLEM_BUILDER_COMPONENT = registerBlockNoItem(Blocks.GOLEM_BUILDER_COMPONENT, GolemBuilderComponentBlock::new);
+	public static final BlockObject<Block> STONE_TABLE = registerBlock(Blocks.STONE_TABLE, props -> new Block(SimpleBlockMaterials.stone(props).noOcclusion()), ConfigCreativeTabs.MAIN);
 
 	private static BlockBehaviour.Properties silverwoodWoodProps(BlockBehaviour.Properties props) {
 		return SimpleBlockMaterials.wood(props).strength(2.0F, 3.0F);
