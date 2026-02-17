@@ -10,13 +10,13 @@ import com.mojang.blaze3d.vertex.VertexFormat;
 import net.minecraft.client.Camera;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
+import net.minecraft.client.particle.Particle;
 import net.minecraft.client.renderer.CoreShaders;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.client.event.RenderLevelStageEvent;
 import art.arcane.thaumcraft.Thaumcraft;
-import art.arcane.thaumcraft.client.fx.particles.FXGenericParticle;
 import art.arcane.thaumcraft.client.fx.particles.ThaumcraftParticleRenderType;
 
 import java.util.ArrayList;
@@ -26,9 +26,9 @@ import java.util.List;
 @EventBusSubscriber(modid = Thaumcraft.MOD_ID, bus = EventBusSubscriber.Bus.GAME, value = Dist.CLIENT)
 public class ThaumcraftParticleRenderer {
 
-    private static final List<FXGenericParticle> particles = new ArrayList<>();
+    private static final List<Particle> particles = new ArrayList<>();
 
-    public static void addParticle(FXGenericParticle particle) {
+    public static void addParticle(Particle particle) {
         synchronized (particles) {
             particles.add(particle);
         }
@@ -36,9 +36,9 @@ public class ThaumcraftParticleRenderer {
 
     public static void tickParticles() {
         synchronized (particles) {
-            Iterator<FXGenericParticle> iterator = particles.iterator();
+            Iterator<Particle> iterator = particles.iterator();
             while (iterator.hasNext()) {
-                FXGenericParticle particle = iterator.next();
+                Particle particle = iterator.next();
                 particle.tick();
                 if (!particle.isAlive()) {
                     iterator.remove();
@@ -65,7 +65,7 @@ public class ThaumcraftParticleRenderer {
             return;
         }
 
-        List<FXGenericParticle> toRender;
+        List<Particle> toRender;
         synchronized (particles) {
             if (particles.isEmpty()) {
                 return;
@@ -87,7 +87,7 @@ public class ThaumcraftParticleRenderer {
         Tesselator tesselator = Tesselator.getInstance();
         BufferBuilder buffer = tesselator.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.PARTICLE);
 
-        for (FXGenericParticle particle : toRender) {
+        for (Particle particle : toRender) {
             try {
                 particle.render(buffer, camera, partialTick);
             } catch (Exception e) {

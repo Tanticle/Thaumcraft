@@ -26,6 +26,8 @@ import art.arcane.thaumcraft.Thaumcraft;
 import art.arcane.thaumcraft.blocks.CrystalBlock;
 import art.arcane.thaumcraft.blocks.InfusionPillarBlock;
 import art.arcane.thaumcraft.blocks.alchemy.CreativeAspectSourceBlock;
+import art.arcane.thaumcraft.blocks.alchemy.EssentiaInputBlock;
+import art.arcane.thaumcraft.blocks.alchemy.EssentiaOutputBlock;
 import art.arcane.thaumcraft.blocks.alchemy.JarBlock;
 import art.arcane.thaumcraft.blocks.alchemy.TubeBlock;
 import art.arcane.thaumcraft.blocks.DioptraBlock;
@@ -69,6 +71,13 @@ public class BlockDataProvider extends ModelProvider {
         batchSimpleExistingBlock(ConfigBlocks.ARCANE_PEDESTAL, ConfigBlocks.ANCIENT_PEDESTAL, ConfigBlocks.ELDRITCH_PEDESTAL);
 
         registerDirectionalMultipart(ConfigBlocks.TUBE, TubeBlock.BY_DIRECTION, Thaumcraft.id("block/tube_generic_center"), Thaumcraft.id("block/tube_generic_side"), true);
+        registerDirectionalMultipart(ConfigBlocks.TUBE_VALVE, TubeBlock.BY_DIRECTION, Thaumcraft.id("block/tube_valve_center"), Thaumcraft.id("block/tube_generic_side"), false);
+        registerDirectionalMultipart(ConfigBlocks.TUBE_FILTER, TubeBlock.BY_DIRECTION, Thaumcraft.id("block/tube_filter_center"), Thaumcraft.id("block/tube_generic_side"), false);
+        registerDirectionalMultipart(ConfigBlocks.TUBE_RESTRICT, TubeBlock.BY_DIRECTION, Thaumcraft.id("block/tube_generic_center"), Thaumcraft.id("block/tube_generic_side"), true);
+        registerDirectionalMultipart(ConfigBlocks.TUBE_ONEWAY, TubeBlock.BY_DIRECTION, Thaumcraft.id("block/tube_generic_center"), Thaumcraft.id("block/tube_generic_side"), true);
+        registerDirectionalMultipart(ConfigBlocks.TUBE_BUFFER, TubeBlock.BY_DIRECTION, Thaumcraft.id("block/tube_generic_center"), Thaumcraft.id("block/tube_generic_side"), true);
+        registerAllFacingBlock(ConfigBlocks.ESSENTIA_INPUT, EssentiaInputBlock.FACING);
+        registerAllFacingBlock(ConfigBlocks.ESSENTIA_OUTPUT, EssentiaOutputBlock.FACING);
 
         registerJars();
         registerAspectSource();
@@ -518,6 +527,12 @@ public class BlockDataProvider extends ModelProvider {
         blockParentItem(block, model);
     }
 
+	private void simpleExistingModel(ConfigBlocks.BlockObject<? extends Block> block, ResourceLocation modelId, String... subfolders) {
+		ResourceLocation model = RegistryUtils.getBlockLocation(modelId, subfolders);
+		blocks.blockStateOutput.accept(MultiVariantGenerator.multiVariant(block.block(), Variant.variant().with(VariantProperties.MODEL, model)));
+		blockParentItem(block, model);
+	}
+
     private void registerStairAndSlab(ConfigBlocks.BlockObject<? extends Block> block, ConfigBlocks.BlockObject<? extends StairBlock> stairs, ConfigBlocks.BlockObject<? extends SlabBlock> slab, boolean uniqueTextures) {
         ResourceLocation texture = RegistryUtils.getBlockLocation(block.blockSupplier());
         TextureMapping mapping = new TextureMapping().put(TextureSlot.PARTICLE, texture.withSuffix(uniqueTextures ? "_0" : ""))
@@ -557,6 +572,34 @@ public class BlockDataProvider extends ModelProvider {
     private void registerFakeBlock(DeferredBlock<?> block) {
         ResourceLocation model = Thaumcraft.id("block/empty");
         blocks.blockStateOutput.accept(MultiVariantGenerator.multiVariant(block.value(), Variant.variant().with(VariantProperties.MODEL, model)));
+    }
+
+    private void registerAllFacingBlock(ConfigBlocks.BlockObject<? extends Block> block, net.minecraft.world.level.block.state.properties.Property<Direction> facingProperty) {
+        ResourceLocation model = ModelLocationUtils.getModelLocation(block.block());
+        MultiVariantGenerator generator = MultiVariantGenerator.multiVariant(block.block());
+        generator.with(PropertyDispatch.property(facingProperty).generate(facing -> switch (facing) {
+            case UP -> Variant.variant().with(VariantProperties.MODEL, model);
+            case DOWN -> Variant.variant()
+                    .with(VariantProperties.MODEL, model)
+                    .with(VariantProperties.X_ROT, VariantProperties.Rotation.R180);
+            case NORTH -> Variant.variant()
+                    .with(VariantProperties.MODEL, model)
+                    .with(VariantProperties.X_ROT, VariantProperties.Rotation.R90);
+            case SOUTH -> Variant.variant()
+                    .with(VariantProperties.MODEL, model)
+                    .with(VariantProperties.X_ROT, VariantProperties.Rotation.R90)
+                    .with(VariantProperties.Y_ROT, VariantProperties.Rotation.R180);
+            case EAST -> Variant.variant()
+                    .with(VariantProperties.MODEL, model)
+                    .with(VariantProperties.X_ROT, VariantProperties.Rotation.R90)
+                    .with(VariantProperties.Y_ROT, VariantProperties.Rotation.R90);
+            case WEST -> Variant.variant()
+                    .with(VariantProperties.MODEL, model)
+                    .with(VariantProperties.X_ROT, VariantProperties.Rotation.R90)
+                    .with(VariantProperties.Y_ROT, VariantProperties.Rotation.R270);
+        }));
+        blocks.blockStateOutput.accept(generator);
+        blockParentItem(block, model);
     }
 
     private void registerNitorBlocks() {

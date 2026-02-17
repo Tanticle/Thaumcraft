@@ -2,6 +2,7 @@ package art.arcane.thaumcraft.registries;
 
 import art.arcane.thaumcraft.items.FancyArmorItem;
 import art.arcane.thaumcraft.items.VisChargeItem;
+import art.arcane.thaumcraft.items.equipment.GogglesItem;
 import art.arcane.thaumcraft.items.tools.*;
 import art.arcane.thaumcraft.items.equipment.BootsTravellerItem;
 import net.minecraft.core.component.DataComponents;
@@ -45,6 +46,7 @@ public final class ConfigItems {
     public static final DeferredItem<Item> JAR_LABEL = registerItem(Items.JAR_LABEL, JarLabelItem::new, ConfigCreativeTabs.MAIN);
 
     // Tools
+    public static final DeferredItem<Item> GAUNTLET = registerSimple(Items.GAUNTLET, p -> p.stacksTo(1).rarity(Rarity.UNCOMMON), ConfigCreativeTabs.MAIN);
     public static final DeferredItem<ResonatorItem> ESSENTIA_RESONATOR = registerItem(Items.ESSENTIA_RESONATOR, ResonatorItem::new, ConfigCreativeTabs.MAIN);
     public static final DeferredItem<ScribingToolsItem> SCRIBING_TOOLS = registerItem(Items.SCRIBING_TOOLS, ScribingToolsItem::new, ConfigCreativeTabs.MAIN);
     public static final DeferredItem<PrimalCrusherItem> PRIMAL_CRUSHER = registerItem(Items.PRIMAL_CRUSHER, PrimalCrusherItem::new, ConfigCreativeTabs.MAIN);
@@ -196,8 +198,9 @@ public final class ConfigItems {
                     .build())),
             ConfigCreativeTabs.MAIN);
 
-	public static final DeferredItem<Item> SCANNER = registerItem(Items.SCANNER, p -> new Item(p.component(ConfigItemComponents.GOGGLE_SIGHT.value(), Unit.INSTANCE)), ConfigCreativeTabs.MAIN);
+	public static final DeferredItem<Item> SCANNER = registerItem(Items.SCANNER, p -> new Item(p.component(ConfigItemComponents.GOGGLE_SIGHT.value(), Unit.INSTANCE).rarity(Rarity.UNCOMMON)), ConfigCreativeTabs.MAIN);
 
+	public static final DeferredItem<GogglesItem> GOGGLES = registerItem(Items.GOGGLES, GogglesItem::new, ConfigCreativeTabs.MAIN);
     /* -------------------------------------------------------------------------------------------------------------- */
 
     public static void init(IEventBus bus) { REGISTRY.register(bus); }

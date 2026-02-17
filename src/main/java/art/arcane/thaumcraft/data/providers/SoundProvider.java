@@ -25,6 +25,7 @@ public class SoundProvider extends SoundDefinitionsProvider {
         registerSoundSet(Sounds.CLACK, 3);
         registerSoundSet(Sounds.TOOL, 2);
         registerSoundSet(Sounds.ZAP, 2);
+        registerSoundSet(Sounds.CREAK, 2);
 
         registerSound(Sounds.KNOB_TWISTING);
         registerSound(Sounds.SPARKLE_HUM);

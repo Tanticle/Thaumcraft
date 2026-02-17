@@ -123,7 +123,14 @@ public class RenderEvents {
             matrix4fstack.pushMatrix();
             matrix4fstack.mul(e.getModelViewMatrix());
             e.getPoseStack().pushPose();
-            ThaumcraftClient.TUBE_DEBUG_RENDERER.render(e.getPoseStack(), Minecraft.getInstance().renderBuffers().bufferSource(), e.getCamera().getPosition().x, e.getCamera().getPosition().y, e.getCamera().getPosition().z);
+            if (ThaumcraftClient.TUBE_DEBUG_RENDERER != null && ThaumcraftClient.TUBE_DEBUG_RENDERER.active) {
+                ThaumcraftClient.TUBE_DEBUG_RENDERER.render(
+                        e.getPoseStack(),
+                        Minecraft.getInstance().renderBuffers().bufferSource(),
+                        e.getCamera().getPosition().x,
+                        e.getCamera().getPosition().y,
+                        e.getCamera().getPosition().z);
+            }
             e.getPoseStack().popPose();
             matrix4fstack.popMatrix();
         }

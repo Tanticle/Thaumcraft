@@ -11,11 +11,18 @@ import art.arcane.thaumcraft.blocks.LevitatorBlock;
 import art.arcane.thaumcraft.blocks.PedestalBlock;
 import art.arcane.thaumcraft.blocks.RunicMatrixBlock;
 import art.arcane.thaumcraft.blocks.alchemy.CreativeAspectSourceBlock;
+import art.arcane.thaumcraft.blocks.alchemy.EssentiaInputBlock;
+import art.arcane.thaumcraft.blocks.alchemy.EssentiaOutputBlock;
 import art.arcane.thaumcraft.blocks.alchemy.CrucibleBlock;
 import art.arcane.thaumcraft.blocks.crafting.GolemBuilderBlock;
 import art.arcane.thaumcraft.blocks.crafting.GolemBuilderComponentBlock;
 import art.arcane.thaumcraft.blocks.alchemy.JarBlock;
+import art.arcane.thaumcraft.blocks.alchemy.TubeBufferBlock;
 import art.arcane.thaumcraft.blocks.alchemy.TubeBlock;
+import art.arcane.thaumcraft.blocks.alchemy.TubeFilterBlock;
+import art.arcane.thaumcraft.blocks.alchemy.TubeOnewayBlock;
+import art.arcane.thaumcraft.blocks.alchemy.TubeRestrictBlock;
+import art.arcane.thaumcraft.blocks.alchemy.TubeValveBlock;
 import art.arcane.thaumcraft.blocks.devices.EverfullUrnBlock;
 import art.arcane.thaumcraft.blocks.devices.HungryChestBlock;
 import art.arcane.thaumcraft.blocks.NitorBlock;
@@ -85,6 +92,13 @@ public final class ConfigBlocks {
 	public static final BlockObject<InfusionModifierBlock> INFUSION_STONE_COST = registerBlock(Blocks.INFUSION_STONE_COST, p -> new InfusionModifierBlock(p, -0.02F, 1), ConfigCreativeTabs.MAIN);
 
 	public static final BlockObject<TubeBlock> TUBE = registerBlock(Blocks.TUBE, TubeBlock::new, ConfigCreativeTabs.MAIN);
+	public static final BlockObject<TubeValveBlock> TUBE_VALVE = registerBlock(Blocks.TUBE_VALVE, TubeValveBlock::new, ConfigCreativeTabs.MAIN);
+	public static final BlockObject<TubeFilterBlock> TUBE_FILTER = registerBlock(Blocks.TUBE_FILTER, TubeFilterBlock::new, ConfigCreativeTabs.MAIN);
+	public static final BlockObject<TubeRestrictBlock> TUBE_RESTRICT = registerBlock(Blocks.TUBE_RESTRICT, TubeRestrictBlock::new, ConfigCreativeTabs.MAIN);
+	public static final BlockObject<TubeOnewayBlock> TUBE_ONEWAY = registerBlock(Blocks.TUBE_ONEWAY, TubeOnewayBlock::new, ConfigCreativeTabs.MAIN);
+	public static final BlockObject<TubeBufferBlock> TUBE_BUFFER = registerBlock(Blocks.TUBE_BUFFER, TubeBufferBlock::new, ConfigCreativeTabs.MAIN);
+	public static final BlockObject<EssentiaInputBlock> ESSENTIA_INPUT = registerBlock(Blocks.ESSENTIA_INPUT, EssentiaInputBlock::new, ConfigCreativeTabs.MAIN);
+	public static final BlockObject<EssentiaOutputBlock> ESSENTIA_OUTPUT = registerBlock(Blocks.ESSENTIA_OUTPUT, EssentiaOutputBlock::new, ConfigCreativeTabs.MAIN);
 
 	public static final BlockObject<CreativeAspectSourceBlock> CREATIVE_ASPECT_SOURCE = registerBlock(Blocks.CREATIVE_ASPECT_SOURCE, CreativeAspectSourceBlock::new, Rarity.EPIC, ConfigCreativeTabs.MAIN);
 	public static final BlockObject<InfusionPillarBlock> INFUSION_PILLAR_ARCANE = registerBlock(Blocks.INFUSION_PILLAR_ARCANE, InfusionPillarBlock::new, ConfigCreativeTabs.MAIN);

@@ -1,12 +1,12 @@
 package art.arcane.thaumcraft.client.fx;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.particle.Particle;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.client.event.ClientTickEvent;
 import art.arcane.thaumcraft.Thaumcraft;
-import art.arcane.thaumcraft.client.fx.particles.FXGenericParticle;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -17,7 +17,7 @@ public final class DelayedParticleQueue {
 
     private static final List<DelayedParticle> queue = new ArrayList<>();
 
-    public static void add(FXGenericParticle particle, int delayTicks) {
+    public static void add(Particle particle, int delayTicks) {
         synchronized (queue) {
             queue.add(new DelayedParticle(particle, delayTicks));
         }
@@ -52,10 +52,10 @@ public final class DelayedParticleQueue {
     }
 
     private static class DelayedParticle {
-        final FXGenericParticle particle;
+        final Particle particle;
         int ticksRemaining;
 
-        DelayedParticle(FXGenericParticle particle, int ticksRemaining) {
+        DelayedParticle(Particle particle, int ticksRemaining) {
             this.particle = particle;
             this.ticksRemaining = ticksRemaining;
         }

@@ -26,7 +26,14 @@ public class ConfigCapabilities {
     @SubscribeEvent
     private static void registerCapabilities(RegisterCapabilitiesEvent e) {
         e.registerBlockEntity(ESSENTIA, ConfigBlockEntities.JAR.entityType(), (be, side) -> side == Direction.UP ? be : null);
-        e.registerBlockEntity(ESSENTIA, ConfigBlockEntities.TUBE.entityType(), (be, side) -> be.getDisabledDirections().contains(side) ? null : be);
+        e.registerBlockEntity(ESSENTIA, ConfigBlockEntities.TUBE.entityType(), (be, side) -> be.isDirectionDisabled(side) ? null : be);
+        e.registerBlockEntity(ESSENTIA, ConfigBlockEntities.TUBE_VALVE.entityType(), (be, side) -> be.isDirectionDisabled(side) ? null : be);
+        e.registerBlockEntity(ESSENTIA, ConfigBlockEntities.TUBE_FILTER.entityType(), (be, side) -> be.isDirectionDisabled(side) ? null : be);
+        e.registerBlockEntity(ESSENTIA, ConfigBlockEntities.TUBE_RESTRICT.entityType(), (be, side) -> be.isDirectionDisabled(side) ? null : be);
+        e.registerBlockEntity(ESSENTIA, ConfigBlockEntities.TUBE_ONEWAY.entityType(), (be, side) -> be.isDirectionDisabled(side) ? null : be);
+        e.registerBlockEntity(ESSENTIA, ConfigBlockEntities.TUBE_BUFFER.entityType(), (be, side) -> be.isDirectionDisabled(side) ? null : be);
+        e.registerBlockEntity(ESSENTIA, ConfigBlockEntities.ESSENTIA_INPUT.entityType(), (be, side) -> side == be.getConnectionSide() ? be : null);
+        e.registerBlockEntity(ESSENTIA, ConfigBlockEntities.ESSENTIA_OUTPUT.entityType(), (be, side) -> side == be.getConnectionSide() ? be : null);
         e.registerBlockEntity(ESSENTIA, ConfigBlockEntities.CREATIVE_ASPECT_SOURCE.entityType(), (be, side) -> be);
         e.registerBlockEntity(INFUSION_PEDESTAL, ConfigBlockEntities.PEDESTAL.entityType(), (be, side) -> be);
         e.registerBlock(INFUSION_MODIFIER, (level, pos, state, be, $) -> (IInfusionModifierCapability)state.getBlock(), ConfigBlocks.ANCIENT_PEDESTAL.block(), ConfigBlocks.ELDRITCH_PEDESTAL.block());

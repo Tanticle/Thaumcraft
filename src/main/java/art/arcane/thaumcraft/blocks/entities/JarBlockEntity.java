@@ -9,15 +9,21 @@ import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.level.block.state.BlockState;
 import art.arcane.thaumcraft.api.ThaumcraftData;
 import art.arcane.thaumcraft.api.aspects.Aspect;
 import art.arcane.thaumcraft.api.capabilities.IEssentiaCapability;
 import art.arcane.thaumcraft.blocks.alchemy.JarBlock;
 import art.arcane.thaumcraft.registries.ConfigBlockEntities;
+import art.arcane.thaumcraft.registries.ConfigCapabilities;
+import art.arcane.thaumcraft.registries.ConfigSounds;
 import art.arcane.thaumcraft.util.simple.SimpleBlockEntity;
+import art.arcane.thaumcraft.util.simple.TickableBlockEntity;
 
-public class JarBlockEntity extends SimpleBlockEntity implements IEssentiaCapability, IGoggleRendererCapability {
+import java.util.Objects;
+
+public class JarBlockEntity extends SimpleBlockEntity implements IEssentiaCapability, IGoggleRendererCapability, TickableBlockEntity {
 
     private static final int MAX_ESSENTIA = 250;
 
@@ -28,6 +34,7 @@ public class JarBlockEntity extends SimpleBlockEntity implements IEssentiaCapabi
     @Getter
     private Direction labelDirection;
     private int amount;
+    private int checkTimer;
 
     public JarBlockEntity(BlockPos pPos, BlockState pBlockState) {
         super(ConfigBlockEntities.JAR.entityType(), pPos, pBlockState);
@@ -35,40 +42,61 @@ public class JarBlockEntity extends SimpleBlockEntity implements IEssentiaCapabi
         this.label = null;
         this.labelDirection = null;
         this.amount = 0;
+        this.checkTimer = 0;
+    }
+
+    private ResourceKey<Aspect> parseAspectKey(String key) {
+        if (key == null || key.isBlank()) {
+            return null;
+        }
+        ResourceLocation location = ResourceLocation.tryParse(key);
+        return location == null ? null : ResourceKey.create(ThaumcraftData.Registries.ASPECT, location);
     }
 
     @Override
     protected void readNbt(CompoundTag nbt, HolderLookup.Provider pRegistries) {
-        if(nbt.contains("content")) {
+        if (nbt.contains("content")) {
             CompoundTag content = nbt.getCompound("content");
-            this.currentAspect = ResourceKey.create(ThaumcraftData.Registries.ASPECT, ResourceLocation.tryParse(content.getString("aspect")));
-            this.amount = content.getInt("amount");
+            this.currentAspect = parseAspectKey(content.getString("aspect"));
+            this.amount = Math.max(0, content.getInt("amount"));
+            if (this.currentAspect == null || this.amount <= 0) {
+                this.currentAspect = null;
+                this.amount = 0;
+            }
         } else {
-            dump();
+            this.currentAspect = null;
+            this.amount = 0;
         }
 
-        if(nbt.contains("label")) {
-            this.label = ResourceKey.create(ThaumcraftData.Registries.ASPECT, ResourceLocation.tryParse(nbt.getString("label")));
+        if (nbt.contains("label")) {
+            this.label = parseAspectKey(nbt.getString("label"));
             this.labelDirection = Direction.byName(nbt.getString("label_dir"));
+            if (this.label == null || this.labelDirection == null) {
+                this.label = null;
+                this.labelDirection = null;
+            }
         } else {
-            removeLabel(this.labelDirection);
+            this.label = null;
+            this.labelDirection = null;
         }
-        
-        if(nbt.contains("empty")) {
-            dump();
-            removeLabel(this.labelDirection);
+
+        if (nbt.contains("empty")) {
+            this.currentAspect = null;
+            this.amount = 0;
+            this.label = null;
+            this.labelDirection = null;
         }
     }
 
     @Override
     protected void writeNbt(CompoundTag nbt, HolderLookup.Provider pRegistries) {
-        if(currentAspect != null) {
+        if (currentAspect != null && amount > 0) {
             CompoundTag content = new CompoundTag();
             content.putString("aspect", this.currentAspect.location().toString());
             content.putInt("amount", this.amount);
             nbt.put("content", content);
         }
-        if(labelDirection != null) {
+        if (labelDirection != null && label != null) {
             nbt.putString("label", this.label.location().toString());
             nbt.putString("label_dir", this.labelDirection.getSerializedName());
         }
@@ -79,7 +107,7 @@ public class JarBlockEntity extends SimpleBlockEntity implements IEssentiaCapabi
     }
 
     public float getFillPercent() {
-        return this.amount > 0 ? (float)this.amount / MAX_ESSENTIA : 0;
+        return this.amount > 0 ? (float) Math.min(this.amount, MAX_ESSENTIA) / MAX_ESSENTIA : 0;
     }
 
     public boolean dump() {
@@ -102,7 +130,7 @@ public class JarBlockEntity extends SimpleBlockEntity implements IEssentiaCapabi
             this.label = this.currentAspect;
             sync();
             return true;
-        } else if(filterType != null && (this.currentAspect == null || this.currentAspect == filterType)) {
+        } else if(filterType != null && (this.currentAspect == null || Objects.equals(this.currentAspect, filterType))) {
             this.labelDirection = dir;
             this.label = filterType;
             sync();
@@ -139,32 +167,35 @@ public class JarBlockEntity extends SimpleBlockEntity implements IEssentiaCapabi
 
     @Override
     public ResourceKey<Aspect> getEssentiaType(Direction dir) {
-        return label != null ? label : currentAspect;
+        return currentAspect;
     }
 
     @Override
     public int getMinimumSuction(Direction dir) {
         if(isVoid()) {
-            return label == null ? 48 : 32;
+            return label == null ? 32 : 48;
         } else {
-            return label == null ? 64 : 32;
+            return label == null ? 32 : 64;
         }
     }
 
     @Override
     public ResourceKey<Aspect> getSuctionType(Direction dir) {
-        return getEssentiaType(dir);
+        return label != null ? label : currentAspect;
     }
 
     @Override
     public int getSuction(Direction dir) {
         if(isVoid()) {
-            return label == null ? 48 : 32;
+            if(label != null && amount < MAX_ESSENTIA) {
+                return 48;
+            }
+            return 32;
         } else {
             if(amount >= MAX_ESSENTIA) {
                 return 0;
             }
-            return label == null ? 64 : 32;
+            return label == null ? 32 : 64;
         }
     }
 
@@ -172,14 +203,16 @@ public class JarBlockEntity extends SimpleBlockEntity implements IEssentiaCapabi
     public int drainAspect(ResourceKey<Aspect> aspect, int amount, Direction dir) {
         if(dir != Direction.UP)
             return 0;
-        if(aspect.equals(currentAspect)) {
+        if(Objects.equals(aspect, currentAspect)) {
             int currentAmount = this.amount;
             if(currentAmount <= amount) {
                 this.amount = 0;
                 this.currentAspect = null;
+                sync();
                 return currentAmount;
             }
             this.amount -= amount;
+            sync();
             return amount;
         }
         return 0;
@@ -189,13 +222,28 @@ public class JarBlockEntity extends SimpleBlockEntity implements IEssentiaCapabi
     public int fillAspect(ResourceKey<Aspect> aspect, int amount, Direction dir) {
         if(dir != Direction.UP)
             return 0;
+        if(aspect == null || amount <= 0)
+            return 0;
+        if (isVoid() && this.currentAspect != null && !Objects.equals(aspect, this.currentAspect)) {
+            return 0;
+        }
         if(this.currentAspect == null && this.amount == 0) {
             this.currentAspect = aspect;
-            this.amount = Math.min(MAX_ESSENTIA, amount);
-            return this.amount;
-        } else if(aspect.equals(currentAspect)) {
+        }
+        if(aspect.equals(currentAspect)) {
+            int previousAmount = this.amount;
+            if (isVoid()) {
+                this.amount = Math.min(MAX_ESSENTIA, this.amount + amount);
+                if (this.amount != previousAmount) {
+                    sync();
+                }
+                return amount;
+            }
             int addAmount = Math.min(MAX_ESSENTIA - this.amount, amount);
             this.amount += addAmount;
+            if (addAmount > 0) {
+                sync();
+            }
             return addAmount;
         }
         return 0;
@@ -203,21 +251,78 @@ public class JarBlockEntity extends SimpleBlockEntity implements IEssentiaCapabi
 
     @Override
     public boolean compliesToAspect(ResourceKey<Aspect> aspect, Direction dir) {
-        return dir == Direction.UP && (label == null || aspect.equals(label)) && (currentAspect == null || aspect.equals(currentAspect));
+        if(dir != Direction.UP) {
+            return false;
+        }
+        return (aspect == null || label == null || Objects.equals(aspect, label))
+                && (aspect == null || currentAspect == null || Objects.equals(aspect, currentAspect));
     }
 
     @Override
     public boolean canFit(ResourceKey<Aspect> aspect, int amount, Direction dir) {
-        return compliesToAspect(aspect, dir) && (isVoid() || amount <= MAX_ESSENTIA - this.amount);
+        return amount > 0 && compliesToAspect(aspect, dir) && (isVoid() || amount <= MAX_ESSENTIA - this.amount);
     }
 
     @Override
     public boolean contains(ResourceKey<Aspect> aspect, int amount, Direction dir) {
-        return (aspect == null || compliesToAspect(aspect, dir)) && this.amount >= amount;
+        return amount > 0 && (aspect == null || compliesToAspect(aspect, dir)) && this.amount >= amount;
     }
 
     @Override
     public boolean isContainer(Direction dir) {
         return dir == Direction.UP;
+    }
+
+    @Override
+    public void onServerTick() {
+        if (++this.checkTimer % 5 != 0) {
+            return;
+        }
+        if (!isVoid() && this.amount >= MAX_ESSENTIA) {
+            return;
+        }
+        fillFromAbove();
+    }
+
+    private void fillFromAbove() {
+        if (this.level == null) {
+            return;
+        }
+        IEssentiaCapability cap = this.level.getCapability(ConfigCapabilities.ESSENTIA, this.worldPosition.above(), Direction.DOWN);
+        if (cap == null || !cap.getSideStatus(Direction.DOWN).isOutput()) {
+            return;
+        }
+
+        ResourceKey<Aspect> targetAspect = null;
+        if (this.label != null) {
+            targetAspect = this.label;
+        } else if (this.currentAspect != null && this.amount > 0) {
+            targetAspect = this.currentAspect;
+        } else if (cap.getEssentia(Direction.DOWN) > 0
+                && cap.getSuction(Direction.DOWN) < getSuction(Direction.UP)
+                && getSuction(Direction.UP) >= cap.getMinimumSuction(Direction.DOWN)) {
+            targetAspect = cap.getEssentiaType(Direction.DOWN);
+        }
+
+        if (targetAspect == null || cap.getSuction(Direction.DOWN) >= getSuction(Direction.UP)) {
+            return;
+        }
+
+        int drained = cap.drainAspect(targetAspect, 1, Direction.DOWN);
+        if (drained <= 0) {
+            return;
+        }
+        int accepted = fillAspect(targetAspect, drained, Direction.UP);
+        if (accepted > 0) {
+            this.level.playSound(null, this.worldPosition, ConfigSounds.BUBBLE.value(), SoundSource.BLOCKS, 0.08F, 1.2F + this.level.random.nextFloat() * 0.2F);
+        }
+        if (accepted < drained) {
+            cap.fillAspect(targetAspect, drained - accepted, Direction.DOWN);
+        }
+    }
+
+    @Override
+    public TickSetting getTickSetting() {
+        return TickSetting.SERVER;
     }
 }

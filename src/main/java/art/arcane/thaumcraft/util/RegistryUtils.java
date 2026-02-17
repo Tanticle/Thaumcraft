@@ -32,6 +32,13 @@ public final class RegistryUtils {
         return id.withPath(s -> String.format("block/%s/%s", String.join("/", subfolder), s));
     }
 
+	public static ResourceLocation getBlockLocation(ResourceLocation id, String... subfolder) {
+		if(subfolder.length == 0) {
+			return id.withPath(s -> String.format("block/%s", s));
+		}
+		return id.withPath(s -> String.format("block/%s/%s", String.join("/", subfolder), s));
+	}
+
     public static ResourceLocation getObjLocation(Holder<?> holder, String... subfolder) {
         return getBlockLocation(holder, subfolder).withPrefix("models/").withSuffix(".obj");
     }

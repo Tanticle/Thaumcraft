@@ -81,14 +81,15 @@ public class ItemModelProvider extends ModelProvider {
 		tintableAspectItem(ConfigItems.VIS_CRYSTAL, "resources");
 		phialItem(ConfigItems.PHIAL, "resources");
 
-		// Tools
-		batchItems("tools",
-				ConfigItems.ELEMENTAL_AXE, ConfigItems.ELEMENTAL_HOE, ConfigItems.ELEMENTAL_PICKAXE, ConfigItems.ELEMENTAL_SHOVEL, ConfigItems.ELEMENTAL_SWORD,
-				ConfigItems.THAUMIUM_AXE, ConfigItems.THAUMIUM_HOE, ConfigItems.THAUMIUM_PICKAXE, ConfigItems.THAUMIUM_SHOVEL, ConfigItems.THAUMIUM_SWORD,
-				ConfigItems.VOID_AXE, ConfigItems.VOID_HOE, ConfigItems.VOID_PICKAXE, ConfigItems.VOID_SHOVEL, ConfigItems.VOID_SWORD,
-				ConfigItems.CRIMSON_BLADE, ConfigItems.PRIMAL_CRUSHER);
-		batchItems("tools",
-				ConfigItems.ESSENTIA_RESONATOR, ConfigItems.SANITY_CHECKER, ConfigItems.SCRIBING_TOOLS);
+        // Tools
+        batchItems("tools",
+                ConfigItems.GAUNTLET,
+                ConfigItems.ELEMENTAL_AXE, ConfigItems.ELEMENTAL_HOE, ConfigItems.ELEMENTAL_PICKAXE, ConfigItems.ELEMENTAL_SHOVEL, ConfigItems.ELEMENTAL_SWORD,
+                ConfigItems.THAUMIUM_AXE, ConfigItems.THAUMIUM_HOE, ConfigItems.THAUMIUM_PICKAXE, ConfigItems.THAUMIUM_SHOVEL, ConfigItems.THAUMIUM_SWORD,
+                ConfigItems.VOID_AXE, ConfigItems.VOID_HOE, ConfigItems.VOID_PICKAXE, ConfigItems.VOID_SHOVEL, ConfigItems.VOID_SWORD,
+                ConfigItems.CRIMSON_BLADE, ConfigItems.PRIMAL_CRUSHER);
+        batchItems("tools",
+                ConfigItems.ESSENTIA_RESONATOR, ConfigItems.SANITY_CHECKER, ConfigItems.SCRIBING_TOOLS);
 
 		// Armor
 		armorSet(ConfigItems.ARMOR_CRIMSON_LEADER);
@@ -133,6 +134,9 @@ public class ItemModelProvider extends ModelProvider {
 				ItemDisplayContext.FIXED, t ->
 						t.translation(-3F, -3.26F, -2.25F).scale(0.4F).rotation(-90, 180, 0)
 		));
+
+		simpleItem(ConfigItems.GOGGLES);
+    }
 
 		tintableGolemItem(ConfigItems.GOLEM_PLACER, "golemancy");
 		sealPlacerItem();

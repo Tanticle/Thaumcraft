@@ -15,6 +15,7 @@ import art.arcane.thaumcraft.client.rendering.SealClientData;
 import art.arcane.thaumcraft.items.tools.ElementalShovelItem;
 import art.arcane.thaumcraft.networking.packets.ClientboundAspectRegistrySyncPacket;
 import art.arcane.thaumcraft.networking.packets.ClientboundBamfEffectPacket;
+import art.arcane.thaumcraft.networking.packets.ClientboundEssentiaTrailPacket;
 import art.arcane.thaumcraft.networking.packets.ClientboundSalisMundusEffectPacket;
 import art.arcane.thaumcraft.networking.packets.ClientboundSealRemovePacket;
 import art.arcane.thaumcraft.networking.packets.ClientboundSealSyncPacket;
@@ -63,6 +64,8 @@ public class ThaumcraftNetworking {
 
         registrar.playToClient(ClientboundSealRemovePacket.TYPE, ClientboundSealRemovePacket.STREAM_CODEC, (data, ctx) -> {
             ctx.enqueueWork(() -> SealClientData.removeSeal(data.pos(), data.face()));
+        registrar.playToClient(ClientboundEssentiaTrailPacket.TYPE, ClientboundEssentiaTrailPacket.STREAM_CODEC, (data, ctx) -> {
+            ctx.enqueueWork(() -> ThaumcraftFX.drawEssentiaTrail(data));
         });
 
         registrar.playToServer(ServerboundCycleToolModePacket.TYPE, ServerboundCycleToolModePacket.STREAM_CODEC, (data, ctx) -> {

@@ -1,125 +1,92 @@
 package art.arcane.thaumcraft.client.rendering;
 
+import art.arcane.thaumcraft.Thaumcraft;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.core.Direction;
-import org.joml.Matrix4f;
-import org.joml.Vector3f;
+import org.apache.commons.lang3.function.TriFunction;
+import org.joml.*;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class CuboidRenderer {
 
-    private TextureAtlasSprite atlasSprite;
-
-    private int texSizeWidth, texSizeHeight;
-
-    private float xMinU, xMinV, xMaxU, xMaxV;
-    private float yMinU, yMinV, yMaxU, yMaxV;
-    private float zMinU, zMinV, zMaxU, zMaxV;
-
-    private Vector3f bfl, bfr, bbl, bbr;
-    private Vector3f tfl, tfr, tbl, tbr;
-
-    public void draw(VertexConsumer consumer, Matrix4f modelMatrix, int colour, boolean applyLight, int light, boolean applyOverlay, int overlay) {
-        RenderHelper.drawFace(Direction.NORTH, consumer, modelMatrix, bfl, tfr, colour, getMinU(Direction.NORTH), getMinV(Direction.NORTH), getMaxU(Direction.NORTH), getMaxV(Direction.NORTH), applyLight, light, applyOverlay, overlay);
-        RenderHelper.drawFace(Direction.SOUTH, consumer, modelMatrix, bbl, tbr, colour, getMinU(Direction.SOUTH), getMinV(Direction.SOUTH), getMaxU(Direction.SOUTH), getMaxV(Direction.SOUTH), applyLight, light, applyOverlay, overlay);
-        RenderHelper.drawFace(Direction.EAST, consumer, modelMatrix, bfr, tbr, colour, getMinU(Direction.EAST), getMinV(Direction.EAST), getMaxU(Direction.EAST), getMaxV(Direction.EAST), applyLight, light, applyOverlay, overlay);
-        RenderHelper.drawFace(Direction.WEST, consumer, modelMatrix, bfl, tbl, colour, getMinU(Direction.WEST), getMinV(Direction.WEST), getMaxU(Direction.WEST), getMaxV(Direction.WEST), applyLight, light, applyOverlay, overlay);
-        RenderHelper.drawFace(Direction.UP, consumer, modelMatrix, tfl, tbr, colour, getMinU(Direction.UP), getMinV(Direction.UP), getMaxU(Direction.UP), getMaxV(Direction.UP), applyLight, light, applyOverlay, overlay);
-        RenderHelper.drawFace(Direction.DOWN, consumer, modelMatrix, bfl, bbr, colour, getMinU(Direction.DOWN), getMinV(Direction.DOWN), getMaxU(Direction.DOWN), getMaxV(Direction.DOWN), applyLight, light, applyOverlay, overlay);
-    }
-
-    public CuboidRenderer prepare(float width, float height, float depth, int textureWidth, int textureHeight) {
-        prepare(width, height, depth, textureWidth, textureHeight, null);
-        return this;
-    }
 
 
-    public CuboidRenderer prepare(float width, float height, float depth, int textureWidth, int textureHeight, TextureAtlasSprite sprite) {
-        this.atlasSprite = sprite;
+	private final float width, height, depth;
+    private final int texSizeWidth, texSizeHeight;
+	private final TextureAtlasSprite atlasSprite;
 
-        this.texSizeWidth = textureWidth;
-        this.texSizeHeight = textureHeight;
+    private final Vector3f bfl, bfr, bbl, bbr;
+    private final Vector3f tfl, tfr, tbl, tbr;
 
-        this.xMinU = this.yMinU = this.zMinU = this.xMinV = this.yMinV = this.zMinV = 0;
-        this.xMaxU = this.yMaxU = this.zMaxU = textureWidth;
-        this.xMaxV = this.yMaxV = this.zMaxV = textureHeight;
+	private final Map<Direction, Vector4f> uvs = new HashMap<>();
 
-        this.bfl = new Vector3f(0, 0, 0);
-        this.bfr = new Vector3f(width, 0, 0);
-        this.bbl = new Vector3f(0, 0, depth);
-        this.bbr = new Vector3f(width, 0, depth);
-        this.tfl = new Vector3f(0, height, 0);
-        this.tfr = new Vector3f(width, height, 0);
-        this.tbl = new Vector3f(0, height, depth);
-        this.tbr = new Vector3f(width, height, depth);
+	private static final Map<Direction, TriFunction<Float, Float, Float, Vector4f>> CUBE_UV = Map.of(
+			Direction.NORTH, (width, height, depth) -> new Vector4f(depth, depth, depth + width, depth + height),
+			Direction.SOUTH, (width, height, depth) -> new Vector4f(depth * 2 + width, depth, depth * 2 + width * 2, depth + height),
+			Direction.WEST, (width, height, depth) -> new Vector4f(depth + width, depth, depth * 2 + width, depth + height),
+			Direction.EAST, (width, height, depth) -> new Vector4f(0, depth, depth, depth + height),
+			Direction.UP, (width, height, depth) -> new Vector4f(depth, 0, depth + width, depth),
+			Direction.DOWN, (width, height, depth) -> new Vector4f(depth, 0, depth + width, depth)
+	);
 
-        return this;
-    }
+	public CuboidRenderer(float width, float height, float depth, int textureWidth, int textureHeight, TextureAtlasSprite sprite) {
+		this.width = width;
+		this.height = height;
+		this.depth = depth;
+		this.texSizeWidth = textureWidth;
+		this.texSizeHeight = textureHeight;
+		this.atlasSprite = sprite;
 
-    public CuboidRenderer setUVs(Direction.Axis axis, float minU, float minV, float maxU, float maxV) {
-        switch(axis) {
-            case X -> {
-                this.xMinU = minU;
-                this.xMinV = minV;
-                this.xMaxU = maxU;
-                this.xMaxV = maxV;
-            }
-            case Y -> {
-                this.yMinU = minU;
-                this.yMinV = minV;
-                this.yMaxU = maxU;
-                this.yMaxV = maxV;
-            }
-            case Z -> {
-                this.zMinU = minU;
-                this.zMinV = minV;
-                this.zMaxU = maxU;
-                this.zMaxV = maxV;
-            }
-        }
+		this.bfl = new Vector3f(0, 0, 0);
+		this.bfr = new Vector3f(width, 0, 0);
+		this.bbl = new Vector3f(0, 0, depth);
+		this.bbr = new Vector3f(width, 0, depth);
+		this.tfl = new Vector3f(0, height, 0);
+		this.tfr = new Vector3f(width, height, 0);
+		this.tbl = new Vector3f(0, height, depth);
+		this.tbr = new Vector3f(width, height, depth);
+	}
+
+	public CuboidRenderer setCubeUVs(int texOffsetX, int texOffsetY) {
+		uvs.clear();
+		CUBE_UV.forEach((direction, uv) -> {
+			Vector4f coords = uv.apply(width * 16, height * 16, depth * 16).add(texOffsetX, texOffsetY, texOffsetX, texOffsetY);
+			uvs.put(direction, coords.div(texSizeWidth, texSizeHeight, texSizeWidth, texSizeHeight));
+		});
+		return this;
+	}
+
+    public CuboidRenderer setAxisUVs(Direction.Axis axis, float minU, float minV, float maxU, float maxV) {
+		for (Direction direction : axis.getDirections()) {
+			float u = texCoord(this.texSizeWidth, minU);
+			float v = texCoord(this.texSizeHeight, minV);
+			float ux =  texCoord(this.texSizeWidth, maxU);
+			float vx =  texCoord(this.texSizeHeight, maxV);
+			if(this.atlasSprite != null) {
+				this.uvs.put(direction, new Vector4f(
+						this.atlasSprite.getU(u),
+						this.atlasSprite.getV(v),
+						this.atlasSprite.getU(ux),
+						this.atlasSprite.getV(vx)));
+			} else {
+				this.uvs.put(direction, new Vector4f(u, v, ux, vx));
+			}
+		}
 
         return this;
     }
 
-    private float getMinU(Direction dir) {
-        float minU = switch(dir) {
-            case UP, DOWN -> yMinU;
-            case NORTH, SOUTH -> zMinU;
-            case EAST, WEST -> xMinU;
-        };
-        minU = texCoord(texSizeWidth, minU);
-        return atlasSprite != null ? atlasSprite.getU(minU) : minU;
-    }
-
-    private float getMinV(Direction dir) {
-        float minV = switch(dir) {
-            case UP, DOWN -> yMinV;
-            case NORTH, SOUTH -> zMinV;
-            case EAST, WEST -> xMinV;
-        };
-        minV = texCoord(texSizeHeight, minV);
-        return atlasSprite != null ? atlasSprite.getV(minV) : minV;
-    }
-
-    private float getMaxU(Direction dir) {
-        float maxU = switch(dir) {
-            case UP, DOWN -> yMaxU;
-            case NORTH, SOUTH -> zMaxU;
-            case EAST, WEST -> xMaxU;
-        };
-        maxU = texCoord(texSizeWidth, maxU);
-        return atlasSprite != null ? atlasSprite.getU(maxU) : maxU;
-    }
-
-    private float getMaxV(Direction dir) {
-        float maxV = switch(dir) {
-            case UP, DOWN -> yMaxV;
-            case NORTH, SOUTH -> zMaxV;
-            case EAST, WEST -> xMaxV;
-        };
-        maxV = texCoord(texSizeHeight, maxV);
-        return atlasSprite != null ? atlasSprite.getV(maxV) : maxV;
-    }
+	public void draw(VertexConsumer consumer, Matrix4f modelMatrix, int colour, boolean applyLight, int light, boolean applyOverlay, int overlay) {
+		RenderHelper.drawFace(Direction.NORTH, consumer, modelMatrix, bfl, tfr, colour, uvs.get(Direction.NORTH), applyLight, light, applyOverlay, overlay);
+		RenderHelper.drawFace(Direction.SOUTH, consumer, modelMatrix, bbl, tbr, colour, uvs.get(Direction.SOUTH), applyLight, light, applyOverlay, overlay);
+		RenderHelper.drawFace(Direction.EAST, consumer, modelMatrix, bfr, tbr, colour, uvs.get(Direction.EAST), applyLight, light, applyOverlay, overlay);
+		RenderHelper.drawFace(Direction.WEST, consumer, modelMatrix, bfl, tbl, colour, uvs.get(Direction.WEST), applyLight, light, applyOverlay, overlay);
+		RenderHelper.drawFace(Direction.UP, consumer, modelMatrix, tfl, tbr, colour, uvs.get(Direction.UP), applyLight, light, applyOverlay, overlay);
+		RenderHelper.drawFace(Direction.DOWN, consumer, modelMatrix, bfl, bbr, colour, uvs.get(Direction.DOWN), applyLight, light, applyOverlay, overlay);
+	}
 
     private float texCoord(int size, float value) {
         return 1F / size * value;

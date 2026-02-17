@@ -1,5 +1,7 @@
 package art.arcane.thaumcraft.client.rendering.ber.models;
 
+import art.arcane.thaumcraft.registries.ConfigBlocks;
+import art.arcane.thaumcraft.util.RegistryUtils;
 import com.google.common.collect.ImmutableMap;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
@@ -64,7 +66,7 @@ public class RunicMatrixModel extends BlockEntityModel<RunicMatrixBlockEntity> {
 
     @Override
     public ResourceLocation getTexture(RunicMatrixBlockEntity blockEntity) {
-        return blockEntity.getTier().getTexture();
+        return RegistryUtils.getBlockLocation(ConfigBlocks.RUNIC_MATRIX.blockSupplier());
     }
 
     @Override
