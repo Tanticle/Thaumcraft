@@ -26,6 +26,7 @@ public class SoundProvider extends SoundDefinitionsProvider {
         registerSoundSet(Sounds.TOOL, 2);
         registerSoundSet(Sounds.ZAP, 2);
         registerSoundSet(Sounds.CREAK, 2);
+        registerSoundSet(Sounds.MAGIC_CHIME, 3);
 
         registerSound(Sounds.KNOB_TWISTING);
         registerSound(Sounds.SPARKLE_HUM);
@@ -33,6 +34,8 @@ public class SoundProvider extends SoundDefinitionsProvider {
         registerSound(Sounds.COINS);
         registerSound(Sounds.SPILL);
         registerSound(Sounds.SCAN);
+        registerSound(Sounds.INFUSION);
+        registerSound(Sounds.INFUSION_START);
     }
 
     private void registerSoundSet(SoundEvent event, int variants) {

@@ -30,6 +30,9 @@ public class ConfigSounds {
     public static final Holder<SoundEvent> TOOL = register(Sounds.TOOL);
     public static final Holder<SoundEvent> ZAP = register(Sounds.ZAP);
     public static final Holder<SoundEvent> SCAN = register(Sounds.SCAN);
+    public static final Holder<SoundEvent> MAGIC_CHIME = register(Sounds.MAGIC_CHIME);
+    public static final Holder<SoundEvent> INFUSION = register(Sounds.INFUSION);
+    public static final Holder<SoundEvent> INFUSION_START = register(Sounds.INFUSION_START);
 
     /* -------------------------------------------------------------------------------------------------------------- */
 

@@ -4,16 +4,14 @@ import art.arcane.thaumcraft.api.ThaumcraftUtils;
 import art.arcane.thaumcraft.api.aspects.Aspect;
 import art.arcane.thaumcraft.api.capabilities.IGoggleRendererCapability;
 import art.arcane.thaumcraft.api.enums.InfusionStability;
+import art.arcane.thaumcraft.registries.*;
 import com.mojang.blaze3d.vertex.PoseStack;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
-import net.minecraft.core.HolderLookup;
-import net.minecraft.core.NonNullList;
+import net.minecraft.core.*;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
@@ -34,10 +32,6 @@ import art.arcane.thaumcraft.api.capabilities.IInfusionPedestalCapability;
 import art.arcane.thaumcraft.api.capabilities.IResearchCapability;
 import art.arcane.thaumcraft.data.aspects.AspectList;
 import art.arcane.thaumcraft.data.recipes.InfusionRecipe;
-import art.arcane.thaumcraft.registries.ConfigBlockEntities;
-import art.arcane.thaumcraft.registries.ConfigCapabilities;
-import art.arcane.thaumcraft.registries.ConfigDataMaps;
-import art.arcane.thaumcraft.registries.ConfigSounds;
 import art.arcane.thaumcraft.util.CraftingUtils;
 import art.arcane.thaumcraft.util.simple.SimpleBlockEntity;
 import art.arcane.thaumcraft.util.simple.TickableBlockEntity;
@@ -45,7 +39,7 @@ import art.arcane.thaumcraft.util.simple.TickableBlockEntity;
 import java.text.DecimalFormat;
 import java.util.*;
 
-//TODO: Infusion - Speed and Cost modifiers
+//TODO - Infusion: Speed and Cost modifiers
 @Getter
 public class RunicMatrixBlockEntity extends SimpleBlockEntity implements TickableBlockEntity, IGoggleRendererCapability {
 
@@ -60,19 +54,18 @@ public class RunicMatrixBlockEntity extends SimpleBlockEntity implements Tickabl
 	private static final DecimalFormat DECIMAL_FORMAT = new DecimalFormat("#######.##");
 
     private final AnimationHandler animationHandler;
-    private MatrixState state;
+	private final List<IInfusionPedestalCapability> itemProviders;
+
+	private MatrixState state;
 
     private RecipeHolder<InfusionRecipe> currentRecipe;
     private AspectList requiredEssentia;
 	private List<Ingredient> requiredItems;
     private UUID craftingPlayer;
-    private List<IInfusionPedestalCapability> itemProviders;
 
-	private int craftTimer;
-    private int cycleTimer;
+	private int craftTimer, cycleTimer, soundTimer;
     private float costModifier;
     private float cycleDelay;
-
 	private float stability, stabilityModifier;
 	private boolean shouldRecheckEnvironment;
 
@@ -99,7 +92,7 @@ public class RunicMatrixBlockEntity extends SimpleBlockEntity implements Tickabl
 
 	@Override
 	public void render(PoseStack stack, MultiBufferSource buffer, DeltaTracker deltaTracker) {
-		//TODO - Aspect Container Rendering
+		//TODO - Visuals: Aspect Container Rendering
 	}
 
 	@Override
@@ -159,16 +152,17 @@ public class RunicMatrixBlockEntity extends SimpleBlockEntity implements Tickabl
                     10,
                     r.nextBoolean());
         }
-    }
 
-    public boolean activate(Level level) {
-        if(CraftingUtils.verifyInfusionAltarStructure(level, this.getBlockPos(), false)) {
-            this.state = MatrixState.STARTING;
-            level.playSound(null, getBlockPos(), ConfigSounds.SPARKLE_HUM.value(), SoundSource.BLOCKS, 1, 1);
-            sync();
-            return true;
-        }
-        return false;
+		if(this.state == MatrixState.ABSORBING || this.state == MatrixState.CRAFTING) {
+			if(soundTimer == 0)
+				getLevel().playSound(null, getBlockPos(), ConfigSounds.INFUSION_START.value(), SoundSource.BLOCKS, .5F, 1F);
+			else if(soundTimer % 65 == 0)
+				getLevel().playSound(null, getBlockPos(), ConfigSounds.INFUSION.value(), SoundSource.BLOCKS, .5F, 1F);
+			//TODO - Particles: Rune Infusion Particles
+			soundTimer++;
+		} else if(soundTimer > 0) {
+			this.soundTimer = Math.clamp(soundTimer - 2, 0, 50);
+		}
     }
 
     private boolean beginCrafting(Player player) {
@@ -181,14 +175,11 @@ public class RunicMatrixBlockEntity extends SimpleBlockEntity implements Tickabl
         Optional<RecipeHolder<InfusionRecipe>> recipeOptional = getCurrentRecipe(player.getCapability(ConfigCapabilities.RESEARCH));
         if(recipeOptional.isEmpty()) {
             this.state = MatrixState.IDLE;
-            this.currentRecipe = null;
+            setRecipe(null, null);
             return false;
         }
 
-        this.currentRecipe = recipeOptional.get();
-        this.requiredEssentia = currentRecipe.value().aspects().clone().modify(this.costModifier);
-		this.requiredItems = NonNullList.copyOf(currentRecipe.value().components());
-        this.craftingPlayer = player.getUUID();
+		setRecipe(recipeOptional.get(), player);
         this.state = MatrixState.ABSORBING;
         getLevel().playSound(null, getBlockPos(), ConfigSounds.SPARKLE_HUM.value(), SoundSource.BLOCKS, .5F, 1);
         sync();
@@ -208,19 +199,16 @@ public class RunicMatrixBlockEntity extends SimpleBlockEntity implements Tickabl
 		}
 
 		if(interrupted || (stability < 0F && level.random.nextInt(1500) <= Mth.abs(stability))) {
-			//TODO: Instability Events
+			//TODO - Logic: Instability Events
 			stability += 5 + level.random.nextFloat() * 5F;
-			//TODO: Grant instability research
+			//TODO - Logic: Grant instability research
 			if(!interrupted)
 				return;
 		}
 
 		if(interrupted) {
 			this.state = MatrixState.IDLE;
-			this.currentRecipe = null;
-			this.requiredEssentia = null;
-			this.requiredItems = null;
-			this.craftingPlayer = null;
+			setRecipe(null, null);
 			sync();
 			return;
 		}
@@ -246,7 +234,7 @@ public class RunicMatrixBlockEntity extends SimpleBlockEntity implements Tickabl
 						continue;
 					if(craftTimer == 0) {
 						craftTimer = CRAFT_TIME_DEFAULT;
-						//TODO: Item Infusion Particles
+						//TODO - Particles: Item Infusion
 					} else if(craftTimer-- <= 1) {
 						pedestal.consumeItem();
 						requiredItems.remove(item);
@@ -257,7 +245,7 @@ public class RunicMatrixBlockEntity extends SimpleBlockEntity implements Tickabl
 
 				if(getLevel().random.nextInt(1 + requiredItems.size()) == 0) {
 					this.state = MatrixState.ABSORBING;
-					//TODO: Some visual or sound indicator of this
+					//TODO - Visuals: Transition back into absorbing state
 					ResourceKey<Aspect> randomAspect = currentRecipe.value().aspects().aspectsPresent().get(getLevel().random.nextInt(currentRecipe.value().aspects().aspectCount()));
 					requiredEssentia.remove(randomAspect, 1);
 					stability -= 0.25F;
@@ -273,23 +261,43 @@ public class RunicMatrixBlockEntity extends SimpleBlockEntity implements Tickabl
 	}
 
 	private void finishCrafting() {
-
+		getCentrePedestal().get().setItemStack(this.currentRecipe.value().result());
+		setRecipe(null, null);
+		//TODO - Particles: Crafting finish
+		getLevel().playSound(null, getBlockPos(), ConfigSounds.MAGIC_CHIME.value(),  SoundSource.BLOCKS, .5F, 1);
+		sync();
 	}
 
 	private boolean verifyStructure() {
 		if(!CraftingUtils.verifyInfusionAltarStructure(level, this.getBlockPos(), false)) {
 			if(this.state != MatrixState.INACTIVE && this.state != MatrixState.STOPPING) {
 				this.state = MatrixState.STOPPING;
-				this.currentRecipe = null;
-				this.requiredEssentia = null;
-				this.requiredItems = null;
-				this.craftingPlayer = null;
 				this.itemProviders.clear();
+				setRecipe(null, null);
 				sync();
 			}
 			return false;
 		}
 		return true;
+	}
+
+	private Optional<PedestalBlockEntity> getCentrePedestal() {
+		return level.getBlockEntity(this.getBlockPos().below(2), ConfigBlockEntities.PEDESTAL.entityType());
+	}
+
+	private void setRecipe(RecipeHolder<InfusionRecipe> recipe, Player p) {
+		if(recipe == null && p == null) {
+			this.currentRecipe = null;
+			this.requiredEssentia = null;
+			this.requiredItems = null;
+			this.craftingPlayer = null;
+		} else {
+			this.currentRecipe = recipe;
+			this.requiredEssentia = recipe.value().aspects().clone();
+			this.requiredItems = NonNullList.copyOf(recipe.value().components());
+			this.craftingPlayer = p.getUUID();
+		}
+		this.craftTimer = 0;
 	}
 
 	private boolean scanEnvironment() {
@@ -315,7 +323,7 @@ public class RunicMatrixBlockEntity extends SimpleBlockEntity implements Tickabl
 				}
 			}
 		}
-		//TODO: Infusion - Instability modifiers, Symmetry
+		//TODO - Logic: Instability modifiers, Symmetry
 		return true;
 	}
 
@@ -327,12 +335,12 @@ public class RunicMatrixBlockEntity extends SimpleBlockEntity implements Tickabl
 		}
 	}
 	private Optional<RecipeHolder<InfusionRecipe>> getCurrentRecipe(IResearchCapability research) {
-		IInfusionPedestalCapability catalystPedestal = level.getCapability(ConfigCapabilities.INFUSION_PEDESTAL, getBlockPos().below(2));
-		if(catalystPedestal == null) {
+		Optional<PedestalBlockEntity> centrePedestal = getCentrePedestal();
+		if(centrePedestal.isEmpty()) {
 			Thaumcraft.error("Infusion crafting failed: Structure is valid but no central pedestal has been found. Please report this. Found %s", level.getBlockState(getBlockPos().below(2)).getBlock().getName());
 			return Optional.empty();
 		}
-		ItemStack catalyst = catalystPedestal.getItem();
+		ItemStack catalyst = centrePedestal.get().getItem();
 		List<ItemStack> components = itemProviders.stream().map(IInfusionPedestalCapability::getItem).filter(item -> item != ItemStack.EMPTY).toList();
 		return CraftingUtils.findInfusionRecipe((ServerLevel)level, new InfusionRecipe.Input(catalyst, NonNullList.copyOf(components), research));
 	}

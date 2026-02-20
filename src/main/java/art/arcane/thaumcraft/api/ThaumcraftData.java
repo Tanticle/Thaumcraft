@@ -165,6 +165,8 @@ public final class ThaumcraftData {
         public static final ResourceKey<ResearchEntry> UNKNOWN = ResourceKey.create(Registries.RESEARCH_ENTRY, Thaumcraft.id("unknown"));
         public static final ResourceKey<ResearchEntry> UNLOCK_ARTIFICE = key("unlock_artifice", ResearchCategories.FUNDAMENTALS);
 
+		public static final ResourceKey<ResearchEntry> INFUSION_INSTABILITY = key("instability",  ResearchCategories.INFUSION);
+
         private static ResourceKey<ResearchEntry> key(String id, ResourceKey<ResearchCategory> category) {
             return ResourceKey.create(Registries.RESEARCH_ENTRY, Thaumcraft.id(category.location().getPath() + "/" + id));
         }
@@ -627,6 +629,9 @@ public final class ThaumcraftData {
         public static final SoundEvent TOOL = variable("tool");
         public static final SoundEvent ZAP = variable("zap");
         public static final SoundEvent SCAN = variable("scan");
+        public static final SoundEvent MAGIC_CHIME = variable("magic_chime");
+        public static final SoundEvent INFUSION = variable("infusion");
+        public static final SoundEvent INFUSION_START = variable("infusion_start");
 
         private static SoundEvent fixed(String id, float range) {
             return SoundEvent.createFixedRangeEvent(Thaumcraft.id(id), range);
