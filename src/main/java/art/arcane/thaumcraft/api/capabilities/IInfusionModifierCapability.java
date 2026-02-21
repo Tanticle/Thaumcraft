@@ -6,6 +6,8 @@ import net.minecraft.world.level.Level;
 
 public interface IInfusionModifierCapability {
 
+	boolean isModifyingInfusion();
+
     float getCostModifier(Level level, BlockPos pos);
 
     int getCycleModifier(Level level, BlockPos pos);

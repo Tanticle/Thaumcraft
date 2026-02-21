@@ -1,11 +1,12 @@
 package art.arcane.thaumcraft.blocks.entities;
 
 import art.arcane.thaumcraft.api.ThaumcraftData;
-import art.arcane.thaumcraft.api.ThaumcraftUtils;
 import art.arcane.thaumcraft.api.aspects.Aspect;
-import art.arcane.thaumcraft.api.capabilities.IGoggleRendererCapability;
+import art.arcane.thaumcraft.api.capabilities.*;
 import art.arcane.thaumcraft.api.enums.InfusionStability;
+import art.arcane.thaumcraft.api.helpers.EssentiaHelper;
 import art.arcane.thaumcraft.api.helpers.ResearchHelper;
+import art.arcane.thaumcraft.data.DataMapEntries;
 import art.arcane.thaumcraft.registries.*;
 import com.mojang.blaze3d.vertex.PoseStack;
 import lombok.AllArgsConstructor;
@@ -27,10 +28,9 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeHolder;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import art.arcane.thaumcraft.Thaumcraft;
-import art.arcane.thaumcraft.api.capabilities.IInfusionPedestalCapability;
-import art.arcane.thaumcraft.api.capabilities.IResearchCapability;
 import art.arcane.thaumcraft.data.aspects.AspectList;
 import art.arcane.thaumcraft.data.recipes.InfusionRecipe;
 import art.arcane.thaumcraft.util.CraftingUtils;
@@ -40,7 +40,6 @@ import art.arcane.thaumcraft.util.simple.TickableBlockEntity;
 import java.text.DecimalFormat;
 import java.util.*;
 
-//TODO - Infusion: Speed and Cost modifiers
 @Getter
 public class RunicMatrixBlockEntity extends SimpleBlockEntity implements TickableBlockEntity, IGoggleRendererCapability {
 
@@ -51,11 +50,13 @@ public class RunicMatrixBlockEntity extends SimpleBlockEntity implements Tickabl
     private static final int CYCLE_TIME_DEFAULT = 20;
     private static final int CRAFT_TIME_DEFAULT = 5;
 	private static final float STABILITY_CAP = 25F;
+	private static final float DEFAULT_SYMMETRY_MODIFIER = .1F;
 
 	private static final DecimalFormat DECIMAL_FORMAT = new DecimalFormat("#######.##");
 
     private final AnimationHandler animationHandler;
 	private final List<IInfusionPedestalCapability> itemProviders;
+	private final AltarTier tier;
 
 	private MatrixState state;
 
@@ -66,15 +67,16 @@ public class RunicMatrixBlockEntity extends SimpleBlockEntity implements Tickabl
 
 	private int craftTimer, cycleTimer, soundTimer;
     private float costModifier;
-    private float cycleDelay;
+    private int cycleDelay;
 	private float stability, stabilityModifier;
 	private boolean shouldRecheckEnvironment;
 
-    public RunicMatrixBlockEntity(BlockPos pPos, BlockState pBlockState) {
+    public RunicMatrixBlockEntity(BlockPos pPos, BlockState pBlockState, AltarTier altarTier) {
         super(ConfigBlockEntities.RUNIC_MATRIX.entityType(), pPos, pBlockState);
         this.state = MatrixState.INACTIVE;
         this.animationHandler = new AnimationHandler(this);
         this.itemProviders = new ArrayList<>();
+		this.tier = altarTier;
     }
 
 	@Override
@@ -218,7 +220,7 @@ public class RunicMatrixBlockEntity extends SimpleBlockEntity implements Tickabl
 
 		if(this.state == MatrixState.ABSORBING ) {
 			ResourceKey<Aspect> nextAspect = requiredEssentia.aspectsPresent().getFirst();
-			if(ThaumcraftUtils.drainClosestEssentiaSource(getLevel(), getBlockPos(), 12, nextAspect, 1, Direction.UP)) {
+			if(EssentiaHelper.drainEssentia(getLevel(), getBlockPos(), 12, nextAspect, 1)) {
 				requiredEssentia.remove(nextAspect, 1);
 				if(requiredEssentia.isEmpty())
 					this.state = MatrixState.CRAFTING;
@@ -296,7 +298,7 @@ public class RunicMatrixBlockEntity extends SimpleBlockEntity implements Tickabl
 			this.craftingPlayer = null;
 		} else {
 			this.currentRecipe = recipe;
-			this.requiredEssentia = recipe.value().aspects().clone();
+			this.requiredEssentia = recipe.value().aspects().clone().modify(Math.max(.5F, costModifier));
 			this.requiredItems = NonNullList.copyOf(recipe.value().components());
 			this.craftingPlayer = p.getUUID();
 		}
@@ -305,9 +307,13 @@ public class RunicMatrixBlockEntity extends SimpleBlockEntity implements Tickabl
 
 	private boolean scanEnvironment() {
 		List<BlockPos> stabilityModifiers = new ArrayList<>();
+		Map<Block, Integer> presentBlocks = new HashMap<>();
+		List<BlockPos> unstableBlocks = new ArrayList<>();
 		itemProviders.clear();
-		cycleTimer = CYCLE_TIME_DEFAULT;
-		costModifier = 1.0F;
+
+		int cycleLength = CYCLE_TIME_DEFAULT + this.tier.getCycleModifier();
+		costModifier = 1.0F + this.tier.getCostModifier();
+		stabilityModifier = this.tier.stabilityRegen;
 
 		if(!verifyStructure())
 			return false;
@@ -323,11 +329,64 @@ public class RunicMatrixBlockEntity extends SimpleBlockEntity implements Tickabl
 						itemProviders.add(pedestal);
 					if (level.getCapability(ConfigCapabilities.INFUSION_STABILIZER, pos) != null || level.getBlockState(pos).getBlockHolder().getData(ConfigDataMaps.INFUSION_STABILIZER) != null)
 						stabilityModifiers.add(pos);
+					IInfusionModifierCapability modifier = level.getCapability(ConfigCapabilities.INFUSION_MODIFIER, pos);
+					if(modifier != null && modifier.isModifyingInfusion()) {
+						cycleLength += modifier.getCycleModifier(getLevel(), pos);
+						costModifier += modifier.getCostModifier(getLevel(), pos);
+					}
 				}
 			}
 		}
-		//TODO - Logic: Instability modifiers, Symmetry
+
+		cycleDelay = cycleLength / 2;
+
+		for(BlockPos pos : stabilityModifiers) {
+			BlockPos posRelative = new BlockPos(getBlockPos().getX() - pos.getX(), pos.getY(), getBlockPos().getZ() - pos.getZ());
+			BlockPos counterpart = getBlockPos().offset(posRelative.getX(), posRelative.getY(), posRelative.getZ());
+
+			BlockState modifierState = level.getBlockState(pos);
+			BlockState counterpartState = level.getBlockState(counterpart);
+
+			boolean symmetryBroken = !modifierState.getBlock().equals(counterpartState.getBlock());
+
+			float modifierMain = getModifierValue(pos, counterpart, symmetryBroken);
+			float modifierCounterpart = getModifierValue(counterpart, pos, symmetryBroken);
+
+			if(symmetryBroken || (modifierMain < 0 || modifierCounterpart < 0) || modifierMain != modifierCounterpart) {
+				stabilityModifier -= Math.max(Math.abs(modifierMain), Math.abs(modifierCounterpart));
+				unstableBlocks.add(pos);
+			} else {
+				int pairCount = presentBlocks.getOrDefault(modifierState.getBlock(), 0);
+				if(pairCount == 0) {
+					stabilityModifier += modifierMain;
+				} else {
+					stabilityModifier += modifierMain * (float)Math.pow(0.75, pairCount);
+				}
+				presentBlocks.put(modifierState.getBlock(), pairCount + 1);
+			}
+			stabilityModifiers.remove(counterpart);
+		}
+
 		return true;
+	}
+
+	private float getModifierValue(BlockPos pos, BlockPos counterpart, boolean symmetryBroken) {
+		BlockState state = getLevel().getBlockState(pos);
+
+		IInfusionStabilizerCapability capability = getLevel().getCapability(ConfigCapabilities.INFUSION_STABILIZER, pos);
+		if(capability != null && capability.isStabilizingInfusion()) {
+			if(!capability.additionalSymmetryCheck(getLevel(), getBlockPos(), pos, counterpart)) {
+				return capability.brokenSymmetryPenalty(getLevel(), getBlockPos(), pos, counterpart);
+			}
+			return capability.getStabilizationModifier(getLevel(), getBlockPos(), pos, counterpart);
+		}
+
+		DataMapEntries.InfusionStabilizerData datamap = state.getBlockHolder().getData(ConfigDataMaps.INFUSION_STABILIZER);
+		if(datamap != null) {
+			return symmetryBroken ? datamap.stabilizationPenalty() : datamap.stabilizationModifier();
+		}
+
+		return DEFAULT_SYMMETRY_MODIFIER;
 	}
 
 	private InfusionStability getInfusionStability() {

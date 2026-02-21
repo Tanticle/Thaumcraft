@@ -35,7 +35,11 @@ public class ConfigCapabilities {
         e.registerBlockEntity(ESSENTIA, ConfigBlockEntities.ESSENTIA_INPUT.entityType(), (be, side) -> side == be.getConnectionSide() ? be : null);
         e.registerBlockEntity(ESSENTIA, ConfigBlockEntities.ESSENTIA_OUTPUT.entityType(), (be, side) -> side == be.getConnectionSide() ? be : null);
         e.registerBlockEntity(ESSENTIA, ConfigBlockEntities.CREATIVE_ASPECT_SOURCE.entityType(), (be, side) -> be);
-        e.registerBlockEntity(INFUSION_PEDESTAL, ConfigBlockEntities.PEDESTAL.entityType(), (be, side) -> be);
+
+		e.registerBlockEntity(INFUSION_PEDESTAL, ConfigBlockEntities.PEDESTAL.entityType(), (be, side) -> be);
+		e.registerBlockEntity(INFUSION_MODIFIER, ConfigBlockEntities.PEDESTAL.entityType(), (be, side) -> be);
+		e.registerBlockEntity(INFUSION_STABILIZER, ConfigBlockEntities.PEDESTAL.entityType(), (be, side) -> be);
+
         e.registerBlock(INFUSION_MODIFIER, (level, pos, state, be, $) -> (IInfusionModifierCapability)state.getBlock(), ConfigBlocks.ANCIENT_PEDESTAL.block(), ConfigBlocks.ELDRITCH_PEDESTAL.block());
         e.registerBlock(INFUSION_MODIFIER, (level, pos, state, be, $) -> (IInfusionModifierCapability)state.getBlock(), ConfigBlocks.INFUSION_STONE_SPEED.block(), ConfigBlocks.INFUSION_STONE_COST.block());
 
