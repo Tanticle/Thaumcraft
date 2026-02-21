@@ -1,9 +1,11 @@
 package art.arcane.thaumcraft.blocks.entities;
 
+import art.arcane.thaumcraft.api.ThaumcraftData;
 import art.arcane.thaumcraft.api.ThaumcraftUtils;
 import art.arcane.thaumcraft.api.aspects.Aspect;
 import art.arcane.thaumcraft.api.capabilities.IGoggleRendererCapability;
 import art.arcane.thaumcraft.api.enums.InfusionStability;
+import art.arcane.thaumcraft.api.helpers.ResearchHelper;
 import art.arcane.thaumcraft.registries.*;
 import com.mojang.blaze3d.vertex.PoseStack;
 import lombok.AllArgsConstructor;
@@ -25,7 +27,6 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeHolder;
-import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import art.arcane.thaumcraft.Thaumcraft;
 import art.arcane.thaumcraft.api.capabilities.IInfusionPedestalCapability;
@@ -201,7 +202,9 @@ public class RunicMatrixBlockEntity extends SimpleBlockEntity implements Tickabl
 		if(interrupted || (stability < 0F && level.random.nextInt(1500) <= Mth.abs(stability))) {
 			//TODO - Logic: Instability Events
 			stability += 5 + level.random.nextFloat() * 5F;
-			//TODO - Logic: Grant instability research
+			Player p = getLevel().getPlayerByUUID(craftingPlayer);
+			if(p != null && ResearchHelper.grantResearchTag(p, ThaumcraftData.ResearchTags.INFUSION_INSTABILITY))
+				p.displayClientMessage(Component.translatable("msg.thaumcraft.research.got_infusion_instability").withStyle(ChatFormatting.DARK_PURPLE), true);
 			if(!interrupted)
 				return;
 		}

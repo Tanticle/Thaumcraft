@@ -172,6 +172,14 @@ public final class ThaumcraftData {
         }
     }
 
+	public static final class ResearchTags {
+		public static final ResourceLocation INFUSION_INSTABILITY = parented("instability", ResearchCategories.INFUSION);
+
+		private static ResourceLocation parented(String key, ResourceKey<ResearchCategory> category) {
+			return category.location().withSuffix("/" + key);
+		}
+	}
+
     public static final class ItemComponents {
 
         public static final ResourceLocation INFUSION_ENCHANTMENTS = Thaumcraft.id("infusions");

@@ -397,6 +397,7 @@
   "msg.thaumcraft.golem_bell.following": "Golem will now follow you.",
   "msg.thaumcraft.golem_bell.staying": "Golem will stay in place.",
   "msg.thaumcraft.seal_config.locked": "This seal is locked by its owner.",
+  "msg.thaumcraft.research.got_infusion_instability": "I should study infusion instability further.",
 
   "gui.thaumcraft.golem_builder.craft": "Build",
   "gui.thaumcraft.golem_builder.cost": "Cost",
@@ -438,5 +439,4 @@
   "golem.prop.unlock": "Unlocked",
   "golem.prop.redon": "Redstone On",
   "golem.prop.redoff": "Redstone Off"
-  "tc.levitator": "Range: %d blocks | Cost: %s vis/entity/tick"
 }
