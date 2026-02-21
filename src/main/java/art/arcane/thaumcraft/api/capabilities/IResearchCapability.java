@@ -3,6 +3,7 @@ package art.arcane.thaumcraft.api.capabilities;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.Holder;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.StringRepresentable;
 import art.arcane.thaumcraft.data.attachments.ResearchAttachment;
 import art.arcane.thaumcraft.data.research.ResearchEntry;
@@ -20,6 +21,10 @@ public interface IResearchCapability {
 
     boolean knowsResearchAddendum(Holder<ResearchEntry> entry, int addendumIndex);
     boolean setResearchAddendum(Holder<ResearchEntry> entry, int addendumIndex, boolean value);
+
+	boolean hasResearchTag(ResourceLocation tag);
+	boolean grantResearchTag(ResourceLocation tag);
+	boolean removeResearchTag(ResourceLocation tag);
 
     enum ResearchCompletion implements StringRepresentable {
         UNKNOWN,
