@@ -37,7 +37,6 @@ public class ConfigCapabilities {
         e.registerBlockEntity(ESSENTIA, ConfigBlockEntities.CREATIVE_ASPECT_SOURCE.entityType(), (be, side) -> be);
 
 		e.registerBlockEntity(INFUSION_PEDESTAL, ConfigBlockEntities.PEDESTAL.entityType(), (be, side) -> be);
-		e.registerBlockEntity(INFUSION_MODIFIER, ConfigBlockEntities.PEDESTAL.entityType(), (be, side) -> be);
 		e.registerBlockEntity(INFUSION_STABILIZER, ConfigBlockEntities.PEDESTAL.entityType(), (be, side) -> be);
 
         e.registerBlock(INFUSION_MODIFIER, (level, pos, state, be, $) -> (IInfusionModifierCapability)state.getBlock(), ConfigBlocks.ANCIENT_PEDESTAL.block(), ConfigBlocks.ELDRITCH_PEDESTAL.block());

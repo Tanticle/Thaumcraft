@@ -64,6 +64,8 @@ public class ThaumcraftNetworking {
 
         registrar.playToClient(ClientboundSealRemovePacket.TYPE, ClientboundSealRemovePacket.STREAM_CODEC, (data, ctx) -> {
             ctx.enqueueWork(() -> SealClientData.removeSeal(data.pos(), data.face()));
+		});
+
         registrar.playToClient(ClientboundEssentiaTrailPacket.TYPE, ClientboundEssentiaTrailPacket.STREAM_CODEC, (data, ctx) -> {
             ctx.enqueueWork(() -> ThaumcraftFX.drawEssentiaTrail(data));
         });

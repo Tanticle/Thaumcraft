@@ -20,11 +20,16 @@ public class InfusionModifierBlock extends Block implements IInfusionModifierCap
 
     @Override
     public int getCycleModifier(Level level, BlockPos pos) {
-        return level.getBlockState(pos.above()).is(ThaumcraftData.Tags.INFUSION_PILLAR) ? this.cycleModifier : 0;
+        return this.cycleModifier;
     }
 
-    @Override
+	@Override
+	public boolean isModifyingInfusion(Level level, BlockPos pos) {
+		return level.getBlockState(pos.above()).is(ThaumcraftData.Tags.INFUSION_PILLAR);
+	}
+
+	@Override
     public float getCostModifier(Level level, BlockPos pos) {
-        return level.getBlockState(pos.above()).is(ThaumcraftData.Tags.INFUSION_PILLAR) ? this.costModifier : 0;
+        return this.costModifier;
     }
 }

@@ -66,7 +66,7 @@ public class RunicMatrixModel extends BlockEntityModel<RunicMatrixBlockEntity> {
 
     @Override
     public ResourceLocation getTexture(RunicMatrixBlockEntity blockEntity) {
-        return RegistryUtils.getBlockLocation(ConfigBlocks.RUNIC_MATRIX.blockSupplier());
+        return TEXTURE;
     }
 
     @Override

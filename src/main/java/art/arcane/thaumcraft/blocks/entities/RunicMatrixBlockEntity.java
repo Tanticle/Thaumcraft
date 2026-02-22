@@ -71,12 +71,12 @@ public class RunicMatrixBlockEntity extends SimpleBlockEntity implements Tickabl
 	private float stability, stabilityModifier;
 	private boolean shouldRecheckEnvironment;
 
-    public RunicMatrixBlockEntity(BlockPos pPos, BlockState pBlockState, AltarTier altarTier) {
+    public RunicMatrixBlockEntity(BlockPos pPos, BlockState pBlockState) {
         super(ConfigBlockEntities.RUNIC_MATRIX.entityType(), pPos, pBlockState);
         this.state = MatrixState.INACTIVE;
         this.animationHandler = new AnimationHandler(this);
         this.itemProviders = new ArrayList<>();
-		this.tier = altarTier;
+		this.tier = AltarTier.ARCANE;
     }
 
 	@Override
@@ -330,7 +330,7 @@ public class RunicMatrixBlockEntity extends SimpleBlockEntity implements Tickabl
 					if (level.getCapability(ConfigCapabilities.INFUSION_STABILIZER, pos) != null || level.getBlockState(pos).getBlockHolder().getData(ConfigDataMaps.INFUSION_STABILIZER) != null)
 						stabilityModifiers.add(pos);
 					IInfusionModifierCapability modifier = level.getCapability(ConfigCapabilities.INFUSION_MODIFIER, pos);
-					if(modifier != null && modifier.isModifyingInfusion()) {
+					if(modifier != null && modifier.isModifyingInfusion(getLevel(), pos)) {
 						cycleLength += modifier.getCycleModifier(getLevel(), pos);
 						costModifier += modifier.getCostModifier(getLevel(), pos);
 					}

@@ -18,7 +18,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.Optional;
 
-public class PedestalBlockEntity extends SimpleBlockEntity implements IInfusionPedestalCapability, IInfusionStabilizerCapability, IInfusionModifierCapability {
+public class PedestalBlockEntity extends SimpleBlockEntity implements IInfusionPedestalCapability, IInfusionStabilizerCapability {
 
     @Getter @Setter
     private ItemStack itemStack;
@@ -52,31 +52,6 @@ public class PedestalBlockEntity extends SimpleBlockEntity implements IInfusionP
         this.itemStack = this.itemStack.getCraftingRemainder();
         sync();
     }
-
-	/* -------------------------------------------------------------------------------------------------------------- */
-	/*                                         InfusionModifier Capability Methods                                    */
-	/* -------------------------------------------------------------------------------------------------------------- */
-
-	@Override
-	public boolean isModifyingInfusion() {
-		return !getBlockState().is(ConfigBlocks.ARCANE_PEDESTAL.block());
-	}
-
-	@Override
-	public float getCostModifier(Level level, BlockPos pos) {
-		BlockState b =  level.getBlockState(pos);
-		if(b.is(ConfigBlocks.ANCIENT_PEDESTAL.block()))
-			return -.01F;
-		else if(b.is(ConfigBlocks.ELDRITCH_PEDESTAL.block()))
-			return .0025F;
-
-		return 0;
-	}
-
-	@Override
-	public int getCycleModifier(Level level, BlockPos pos) {
-		return 0;
-	}
 
 	/* -------------------------------------------------------------------------------------------------------------- */
 	/*                                         InfusionStabilizer Capability Methods                                  */

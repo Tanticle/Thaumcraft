@@ -1,5 +1,6 @@
 package art.arcane.thaumcraft.blocks;
 
+import art.arcane.thaumcraft.api.capabilities.IInfusionStabilizerCapability;
 import art.arcane.thaumcraft.registries.ConfigBlocks;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -102,7 +103,12 @@ public class PedestalBlock extends SimpleEntityBlock<PedestalBlockEntity> implem
         return InteractionResult.SUCCESS;
     }
 
-    @Override
+	@Override
+	public boolean isModifyingInfusion(Level level, BlockPos pos) {
+		return !level.getBlockState(pos).is(ConfigBlocks.ARCANE_PEDESTAL.block());
+	}
+
+	@Override
     public float getCostModifier(Level level, BlockPos pos) {
         return this.infusionCostModifier;
     }

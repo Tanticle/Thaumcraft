@@ -136,8 +136,6 @@ public class ItemModelProvider extends ModelProvider {
 		));
 
 		simpleItem(ConfigItems.GOGGLES);
-    }
-
 		tintableGolemItem(ConfigItems.GOLEM_PLACER, "golemancy");
 		sealPlacerItem();
 		simpleItem(ConfigItems.GOLEM_BELL, "golemancy");
