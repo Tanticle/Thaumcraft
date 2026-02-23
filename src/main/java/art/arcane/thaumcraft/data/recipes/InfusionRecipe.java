@@ -77,13 +77,13 @@ public record InfusionRecipe(
     ).apply(i, (research, catalyst, components, results, aspects, instability) -> new InfusionRecipe(research.orElse(null), catalyst, components, results, aspects, instability)));
 
     public static final StreamCodec<RegistryFriendlyByteBuf, InfusionRecipe> STREAM_CODEC = StreamCodec.composite(
-            ResourceKey.streamCodec(ThaumcraftData.Registries.RESEARCH_ENTRY), InfusionRecipe::requiredResearch,
+            ByteBufCodecs.optional(ResourceKey.streamCodec(ThaumcraftData.Registries.RESEARCH_ENTRY)), o -> Optional.ofNullable(o.requiredResearch),
             Ingredient.CONTENTS_STREAM_CODEC, InfusionRecipe::catalyst,
             Ingredient.CONTENTS_STREAM_CODEC.apply(ByteBufCodecs.list()), InfusionRecipe::components,
             ItemStack.STREAM_CODEC, InfusionRecipe::result,
             AspectList.STREAM_CODEC, InfusionRecipe::aspects,
             ByteBufCodecs.INT, InfusionRecipe::instability,
-            (research, catalyst, components, result, aspects, instability) -> new InfusionRecipe(research, catalyst, NonNullList.copyOf(components), result, aspects, instability));
+            (research, catalyst, components, result, aspects, instability) -> new InfusionRecipe(research.orElse(null), catalyst, NonNullList.copyOf(components), result, aspects, instability));
 
     public record Input(
             ItemStack catalyst,

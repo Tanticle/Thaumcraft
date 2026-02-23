@@ -4,6 +4,7 @@ import art.arcane.thaumcraft.Thaumcraft;
 import art.arcane.thaumcraft.api.ThaumcraftData;
 import art.arcane.thaumcraft.data.aspects.fallback.AspectFallbackEngine;
 import art.arcane.thaumcraft.registries.ConfigDataRegistries;
+import art.arcane.thaumcraft.registries.ConfigRecipeTypes;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.AddServerReloadListenersEvent;
@@ -17,6 +18,8 @@ public class DataEvents {
     @SubscribeEvent
     public static void onDataSyncEvent(OnDatapackSyncEvent event) {
         event.getRelevantPlayers().forEach(p -> p.connection.send(ConfigDataRegistries.ASPECT_REGISTRY.serialize()));
+
+		event.sendRecipes(ConfigRecipeTypes.INFUSION.type());
     }
 
     @SubscribeEvent
@@ -28,9 +31,9 @@ public class DataEvents {
     public static void onServerStarted(ServerStartedEvent event) {
         AspectFallbackEngine.initialize(
                 event.getServer().getRecipeManager(),
-                stack -> ConfigDataRegistries.ASPECT_REGISTRY.getRegisteredAspects(stack)
-        );
-        ConfigDataRegistries.ASPECT_REGISTRY.printUnaccounted();
+				ConfigDataRegistries.ASPECT_REGISTRY::getRegisteredAspects);
+		if(Thaumcraft.isDev())
+        	ConfigDataRegistries.ASPECT_REGISTRY.printUnaccounted();
     }
 
     @SubscribeEvent
