@@ -6,6 +6,7 @@ import art.arcane.thaumcraft.api.capabilities.*;
 import art.arcane.thaumcraft.api.enums.InfusionStability;
 import art.arcane.thaumcraft.api.helpers.EssentiaHelper;
 import art.arcane.thaumcraft.api.helpers.ResearchHelper;
+import art.arcane.thaumcraft.client.ThaumcraftClientRecipes;
 import art.arcane.thaumcraft.data.DataMapEntries;
 import art.arcane.thaumcraft.registries.*;
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -22,7 +23,6 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
-import net.minecraft.util.RandomSource;
 import net.minecraft.util.StringRepresentable;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -90,6 +90,12 @@ public class RunicMatrixBlockEntity extends SimpleBlockEntity implements Tickabl
 			if(loss != 0.0F)
 				list.add(Component.translatable("msg.thaumcraft.infusion_loss", DECIMAL_FORMAT.format(loss)).withStyle(ChatFormatting.ITALIC, ChatFormatting.RED));
 		}
+		if(Thaumcraft.isDev()) {
+			list.add(Component.literal(state.name()).withStyle(ChatFormatting.GRAY));
+			list.add(Component.literal("Stability: " + DECIMAL_FORMAT.format(this.stability)).withStyle(ChatFormatting.GRAY));
+			list.add(Component.literal("Cost Modifier: " + DECIMAL_FORMAT.format(this.costModifier)).withStyle(ChatFormatting.GRAY));
+			list.add(Component.literal("Cycle Delay: " + DECIMAL_FORMAT.format(this.cycleDelay / 20F) + "s").withStyle(ChatFormatting.GRAY));
+		}
 		return list;
 	}
 
@@ -106,11 +112,29 @@ public class RunicMatrixBlockEntity extends SimpleBlockEntity implements Tickabl
     @Override
     protected void readNbt(CompoundTag nbt, HolderLookup.Provider pRegistries) {
         this.state = MatrixState.fromString(nbt.getString("state"));
+		this.stability = nbt.getFloat("stability");
+		this.stabilityModifier = nbt.getFloat("stabilityModifier");
+		if(this.state == MatrixState.ABSORBING || this.state == MatrixState.CRAFTING) {
+			setRecipe(ThaumcraftClientRecipes.getRecipe(ConfigRecipeTypes.INFUSION.type(), ResourceLocation.tryParse(nbt.getString("recipe"))), null);
+		}
+		if(Thaumcraft.isDev()) {
+			this.cycleDelay = nbt.getInt("cycleDelay");
+			this.costModifier = nbt.getFloat("costModifier");
+		}
     }
 
     @Override
     protected void writeNbt(CompoundTag nbt, HolderLookup.Provider pRegistries) {
         nbt.putString("state", this.state.getSerializedName());
+		nbt.putFloat("stability", this.stability);
+		nbt.putFloat("stabilityModifier", this.stabilityModifier);
+		if(this.state == MatrixState.ABSORBING || this.state == MatrixState.CRAFTING) {
+			nbt.putString("recipe", currentRecipe.toString());
+		}
+		if(Thaumcraft.isDev()) {
+			nbt.putInt("cycleDelay", this.cycleDelay);
+			nbt.putFloat("costModifier", this.costModifier);
+		}
     }
 
     @Override
@@ -125,7 +149,6 @@ public class RunicMatrixBlockEntity extends SimpleBlockEntity implements Tickabl
 			scanEnvironment();
 		}
 
-
 		verifyStructure();
 
 		switch(this.state) {
@@ -136,7 +159,7 @@ public class RunicMatrixBlockEntity extends SimpleBlockEntity implements Tickabl
 					doCrafting();
 			}
 			case IDLE ->  {
-				if(cycleTimer % 100 == 0 && !verifyStructure())
+				if(cycleTimer % 100 == 0 && !scanEnvironment())
 					return;
 				if(this.stability < STABILITY_CAP && cycleTimer % Math.max(5, cycleDelay) == 0)
 					stability = Math.min(STABILITY_CAP, stability + Math.max(.1F, stabilityModifier));
@@ -146,15 +169,15 @@ public class RunicMatrixBlockEntity extends SimpleBlockEntity implements Tickabl
 
     @Override
     public void onClientTick() {
-        animationHandler.tick();
-        if(animationHandler.hasFinishedStartup() && (animationHandler.rubikAnimation == null || animationHandler.isRubikDone())) {
+        animationHandler.tick(this.state);
+        /*if(animationHandler.hasFinishedStartup() && (animationHandler.rubikAnimation == null || animationHandler.isRubikDone())) {
             RandomSource r = getLevel().getRandom();
             animationHandler.createNewRubik(
                     Direction.values()[r.nextIntBetweenInclusive(0, 5)],
                     r.nextIntBetweenInclusive(1, 3),
                     10,
                     r.nextBoolean());
-        }
+        }*/
 
 		if(this.state == MatrixState.ABSORBING || this.state == MatrixState.CRAFTING) {
 			if(soundTimer == 0)
@@ -167,6 +190,16 @@ public class RunicMatrixBlockEntity extends SimpleBlockEntity implements Tickabl
 			this.soundTimer = Math.clamp(soundTimer - 2, 0, 50);
 		}
     }
+
+	public boolean activate() {
+		if(this.state == MatrixState.INACTIVE && verifyStructure()) {
+			this.state = MatrixState.IDLE;
+			getLevel().playSound(null, getBlockPos(), ConfigSounds.SPARKLE_HUM.value(), SoundSource.BLOCKS, .5F, 1F);
+			sync();
+			return true;
+		}
+		return false;
+	}
 
     private boolean beginCrafting(Player player) {
 		if(this.state != MatrixState.IDLE)
@@ -275,8 +308,8 @@ public class RunicMatrixBlockEntity extends SimpleBlockEntity implements Tickabl
 
 	private boolean verifyStructure() {
 		if(!CraftingUtils.verifyInfusionAltarStructure(level, this.getBlockPos(), false)) {
-			if(this.state != MatrixState.INACTIVE && this.state != MatrixState.STOPPING) {
-				this.state = MatrixState.STOPPING;
+			if(this.state != MatrixState.INACTIVE) {
+				this.state = MatrixState.IDLE;
 				this.itemProviders.clear();
 				setRecipe(null, null);
 				sync();
@@ -291,7 +324,7 @@ public class RunicMatrixBlockEntity extends SimpleBlockEntity implements Tickabl
 	}
 
 	private void setRecipe(RecipeHolder<InfusionRecipe> recipe, Player p) {
-		if(recipe == null && p == null) {
+		if(recipe == null) {
 			this.currentRecipe = null;
 			this.requiredEssentia = null;
 			this.requiredItems = null;
@@ -300,7 +333,8 @@ public class RunicMatrixBlockEntity extends SimpleBlockEntity implements Tickabl
 			this.currentRecipe = recipe;
 			this.requiredEssentia = recipe.value().aspects().clone().modify(Math.max(.5F, costModifier));
 			this.requiredItems = NonNullList.copyOf(recipe.value().components());
-			this.craftingPlayer = p.getUUID();
+			if(p != null)
+				this.craftingPlayer = p.getUUID();
 		}
 		this.craftTimer = 0;
 	}
@@ -340,9 +374,10 @@ public class RunicMatrixBlockEntity extends SimpleBlockEntity implements Tickabl
 
 		cycleDelay = cycleLength / 2;
 
-		for(BlockPos pos : stabilityModifiers) {
-			BlockPos posRelative = new BlockPos(getBlockPos().getX() - pos.getX(), pos.getY(), getBlockPos().getZ() - pos.getZ());
-			BlockPos counterpart = getBlockPos().offset(posRelative.getX(), posRelative.getY(), posRelative.getZ());
+		for(int i = 0; i < stabilityModifiers.size(); i++) {
+			BlockPos pos = stabilityModifiers.get(i);
+			BlockPos posRelative = new BlockPos(getBlockPos().getX() - pos.getX(), getBlockPos().getY() - pos.getY(), getBlockPos().getZ() - pos.getZ());
+			BlockPos counterpart = getBlockPos().offset(posRelative.getX(), -posRelative.getY(), posRelative.getZ());
 
 			BlockState modifierState = level.getBlockState(pos);
 			BlockState counterpartState = level.getBlockState(counterpart);
@@ -366,6 +401,8 @@ public class RunicMatrixBlockEntity extends SimpleBlockEntity implements Tickabl
 			}
 			stabilityModifiers.remove(counterpart);
 		}
+
+		sync();
 
 		return true;
 	}
@@ -411,7 +448,7 @@ public class RunicMatrixBlockEntity extends SimpleBlockEntity implements Tickabl
 
         private final RunicMatrixBlockEntity be;
 
-        private float activate, activateProgress;
+        private float activate, activateTarget;
 
         private float idleRot;
 
@@ -436,7 +473,7 @@ public class RunicMatrixBlockEntity extends SimpleBlockEntity implements Tickabl
         }
 
         public float getActivateAnimation(float delta) {
-            activate = Mth.lerp(delta, activate, activateProgress);
+            activate = Mth.lerp(delta, activate, activateTarget);
             return activate;
         }
 
@@ -457,8 +494,25 @@ public class RunicMatrixBlockEntity extends SimpleBlockEntity implements Tickabl
             return rubik * (rubikAnimation.inverted() ? -1 : 1);
         }
 
-        public void tick() {
-
+        public void tick(MatrixState state) {
+			switch(state) {
+				case INACTIVE: {
+					if(activateTarget > 0F) {
+						activateTarget -= activateTarget / 10F;
+						if(activateTarget < .001F)
+							activateTarget = 0F;
+					}
+					break;
+				}
+				case IDLE: {
+					if(activateTarget < 1F) {
+						activateTarget += Math.max(activateTarget / 10F, .001F);
+						if(activateTarget > .999F)
+							activateTarget = 1F;
+					}
+					break;
+				}
+			}
         }
     }
 
@@ -467,9 +521,7 @@ public class RunicMatrixBlockEntity extends SimpleBlockEntity implements Tickabl
     @AllArgsConstructor
     public enum MatrixState implements StringRepresentable {
         INACTIVE,
-        STARTING,
         IDLE,
-		STOPPING,
         ABSORBING,
         CRAFTING;
 

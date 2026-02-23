@@ -30,7 +30,8 @@ public class RunicMatrixBlock extends TickableEntityBlock<RunicMatrixBlockEntity
     @Override //TODO: Replace with useWithItem when the caster exists
     protected InteractionResult useWithoutItem(BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, BlockHitResult pHitResult) {
         if(!pLevel.isClientSide()) {
-			return InteractionResult.SUCCESS;
+            if(getEntity(pLevel, pPos).activate())
+                return InteractionResult.SUCCESS;
         }
         return super.useWithoutItem(pState, pLevel, pPos, pPlayer, pHitResult);
     }

@@ -56,7 +56,7 @@ Nothing so far. :)
     - [ ] Knowledge types (Observations, Theories)
     - [ ] Scanning mechanics
 - [ ] **Infusion Crafting**
-    - [ ] Stability mechanics
+    - [x] Stability mechanics
     - [ ] Instability events
 - [ ] **Effects & Potions**
     - [ ] Warp (Temporary, Permanent, Sticky)

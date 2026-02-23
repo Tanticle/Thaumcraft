@@ -73,7 +73,7 @@ public class PedestalBlockEntity extends SimpleBlockEntity implements IInfusionP
 		if(main.isEmpty() || counterpart.isEmpty())
 			return true;
 
-		return main.get().getItem().isEmpty() !=  counterpart.get().getItem().isEmpty();
+		return main.get().getItem().isEmpty() == counterpart.get().getItem().isEmpty();
 	}
 
 	@Override
