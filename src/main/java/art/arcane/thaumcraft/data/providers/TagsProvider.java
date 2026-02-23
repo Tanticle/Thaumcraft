@@ -150,8 +150,9 @@ public class TagsProvider extends BlockTagsProvider {
         );
 
         tag(BlockTags.MINEABLE_WITH_AXE).add(ConfigBlocks.HUNGRY_CHEST.block());
+        tag(BlockTags.MINEABLE_WITH_AXE).add(ConfigBlocks.TABLE_WOOD.block());
         tag(BlockTags.MINEABLE_WITH_PICKAXE).add(ConfigBlocks.EVERFULL_URN.block());
-        tag(BlockTags.MINEABLE_WITH_PICKAXE).add(ConfigBlocks.STONE_TABLE.block());
+        tag(BlockTags.MINEABLE_WITH_PICKAXE).add(ConfigBlocks.TABLE_STONE.block());
         tag(BlockTags.MINEABLE_WITH_PICKAXE).add(ConfigBlocks.GOLEM_BUILDER_COMPONENT.value());
     }
 }

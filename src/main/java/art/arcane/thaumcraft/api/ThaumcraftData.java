@@ -428,7 +428,8 @@ public final class ThaumcraftData {
 
         public static final ResourceLocation GOLEM_BUILDER = Thaumcraft.id("golem_builder");
         public static final ResourceLocation GOLEM_BUILDER_COMPONENT = Thaumcraft.id("golem_builder_component");
-        public static final ResourceLocation STONE_TABLE = Thaumcraft.id("stone_table");
+        public static final ResourceLocation TABLE_STONE = Thaumcraft.id("table_stone");
+        public static final ResourceLocation TABLE_WOOD = Thaumcraft.id("table_wood");
     }
 
     public static final class CreativeTabs {

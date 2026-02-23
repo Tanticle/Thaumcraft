@@ -10,6 +10,7 @@ displayName = "${mod_name}"
 logoFile = "logo.png"
 authors = "${mod_authors}"
 description = '''${mod_description}'''
+credits = '''Special thanks to: Azanor for the original mod, random832 for the ingame rune font'''
 
 [[mixins]]
 config="META-INF/thaumcraft.mixins.json"

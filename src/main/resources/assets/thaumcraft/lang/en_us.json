@@ -95,6 +95,8 @@
   "block.thaumcraft.everfull_urn": "Everfull Urn",
 
   "block.thaumcraft.nitor": "%s Nitor",
+  "block.thaumcraft.table_stone": "Stone Table",
+  "block.thaumcraft.table_wood": "Wood Table",
 
   "biome.thaumcraft.magical_forest": "Magical Forest",
 
@@ -392,7 +394,7 @@
   "tooltip.thaumcraft.golem_placer.rank": "Rank: %s",
   "item.thaumcraft.seal_placer.has_seal": "%s Seal",
 
-  "block.thaumcraft.stone_table": "Stone Table",
+
 
   "msg.thaumcraft.golem_bell.following": "Golem will now follow you.",
   "msg.thaumcraft.golem_bell.staying": "Golem will stay in place.",

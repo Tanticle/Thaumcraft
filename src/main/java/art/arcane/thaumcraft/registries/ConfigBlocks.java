@@ -156,7 +156,8 @@ public final class ConfigBlocks {
 
 	public static final BlockObject<GolemBuilderBlock> GOLEM_BUILDER = registerBlock(Blocks.GOLEM_BUILDER, GolemBuilderBlock::new, ConfigCreativeTabs.MAIN);
 	public static final DeferredBlock<GolemBuilderComponentBlock> GOLEM_BUILDER_COMPONENT = registerBlockNoItem(Blocks.GOLEM_BUILDER_COMPONENT, GolemBuilderComponentBlock::new);
-	public static final BlockObject<Block> STONE_TABLE = registerBlock(Blocks.STONE_TABLE, props -> new Block(SimpleBlockMaterials.stone(props).noOcclusion()), ConfigCreativeTabs.MAIN);
+	public static final BlockObject<Block> TABLE_STONE = registerBlock(Blocks.TABLE_STONE, props -> new Block(SimpleBlockMaterials.stone(props).noOcclusion()), ConfigCreativeTabs.MAIN);
+	public static final BlockObject<Block> TABLE_WOOD = registerBlock(Blocks.TABLE_WOOD, props -> new Block(SimpleBlockMaterials.wood(props).noOcclusion()), ConfigCreativeTabs.MAIN);
 
 	private static BlockBehaviour.Properties silverwoodWoodProps(BlockBehaviour.Properties props) {
 		return SimpleBlockMaterials.wood(props).strength(2.0F, 3.0F);

@@ -27,7 +27,7 @@ public class SalisMundusMultiblockRecipeProvider extends CodecDataProvider<Salis
                                 "C", Blocks.CAULDRON,
                                 "A", Blocks.ANVIL,
                                 "B", Blocks.IRON_BARS,
-                                "S", ConfigBlocks.STONE_TABLE.block()
+                                "S", ConfigBlocks.TABLE_STONE.block()
                         ),
                         List.of(
                                 "CA,TS",

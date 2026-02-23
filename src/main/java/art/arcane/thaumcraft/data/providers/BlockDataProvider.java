@@ -126,7 +126,8 @@ public class BlockDataProvider extends ModelProvider {
 
         simpleBlock(ConfigBlocks.GOLEM_BUILDER);
         registerFakeBlock(ConfigBlocks.GOLEM_BUILDER_COMPONENT);
-        simpleExistingBlock(ConfigBlocks.STONE_TABLE);
+        simpleExistingBlock(ConfigBlocks.TABLE_STONE, Thaumcraft.id("block/table"), TextureSlot.TOP, TextureSlot.SIDE);
+        simpleExistingBlock(ConfigBlocks.TABLE_WOOD, Thaumcraft.id("block/table"), TextureSlot.TOP, TextureSlot.SIDE);
     }
 
     private void registerGreatwoodTree() {
@@ -531,6 +532,21 @@ public class BlockDataProvider extends ModelProvider {
 		ResourceLocation model = RegistryUtils.getBlockLocation(modelId, subfolders);
 		blocks.blockStateOutput.accept(MultiVariantGenerator.multiVariant(block.block(), Variant.variant().with(VariantProperties.MODEL, model)));
 		blockParentItem(block, model);
+	}
+
+	private void simpleExistingBlock(ConfigBlocks.BlockObject<? extends Block> block, ResourceLocation model, TextureSlot... slots) {
+		ResourceLocation texture = ModelLocationUtils.getModelLocation(block.block());
+		TextureMapping mapping = new TextureMapping();
+		ExtendedModelTemplateBuilder builder = ExtendedModelTemplateBuilder.builder().parent(model);
+		Arrays.stream(slots).forEach(slot -> {
+			builder.requiredTextureSlot(slot);
+			mapping.put(slot, texture.withSuffix("_" + slot.getId()));
+		});
+		builder.requiredTextureSlot(TextureSlot.PARTICLE);
+		mapping.put(TextureSlot.PARTICLE, texture.withSuffix(slots.length > 0 ? "_" + slots[0].getId() : ""));
+		ResourceLocation newModel = builder.build().create(block.block(), mapping, blocks.modelOutput);
+		blocks.blockStateOutput.accept(MultiVariantGenerator.multiVariant(block.block(), Variant.variant().with(VariantProperties.MODEL, newModel)));
+		blockParentItem(block, newModel);
 	}
 
     private void registerStairAndSlab(ConfigBlocks.BlockObject<? extends Block> block, ConfigBlocks.BlockObject<? extends StairBlock> stairs, ConfigBlocks.BlockObject<? extends SlabBlock> slab, boolean uniqueTextures) {
