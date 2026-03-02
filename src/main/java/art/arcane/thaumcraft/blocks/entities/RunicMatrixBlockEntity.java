@@ -85,7 +85,7 @@ public class RunicMatrixBlockEntity extends SimpleBlockEntity implements Tickabl
 		InfusionStability stabilityType = getInfusionStability();
 		list.add(stabilityType.getMessage().withStyle(ChatFormatting.BOLD));
 		list.add(Component.translatable("msg.thaumcraft.infusion_gain", DECIMAL_FORMAT.format(stabilityModifier)).withStyle(ChatFormatting.ITALIC, ChatFormatting.GOLD));
-		if(this.state == MatrixState.CRAFTING || this.state == MatrixState.ABSORBING) {
+		if((this.state == MatrixState.CRAFTING || this.state == MatrixState.ABSORBING) && this.currentRecipe != null) {
 			float loss = currentRecipe.value().instability() / stabilityType.getModifier();
 			if(loss != 0.0F)
 				list.add(Component.translatable("msg.thaumcraft.infusion_loss", DECIMAL_FORMAT.format(loss)).withStyle(ChatFormatting.ITALIC, ChatFormatting.RED));
@@ -128,7 +128,7 @@ public class RunicMatrixBlockEntity extends SimpleBlockEntity implements Tickabl
         nbt.putString("state", this.state.getSerializedName());
 		nbt.putFloat("stability", this.stability);
 		nbt.putFloat("stabilityModifier", this.stabilityModifier);
-		if(this.state == MatrixState.ABSORBING || this.state == MatrixState.CRAFTING) {
+		if((this.state == MatrixState.ABSORBING || this.state == MatrixState.CRAFTING) && currentRecipe != null) {
 			nbt.putString("recipe", currentRecipe.toString());
 		}
 		if(Thaumcraft.isDev()) {
@@ -161,7 +161,7 @@ public class RunicMatrixBlockEntity extends SimpleBlockEntity implements Tickabl
 			case IDLE ->  {
 				if(cycleTimer % 100 == 0 && !scanEnvironment())
 					return;
-				if(this.stability < STABILITY_CAP && cycleTimer % Math.max(5, cycleDelay) == 0)
+				if(this.stability == STABILITY_CAP && cycleTimer % Math.max(5, cycleDelay) == 0)
 					stability = Math.min(STABILITY_CAP, stability + Math.max(.1F, stabilityModifier));
 			}
 		}
@@ -181,9 +181,9 @@ public class RunicMatrixBlockEntity extends SimpleBlockEntity implements Tickabl
 
 		if(this.state == MatrixState.ABSORBING || this.state == MatrixState.CRAFTING) {
 			if(soundTimer == 0)
-				getLevel().playSound(null, getBlockPos(), ConfigSounds.INFUSION_START.value(), SoundSource.BLOCKS, .5F, 1F);
+				getLevel().playLocalSound(getBlockPos(), ConfigSounds.INFUSION_START.value(), SoundSource.BLOCKS, .5F, 1F, false);
 			else if(soundTimer % 65 == 0)
-				getLevel().playSound(null, getBlockPos(), ConfigSounds.INFUSION.value(), SoundSource.BLOCKS, .5F, 1F);
+				getLevel().playLocalSound(getBlockPos(), ConfigSounds.INFUSION.value(), SoundSource.BLOCKS, .5F, 1F, false);
 			//TODO - Particles: Rune Infusion Particles
 			soundTimer++;
 		} else if(soundTimer > 0) {
@@ -191,42 +191,36 @@ public class RunicMatrixBlockEntity extends SimpleBlockEntity implements Tickabl
 		}
     }
 
-	public boolean activate() {
+	public boolean activate(Player p) {
 		if(this.state == MatrixState.INACTIVE && verifyStructure()) {
 			this.state = MatrixState.IDLE;
 			getLevel().playSound(null, getBlockPos(), ConfigSounds.SPARKLE_HUM.value(), SoundSource.BLOCKS, .5F, 1F);
 			sync();
 			return true;
+		} else if(this.state == MatrixState.IDLE) {
+			if(!scanEnvironment())
+				return false;
+
+			Optional<RecipeHolder<InfusionRecipe>> recipeOptional = getCurrentRecipe(p.getCapability(ConfigCapabilities.RESEARCH));
+			if(recipeOptional.isEmpty()) {
+				this.state = MatrixState.IDLE;
+				setRecipe(null, null);
+				return false;
+			}
+
+			setRecipe(recipeOptional.get(), p);
+			this.state = MatrixState.ABSORBING;
+			getLevel().playSound(null, getBlockPos(), ConfigSounds.SPARKLE_HUM.value(), SoundSource.BLOCKS, .5F, 1);
+			sync();
+			return true;
 		}
 		return false;
 	}
-
-    private boolean beginCrafting(Player player) {
-		if(this.state != MatrixState.IDLE)
-			return false;
-
-		if(!verifyStructure())
-			return false;
-
-        Optional<RecipeHolder<InfusionRecipe>> recipeOptional = getCurrentRecipe(player.getCapability(ConfigCapabilities.RESEARCH));
-        if(recipeOptional.isEmpty()) {
-            this.state = MatrixState.IDLE;
-            setRecipe(null, null);
-            return false;
-        }
-
-		setRecipe(recipeOptional.get(), player);
-        this.state = MatrixState.ABSORBING;
-        getLevel().playSound(null, getBlockPos(), ConfigSounds.SPARKLE_HUM.value(), SoundSource.BLOCKS, .5F, 1);
-        sync();
-        return true;
-    }
-
 	private void doCrafting() {
 		boolean interrupted = false;
 		if(this.stability < STABILITY_CAP && this.stability > -100F) {
 			float loss = (currentRecipe.value().instability() / getInfusionStability().getModifier()) * getLevel().random.nextFloat();
-			stability = Math.clamp(-100F, STABILITY_CAP, stability + stabilityModifier - loss);
+			stability = Math.clamp(stability + stabilityModifier - loss, -100F, STABILITY_CAP);
 		}
 
 		IInfusionPedestalCapability catalyst = level.getCapability(ConfigCapabilities.INFUSION_PEDESTAL, getBlockPos().below(2));
@@ -266,7 +260,9 @@ public class RunicMatrixBlockEntity extends SimpleBlockEntity implements Tickabl
 		}
 
 		if(this.state == MatrixState.CRAFTING) {
-			for(Ingredient item : requiredItems) {
+			Iterator<Ingredient> iterator = requiredItems.iterator();
+			while(iterator.hasNext()) {
+				Ingredient item = iterator.next();
 				for (IInfusionPedestalCapability pedestal : itemProviders) {
 					if(pedestal.getItem().isEmpty() || !item.test(pedestal.getItem()))
 						continue;
@@ -275,7 +271,7 @@ public class RunicMatrixBlockEntity extends SimpleBlockEntity implements Tickabl
 						//TODO - Particles: Item Infusion
 					} else if(craftTimer-- <= 1) {
 						pedestal.consumeItem();
-						requiredItems.remove(item);
+						iterator.remove();
 						sync();
 					}
 					return;
@@ -299,11 +295,12 @@ public class RunicMatrixBlockEntity extends SimpleBlockEntity implements Tickabl
 	}
 
 	private void finishCrafting() {
-		getCentrePedestal().get().setItemStack(this.currentRecipe.value().result());
+		getCentrePedestal().get().setItemStack(this.currentRecipe.value().result().copy());
+		getCentrePedestal().get().sync();
+		this.state = MatrixState.IDLE;
 		setRecipe(null, null);
 		//TODO - Particles: Crafting finish
 		getLevel().playSound(null, getBlockPos(), ConfigSounds.MAGIC_CHIME.value(),  SoundSource.BLOCKS, .5F, 1);
-		sync();
 	}
 
 	private boolean verifyStructure() {
@@ -332,7 +329,7 @@ public class RunicMatrixBlockEntity extends SimpleBlockEntity implements Tickabl
 		} else {
 			this.currentRecipe = recipe;
 			this.requiredEssentia = recipe.value().aspects().clone().modify(Math.max(.5F, costModifier));
-			this.requiredItems = NonNullList.copyOf(recipe.value().components());
+			this.requiredItems = new ArrayList<>(recipe.value().components());
 			if(p != null)
 				this.craftingPlayer = p.getUUID();
 		}

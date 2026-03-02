@@ -127,5 +127,5 @@ public record ResearchAttachment(Map<Holder<ResearchEntry>, ResearchState> state
 	public static final Codec<ResearchAttachment> CODEC = RecordCodecBuilder.create(i -> i.group(
 			Codec.unboundedMap(ResearchEntry.REGISTRY_CODEC, ResearchState.CODEC).fieldOf("entries").forGetter(o -> o.stateMap),
 			ResourceLocation.CODEC.listOf().fieldOf("tags").forGetter(o -> o.tags)
-	).apply(i, ResearchAttachment::new));
+	).apply(i, (entries, tags) -> new ResearchAttachment(new HashMap<>(entries), new ArrayList<>(tags))));
 }
