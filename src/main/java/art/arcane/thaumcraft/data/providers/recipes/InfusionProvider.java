@@ -22,7 +22,7 @@ public class InfusionProvider extends CodecDataProvider<InfusionRecipe> {
         register(Infusion.DEBUG.location(), new InfusionRecipe.Builder(new ItemStack(Items.DIAMOND), Items.IRON_INGOT)
                 .addComponent(Items.GOLD_INGOT).addComponent(Items.GOLD_INGOT).addComponent(Items.REDSTONE)
                 .setEssentia(ThaumcraftData.Aspects.CRYSTAL, 50)
-                .setInstability(50).build());
+                .setInstability(5).build());
     }
 
     @Override
